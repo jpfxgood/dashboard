@@ -5,6 +5,7 @@ import os
 from char_draw import canvas
 import curses
 
+
 class Bbox:
     """ Bounding box object """
     def __init__(self, x0,y0,x1,y1):
@@ -13,6 +14,14 @@ class Bbox:
         self.y0 = y0 if y0 < y1 else y1
         self.x1 = x1 if x1 > x0 else x0
         self.y1 = y1 if y1 > y0 else y0
+
+    def get_size(self):
+        """ return the height and width of the bounding box """
+        return (self.x1-self.x0),(self.y1-self.y0)
+
+    def get_location(self):
+        """ return the location of the upper left corner of the bounding box """
+        return self.x0,self.y0
 
     def union(self,bbox):
         """ constructs the bounding box that is the union of this bounding box and the input bbox """
@@ -47,8 +56,6 @@ class DisplayList:
             self.set_canvas(canvas)
         elif parent:
             self.set_canvas(parent.get_canvas())
-        # recompute bbox
-        self.bbox = self.get_bbox()
 
     def set_parent(self,parent):
         """ set the parent of this object """
