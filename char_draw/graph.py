@@ -11,6 +11,11 @@ from char_draw import canvas
 from char_draw import display_list
 from char_draw import data_table
 
+def float_range(start, stop, step):
+    while start < stop:
+        yield float(start)
+        start += step
+
 class GraphSeries():
     """ wrapper for data series to be graphed """
     def __init__(self,data_table,coordinate):
@@ -53,7 +58,7 @@ class Graph(display_list.DisplayList):
 class GraphElement( display_list.DisplayList ):
     """ base of all of the graph children """
     def __init__(self, parent, x=0.0, y=0.0, width=0.0, height=0.0):
-        display_list.DisplayList.__init__(self,parent,None,parent.get_canvas())
+        display_list.DisplayList.__init__(self,parent)
         self.x = x
         self.y = y
         self.width = width
@@ -83,7 +88,7 @@ class GraphTitle(GraphElement):
     def __init__(self,parent,text=None):
         GraphElement.__init__(self,parent)
         self.text = text
-        self.add_child(display_list.Text(0,0,self.text,0))
+        self.add_child(display_list.Text(0,0,self.text,self.canvas.white))
 
     def get_bbox(self):
         """ recompute and relayout the component and return it's bbox """
@@ -100,11 +105,13 @@ class GraphTitle(GraphElement):
                 while s_idx < cols:
                     prev_sidx = s_idx
                     s_idx = text.find(' ',s_idx+1)
+                    if s_idx == -1:
+                        break
                 if prev_sidx > 0:
                     s_idx = prev_sidx
                 if s_idx < 0 or s_idx > cols:
                     s_idx = cols
-                new_children.append(display_list.Text(x,y,text[:s_idx],0))
+                new_children.append(display_list.Text(x,y,text[:s_idx],self.canvas.white))
                 rows -= 1
                 y += r_height
                 text = text[s_idx:].lstrip()
@@ -120,7 +127,7 @@ class GraphLegend(GraphElement):
         x = 0
         y = 0
         for l in self.series_labels:
-            self.add_child(display_list.Text(x,y,l,0))
+            self.add_child(display_list.Text(x,y,l,self.canvas.white))
             y += r_height
 
     def get_bbox(self):
@@ -132,18 +139,21 @@ class GraphLegend(GraphElement):
             rows,cols = self.canvas.to_rowcol(width,height)
             r_height,r_width = self.canvas.from_rowcol(1,1)
             for text in self.series_labels:
-                text = self.text.strip()
+                text = text.strip()
                 while text and rows:
                     prev_sidx = -1
                     s_idx = -1
                     while s_idx < cols:
                         prev_sidx = s_idx
                         s_idx = text.find(' ',s_idx+1)
+                        if s_idx == -1:
+                            break
+
                     if prev_sidx > 0:
                         s_idx = prev_sidx
                     if s_idx < 0 or s_idx > cols:
                         s_idx = cols
-                    new_children.append(display_list.Text(x,y,text[:s_idx],0))
+                    new_children.append(display_list.Text(x,y,text[:s_idx],self.canvas.white))
                     rows -= 1
                     y += r_height
                     text = text[s_idx:].lstrip()
@@ -169,22 +179,22 @@ class GraphXAxis(GraphElement):
         self.range_max = -1
         self.sx = 0
         self.values = []
-        self.add_child(display_list.PolyLine([],0))
+        self.add_child(display_list.PolyLine([],self.canvas.green))
 
-    def get_range( void ):
+    def get_range( self ):
         """ return range_min, range_max, sx """
         return (self.range_min,self.range_max, self.sx)
 
-    def get_values( void ):
+    def get_values( self ):
         """ return vector of x (value,label) """
         return self.values
 
-    def get_bbox(self):
+    def get_bbox( self ):
         """ compute the bounding box """
         if self.modified:
             new_children = []
             x_values = self.parent.get_xvalues()
-            column = x_values.data.get_column(x_values.reference)
+            column = x_values.data.get_column(x_values.column)
             type = None
 
             for c in data_table.ColumnIterator(column):
@@ -227,12 +237,12 @@ class GraphXAxis(GraphElement):
                     points.append((x,y))
                     points.append((x,y-1))
                     points.append((x,y))
-                    labels.append(x,y+r_height,label)
+                    labels.append((x,y+r_height,label))
                     l_height,l_width = self.canvas.from_rowcol(1,len(label))
                     x += l_width
-            new_children.append(display_list.PolyLine(points,0))
+            new_children.append(display_list.PolyLine(points,self.canvas.green))
             for x,y,label in labels:
-                new_children.append(display_list.Text(x,y,label,0))
+                new_children.append(display_list.Text(x,y,label,self.canvas.green))
             self.set_children(new_children)
         return GraphElement.get_bbox(self)
 
@@ -241,12 +251,12 @@ class GraphYAxis(GraphElement):
     def __init__(self,parent,vertical = True):
         GraphElement.__init__(self,parent)
         self.vertical = vertical
-        self.add_child(display_list.PolyLine([],0))
+        self.add_child(display_list.PolyLine([],self.canvas.green))
         self.range_min = -1
         self.range_max = -1
         self.sy = 0
 
-    def get_range( void ):
+    def get_range( self ):
         """ return range_min, range_max, sy """
         return (self.range_min,self.range_max, self.sy)
 
@@ -258,7 +268,7 @@ class GraphYAxis(GraphElement):
             self.range_min = -1
             self.range_max = -1
             for series in y_values:
-                column = series.data.get_column(series.reference)
+                column = series.data.get_column(series.column)
                 for c in data_table.ColumnIterator(column):
                     value = c.get_value()
                     if self.range_min < 0 or value < self.range_min:
@@ -271,13 +281,13 @@ class GraphYAxis(GraphElement):
             ox,oy = self.get_location()
             oy += (height-1)
             ox += (width-2)
-            sy = height / (self.range_max-self.range_min)
+            self.sy = height / (self.range_max-self.range_min)
             x = ox
             y = oy
             points = [(x,y)]
             labels = []
-            for data_y in range(self.range_min,self.range_max,(self.range_max-self.range_min)/10):
-                scaled_y = (data_y-self.range_min)*sy
+            for data_y in float_range(self.range_min,self.range_max,(self.range_max-self.range_min)/10):
+                scaled_y = (data_y-self.range_min)*self.sy
                 if oy-scaled_y <= y:
                     label = data_table.format_float(float(data_y))
                     l_height,l_width = self.canvas.from_rowcol(1,len(label))
@@ -285,11 +295,11 @@ class GraphYAxis(GraphElement):
                     points.append((x,y))
                     points.append((x+1,y))
                     points.append((x,y))
-                    labels.append(x-l_width,y,label)
+                    labels.append((x-l_width,y,label))
                     y -= l_height
-            new_children.append(display_list.PolyLine(points,0))
+            new_children.append(display_list.PolyLine(points,self.canvas.green))
             for x,y,label in labels:
-                new_children.append(display_list.Text(x,y,label,0))
+                new_children.append(display_list.Text(x,y,label,self.canvas.green))
             self.set_children(new_children)
         return GraphElement.get_bbox(self)
 
@@ -297,7 +307,7 @@ class GraphArea(GraphElement):
     """ The area behind the graph series to be displayed on a graph """
     def __init__(self,parent):
         GraphElement.__init__(self,parent)
-        self.add_child(display_list.Rect(0,0,0,0,0))
+        self.add_child(display_list.Rect(0,0,0,0,self.canvas.white))
 
     def get_bbox(self):
         """ compute the bounding box """
@@ -305,7 +315,7 @@ class GraphArea(GraphElement):
             new_children = []
             x,y = self.get_location()
             width,height = self.get_size()
-            new_children.append(display_list.Rect(x,y,x+width,y+height))
+            new_children.append(display_list.Rect(x,y,x+width,y+height,self.canvas.white))
             self.set_children(new_children)
         return GraphElement.get_bbox(self)
 
@@ -321,24 +331,21 @@ class GraphBars(GraphElement):
         """ compute the bounding box """
         if self.modified:
             new_children = []
-            x_min,x_max,x_scale = x_axis.get_range()
-            y_min,y_max,y_scale = y_axis.get_range()
-            x_values = x_axis.get_values()
+            x_min,x_max,x_scale = self.x_axis.get_range()
+            y_min,y_max,y_scale = self.y_axis.get_range()
+            x_values = self.x_axis.get_values()
             x,y = self.get_location()
             width,height = self.get_size()
-            ox = x
-            oy = y+height
-            x = ox
-            y = oy
+            y = y+height
 
-            column = self.series.data.get_column(self.series.reference)
+            column = self.series.data.get_column(self.series.column)
             idx = 0
             for c in data_table.ColumnIterator(column):
                 y_value = c.get_value()
                 x_value = x_values[idx][0]
                 scaled_x = (x_value-x_min)*x_scale
                 scaled_y = (y_value-y_min)*y_scale
-                new_children.append(display-list.Rect(ox,oy,ox+5,oy-scaled_y,0))
+                new_children.append(display_list.Rect(x+scaled_x,y,x+scaled_x+5,y-scaled_y,self.canvas.cyan))
             self.set_children(new_children)
 
         return GraphElement.get_bbox(self)
@@ -434,6 +441,8 @@ def main(stdscr):
     curses.init_pair(3,curses.COLOR_CYAN,curses.COLOR_BLACK)
     curses.init_pair(4,curses.COLOR_WHITE,curses.COLOR_BLACK)
 
+    stdscr.getch()
+
     d = data_table.DataTable(name="SimpleBarChart")
     cx = data_table.Column(name="X values")
     for x in range(0,200):
@@ -449,7 +458,9 @@ def main(stdscr):
     bc = BarGraph(d,"X values",["Y values"],None,c)
     bc.render()
     c.refresh()
-    input()
+
+    stdscr.getch()
+
     return 0
 
 if __name__ == '__main__':

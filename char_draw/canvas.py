@@ -96,10 +96,10 @@ class Canvas:
 
     def put_pixel( self, x,y, color, set = True ):
         """ turn on a pixel with the color indicated """
-        if x < 0 or x >self.max_x or y < 0 or y >self.max_y:
+        if x < 0 or x >= self.max_x or y < 0 or y >= self.max_y:
             return
         row,col = self.to_rowcol(x,y)
-        mask = self.to_mask[(x%2)+((y%2)*2)]
+        mask = self.to_mask[(int(x)%2)+((int(y)%2)*2)]
 
         if not self.char_map[col][row]:
             current_mask = 0
