@@ -77,13 +77,17 @@ class Canvas:
         curses.init_pair(2,curses.COLOR_RED,curses.COLOR_BLACK)
         curses.init_pair(3,curses.COLOR_CYAN,curses.COLOR_BLACK)
         curses.init_pair(4,curses.COLOR_WHITE,curses.COLOR_BLACK)
-        curses.init_pair(5,curses.COLOR_BLACK,curses.COLOR_BLACK)
 
         self.green = curses.color_pair(1)
         self.red = curses.color_pair(2)
         self.cyan = curses.color_pair(3)
         self.white = curses.color_pair(4)
-        self.black = curses.color_pair(5)
+        self.black = curses.color_pair(0)
+        self.color_min = 7
+        self.color_max = 256
+        
+        for cidx in range(7,256):
+            curses.init_pair(cidx,cidx,curses.COLOR_BLACK)
 
         if self.win:
             self.max_y,self.max_x = self.win.getmaxyx()

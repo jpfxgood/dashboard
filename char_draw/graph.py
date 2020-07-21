@@ -24,7 +24,6 @@ class GraphSeries():
         self.column = coordinate
         self.color = color
 
-
 class Graph(display_list.DisplayList):
     """Graph base class for all graph types """
 
@@ -604,29 +603,144 @@ class LineGraph(Graph):
             self.get_bbox()
             display_list.DisplayList.render(self)
 
+class GraphSlices(GraphElement):
+    """ A pie chart plot of a graph series to be displayed on a graph """
+    def __init__(self,parent,series):
+        self.series = series
+        GraphElement.__init__(self,parent)
+
+    def get_bbox(self):
+        """ compute the bounding box """
+        if self.modified:
+            label_series = self.parent.get_xvalues()
+            label_column = label_series.data.get_column(label_series.column)
+            data_column = self.series.data.get_column(self.series.column)
+            x,y = self.get_location()
+            width,height = self.get_size()
+
+            data_total = 0
+            for idx in range(0,data_column.size()):
+                data_total += data_column.get(idx).get_value()
+
+            total_degrees = 0
+            self.set_children([])
+            for idx in range(0,data_column.size()):
+                data_degrees = 360.0 * (data_column.get(idx).get_value()/data_total)
+                arc = display_list.Arc(x+width/2,y+width/2,width/2,total_degrees,total_degrees+data_degrees,self.canvas.color_min+(idx%(self.canvas.color_max-self.canvas.color_min)),True)
+                self.add_child(arc)
+                bbarc = arc.get_bbox()
+                self.add_child(display_list.Text(bbarc.x0+((bbarc.x1 - bbarc.x0)/2),bbarc.y0+((bbarc.y1 - bbarc.y0)/2),str(label_column.get(idx)),label_series.color))
+                total_degrees += data_degrees
+
+        return GraphElement.get_bbox(self)
+
+class PieGraph(Graph):
+    """LineGraph that displays a data table as a line graph"""
+    def __init__(self,data_table=None,pie_labels=None,slice_values=None,parent=None,canvas=None):
+        """ constructor takes a data_table which contains values to be graphed,
+        pie_labels is a column reference in the data table for the pie slice labels,
+        slice_values is a list of column references to series of numerical data to be graphed,
+        parent is a reference to an enclosing display list,
+        canvas is a reference to a canvas to render on """
+        Graph.__init__(self,data_table,pie_labels,slice_values,parent,canvas)
+        self.title = None
+        self.legend = None
+        self.x_axis_title = None
+        self.y_axis_title = None
+        self.x_axis = None
+        self.y_axis = None
+        self.chart_area = None
+        self.chart_series = []
+        if self.canvas:
+            self.init()
+
+    def init(self):
+        """ create the children for all of the graph components """
+        if not self.initialized:
+            self.title = GraphTitle(self,self.get_data().get_name())
+            self.legend = GraphLegend(self,[(s.column,s.color) for s in self.get_series()])
+            self.chart_area = GraphArea(self)
+            self.chart_series = [GraphSlices(self,series) for series in self.get_series()]
+            self.add_child(self.title)
+            self.add_child(self.legend)
+            self.add_child(self.chart_area)
+            for cs in self.chart_series:
+                self.add_child(cs)
+            self.initialized = True
+
+    def get_bbox(self):
+        """ arrange the children of the graph based on size of graph """
+
+        if self.modified:
+            min_x,min_y,max_x,max_y = self.bounds()
+
+            width = (max_x-min_x) - 4
+            height = (max_y-min_y) - 4
+
+            x = 2
+            y = 2
+            self.title.set_location((x,y))
+            self.title.set_size((width,height*0.10))
+            y = y + height*0.10
+            self.legend.set_location((x,y))
+            self.legend.set_size((width,height*0.10))
+            y = y + height*0.10
+
+            self.chart_area.set_location((x,y))
+            self.chart_area.set_size((width,height*0.80))
+            n_series = len(self.chart_series)
+            if n_series > 1:
+                split = 1
+                while split*split < n_series:
+                    split += 1
+                sx = width / split
+                sy = height / split
+
+                ix = 0
+                gx = x
+                gy = y
+                for cs in self.chart_series:
+                    cs.set_location((gx,gy))
+                    cs.set_size((sx,sy))
+                    ix += 1
+                    if ix == split:
+                        ix = 0
+                        gx = x
+                        gy += sy
+                    else:
+                        gx += sx
+            else:
+                for cs in self.chart_series:
+                    cs.set_location((x,y))
+                    cs.set_size((width,height*0.80))
+
+        return Graph.get_bbox(self)
+
+    def render(self):
+        """ override render to force initialization and layout"""
+        if self.canvas:
+            self.init()
+            self.get_bbox()
+            display_list.DisplayList.render(self)
+
 def main(stdscr):
     """ test driver for the chardraw """
 
     stdscr.getch()
 
-    d = data_table.DataTable(name="SimpleBarChart")
-    cx = data_table.Column(name="X values")
-    for x in range(0,20):
-        cx.put(x,data_table.Cell(data_table.float_type,float(x*10),data_table.format_float))
-    cy = data_table.Column(name="Y values")
-    for y in range(0,20):
+    d = data_table.DataTable(name="Simple Pie Chart")
+    cx = data_table.Column(name="Pie Labels")
+    for x in range(0,5):
+        cx.put(x,data_table.Cell(data_table.string_type,"Label %d"%x,data_table.format_string))
+    cy = data_table.Column(name="Pie Values")
+    for y in range(0,5):
         cy.put(y,data_table.Cell(data_table.float_type,float((y*10)+200),data_table.format_float))
-
-    cy1 = data_table.Column(name="Y1 values")
-    for y in range(0,20):
-        cy1.put(y,data_table.Cell(data_table.float_type,float((y*5)+200),data_table.format_float))
 
     d.add_column(cx)
     d.add_column(cy)
-    d.add_column(cy1)
 
     c = canvas.Canvas(stdscr)
-    bc = LineGraph(d,"X values",["Y values","Y1 values"],None,c,area=True)
+    bc = PieGraph(d,"Pie Labels",["Pie Values"],None,c)
     bc.render()
     c.refresh()
 
