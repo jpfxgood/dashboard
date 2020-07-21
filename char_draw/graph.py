@@ -12,16 +12,17 @@ from char_draw import display_list
 from char_draw import data_table
 
 def float_range(start, stop, step):
-    while start < stop:
+    while start <= stop:
         yield float(start)
         start += step
 
 class GraphSeries():
     """ wrapper for data series to be graphed """
-    def __init__(self,data_table,coordinate):
+    def __init__(self,data_table,coordinate,color):
         """ constructor takes a data table and a coordinate to choose the column """
         self.data = data_table
         self.column = coordinate
+        self.color = color
 
 
 class Graph(display_list.DisplayList):
@@ -33,11 +34,12 @@ class Graph(display_list.DisplayList):
         y_values is a list of column references to series of numerical data to be graphed,
         parent is a reference to an enclosing display list,
         canvas is a reference to a canvas to render on """
-        self.data = data_table
-        self.x_values = GraphSeries(self.data, x_values)
-        self.y_values = [GraphSeries(self.data, sy) for sy in y_values]
-        self.initialized = False
         display_list.DisplayList.__init__(self,parent,None,canvas)
+        self.colors = [self.canvas.cyan, self.canvas.green, self.canvas.red, self.canvas.white]
+        self.data = data_table
+        self.x_values = GraphSeries(self.data, x_values, self.canvas.green )
+        self.y_values = [GraphSeries(self.data, sy,self.colors[y_values.index(sy)%len(self.colors)]) for sy in y_values]
+        self.initialized = False
 
     def init(self):
         """ set internal state to default state """
@@ -135,9 +137,10 @@ class GraphLegend(GraphElement):
             new_children = []
             x,y = self.get_location()
             width,height = self.get_size()
-            rows,cols = self.canvas.to_rowcol(width,height)
+            rows,cols = self.canvas.to_rowcol(width-4,height)
             r_height,r_width = self.canvas.from_rowcol(1,1)
-            for text in self.series_labels:
+            for text,color in self.series_labels:
+                new_children.append(display_list.Rect(x,y,x+1,y+1,color))
                 text = text.strip()
                 while text and rows:
                     if len(text) > cols:
@@ -150,7 +153,7 @@ class GraphLegend(GraphElement):
                             s_idx = cols
                     else:
                         s_idx = cols
-                    new_children.append(display_list.Text(x,y,text[:s_idx],self.canvas.white))
+                    new_children.append(display_list.Text(x+4,y,text[:s_idx],self.canvas.white))
                     rows -= 1
                     y += r_height
                     text = text[s_idx:].lstrip()
@@ -220,6 +223,11 @@ class GraphXAxis(GraphElement):
                         self.range_max = value
                     self.values.append((value,str(c)))
 
+            extra_value = self.values[-1][0] + (self.values[-1][0] - self.values[-2][0])
+            self.values.append((extra_value," "))
+            if extra_value > self.range_max:
+                self.range_max = extra_value
+
             r_height,r_width = self.canvas.from_rowcol(1,1)
             width,height = self.get_size()
             ox,oy = self.get_location()
@@ -231,6 +239,8 @@ class GraphXAxis(GraphElement):
             prev_scaled_x = None
             total_dx = 0
             for v,label in self.values:
+                if label.endswith(".00"):
+                    label=label[:-3]
                 scaled_x = (v-self.range_min)*self.sx
                 if prev_scaled_x != None:
                     total_dx += (scaled_x - prev_scaled_x)
@@ -238,9 +248,9 @@ class GraphXAxis(GraphElement):
                 if ox+scaled_x >= x:
                     x = ox+scaled_x
                     points.append((x,y))
-                    points.append((x,y-1))
+                    points.append((x,y+1))
                     points.append((x,y))
-                    labels.append((x,y+r_height,label))
+                    labels.append((x,y+1+r_height,label))
                     l_height,l_width = self.canvas.from_rowcol(1,len(label)+1)
                     x += l_width
             self.dx = total_dx / len(self.values)
@@ -280,6 +290,10 @@ class GraphYAxis(GraphElement):
                     if self.range_max < 0 or value > self.range_max:
                         self.range_max = value
 
+            tick_size = (self.range_max-self.range_min)/10
+            if tick_size > 1:
+                tick_size = round(tick_size)
+            self.range_max += tick_size
             r_height,r_width = self.canvas.from_rowcol(1,1)
             width,height = self.get_size()
             ox,oy = self.get_location()
@@ -290,14 +304,16 @@ class GraphYAxis(GraphElement):
             y = oy
             points = [(x,y)]
             labels = []
-            for data_y in float_range(self.range_min,self.range_max,(self.range_max-self.range_min)/10):
+            for data_y in float_range(self.range_min,self.range_max,tick_size):
                 scaled_y = (data_y-self.range_min)*self.sy
+                label = data_table.format_float(float(data_y))
+                if label.endswith(".00"):
+                    label=label[:-3]
                 if oy-scaled_y <= y:
-                    label = data_table.format_float(float(data_y))
-                    l_height,l_width = self.canvas.from_rowcol(1,len(label))
+                    l_height,l_width = self.canvas.from_rowcol(1,len(label)+1)
                     y = oy-scaled_y
                     points.append((x,y))
-                    points.append((x+1,y))
+                    points.append((x-1,y))
                     points.append((x,y))
                     labels.append((x-l_width,y,label))
                     y -= l_height
@@ -335,12 +351,20 @@ class GraphBars(GraphElement):
         """ compute the bounding box """
         if self.modified:
             new_children = []
+            if self.x_axis.modified:
+                self.x_axis.get_bbox()
+            if self.y_axis.modified:
+                self.y_axis.get_bbox()
             x_min,x_max,x_scale,x_dx = self.x_axis.get_range()
             y_min,y_max,y_scale = self.y_axis.get_range()
             x_values = self.x_axis.get_values()
             x,y = self.get_location()
             width,height = self.get_size()
             y = y+height
+            n_series = len(self.parent.get_series())
+            i_series = self.parent.get_series().index(self.series)
+            series_x_offset = (n_series - (i_series+1)) * (x_dx / n_series)
+            x += series_x_offset
 
             column = self.series.data.get_column(self.series.column)
             idx = 0
@@ -349,7 +373,7 @@ class GraphBars(GraphElement):
                 x_value = x_values[idx][0]
                 scaled_x = (x_value-x_min)*x_scale
                 scaled_y = (y_value-y_min)*y_scale
-                new_children.append(display_list.Rect(x+scaled_x,y,x+scaled_x+(x_dx/2),y-scaled_y,self.canvas.cyan))
+                new_children.append(display_list.Rect(x+scaled_x-(x_dx/4),y,min(x+scaled_x+(x_dx/4),x+width),y-scaled_y,self.series.color))
                 idx += 1
             self.set_children(new_children)
 
@@ -379,7 +403,7 @@ class BarGraph(Graph):
         """ create the children for all of the graph components """
         if not self.initialized:
             self.title = GraphTitle(self,self.get_data().get_name())
-            self.legend = GraphLegend(self,self.get_data().get_names())
+            self.legend = GraphLegend(self,[(s.column,s.color) for s in self.get_series()])
             self.x_axis_title = GraphXAxisTitle(self,"X Axis")
             self.y_axis_title = GraphYAxisTitle(self,"Y Axis")
             self.x_axis = GraphXAxis(self, horizontal = True )
@@ -390,11 +414,11 @@ class BarGraph(Graph):
             self.add_child(self.legend)
             self.add_child(self.x_axis_title)
             self.add_child(self.y_axis_title)
-            self.add_child(self.x_axis)
-            self.add_child(self.y_axis)
             self.add_child(self.chart_area)
             for cs in self.chart_series:
                 self.add_child(cs)
+            self.add_child(self.x_axis)
+            self.add_child(self.y_axis)
             self.initialized = True
 
     def get_bbox(self):
@@ -419,16 +443,16 @@ class BarGraph(Graph):
             self.y_axis.set_location((x+(width*0.05),y))
             self.y_axis.set_size((width*0.05,height*0.70))
             self.x_axis.set_location((x+(width*0.10),y+height*0.70))
-            self.x_axis.set_size((width*0.80,height*0.10))
+            self.x_axis.set_size((width*0.80,height*0.07))
             ya_x,ya_y = self.y_axis.get_location()
             ya_w,ya_h = self.y_axis.get_size()
             xa_x,xa_y = self.x_axis.get_location()
             xa_w,xa_h = self.x_axis.get_size()
-            
+
             self.chart_area.set_location((ya_x+ya_w,ya_y))
             self.chart_area.set_size((xa_w,ya_h))
             for cs in self.chart_series:
-                cs.set_location((ya_x+ya_w,ya_y))
+                cs.set_location((ya_x+ya_w+1,ya_y))
                 cs.set_size((xa_w,ya_h))
 
             self.x_axis_title.set_location((xa_x,xa_y+xa_h))
@@ -445,26 +469,27 @@ class BarGraph(Graph):
 
 def main(stdscr):
     """ test driver for the chardraw """
-    curses.init_pair(1,curses.COLOR_GREEN,curses.COLOR_BLACK)
-    curses.init_pair(2,curses.COLOR_RED,curses.COLOR_BLACK)
-    curses.init_pair(3,curses.COLOR_CYAN,curses.COLOR_BLACK)
-    curses.init_pair(4,curses.COLOR_WHITE,curses.COLOR_BLACK)
 
     stdscr.getch()
 
     d = data_table.DataTable(name="SimpleBarChart")
     cx = data_table.Column(name="X values")
-    for x in range(0,200):
-        cx.put(x,data_table.Cell(data_table.float_type,float(x),data_table.format_float))
+    for x in range(0,20):
+        cx.put(x,data_table.Cell(data_table.float_type,float(x*10),data_table.format_float))
     cy = data_table.Column(name="Y values")
-    for y in range(0,200):
-        cy.put(y,data_table.Cell(data_table.float_type,float(y+200),data_table.format_float))
+    for y in range(0,20):
+        cy.put(y,data_table.Cell(data_table.float_type,float((y*10)+200),data_table.format_float))
+
+    cy1 = data_table.Column(name="Y1 values")
+    for y in range(0,20):
+        cy1.put(y,data_table.Cell(data_table.float_type,float((y*5)+200),data_table.format_float))
 
     d.add_column(cx)
     d.add_column(cy)
+    d.add_column(cy1)
 
     c = canvas.Canvas(stdscr)
-    bc = BarGraph(d,"X values",["Y values"],None,c)
+    bc = BarGraph(d,"X values",["Y values","Y1 values"],None,c)
     bc.render()
     c.refresh()
 

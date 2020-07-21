@@ -73,10 +73,18 @@ class Canvas:
 
     def init_win(self):
         """ initializes the window and sets up all of the defaults """
+        curses.init_pair(1,curses.COLOR_GREEN,curses.COLOR_BLACK)
+        curses.init_pair(2,curses.COLOR_RED,curses.COLOR_BLACK)
+        curses.init_pair(3,curses.COLOR_CYAN,curses.COLOR_BLACK)
+        curses.init_pair(4,curses.COLOR_WHITE,curses.COLOR_BLACK)
+        curses.init_pair(5,curses.COLOR_BLACK,curses.COLOR_BLACK)
+
         self.green = curses.color_pair(1)
         self.red = curses.color_pair(2)
         self.cyan = curses.color_pair(3)
         self.white = curses.color_pair(4)
+        self.black = curses.color_pair(5)
+        
         if self.win:
             self.max_y,self.max_x = self.win.getmaxyx()
             self.char_map = [[None] * self.max_y for i in range(self.max_x)]
