@@ -84,7 +84,7 @@ class Canvas:
         self.cyan = curses.color_pair(3)
         self.white = curses.color_pair(4)
         self.black = curses.color_pair(5)
-        
+
         if self.win:
             self.max_y,self.max_x = self.win.getmaxyx()
             self.char_map = [[None] * self.max_y for i in range(self.max_x)]
@@ -296,7 +296,8 @@ class Canvas:
 
     def rasterize( self, points, color, put_pixel=None):
         """ sort points representing the boundary of a filled shape and rasterize by filling lines with color """
-        sp = iter(sorted(points))
+        ps = sorted(points,key=lambda x: (x[1],x[0]))
+        sp = iter(ps)
         p2 = p1 = next(sp,None)
         si = 0
         last = None
@@ -588,34 +589,34 @@ def main(stdscr):
     curses.init_pair(4,curses.COLOR_WHITE,curses.COLOR_BLACK)
 
     c = Canvas(stdscr)
-    log_message("Intersection (%d,%d)"%c.intersect((10,10,50,10),(20,5,20,15)))
-    log_message("Convex %s"%str(c.is_convex([(50,50),(55,55),(55,60),(50,60),(40,55)])))
-    log_message("Convex %s"%str(c.is_convex([(50,50),(55,55),(55,60),(50,60),(40,55),(45,57)])))
-    c.put_pixel(0,0,c.green)
-    c.put_pixel(1,1,c.green)
-    c.put_pixel(2,2,c.green)
-    c.put_pixel(2,3,c.green)
-    c.put_pixel(3,2,c.green)
-    c.line(0,0,24,30,c.red)
-    c.line(24,30,100,10,c.red)
-    c.line(24,30,18,20,c.red)
-    c.line(24,30,18,100,c.red)
-    c.circle(20,20,10,c.cyan,False)
-    c.circle(40,40,10,c.white,True)
-    c.rect(50,50,60,60,c.green,False)
-    c.rect(50,40,60,50,c.red,True)
-    c.textat(50,40,c.white,"Red Square")
-    c.arc(50,50,20,10.0,290.0,c.green,True)
-    c.arc(50,50,20,288.0,360.0,c.white,True)
-    c.arc(50,50,20,10.0,50.0,c.cyan,False)
-    c.arc(50,50,20,50.0,120.0,c.red,False)
-    c.polygon([(20,20),(25,25),(25,30),(20,30)],c.cyan,False)
+#    log_message("Intersection (%d,%d)"%c.intersect((10,10,50,10),(20,5,20,15)))
+#    log_message("Convex %s"%str(c.is_convex([(50,50),(55,55),(55,60),(50,60),(40,55)])))
+#    log_message("Convex %s"%str(c.is_convex([(50,50),(55,55),(55,60),(50,60),(40,55),(45,57)])))
+#    c.put_pixel(0,0,c.green)
+#    c.put_pixel(1,1,c.green)
+#    c.put_pixel(2,2,c.green)
+#    c.put_pixel(2,3,c.green)
+#    c.put_pixel(3,2,c.green)
+#    c.line(0,0,24,30,c.red)
+#    c.line(24,30,100,10,c.red)
+#    c.line(24,30,18,20,c.red)
+#    c.line(24,30,18,100,c.red)
+#    c.circle(20,20,10,c.cyan,False)
+#    c.circle(40,40,10,c.white,True)
+#    c.rect(50,50,60,60,c.green,False)
+#    c.rect(50,40,60,50,c.red,True)
+#    c.textat(50,40,c.white,"Red Square")
+#    c.arc(50,50,20,10.0,290.0,c.green,True)
+#    c.arc(50,50,20,288.0,360.0,c.white,True)
+#    c.arc(50,50,20,10.0,50.0,c.cyan,False)
+#    c.arc(50,50,20,50.0,120.0,c.red,False)
+#    c.polygon([(20,20),(25,25),(25,30),(20,30)],c.cyan,False)
     c.polygon([(50,50),(55,55),(55,60),(50,60),(40,55)],c.red,True)
-    p = [(50,50),(55,55),(55,60),(50,60),(40,55),(45,57)]
-    k = [(x*2-50,y*2-50) for x,y in p]
-    l = [(x+100,y) for x,y in k]
-    c.polygon(k,c.red,False)
-    c.polygon(l,c.green,True)
+#    p = [(50,50),(55,55),(55,60),(50,60),(40,55),(45,57)]
+#    k = [(x*2-50,y*2-50) for x,y in p]
+#    l = [(x+100,y) for x,y in k]
+#    c.polygon(k,c.red,False)
+#    c.polygon(l,c.green,True)
     c.refresh()
     eval(input())
 

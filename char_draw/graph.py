@@ -379,6 +379,54 @@ class GraphBars(GraphElement):
 
         return GraphElement.get_bbox(self)
 
+class GraphLines(GraphElement):
+    """ A line chart plot of a graph series to be displayed on a graph """
+    def __init__(self,parent,series,x_axis,y_axis,area=False):
+        self.series = series
+        self.x_axis = x_axis
+        self.y_axis = y_axis
+        self.area = area
+        GraphElement.__init__(self,parent)
+
+    def get_bbox(self):
+        """ compute the bounding box """
+        if self.modified:
+            new_children = []
+            if self.x_axis.modified:
+                self.x_axis.get_bbox()
+            if self.y_axis.modified:
+                self.y_axis.get_bbox()
+            x_min,x_max,x_scale,x_dx = self.x_axis.get_range()
+            y_min,y_max,y_scale = self.y_axis.get_range()
+            x_values = self.x_axis.get_values()
+            x,y = self.get_location()
+            width,height = self.get_size()
+            y = y+height
+
+            column = self.series.data.get_column(self.series.column)
+            idx = 0
+            points = []
+            for c in data_table.ColumnIterator(column):
+                y_value = c.get_value()
+                x_value = x_values[idx][0]
+                scaled_x = (x_value-x_min)*x_scale
+                scaled_y = (y_value-y_min)*y_scale
+                points.append((x+scaled_x,y-scaled_y))
+                idx += 1
+            if self.area:
+                p1 = (points[-1][0],y)
+                if p1 not in points:
+                    points.append(p1)
+                p2 = (x,y)
+                if p2 not in points:
+                    points.append(p2)
+                new_children.append(display_list.Polygon(points,self.series.color,True))
+            else:
+                new_children.append(display_list.PolyLine(points,self.series.color))
+            self.set_children(new_children)
+
+        return GraphElement.get_bbox(self)
+
 class BarGraph(Graph):
     """BarGraph that displays a data table as a bar graph"""
     def __init__(self,data_table=None,x_values=None,y_values=None,parent=None,canvas=None):
@@ -467,6 +515,95 @@ class BarGraph(Graph):
             self.get_bbox()
             display_list.DisplayList.render(self)
 
+class LineGraph(Graph):
+    """LineGraph that displays a data table as a line graph"""
+    def __init__(self,data_table=None,x_values=None,y_values=None,parent=None,canvas=None,area=False):
+        """ constructor takes a data_table which contains values to be graphed,
+        x_values is a column reference in the data table for the xaxis values,
+        y_values is a list of column references to series of numerical data to be graphed,
+        parent is a reference to an enclosing display list,
+        canvas is a reference to a canvas to render on """
+        Graph.__init__(self,data_table,x_values,y_values,parent,canvas)
+        self.title = None
+        self.legend = None
+        self.x_axis_title = None
+        self.y_axis_title = None
+        self.x_axis = None
+        self.y_axis = None
+        self.chart_area = None
+        self.chart_series = []
+        self.area = area
+        if self.canvas:
+            self.init()
+
+    def init(self):
+        """ create the children for all of the graph components """
+        if not self.initialized:
+            self.title = GraphTitle(self,self.get_data().get_name())
+            self.legend = GraphLegend(self,[(s.column,s.color) for s in self.get_series()])
+            self.x_axis_title = GraphXAxisTitle(self,"X Axis")
+            self.y_axis_title = GraphYAxisTitle(self,"Y Axis")
+            self.x_axis = GraphXAxis(self, horizontal = True )
+            self.y_axis = GraphYAxis(self, vertical = True )
+            self.chart_area = GraphArea(self)
+            self.chart_series = [GraphLines(self,series,self.x_axis,self.y_axis,area=self.area) for series in self.get_series()]
+            self.add_child(self.title)
+            self.add_child(self.legend)
+            self.add_child(self.x_axis_title)
+            self.add_child(self.y_axis_title)
+            self.add_child(self.chart_area)
+            for cs in self.chart_series:
+                self.add_child(cs)
+            self.add_child(self.x_axis)
+            self.add_child(self.y_axis)
+            self.initialized = True
+
+    def get_bbox(self):
+        """ arrange the children of the graph based on size of graph """
+
+        if self.modified:
+            min_x,min_y,max_x,max_y = self.bounds()
+
+            width = (max_x-min_x) - 4
+            height = (max_y-min_y) - 4
+
+            x = 2
+            y = 2
+            self.title.set_location((x,y))
+            self.title.set_size((width,height*0.10))
+            y = y + height*0.10
+            self.legend.set_location((x,y))
+            self.legend.set_size((width,height*0.10))
+            y = y + height*0.10
+            self.y_axis_title.set_location((x,y+height*0.35))
+            self.y_axis_title.set_size((width*0.05,height*0.35))
+            self.y_axis.set_location((x+(width*0.05),y))
+            self.y_axis.set_size((width*0.05,height*0.70))
+            self.x_axis.set_location((x+(width*0.10),y+height*0.70))
+            self.x_axis.set_size((width*0.80,height*0.07))
+            ya_x,ya_y = self.y_axis.get_location()
+            ya_w,ya_h = self.y_axis.get_size()
+            xa_x,xa_y = self.x_axis.get_location()
+            xa_w,xa_h = self.x_axis.get_size()
+
+            self.chart_area.set_location((ya_x+ya_w,ya_y))
+            self.chart_area.set_size((xa_w,ya_h))
+            for cs in self.chart_series:
+                cs.set_location((ya_x+ya_w+1,ya_y))
+                cs.set_size((xa_w,ya_h))
+
+            self.x_axis_title.set_location((xa_x,xa_y+xa_h))
+            self.x_axis_title.set_size((xa_w,xa_h))
+
+        return Graph.get_bbox(self)
+
+    def render(self):
+        """ override render to force initialization and layout"""
+        if self.canvas:
+            self.init()
+            self.get_bbox()
+            display_list.DisplayList.render(self)
+
 def main(stdscr):
     """ test driver for the chardraw """
 
@@ -489,7 +626,7 @@ def main(stdscr):
     d.add_column(cy1)
 
     c = canvas.Canvas(stdscr)
-    bc = BarGraph(d,"X values",["Y values","Y1 values"],None,c)
+    bc = LineGraph(d,"X values",["Y values","Y1 values"],None,c,area=True)
     bc.render()
     c.refresh()
 
