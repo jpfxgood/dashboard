@@ -100,16 +100,15 @@ class GraphTitle(GraphElement):
             r_height,r_width = self.canvas.from_rowcol(1,1)
             text = self.text.strip()
             while text and rows:
-                prev_sidx = -1
-                s_idx = -1
-                while s_idx < cols:
-                    prev_sidx = s_idx
-                    s_idx = text.find(' ',s_idx+1)
-                    if s_idx == -1:
-                        break
-                if prev_sidx > 0:
-                    s_idx = prev_sidx
-                if s_idx < 0 or s_idx > cols:
+                if len(text) > cols:
+                    s_idx = cols
+                    while s_idx > 0:
+                        if text[s_idx] == ' ':
+                            break
+                        s_idx -= 1
+                    if s_idx <= 0:
+                        s_idx = cols
+                else:
                     s_idx = cols
                 new_children.append(display_list.Text(x,y,text[:s_idx],self.canvas.white))
                 rows -= 1
@@ -141,17 +140,15 @@ class GraphLegend(GraphElement):
             for text in self.series_labels:
                 text = text.strip()
                 while text and rows:
-                    prev_sidx = -1
-                    s_idx = -1
-                    while s_idx < cols:
-                        prev_sidx = s_idx
-                        s_idx = text.find(' ',s_idx+1)
-                        if s_idx == -1:
-                            break
-
-                    if prev_sidx > 0:
-                        s_idx = prev_sidx
-                    if s_idx < 0 or s_idx > cols:
+                    if len(text) > cols:
+                        s_idx = cols
+                        while s_idx > 0:
+                            if text[s_idx] == ' ':
+                                break
+                            s_idx -= 1
+                        if s_idx <= 0:
+                            s_idx = cols
+                    else:
                         s_idx = cols
                     new_children.append(display_list.Text(x,y,text[:s_idx],self.canvas.white))
                     rows -= 1
@@ -178,12 +175,13 @@ class GraphXAxis(GraphElement):
         self.range_min = -1
         self.range_max = -1
         self.sx = 0
+        self.dx = 0
         self.values = []
         self.add_child(display_list.PolyLine([],self.canvas.green))
 
     def get_range( self ):
         """ return range_min, range_max, sx """
-        return (self.range_min,self.range_max, self.sx)
+        return (self.range_min,self.range_max, self.sx, self.dx)
 
     def get_values( self ):
         """ return vector of x (value,label) """
@@ -230,16 +228,22 @@ class GraphXAxis(GraphElement):
             y = oy
             points = [(x,y)]
             labels = []
+            prev_scaled_x = None
+            total_dx = 0
             for v,label in self.values:
                 scaled_x = (v-self.range_min)*self.sx
+                if prev_scaled_x != None:
+                    total_dx += (scaled_x - prev_scaled_x)
+                prev_scaled_x = scaled_x
                 if ox+scaled_x >= x:
                     x = ox+scaled_x
                     points.append((x,y))
                     points.append((x,y-1))
                     points.append((x,y))
                     labels.append((x,y+r_height,label))
-                    l_height,l_width = self.canvas.from_rowcol(1,len(label))
+                    l_height,l_width = self.canvas.from_rowcol(1,len(label)+1)
                     x += l_width
+            self.dx = total_dx / len(self.values)
             new_children.append(display_list.PolyLine(points,self.canvas.green))
             for x,y,label in labels:
                 new_children.append(display_list.Text(x,y,label,self.canvas.green))
@@ -279,8 +283,8 @@ class GraphYAxis(GraphElement):
             r_height,r_width = self.canvas.from_rowcol(1,1)
             width,height = self.get_size()
             ox,oy = self.get_location()
-            oy += (height-1)
-            ox += (width-2)
+            oy += height
+            ox += (width-1)
             self.sy = height / (self.range_max-self.range_min)
             x = ox
             y = oy
@@ -331,7 +335,7 @@ class GraphBars(GraphElement):
         """ compute the bounding box """
         if self.modified:
             new_children = []
-            x_min,x_max,x_scale = self.x_axis.get_range()
+            x_min,x_max,x_scale,x_dx = self.x_axis.get_range()
             y_min,y_max,y_scale = self.y_axis.get_range()
             x_values = self.x_axis.get_values()
             x,y = self.get_location()
@@ -345,7 +349,8 @@ class GraphBars(GraphElement):
                 x_value = x_values[idx][0]
                 scaled_x = (x_value-x_min)*x_scale
                 scaled_y = (y_value-y_min)*y_scale
-                new_children.append(display_list.Rect(x+scaled_x,y,x+scaled_x+5,y-scaled_y,self.canvas.cyan))
+                new_children.append(display_list.Rect(x+scaled_x,y,x+scaled_x+(x_dx/2),y-scaled_y,self.canvas.cyan))
+                idx += 1
             self.set_children(new_children)
 
         return GraphElement.get_bbox(self)
@@ -375,8 +380,8 @@ class BarGraph(Graph):
         if not self.initialized:
             self.title = GraphTitle(self,self.get_data().get_name())
             self.legend = GraphLegend(self,self.get_data().get_names())
-            self.x_axis_title = GraphXAxisTitle(self,"Y Axis")
-            self.y_axis_title = GraphYAxisTitle(self,"X Axis")
+            self.x_axis_title = GraphXAxisTitle(self,"X Axis")
+            self.y_axis_title = GraphYAxisTitle(self,"Y Axis")
             self.x_axis = GraphXAxis(self, horizontal = True )
             self.y_axis = GraphYAxis(self, vertical = True )
             self.chart_area = GraphArea(self)
@@ -404,26 +409,30 @@ class BarGraph(Graph):
             x = 2
             y = 2
             self.title.set_location((x,y))
-            self.title.set_size((width,height*0.18))
-            y = y + height*0.18
+            self.title.set_size((width,height*0.10))
+            y = y + height*0.10
             self.legend.set_location((x,y))
-            self.legend.set_size((width,height*0.18))
-            y = y + height*0.18
-            self.y_axis_title.set_location((x,y+height*0.20))
-            self.y_axis_title.set_size((width*0.10,height*0.20))
-            self.y_axis.set_location((x+(width*0.10),y))
-            self.y_axis.set_size((width*0.10,height*0.40))
-            self.chart_area.set_location((x+(width*0.20),y))
-            self.chart_area.set_size((width*.96,height*0.40))
+            self.legend.set_size((width,height*0.10))
+            y = y + height*0.10
+            self.y_axis_title.set_location((x,y+height*0.35))
+            self.y_axis_title.set_size((width*0.05,height*0.35))
+            self.y_axis.set_location((x+(width*0.05),y))
+            self.y_axis.set_size((width*0.05,height*0.70))
+            self.x_axis.set_location((x+(width*0.10),y+height*0.70))
+            self.x_axis.set_size((width*0.80,height*0.10))
+            ya_x,ya_y = self.y_axis.get_location()
+            ya_w,ya_h = self.y_axis.get_size()
+            xa_x,xa_y = self.x_axis.get_location()
+            xa_w,xa_h = self.x_axis.get_size()
+            
+            self.chart_area.set_location((ya_x+ya_w,ya_y))
+            self.chart_area.set_size((xa_w,ya_h))
             for cs in self.chart_series:
-                cs.set_location((x+(width*0.20),y))
-                cs.set_size((width*0.96,height*0.40))
-            y += height*0.40
-            self.x_axis.set_location((x+(width*0.20),y))
-            self.x_axis.set_size((width*0.96,height*0.12))
-            y += height*0.12
-            self.x_axis_title.set_location((x+(width*0.20),y))
-            self.x_axis_title.set_size((width*0.96,height*0.12))
+                cs.set_location((ya_x+ya_w,ya_y))
+                cs.set_size((xa_w,ya_h))
+
+            self.x_axis_title.set_location((xa_x,xa_y+xa_h))
+            self.x_axis_title.set_size((xa_w,xa_h))
 
         return Graph.get_bbox(self)
 
