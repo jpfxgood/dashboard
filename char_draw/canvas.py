@@ -8,10 +8,6 @@ import sys
 import os
 import math
 
-def log_message( message ):
-    """ write out a message to debug log"""
-    print(message, file=open("chardraw.log","a"))
-
 class Canvas:
     """ primitive drawing surface attached to a curses window """
 
@@ -284,8 +280,6 @@ class Canvas:
                 s2 = (minX,minY,minX,maxY)
             return self.intersect(s1,s2,False)
 
-#        log_message("clip_polygon [%s] %.2f,%.2f,%.2f,%.2f %d"%(",".join([str(p) for p in points]),float(minX),float(minY),float(maxX),float(maxY),dir))
-
         if dir == -1:
             for d in [0,1,2,3]:
                 points = self.clip_polygon(points,minX,minY,maxX,maxY,d)
@@ -308,10 +302,6 @@ class Canvas:
                         ip = intersect(sp,ep,minX,minY,maxX,maxY,dir)
                         out_points.append(ip)
                 sp = ep
-#            if out_points:
-#                log_message("clip_polygon return [%s] %.2f,%.2f,%.2f,%.2f %d"%(",".join([str(p) for p in out_points]),float(minX),float(minY),float(maxX),float(maxY),dir))
-#            else:
-#                log_message("clip_polygon return None %.2f,%.2f,%.2f,%.2f %d"%(float(minX),float(minY),float(maxX),float(maxY),dir))
             return out_points if out_points else None
 
 
@@ -405,7 +395,6 @@ class Canvas:
 
     def poly_fill(self,points,color,put_pixel = None):
         """ fill a concave polygon by recursively subdividing until we get a convex polygon """
-#        log_message("poly_fill() [%s]"%(",".join([str(p) for p in points])))
         clips = []
 
         minX,minY,maxX,maxY = self.get_bounds(points)
@@ -453,8 +442,6 @@ class Canvas:
         if fill:
             convex = self.is_convex(points)
 
-#        log_message("polygon() [%s] convex=%s"%(",".join([str(p) for p in points]),str(convex)))
-
         poly_pixels = []
         def put_poly_pixel(x,y,color):
             poly_pixels.append((x,y))
@@ -497,34 +484,7 @@ def main(stdscr):
     curses.init_pair(4,curses.COLOR_WHITE,curses.COLOR_BLACK)
 
     c = Canvas(stdscr)
-#    log_message("Intersection (%d,%d)"%c.intersect((10,10,50,10),(20,5,20,15)))
-#    log_message("Convex %s"%str(c.is_convex([(50,50),(55,55),(55,60),(50,60),(40,55)])))
-#    log_message("Convex %s"%str(c.is_convex([(50,50),(55,55),(55,60),(50,60),(40,55),(45,57)])))
-#    c.put_pixel(0,0,c.green)
-#    c.put_pixel(1,1,c.green)
-#    c.put_pixel(2,2,c.green)
-#    c.put_pixel(2,3,c.green)
-#    c.put_pixel(3,2,c.green)
-#    c.line(0,0,24,30,c.red)
-#    c.line(24,30,100,10,c.red)
-#    c.line(24,30,18,20,c.red)
-#    c.line(24,30,18,100,c.red)
-#    c.circle(20,20,10,c.cyan,False)
-#    c.circle(40,40,10,c.white,True)
-#    c.rect(50,50,60,60,c.green,False)
-#    c.rect(50,40,60,50,c.red,True)
-#    c.textat(50,40,c.white,"Red Square")
-#    c.arc(50,50,20,10.0,290.0,c.green,True)
-#    c.arc(50,50,20,288.0,360.0,c.white,True)
-#    c.arc(50,50,20,10.0,50.0,c.cyan,False)
-#    c.arc(50,50,20,50.0,120.0,c.red,False)
-#    c.polygon([(20,20),(25,25),(25,30),(20,30)],c.cyan,False)
     c.polygon([(50,50),(55,55),(55,60),(50,60),(40,55)],c.red,True)
-#    p = [(50,50),(55,55),(55,60),(50,60),(40,55),(45,57)]
-#    k = [(x*2-50,y*2-50) for x,y in p]
-#    l = [(x+100,y) for x,y in k]
-#    c.polygon(k,c.red,False)
-#    c.polygon(l,c.green,True)
     c.refresh()
     eval(input())
 

@@ -97,12 +97,26 @@ blank_column = Column()
 class DataTable(object):
     def __init__(self,columns=None,name=None):
         """ accepts a list of columns and a name for the table """
+        self.listeners = []
         self.columns = []
         self.name = name
         self.cnames = {}
         if columns:
             for c in columns:
                 self.add_column(c)
+
+    def listen(self,listen_func):
+        """ register for notifications when a change event is raised on this table """
+        self.listeners.append(listen_func)
+
+    def unlisten(self,listen_func):
+        """ unregister for notifications when a change event is raised on this table """
+        self.listeners.remove(listen_func)
+
+    def changed(self):
+        """ notify listeners that this table has been changed """
+        for f in self.listeners:
+            f(self)
 
     def get_bounds(self):
         """ return a tuple (rows,cols) where rows is the maximum number of rows and cols is the maximum number of cols """
