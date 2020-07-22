@@ -341,50 +341,7 @@ class Canvas:
 
     def circle(self, x0, y0, radius, color, fill = False, put_pixel=None ):
         """ draw a circle centered at x0,y0 of radius radius in color """
-        x0 = int(x0)
-        y0 = int(y0)
-        radius = int(radius)
-
-        f = 1 - radius
-        ddf_x = 1
-        ddf_y = -2 * radius
-        x = 0
-        y = radius
-
-        points = []
-        def putpoint( xp, yp ):
-            points.append((xp,yp))
-
-        putpoint(x0, y0 + radius)
-        putpoint(x0, y0 - radius)
-        putpoint(x0 + radius, y0)
-        putpoint(x0 - radius, y0)
-
-        while x < y:
-            if f >= 0:
-                y -= 1
-                ddf_y += 2
-                f += ddf_y
-            x += 1
-            ddf_x += 2
-            f += ddf_x
-            putpoint(x0 + x, y0 + y)
-            putpoint(x0 - x, y0 + y)
-            putpoint(x0 + x, y0 - y)
-            putpoint(x0 - x, y0 - y)
-            putpoint(x0 + y, y0 + x)
-            putpoint(x0 - y, y0 + x)
-            putpoint(x0 + y, y0 - x)
-            putpoint(x0 - y, y0 - x)
-
-        if not fill:
-            for x,y in points:
-                if put_pixel:
-                    put_pixel(x,y,color)
-                else:
-                    self.put_pixel(x,y,color)
-        else:
-            self.rasterize(points,color,put_pixel)
+        self.arc(x0,y0,radius,0,360,color,fill,put_pixel)
 
     def arc(self,x0,y0,radius,a0,a1,color,fill=False,put_pixel=None):
         """ draw an arc between a0 degrees to a1 degrees centered at x0,y0 with radius and color """
