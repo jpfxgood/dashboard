@@ -4,6 +4,24 @@ import sys
 import os
 import datetime
 
+string_type = '_string'
+float_type = '_float'
+int_type = '_int'
+date_type = '_date'
+blank_type = '_blank'
+
+def format_string( s ):
+    return str(s)
+
+def format_date( d ):
+    return d.strftime("%m/%d/%y %H:%M")
+
+def format_float( d ):
+    return "%.2f"%d
+
+def format_int( d ):
+    return "%d"%d
+
 class Cell(object):
     def __init__(self,type,value,format):
         self.type = type
@@ -19,17 +37,20 @@ class Cell(object):
     def get_value(self):
         return self.value
 
+    def get_float_value(self):
+        if self.type in [float_type,int_type]:
+            return float(self.value)
+        elif self.type == date_type:
+            return self.value.timestamp()
+        else:
+            return 0.0
+
     def get_format(self):
         return self.format
 
     def set_format(self,format):
         self.format = format
 
-string_type = '_string'
-float_type = '_float'
-int_type = '_int'
-date_type = '_date'
-blank_type = '_blank'
 blank_cell = Cell(blank_type,None,lambda x: "")
 
 class ColumnIterator(object):
@@ -200,17 +221,6 @@ class DataTable(object):
     def put(self, row, reference, value):
         self.columns[self.map_column(reference)].put(row,value)
 
-def format_string( s ):
-    return str(s)
-
-def format_date( d ):
-    return d.strftime("%m/%d/%y %H:%M")
-
-def format_float( d ):
-    return "%.2f"%d
-
-def format_int( d ):
-    return "%d"%d
 
 def main():
     """ test driver for this module """

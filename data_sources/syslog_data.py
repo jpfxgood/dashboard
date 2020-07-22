@@ -22,13 +22,94 @@ class SyslogDataTable( DataTable ):
         self.refresh_minutes = refresh_minutes
         self.refresh_thread = None
         self.refresh_thread_stop = False
-        self.refresh_lock = threading.Lock()
+        self.refresh_lock = threading.RLock()
         DataTable.__init__(self,None,
             "Syslog Data: %s for the last %d hours in %d hour buckets, refreshed every %d minutes"%(
             self.syslog_glob,
             self.num_hours,
             self.bucket_hours,
             self.refresh_minutes))
+        self.refresh()
+
+    def get_bounds(self):
+        """ return a tuple (rows,cols) where rows is the maximum number of rows and cols is the maximum number of cols """
+        try:
+            self.refresh_lock.acquire()
+            return DataTable.get_bounds(self)
+        finally:
+            self.refresh_lock.release()
+
+    def get_names(self):
+        """ return a list of the names of the columns in order"""
+        try:
+            self.refresh_lock.acquire()
+            return DataTable.get_names(self)
+        finally:
+            self.refresh_lock.release()
+
+    def get_columns(self):
+        """ return the list of columns """
+        try:
+            self.refresh_lock.acquire()
+            return DataTable.get_columns(self)
+        finally:
+            self.refresh_lock.release()
+
+    def add_column(self,column):
+        try:
+            self.refresh_lock.acquire()
+            return DataTable.add_column(self,column)
+        finally:
+            self.refresh_lock.release()
+
+    def insert_column(self,idx,column):
+        try:
+            self.refresh_lock.acquire()
+            return DataTable.insert_column(self,idx,column)
+        finally:
+            self.refresh_lock.release()
+
+    def replace_column(self,idx,column):
+        try:
+            self.refresh_lock.acquire()
+            return DataTable.replace_column(self,idx,column)
+        finally:
+            self.refresh_lock.release()
+
+    def map_column(self, reference ):
+        try:
+            self.refresh_lock.acquire()
+            return DataTable.map_column(self,reference)
+        finally:
+            self.refresh_lock.release()
+
+    def has_column(self, reference ):
+        try:
+            self.refresh_lock.acquire()
+            return DataTable.has_column(self,reference)
+        finally:
+            self.refresh_lock.release()
+
+    def get_column(self, reference):
+        try:
+            self.refresh_lock.acquire()
+            return DataTable.get_column(self,reference)
+        finally:
+            self.refresh_lock.release()
+
+    def get(self, row, reference ):
+        try:
+            self.refresh_lock.acquire()
+            return DataTable.get(self,row,reference)
+        finally:
+            self.refresh_lock.release()
+
+    def put(self, row, reference, value):
+        try:
+            self.refresh_lock.acquire()
+            return DataTable.put(self,row,reference,value)
+        finally:
+            self.refresh_lock.release()
 
     def start_refresh( self ):
         """ Start the background refresh thread """
@@ -67,6 +148,9 @@ class SyslogDataTable( DataTable ):
                 idx += 1
 
             def bucket_idx( timestamp ):
+                if timestamp < start_time or timestamp > current_time:
+                    return -1
+
                 for idx in range(time_column.size()):
                     if time_column.get(idx).get_value() >= timestamp:
                         return idx
@@ -106,7 +190,7 @@ class SyslogDataTable( DataTable ):
 
                 for line in slf_f:
                     line = line.strip()
-                    m = re.match(r"(\w\w\w\s\d\d\s\d\d:\d\d:\d\d)\s[a-z0-9-]*\s(\w*)[\[\]0-9]*:\s*(.*)",line)
+                    m = re.match(r"(\w\w\w\s\d\d\s\d\d:\d\d:\d\d)\s[a-z0-9\-]*\s([a-zA-Z0-9\-\_\.]*)[\[\]0-9]*:\s*(.*)",line)
                     if m:
                         log_date = "%d "%current_time.year + m.group(1)
                         log_process = m.group(2)

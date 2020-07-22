@@ -117,6 +117,13 @@ class DisplayList:
         if self.parent:
             self.parent.invalidate()
 
+    def is_modified(self):
+        """ does this display list contain modified objects """
+        modified = self.modified
+        for c in self.children:
+            modified = modified or c.is_modified()
+        return modified
+
     def handle(self, event ):
         """ handle an input event, return None if handled, event if not """
         return event

@@ -42,7 +42,9 @@ class Graph(display_list.DisplayList):
 
     def init(self):
         """ set internal state to default state """
-        self.initialzied = False
+        if not self.initialized:
+            self.data.listen(self.data_changed)
+            self.initialized = True
 
     def get_series( self ):
         """ return list of GraphSeries objects that describe the data series to be graphed """
@@ -55,6 +57,17 @@ class Graph(display_list.DisplayList):
     def get_data(self):
         """ return reference to the data table """
         return self.data
+
+    def data_changed(self,data_table):
+        """ listener that gets called if the data table is changed """
+        self.modified = True
+
+    def render(self):
+        """ override render to force initialization and layout"""
+        if self.canvas:
+            self.init()
+            self.get_bbox()
+            display_list.DisplayList.render(self)
 
 class GraphElement( display_list.DisplayList ):
     """ base of all of the graph children """
@@ -212,13 +225,13 @@ class GraphXAxis(GraphElement):
                     self.values.append((ix,str(c)))
                     ix += 1
             else:
-                self.range_min = -1
-                self.range_max = -1
+                self.range_min = None
+                self.range_max = None
                 for c in data_table.ColumnIterator(column):
-                    value = c.get_value()
-                    if self.range_min < 0 or value < self.range_min:
+                    value = c.get_float_value()
+                    if self.range_min == None or value < self.range_min:
                         self.range_min = value
-                    if self.range_max < 0 or value > self.range_max:
+                    if self.range_max == None or value > self.range_max:
                         self.range_max = value
                     self.values.append((value,str(c)))
 
@@ -231,6 +244,7 @@ class GraphXAxis(GraphElement):
             width,height = self.get_size()
             ox,oy = self.get_location()
             self.sx = width / (self.range_max-self.range_min)
+
             x = ox
             y = oy
             points = [(x,y)]
@@ -283,7 +297,7 @@ class GraphYAxis(GraphElement):
             for series in y_values:
                 column = series.data.get_column(series.column)
                 for c in data_table.ColumnIterator(column):
-                    value = c.get_value()
+                    value = c.get_float_value()
                     if self.range_min < 0 or value < self.range_min:
                         self.range_min = value
                     if self.range_max < 0 or value > self.range_max:
@@ -368,7 +382,7 @@ class GraphBars(GraphElement):
             column = self.series.data.get_column(self.series.column)
             idx = 0
             for c in data_table.ColumnIterator(column):
-                y_value = c.get_value()
+                y_value = c.get_float_value()
                 x_value = x_values[idx][0]
                 scaled_x = (x_value-x_min)*x_scale
                 scaled_y = (y_value-y_min)*y_scale
@@ -406,7 +420,7 @@ class GraphLines(GraphElement):
             idx = 0
             points = []
             for c in data_table.ColumnIterator(column):
-                y_value = c.get_value()
+                y_value = c.get_float_value()
                 x_value = x_values[idx][0]
                 scaled_x = (x_value-x_min)*x_scale
                 scaled_y = (y_value-y_min)*y_scale
@@ -466,7 +480,7 @@ class BarGraph(Graph):
                 self.add_child(cs)
             self.add_child(self.x_axis)
             self.add_child(self.y_axis)
-            self.initialized = True
+            Graph.init(self)
 
     def get_bbox(self):
         """ arrange the children of the graph based on size of graph """
@@ -506,13 +520,6 @@ class BarGraph(Graph):
             self.x_axis_title.set_size((xa_w,xa_h))
 
         return Graph.get_bbox(self)
-
-    def render(self):
-        """ override render to force initialization and layout"""
-        if self.canvas:
-            self.init()
-            self.get_bbox()
-            display_list.DisplayList.render(self)
 
 class LineGraph(Graph):
     """LineGraph that displays a data table as a line graph"""
@@ -555,7 +562,7 @@ class LineGraph(Graph):
                 self.add_child(cs)
             self.add_child(self.x_axis)
             self.add_child(self.y_axis)
-            self.initialized = True
+            Graph.init(self)
 
     def get_bbox(self):
         """ arrange the children of the graph based on size of graph """
@@ -596,12 +603,6 @@ class LineGraph(Graph):
 
         return Graph.get_bbox(self)
 
-    def render(self):
-        """ override render to force initialization and layout"""
-        if self.canvas:
-            self.init()
-            self.get_bbox()
-            display_list.DisplayList.render(self)
 
 class GraphSlices(GraphElement):
     """ A pie chart plot of a graph series to be displayed on a graph """
@@ -620,13 +621,13 @@ class GraphSlices(GraphElement):
 
             data_total = 0
             for idx in range(0,data_column.size()):
-                data_total += data_column.get(idx).get_value()
+                data_total += data_column.get(idx).get_float_value()
 
             total_degrees = 0
             self.set_children([])
             label_children = []
             for idx in range(0,data_column.size()):
-                data_degrees = round(360.0 * (data_column.get(idx).get_value()/data_total))
+                data_degrees = round(360.0 * (data_column.get(idx).get_float_value()/data_total))
                 arc = display_list.Arc(x+width/2,
                                        y+height/2,
                                        min(height,width)/2,
@@ -683,7 +684,7 @@ class PieGraph(Graph):
             self.add_child(self.chart_area)
             for cs in self.chart_series:
                 self.add_child(cs)
-            self.initialized = True
+            Graph.init(self)
 
     def get_bbox(self):
         """ arrange the children of the graph based on size of graph """
@@ -730,12 +731,6 @@ class PieGraph(Graph):
 
         return Graph.get_bbox(self)
 
-    def render(self):
-        """ override render to force initialization and layout"""
-        if self.canvas:
-            self.init()
-            self.get_bbox()
-            display_list.DisplayList.render(self)
 
 def main(stdscr):
     """ test driver for the chardraw """
