@@ -389,7 +389,7 @@ class Canvas:
     def arc(self,x0,y0,radius,a0,a1,color,fill=False,put_pixel=None):
         """ draw an arc between a0 degrees to a1 degrees centered at x0,y0 with radius and color """
         def circle_point(x0,y0,a,radius):
-            return (x0+math.cos(math.radians(a))*radius, y0+math.sin(math.radians(a))*radius)
+            return (x0+(1.5*math.cos(math.radians(a))*radius), y0+math.sin(math.radians(a))*radius)
 
         points = []
         points.append((x0,y0))

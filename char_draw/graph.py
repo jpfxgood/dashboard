@@ -664,7 +664,6 @@ class PieGraph(Graph):
         canvas is a reference to a canvas to render on """
         Graph.__init__(self,data_table,pie_labels,slice_values,parent,canvas)
         self.title = None
-        self.legend = None
         self.x_axis_title = None
         self.y_axis_title = None
         self.x_axis = None
@@ -678,11 +677,9 @@ class PieGraph(Graph):
         """ create the children for all of the graph components """
         if not self.initialized:
             self.title = GraphTitle(self,self.get_data().get_name())
-            self.legend = GraphLegend(self,[(s.column,s.color) for s in self.get_series()])
             self.chart_area = GraphArea(self)
             self.chart_series = [GraphSlices(self,series) for series in self.get_series()]
             self.add_child(self.title)
-            self.add_child(self.legend)
             self.add_child(self.chart_area)
             for cs in self.chart_series:
                 self.add_child(cs)
@@ -701,20 +698,17 @@ class PieGraph(Graph):
             y = 2
             self.title.set_location((x,y))
             self.title.set_size((width,height*0.10))
-            y = y + height*0.10
-            self.legend.set_location((x,y))
-            self.legend.set_size((width,height*0.10))
-            y = y + height*0.10
+            y = y + height*0.15
 
             self.chart_area.set_location((x,y))
-            self.chart_area.set_size((width,height*0.75))
+            self.chart_area.set_size((width,height*0.80))
             n_series = len(self.chart_series)
             if n_series > 1:
                 split = 1
                 while split*split < n_series:
                     split += 1
                 sx = width / split
-                sy = height / split
+                sy = (height*0.80) / split
 
                 ix = 0
                 gx = x
@@ -732,7 +726,7 @@ class PieGraph(Graph):
             else:
                 for cs in self.chart_series:
                     cs.set_location((x,y))
-                    cs.set_size((width,height*0.75))
+                    cs.set_size((width,height*0.80))
 
         return Graph.get_bbox(self)
 
@@ -756,11 +750,21 @@ def main(stdscr):
     for y in range(0,5):
         cy.put(y,data_table.Cell(data_table.float_type,float((y*10)+200),data_table.format_float))
 
+    cy1 = data_table.Column(name="Pie Values 1")
+    for y in range(0,5):
+        cy1.put(y,data_table.Cell(data_table.float_type,float((y*20)+200),data_table.format_float))
+
+    cy2 = data_table.Column(name="Pie Values 2")
+    for y in range(0,5):
+        cy2.put(y,data_table.Cell(data_table.float_type,float((y*30)+200),data_table.format_float))
+
     d.add_column(cx)
     d.add_column(cy)
+    d.add_column(cy1)
+    d.add_column(cy2)
 
     c = canvas.Canvas(stdscr)
-    bc = PieGraph(d,"Pie Labels",["Pie Values"],None,c)
+    bc = PieGraph(d,"Pie Labels",["Pie Values","Pie Values 1","Pie Values 2"],None,c)
     bc.render()
     c.refresh()
 
