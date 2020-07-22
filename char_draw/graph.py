@@ -9,7 +9,7 @@ import os
 import math
 from char_draw import canvas
 from char_draw import display_list
-from char_draw import data_table
+from data_sources import data_table
 
 def float_range(start, stop, step):
     while start <= stop:
