@@ -243,7 +243,7 @@ class GraphXAxis(GraphElement):
             r_height,r_width = self.canvas.from_rowcol(1,1)
             width,height = self.get_size()
             ox,oy = self.get_location()
-            self.sx = width / (self.range_max-self.range_min)
+            self.sx = width / max(1.0,(self.range_max-self.range_min))
 
             x = ox
             y = oy
@@ -303,7 +303,7 @@ class GraphYAxis(GraphElement):
                     if self.range_max < 0 or value > self.range_max:
                         self.range_max = value
 
-            tick_size = (self.range_max-self.range_min)/10
+            tick_size = max(1.0,(self.range_max-self.range_min))/10
             if tick_size > 1:
                 tick_size = round(tick_size)
             self.range_max += tick_size
@@ -312,7 +312,7 @@ class GraphYAxis(GraphElement):
             ox,oy = self.get_location()
             oy += height
             ox += (width-1)
-            self.sy = height / (self.range_max-self.range_min)
+            self.sy = height / max(1.0,(self.range_max-self.range_min))
             x = ox
             y = oy
             points = [(x,y)]
