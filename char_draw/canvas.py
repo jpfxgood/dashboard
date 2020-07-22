@@ -83,11 +83,28 @@ class Canvas:
         self.cyan = curses.color_pair(3)
         self.white = curses.color_pair(4)
         self.black = curses.color_pair(0)
-        self.color_min = 7
-        self.color_max = 256
-        
-        for cidx in range(7,256):
-            curses.init_pair(cidx,cidx,curses.COLOR_BLACK)
+
+        if curses.can_change_color():
+            self.color_min = 8
+            self.color_max = 256
+
+            red = 0
+            green = 100
+            blue = 20
+            for c in range(self.color_min,self.color_max):
+                curses.init_color(c,red,green,blue)
+                red += 23
+                green += 33
+                blue += 53
+                red = red % 1000
+                green = green % 1000
+                blue = blue % 1000
+
+            for cidx in range(self.color_min,self.color_max):
+                curses.init_pair(cidx,cidx,curses.COLOR_BLACK)
+        else:
+            self.color_min = 0
+            self.color_max = 8
 
         if self.win:
             self.max_y,self.max_x = self.win.getmaxyx()
@@ -369,90 +386,20 @@ class Canvas:
         else:
             self.rasterize(points,color,put_pixel)
 
-    def arc(self,x0,y0,radius,a0,a1,color,fill=False,put_pixel=False):
+    def arc(self,x0,y0,radius,a0,a1,color,fill=False,put_pixel=None):
         """ draw an arc between a0 degrees to a1 degrees centered at x0,y0 with radius and color """
         def circle_point(x0,y0,a,radius):
             return (x0+math.cos(math.radians(a))*radius, y0+math.sin(math.radians(a))*radius)
 
-        bounds = []
-        for a in [0,90,180,270]:
-            bounds.append(circle_point(x0,y0,a,radius))
-
-        boxes = []
+        points = []
+        points.append((x0,y0))
         a = a0
-        qa = int(a/90)
-        qa1 = int(a1/90)
-        p1 = circle_point(x0,y0,a1,radius)
-        while a < a1:
-            p = circle_point(x0,y0,a,radius)
-            if qa == qa1:
-                boxes.append((min(p[0],p1[0]),min(p[1],p1[1]),max(p[0],p1[0]),max(p[1],p1[1])))
-            else:
-                bp = bounds[(qa+1)%4]
-                boxes.append((min(p[0],bp[0]),min(p[1],bp[1]),max(p[0],bp[0]),max(p[1],bp[1])))
-            qa += 1
-            a = qa*90
+        while a <= a1:
+            xp,yp = circle_point(x0,y0,a,radius)
+            a = a + 1.0
+            points.append((xp,yp))
 
-        px0 = ax0 = x0+math.cos(math.radians(a0))*radius
-        px1 = ax1 = x0+math.cos(math.radians(a1))*radius
-        py0 = ay0 = y0+math.sin(math.radians(a0))*radius
-        py1 = ay1 = y0+math.sin(math.radians(a1))*radius
-
-        if ax0 > ax1:
-            ax = ax1
-            ax1 = ax0
-            ax0 = ax
-
-        if ay0 > ay1:
-            ay = ay1
-            ay1 = ay0
-            ay0 = ay
-
-        circle_points = []
-        arc_points = []
-        def put_circle_pixel(x,y,color):
-            circle_points.append((x,y))
-
-        def put_arc_pixel(x,y,color):
-            arc_points.append((x,y))
-
-        def dist(x1,y1,x2,y2):
-            return abs(x2-x1)**2+abs(y2-y1)**2
-
-        def inboxes(x,y,boxes):
-            for b in boxes:
-                if x >= b[0] and x <= b[2] and y >= b[1] and y <= b[3]:
-                    return True
-            return False
-
-        min_d0 = -1.0
-        min_d1 = -1.0
-        rx0 = 0.0
-        ry0 = 0.0
-        rx1 = 0.0
-        ry1 = 0.0
-        self.circle(x0,y0,radius,color,False,put_circle_pixel)
-        for x,y in circle_points:
-            if inboxes(x,y,boxes):
-                put_arc_pixel(x,y,color)
-                d0 = dist(x,y,px0,py0)
-                d1 = dist(x,y,px1,py1)
-                if min_d0 < 0 or d0 < min_d0:
-                    min_d0 = d0
-                    rx0 = x
-                    ry0 = y
-                if min_d1 < 0 or d1 < min_d1:
-                    min_d1 = d1
-                    rx1 = x
-                    ry1 = y
-        if arc_points:
-            self.line(x0,y0,rx0,ry0,color,put_arc_pixel)
-            self.line(x0,y0,rx1,ry1,color,put_arc_pixel)
-            if fill:
-                self.rasterize(arc_points,color,put_pixel)
-            else:
-                for x,y in arc_points:
-                    self.put_pixel(x,y,color,put_pixel)
+        self.polygon(points,color,fill,put_pixel)
 
     def rect(self,x0,y0,x1,y1,color,fill=False,put_pixel=None):
         """ draw a rectangle bounding x0,y0, x1,y1, in color == color optionally filling """

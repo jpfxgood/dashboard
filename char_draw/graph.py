@@ -624,13 +624,33 @@ class GraphSlices(GraphElement):
 
             total_degrees = 0
             self.set_children([])
+            label_children = []
             for idx in range(0,data_column.size()):
-                data_degrees = 360.0 * (data_column.get(idx).get_value()/data_total)
-                arc = display_list.Arc(x+width/2,y+width/2,width/2,total_degrees,total_degrees+data_degrees,self.canvas.color_min+(idx%(self.canvas.color_max-self.canvas.color_min)),True)
+                data_degrees = round(360.0 * (data_column.get(idx).get_value()/data_total))
+                arc = display_list.Arc(x+width/2,
+                                       y+height/2,
+                                       min(height,width)/2,
+                                       total_degrees,
+                                       total_degrees+data_degrees,
+                                       curses.color_pair(self.canvas.color_min+((idx*11)%(self.canvas.color_max-self.canvas.color_min)))
+                                       ,True)
                 self.add_child(arc)
                 bbarc = arc.get_bbox()
-                self.add_child(display_list.Text(bbarc.x0+((bbarc.x1 - bbarc.x0)/2),bbarc.y0+((bbarc.y1 - bbarc.y0)/2),str(label_column.get(idx)),label_series.color))
+                lcx = bbarc.x0+((bbarc.x1 - bbarc.x0)/2)
+                lcy = bbarc.y0+((bbarc.y1 - bbarc.y0)/2)
+                label = str(label_column.get(idx))
+                l_height,l_width = self.canvas.from_rowcol(1,len(label))
+                if lcx+l_width > width:
+                    lcx -= l_width
+                else:
+                    lcx -= (l_width/2)
+                if lcy+l_height > height:
+                    lcy -= l_height
+                label_children.append(display_list.Text(lcx,lcy,label,label_series.color))
                 total_degrees += data_degrees
+
+            for lc in label_children:
+                self.add_child(lc)
 
         return GraphElement.get_bbox(self)
 
@@ -687,7 +707,7 @@ class PieGraph(Graph):
             y = y + height*0.10
 
             self.chart_area.set_location((x,y))
-            self.chart_area.set_size((width,height*0.80))
+            self.chart_area.set_size((width,height*0.75))
             n_series = len(self.chart_series)
             if n_series > 1:
                 split = 1
@@ -712,7 +732,7 @@ class PieGraph(Graph):
             else:
                 for cs in self.chart_series:
                     cs.set_location((x,y))
-                    cs.set_size((width,height*0.80))
+                    cs.set_size((width,height*0.75))
 
         return Graph.get_bbox(self)
 
