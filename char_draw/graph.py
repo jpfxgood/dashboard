@@ -27,7 +27,7 @@ class GraphSeries():
 class Graph(display_list.DisplayList):
     """Graph base class for all graph types """
 
-    def __init__(self,data_table=None,x_values=None,y_values=None,parent=None,canvas=None):
+    def __init__(self,data_table=None,x_values=None,y_values=None,parent=None,canvas=None,top=0):
         """ base constructor for all graph types constructor takes a data_table which contains values to be graphed,
         x_values is a column reference in the data table for the xaxis values,
         y_values is a list of column references to series of numerical data to be graphed,
@@ -38,6 +38,7 @@ class Graph(display_list.DisplayList):
         self.data = data_table
         self.x_values = GraphSeries(self.data, x_values, self.canvas.green )
         self.y_values = [GraphSeries(self.data, sy,self.colors[y_values.index(sy)%len(self.colors)]) for sy in y_values]
+        self.top = top
         self.initialized = False
 
     def init(self):
@@ -68,6 +69,23 @@ class Graph(display_list.DisplayList):
             self.init()
             self.get_bbox()
             display_list.DisplayList.render(self)
+
+    def get_top_indexes(self):
+        """ get the indexes of the self.top items in the series """
+        top_values = []
+        for series in self.y_values:
+            column = series.data.get_column(series.column)
+            for idx in range(column.size()):
+                top_values.append((column.get(idx).get_float_value(),idx))
+        top_values.sort(reverse=True)
+        top_indexes = []
+        for idx in range(self.top):
+            top_indexes.append(top_values[idx][1])
+        return top_indexes
+
+    def is_top(self):
+        """ are we justing just the self.top highest items """
+        return self.top > 0
 
 class GraphElement( display_list.DisplayList ):
     """ base of all of the graph children """
@@ -217,28 +235,50 @@ class GraphXAxis(GraphElement):
                     type = 'mixed'
 
             self.values = []
+            if self.parent.is_top():
+                top_indexes = self.parent.get_top_indexes()
+
             if type in [data_table.blank_type,data_table.string_type, 'mixed']:
-                self.range_min = 0
-                self.range_max = column.size()
-                ix = 0
-                for c in data_table.ColumnIterator(column):
-                    self.values.append((ix,str(c)))
-                    ix += 1
+                if self.parent.is_top():
+                    self.range_min = 0
+                    self.range_max = len(top_indexes)
+                    ii = 0
+                    for ix in top_indexes:
+                        c = column.get(ix)
+                        self.values.append((ii,str(c)))
+                        ii += 1
+                else:
+                    self.range_min = 0
+                    self.range_max = column.size()
+                    ix = 0
+                    for c in data_table.ColumnIterator(column):
+                        self.values.append((ix,str(c)))
+                        ix += 1
             else:
                 self.range_min = None
                 self.range_max = None
-                for c in data_table.ColumnIterator(column):
-                    value = c.get_float_value()
-                    if self.range_min == None or value < self.range_min:
-                        self.range_min = value
-                    if self.range_max == None or value > self.range_max:
-                        self.range_max = value
-                    self.values.append((value,str(c)))
+                if self.parent.is_top():
+                    for ix in top_indexes:
+                        c = column.get(ix)
+                        value = c.get_float_value()
+                        if self.range_min == None or value < self.range_min:
+                            self.range_min = value
+                        if self.range_max == None or value > self.range_max:
+                            self.range_max = value
+                        self.values.append((value,str(c)))
+                else:
+                    for c in data_table.ColumnIterator(column):
+                        value = c.get_float_value()
+                        if self.range_min == None or value < self.range_min:
+                            self.range_min = value
+                        if self.range_max == None or value > self.range_max:
+                            self.range_max = value
+                        self.values.append((value,str(c)))
 
-            extra_value = self.values[-1][0] + (self.values[-1][0] - self.values[-2][0])
-            self.values.append((extra_value," "))
-            if extra_value > self.range_max:
-                self.range_max = extra_value
+                    extra_value = self.values[-1][0] + (self.values[-1][0] - self.values[-2][0])
+                    self.values.append((extra_value," "))
+                    if extra_value > self.range_max:
+                        self.range_max = extra_value
 
             r_height,r_width = self.canvas.from_rowcol(1,1)
             width,height = self.get_size()
@@ -247,18 +287,42 @@ class GraphXAxis(GraphElement):
 
             x = ox
             y = oy
+            new_children.append(display_list.Rect(x,y,x+width,y+height,self.canvas.black,fill=True))
             points = [(x,y)]
             labels = []
             prev_scaled_x = None
             total_dx = 0
+            prev_label = None
             for v,label in self.values:
                 if label.endswith(".00"):
                     label=label[:-3]
+                force = False
+                if prev_label:
+                    prev_parts = prev_label.split(' ')
+                    cur_parts = label.split(' ')
+                    new_label = ''
+                    no_match = False
+                    idx = 0
+                    while idx < min(len(prev_parts),len(cur_parts)):
+                        if no_match or prev_parts[idx] != cur_parts[idx]:
+                            if idx == 0:
+                                force = True
+                            new_label += cur_parts[idx] + ' '
+                            no_match = True
+                        idx += 1
+                    while idx < len(cur_parts):
+                        new_label += cur_parts[idx] + ' '
+                        idx += 1
+                    prev_label = label
+                    label = new_label
+                else:
+                    prev_label = label
+
                 scaled_x = (v-self.range_min)*self.sx
                 if prev_scaled_x != None:
                     total_dx += (scaled_x - prev_scaled_x)
                 prev_scaled_x = scaled_x
-                if ox+scaled_x >= x:
+                if ox+scaled_x >= x or force:
                     x = ox+scaled_x
                     points.append((x,y))
                     points.append((x,y+1))
@@ -266,6 +330,8 @@ class GraphXAxis(GraphElement):
                     labels.append((x,y+1+r_height,label))
                     l_height,l_width = self.canvas.from_rowcol(1,len(label)+1)
                     x += l_width
+            if points[-1][0] < ox+width:
+                points.append((ox+width,y))
             self.dx = total_dx / len(self.values)
             new_children.append(display_list.PolyLine(points,self.canvas.green))
             for x,y,label in labels:
@@ -294,22 +360,36 @@ class GraphYAxis(GraphElement):
             y_values = self.parent.get_series()
             self.range_min = -1
             self.range_max = -1
-            for series in y_values:
-                column = series.data.get_column(series.column)
-                for c in data_table.ColumnIterator(column):
-                    value = c.get_float_value()
-                    if self.range_min < 0 or value < self.range_min:
-                        self.range_min = value
-                    if self.range_max < 0 or value > self.range_max:
-                        self.range_max = value
 
-            tick_size = max(1.0,(self.range_max-self.range_min))/10
+            if self.parent.is_top():
+                top_indexes = self.parent.get_top_indexes()
+                for series in y_values:
+                    column = series.data.get_column(series.column)
+                    for idx in top_indexes:
+                        c = column.get(idx)
+                        value = c.get_float_value()
+                        if self.range_min < 0 or value < self.range_min:
+                            self.range_min = value
+                        if self.range_max < 0 or value > self.range_max:
+                            self.range_max = value
+            else:
+                for series in y_values:
+                    column = series.data.get_column(series.column)
+                    for c in data_table.ColumnIterator(column):
+                        value = c.get_float_value()
+                        if self.range_min < 0 or value < self.range_min:
+                            self.range_min = value
+                        if self.range_max < 0 or value > self.range_max:
+                            self.range_max = value
+
+            tick_size = max(1.0,(self.range_max-self.range_min))/5
             if tick_size > 1:
                 tick_size = round(tick_size)
             self.range_max += tick_size
             r_height,r_width = self.canvas.from_rowcol(1,1)
             width,height = self.get_size()
             ox,oy = self.get_location()
+            new_children.append(display_list.Rect(ox,oy,ox+width,oy+height,self.canvas.black,fill=True))
             oy += height
             ox += (width-1)
             self.sy = height / max(1.0,(self.range_max-self.range_min))
@@ -326,10 +406,13 @@ class GraphYAxis(GraphElement):
                     l_height,l_width = self.canvas.from_rowcol(1,len(label)+1)
                     y = oy-scaled_y
                     points.append((x,y))
-                    points.append((x-1,y))
+                    points.append((x-2,y))
                     points.append((x,y))
                     labels.append((x-l_width,y,label))
                     y -= l_height
+
+            if points[-1][1] > oy-height:
+                points.append((x,oy-height))
             new_children.append(display_list.PolyLine(points,self.canvas.green))
             for x,y,label in labels:
                 new_children.append(display_list.Text(x,y,label,self.canvas.green))
@@ -348,7 +431,7 @@ class GraphArea(GraphElement):
             new_children = []
             x,y = self.get_location()
             width,height = self.get_size()
-            new_children.append(display_list.Rect(x,y,x+width,y+height,self.canvas.white))
+            new_children.append(display_list.Rect(x,y,x+width,y+height,self.canvas.black,fill=True))
             self.set_children(new_children)
         return GraphElement.get_bbox(self)
 
@@ -379,14 +462,21 @@ class GraphBars(GraphElement):
             series_x_offset = (n_series - (i_series+1)) * (x_dx / n_series)
             x += series_x_offset
 
+            if self.parent.is_top():
+                top_indexes = self.parent.get_top_indexes()
+
             column = self.series.data.get_column(self.series.column)
             idx = 0
             for c in data_table.ColumnIterator(column):
-                y_value = c.get_float_value()
-                x_value = x_values[idx][0]
-                scaled_x = (x_value-x_min)*x_scale
-                scaled_y = (y_value-y_min)*y_scale
-                new_children.append(display_list.Rect(x+scaled_x-(x_dx/4),y,min(x+scaled_x+(x_dx/4),x+width),y-scaled_y,self.series.color))
+                if not self.parent.is_top() or idx in top_indexes:
+                    y_value = c.get_float_value()
+                    if self.parent.is_top():
+                        x_value = x_values[top_indexes.index(idx)][0]
+                    else:
+                        x_value = x_values[idx][0]
+                    scaled_x = (x_value-x_min)*x_scale
+                    scaled_y = (y_value-y_min)*y_scale
+                    new_children.append(display_list.Rect(x+scaled_x-(x_dx/4),y,min(x+scaled_x+(x_dx/4),x+width),y-scaled_y,self.series.color))
                 idx += 1
             self.set_children(new_children)
 
@@ -442,13 +532,13 @@ class GraphLines(GraphElement):
 
 class BarGraph(Graph):
     """BarGraph that displays a data table as a bar graph"""
-    def __init__(self,data_table=None,x_values=None,y_values=None,parent=None,canvas=None):
+    def __init__(self,data_table=None,x_values=None,y_values=None,parent=None,canvas=None,top=0):
         """ constructor takes a data_table which contains values to be graphed,
         x_values is a column reference in the data table for the xaxis values,
         y_values is a list of column references to series of numerical data to be graphed,
         parent is a reference to an enclosing display list,
         canvas is a reference to a canvas to render on """
-        Graph.__init__(self,data_table,x_values,y_values,parent,canvas)
+        Graph.__init__(self,data_table,x_values,y_values,parent,canvas,top)
         self.title = None
         self.legend = None
         self.x_axis_title = None
@@ -585,7 +675,7 @@ class LineGraph(Graph):
             self.y_axis_title.set_size((width*0.05,height*0.35))
             self.y_axis.set_location((x+(width*0.05),y))
             self.y_axis.set_size((width*0.05,height*0.70))
-            self.x_axis.set_location((x+(width*0.10),y+height*0.70))
+            self.x_axis.set_location((x+(width*0.10),y+(height*0.70)+1.0))
             self.x_axis.set_size((width*0.80,height*0.07))
             ya_x,ya_y = self.y_axis.get_location()
             ya_w,ya_h = self.y_axis.get_size()

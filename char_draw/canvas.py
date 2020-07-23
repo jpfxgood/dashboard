@@ -69,6 +69,7 @@ class Canvas:
 
     def init_win(self):
         """ initializes the window and sets up all of the defaults """
+        curses.init_pair(5,curses.COLOR_BLACK,curses.COLOR_BLACK)
         curses.init_pair(1,curses.COLOR_GREEN,curses.COLOR_BLACK)
         curses.init_pair(2,curses.COLOR_RED,curses.COLOR_BLACK)
         curses.init_pair(3,curses.COLOR_CYAN,curses.COLOR_BLACK)
@@ -78,7 +79,7 @@ class Canvas:
         self.red = curses.color_pair(2)
         self.cyan = curses.color_pair(3)
         self.white = curses.color_pair(4)
-        self.black = curses.color_pair(0)
+        self.black = curses.color_pair(5)
 
         if curses.can_change_color():
             self.color_min = 8

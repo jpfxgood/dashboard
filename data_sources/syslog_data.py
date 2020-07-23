@@ -146,6 +146,7 @@ class SyslogDataTable( DataTable ):
                 time_column.put(idx,Cell(date_type,bucket_time,format_date))
                 bucket_time = bucket_time + timedelta( hours = self.bucket_hours )
                 idx += 1
+            time_column.put(idx,Cell(date_type,current_time,format_date))
 
             def bucket_idx( timestamp ):
                 if timestamp < start_time or timestamp > current_time:
@@ -204,13 +205,19 @@ class SyslogDataTable( DataTable ):
                                 services_column.put(s_idx,Cell(string_type,log_process,format_string))
                             put_or_sum(messages_column,b_idx,1)
                             put_or_sum(messages_service_column,s_idx,1)
-                            if re.search("[Ee]rror|ERROR",log_message):
-                                put_or_sum(errors_column,b_idx,1)
-                                put_or_sum(errors_service_column,s_idx,1)
-                            elif re.search("[Ww]arning|WARNING",log_message):
-                                put_or_sum(warnings_column,b_idx,1)
-                                put_or_sum(warnings_service_column,s_idx,1)
-
+                            is_error = re.search("[Ee]rror|ERROR",log_message)
+                            is_warning = re.search("[Ww]arning|WARNING",log_message)
+                            error_count = 0
+                            warning_count = 0
+                            if is_error and not is_warning:
+                                error_count = 1
+                            elif is_warning:
+                                warning_count = 1
+                            put_or_sum(errors_column,b_idx,error_count)
+                            put_or_sum(errors_service_column,s_idx,error_count)
+                            put_or_sum(warnings_column,b_idx,warning_count)
+                            put_or_sum(warnings_service_column,s_idx,warning_count)
+                            
             columns = [time_column,errors_column,warnings_column,messages_column,services_column,
                         errors_service_column,warnings_service_column,messages_service_column]
 
