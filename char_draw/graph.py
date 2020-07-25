@@ -34,18 +34,24 @@ class Graph(display_list.DisplayList):
         parent is a reference to an enclosing display list,
         canvas is a reference to a canvas to render on """
         display_list.DisplayList.__init__(self,parent,None,canvas)
-        self.colors = [self.canvas.cyan, self.canvas.green, self.canvas.red, self.canvas.white]
+        self.colors = []
         self.data = data_table
-        self.x_values = GraphSeries(self.data, x_values, self.canvas.green )
-        self.y_values = [GraphSeries(self.data, sy,self.colors[y_values.index(sy)%len(self.colors)]) for sy in y_values]
+        self.x_values_name = x_values
+        self.y_values_names = y_values
+        self.x_values = None
+        self.y_values = []        
         self.top = top
         self.initialized = False
 
     def init(self):
         """ set internal state to default state """
         if not self.initialized:
-            self.data.listen(self.data_changed)
-            self.initialized = True
+            if self.canvas:
+                self.colors = [self.canvas.cyan, self.canvas.green, self.canvas.red, self.canvas.white]
+                self.x_values = GraphSeries(self.data, self.x_values_name, self.canvas.green )
+                self.y_values = [GraphSeries(self.data, sy,self.colors[self.y_values_names.index(sy)%len(self.colors)]) for sy in self.y_values_names]
+                self.data.listen(self.data_changed)
+                self.initialized = True
 
     def get_series( self ):
         """ return list of GraphSeries objects that describe the data series to be graphed """

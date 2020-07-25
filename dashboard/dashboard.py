@@ -11,38 +11,346 @@ from char_draw import canvas
 from char_draw import graph
 from data_sources import data_table,syslog_data
 
+class Panel:
+    def __init__(self, y=0,x=0,height=0,width=0,graphs=[],parent=None):
+        """ A panel is a container for a collection of graphs they fit within it's bounds """
+        self.x = x
+        self.y = y
+        self.height = height
+        self.width = width
+        self.graphs = graphs
+        self.graph_layout = []
+        self.parent = None
+        self.pad = None
+        if parent:
+            self.set_parent( parent )
+
+    def get_pad( self ):
+        """ return this panel's pad just a passthru to the parent's pad """
+        return self.pad
+
+    def set_parent( self, parent ):
+        """ set this panel to have this parent """
+        self.pad = parent.get_pad()
+        self.parent = parent
+        self.layout_graphs()
+
+    def add_graph( self, graph ):
+        """ add a graph to this panel """
+        self.graphs.append( graph )
+        self.layout_graphs()
+
+    def layout_graphs( self ):
+        """ compute a rectangular layout of graphs within the panel and assign them those locations """
+        ngraphs = len(self.graphs)
+        best_fit = None
+        min_dxy = None
+        for cols in range(1,ngraphs+1):
+            for rows in range(1,ngraphs+1):
+                if rows*cols >= ngraphs:
+                    dx = self.width//cols
+                    dy = self.height//rows
+                    dxy = max(dx,dy)-min(dx,dy)
+                    if min_dxy == None or dxy < min_dxy:
+                        min_dxy = dxy
+                        best_fit = (rows,cols,dy,dx)
+        rows,cols,dy,dx = best_fit
+        x = 0
+        y = 0
+        self.graph_layout = []
+        for g in self.graphs:
+            self.graph_layout.append((y,x,dy,dx))
+            pad = self.get_pad()
+            if pad:
+                g_pad = pad.subpad(dy,dx,y,x)
+                g_canvas = canvas.Canvas(g_pad)
+                g.set_canvas(g_canvas)
+            x += dx
+            if x >= self.width:
+                x = 0
+                y += dy
+
+    def get_graph_layout( self ):
+        """ return a list of tuples (graph,y,x,height,width) for the current layout """
+        if not self.graph_layout:
+            self.layout_graphs()
+        ret_layout = []
+        idx = 0
+        for y,x,dy,dx in self.graph_layout:
+            ret_layout.append((self.graphs[idx],y,x,dy,dx))
+            idx += 1
+        return ret_layout
+
+    def redraw( self ):
+        """ redraw the panel and all it's graphs """
+        if not self.graph_layout:
+            self.layout_graphs()
+        if self.get_pad():
+            for g in self.graphs:
+                g.render()
+
+class Page:
+    def __init__(self, window, height=-1, width=-1 ):
+        """ one page of a dashboard has the parent window and it's height and width """
+        self.window = window
+
+        if height <= 0 or width <= 0:
+            height,width = window.getmaxyx()
+
+        self.height = height
+        self.width = width
+        self.pad = curses.newpad(height,width)
+        self.position = (0,0)
+        self.panels = []
+        self.current_panel = 0
+
+    def get_pad( self ):
+        """ return  your pad """
+        return self.pad
+
+    def add_panel( self, panel ):
+        """ add a panel into the page """
+        self.panels.append(panel)
+        panel.set_parent(self)
+
+    def move( self, row, col ):
+        """ move the current scroll position to a new location """
+        if row < height and row >= 0 and col < width and col >= 0:
+            self.position = (row,col)
+        return self.position
+
+    def get_position( self ):
+        """ get the current position """
+        return self.position
+
+    def get_size( self ):
+        """ return the height and width of this page """
+        return (self.height,self.width)
+
+    def get_current_panel( self ):
+        """ return the current panel """
+        panel = None
+        if self.panels:
+            panel = self.panels[self.current_panel]
+        return panel
+
+    def next_panel( self ):
+        """ move to the next panel and return that panel or None if we're at the end"""
+        panel = None
+        if self.panels:
+            if self.current_panel+1 < len(self.panels):
+                self.current_panel = self.current_panel + 1
+                panel = self.panels[self.current_panel]
+        return panel
+
+    def prev_panel( self ):
+        """ move to the previous panel return that panel or None if we're at the start """
+        panel = None
+        if self.panels:
+            if self.current_panel > 0:
+                self.current_panel = self.current_panel -1
+                panel = self.panels[self.current_panel]
+        return panel
+
+    def first_panel( self ):
+        """ move to the first panel and return that panel """
+        panel = None
+        if self.panels:
+            self.current_panel = 0
+            panel = self.panels[self.current_panel]
+        return panel
+
+    def last_panel( self ):
+        """ move to the last panel and return that panel """
+        panel = None
+        if self.panels:
+            self.current_panel = len(self.panels)-1
+            panel = self.panels[self.current_panel]
+        return panel
+
+    def redraw( self ):
+        """ redraw all of the panels """
+        self.pad.clear()
+        for p in self.panels:
+            p.redraw()
+
+    def refresh( self ):
+        """ refresh this page showing the current position """
+        w_ymax,w_xmax = self.window.getmaxyx()
+        if w_ymax >= self.height and w_xmax >= self.width:
+            self.pad.refresh(0,0,0,0,self.height,self.width)
+        else:
+           p_y,p_x = self.position
+           p_y = max(0,p_y-(w_ymax//2))
+           p_x = max(0,p_x-(w_xmax//2))
+           h = min(w_ymax,self.height - p_y)
+           w = min(w_xmax,self.width - p_x)
+           self.pad.refresh(p_y,p_x,0,0,h,w)
+
+
+class Dashboard:
+    def __init__(self,window,pages = []):
+        """ Dashboard driver that holds an array of pages """
+        self.window = window
+        self.pages = pages
+        self.current_page = 0
+        self.current_panel = None
+        self.current_graph = 0
+
+    def add_page(self, page ):
+        """ add a page to this dashboard """
+        self.pages.append(page)
+
+    def get_window( self ):
+        """ Get this dashboard's window """
+        return self.window
+
+    def get_current_page( self ):
+        """ Get the current page """
+        page = None
+        if self.pages:
+            page = self.pages[self.current_page]
+        return page
+
+    def next_page( self ):
+        """ Goto the next page and return it or return None if at the end """
+        page = None
+        if self.pages:
+            if self.current_page+1 < len(self.pages):
+                self.current_page += 1
+                page = self.pages[self.current_page]
+                self.current_panel = page.first_panel()
+                self.current_graph = 0
+        return page
+
+    def prev_page( self ):
+        """ goto the previous page and return it or return None if at the beginning """
+        page = None
+        if self.pages:
+            if self.current_page > 0:
+                self.current_page -= 1
+                page = self.pages[self.current_page]
+                self.current_panel = page.first_panel()
+                self.current_graph = 0
+        return page
+
+    def first_page( self ):
+        """ goto the first page and return it or return None if no pages """
+        page = None
+        if self.pages:
+            self.current_page = 0
+            page = self.pages[self.current_page]
+            self.current_panel = page.first_panel()
+            self.current_graph = 0
+        return page
+
+    def last_page( self ):
+        """ goto the last page and return it or return None if no pages """
+        page = None
+        if self.pages:
+            self.current_page = len(self.pages)-1
+            page = self.pages[self.current_page]
+            self.current_panel = page.first_panel()
+            self.current_graph = 0
+        return page
+
+    def get_current_panel( self ):
+        """ get the current_panel in the current_page or None if there are none """
+        panel = None
+        page = self.get_current_page()
+        if page:
+            panel = page.get_current_panel()
+        return panel
+
+    def get_current_graph( self ):
+        """ get the current graph tuple in the current_page in the current panel, None if there is none """
+        graph = None
+        panel = self.get_current_panel()
+        if panel:
+            graphs = panel.get_graph_layout()
+            if graphs:
+                if self.current_graph >= len(graphs):
+                    self.current_graph = 0
+                graph = graphs[self.current_graph]
+        return graph
+
+    def next_graph( self ):
+        """ step forward to the next graph,panel,page return the graph tuple for the current graph, return None at the end """
+        graph = None
+        panel = self.get_current_panel()
+        if panel:
+            graphs = panel.get_graph_layout()
+            while panel and graphs and not graph:
+                if self.current_graph+1 < len(graphs):
+                    self.current_graph += 1
+                    graph = graphs[self.current_graph]
+                else:
+                    page = self.get_current_page()
+                    panel = page.next_panel()
+                    self.current_graph = 0
+                    if not panel:
+                        page = self.next_page()
+                        if page:
+                            graph = self.get_current_graph()
+                        else:
+                            return None
+                    else:
+                        graphs = panel.get_graph_layout()
+                        graph = graphs[self.current_graph]
+        return graph
+
+
+    def main( self ):
+        """ main input and redraw loop for the dashboard """
+        self.window.nodelay(1)
+        self.window.notimeout(0)
+        self.window.timeout(0)
+        self.window.keypad(1)
+        curses.curs_set(0)
+        curses.raw()
+        curses.mousemask( curses.ALL_MOUSE_EVENTS | curses.REPORT_MOUSE_POSITION )
+
+        while True:
+            ch = self.window.getch()
+            if ch > -1:
+                if ch == 27: # esc key
+                    return 0
+                elif ch == 9: # tab key
+                    self.next_graph()
+                elif ch == curses.KEY_NPAGE:
+                    self.next_page()
+                elif ch == curses.KEY_PPAGE:
+                    self.prev_page()
+                elif ch == curses.KEY_HOME:
+                    self.first_page()
+                elif ch == curses.KEY_END:
+                    self.last_page()
+            page = self.get_current_page()
+            if page:
+                page.redraw()
+                page.refresh()
 
 def main(stdscr):
     """ test driver for the dashboard """
 
-    max_y,max_x = stdscr.getmaxyx()
-    wx = max_x//2
-    wy = max_y//2
-    sw1 = stdscr.subwin(wy,wx,0,0)
-    sw2 = stdscr.subwin(wy,wx,0,wx)
-    sw3 = stdscr.subwin(wy,wx,wy,0)
-    sw4 = stdscr.subwin(wy,wx,wy,wx)
-    c1 = canvas.Canvas(sw1)
-    c2 = canvas.Canvas(sw2)
-    c3 = canvas.Canvas(sw3)
-    c4 = canvas.Canvas(sw4)
     sd = syslog_data.SyslogDataTable(refresh_minutes=1)
     sd.start_refresh()
-    bc1 = graph.LineGraph(sd,"Time Stamps",["Errors by Time"],None,c1)
-    bc2 = graph.LineGraph(sd,"Time Stamps",["Messages by Time"],None,c2)
-    bc3 = graph.LineGraph(sd,"Time Stamps",["Warnings by Time"],None,c3)
-    bc4 = graph.BarGraph(sd,"Services",["Messages by Service"],None,c4,5)
-
-    while True:
-        if bc1.is_modified() or bc2.is_modified() or bc3.is_modified() or bc4.is_modified():
-            bc1.render()
-            bc2.render()
-            bc3.render()
-            bc4.render()
-            c1.refresh()
-            c2.refresh()
-            c3.refresh()
-            c4.refresh()
+    d = Dashboard(stdscr)
+    p = Page(stdscr)
+    height, width = p.get_size()
+    pp = Panel(0,0,height,width)
+    pp.add_graph(graph.LineGraph(sd,"Time Stamps",["Errors by Time"],None,None))
+    pp.add_graph(graph.LineGraph(sd,"Time Stamps",["Messages by Time"],None,None))
+    p.add_panel(pp)
+    d.add_page(p)
+    p = Page(stdscr)
+    pp = Panel(0,0,height,width)
+    pp.add_graph(graph.LineGraph(sd,"Time Stamps",["Warnings by Time"],None,None))
+    pp.add_graph(graph.BarGraph(sd,"Services",["Messages by Service"],None,None,5))
+    p.add_panel(pp)
+    d.add_page(p)
+    d.main()
+    sd.stop_refresh()
 
     return 0
 

@@ -60,6 +60,7 @@ class DisplayList:
     def set_parent(self,parent):
         """ set the parent of this object """
         self.parent = parent
+        self.set_canvas(parent.get_canvas())
 
     def get_parent(self):
         """ get the parent of this object """
@@ -73,6 +74,7 @@ class DisplayList:
         """ set the canvas and the scaling transformation """
         self.xform = [1.0,1.0]
         self.canvas = canvas
+        self.modified = True
 
     def get_bbox(self):
         """ computes the bounding box of the display list object """
