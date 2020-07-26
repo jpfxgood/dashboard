@@ -119,9 +119,12 @@ class SyslogDataTable( DataTable ):
 
     def perform_refresh( self ):
         """ Thread worker that sleeps and refreshes the data on a schedule """
+        start_time = time.time()
         while not self.refresh_thread_stop:
-            self.refresh()
-            time.sleep(self.refresh_minutes*60.0)
+            if time.time() - start_time >= self.refresh_minutes*60.0:
+                self.refresh()
+                start_time = time.time()
+            time.sleep(0)
 
     def stop_refresh( self ):
         """ Stop the background refresh thread """
@@ -217,7 +220,7 @@ class SyslogDataTable( DataTable ):
                             put_or_sum(errors_service_column,s_idx,error_count)
                             put_or_sum(warnings_column,b_idx,warning_count)
                             put_or_sum(warnings_service_column,s_idx,warning_count)
-                            
+
             columns = [time_column,errors_column,warnings_column,messages_column,services_column,
                         errors_service_column,warnings_service_column,messages_service_column]
 

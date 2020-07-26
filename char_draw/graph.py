@@ -39,7 +39,7 @@ class Graph(display_list.DisplayList):
         self.x_values_name = x_values
         self.y_values_names = y_values
         self.x_values = None
-        self.y_values = []        
+        self.y_values = []
         self.top = top
         self.initialized = False
 
@@ -51,7 +51,6 @@ class Graph(display_list.DisplayList):
                 self.x_values = GraphSeries(self.data, self.x_values_name, self.canvas.green )
                 self.y_values = [GraphSeries(self.data, sy,self.colors[self.y_values_names.index(sy)%len(self.colors)]) for sy in self.y_values_names]
                 self.data.listen(self.data_changed)
-                self.initialized = True
 
     def get_series( self ):
         """ return list of GraphSeries objects that describe the data series to be graphed """
@@ -559,6 +558,7 @@ class BarGraph(Graph):
     def init(self):
         """ create the children for all of the graph components """
         if not self.initialized:
+            Graph.init(self)
             self.title = GraphTitle(self,self.get_data().get_name())
             self.legend = GraphLegend(self,[(s.column,s.color) for s in self.get_series()])
             self.x_axis_title = GraphXAxisTitle(self,"X Axis")
@@ -576,7 +576,7 @@ class BarGraph(Graph):
                 self.add_child(cs)
             self.add_child(self.x_axis)
             self.add_child(self.y_axis)
-            Graph.init(self)
+            self.initialized = True
 
     def get_bbox(self):
         """ arrange the children of the graph based on size of graph """
@@ -641,6 +641,7 @@ class LineGraph(Graph):
     def init(self):
         """ create the children for all of the graph components """
         if not self.initialized:
+            Graph.init(self)
             self.title = GraphTitle(self,self.get_data().get_name())
             self.legend = GraphLegend(self,[(s.column,s.color) for s in self.get_series()])
             self.x_axis_title = GraphXAxisTitle(self,"X Axis")
@@ -658,7 +659,7 @@ class LineGraph(Graph):
                 self.add_child(cs)
             self.add_child(self.x_axis)
             self.add_child(self.y_axis)
-            Graph.init(self)
+            self.initialized = True
 
     def get_bbox(self):
         """ arrange the children of the graph based on size of graph """
@@ -773,6 +774,7 @@ class PieGraph(Graph):
     def init(self):
         """ create the children for all of the graph components """
         if not self.initialized:
+            Graph.init(self)
             self.title = GraphTitle(self,self.get_data().get_name())
             self.chart_area = GraphArea(self)
             self.chart_series = [GraphSlices(self,series) for series in self.get_series()]
@@ -780,7 +782,7 @@ class PieGraph(Graph):
             self.add_child(self.chart_area)
             for cs in self.chart_series:
                 self.add_child(cs)
-            Graph.init(self)
+            self.initialized = True
 
     def get_bbox(self):
         """ arrange the children of the graph based on size of graph """

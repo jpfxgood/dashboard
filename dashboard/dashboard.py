@@ -12,13 +12,13 @@ from char_draw import graph
 from data_sources import data_table,syslog_data
 
 class Panel:
-    def __init__(self, y=0,x=0,height=0,width=0,graphs=[],parent=None):
+    def __init__(self, y=0,x=0,height=0,width=0,graphs=None,parent=None):
         """ A panel is a container for a collection of graphs they fit within it's bounds """
         self.x = x
         self.y = y
         self.height = height
         self.width = width
-        self.graphs = graphs
+        self.graphs = graphs if graphs else []
         self.graph_layout = []
         self.parent = None
         self.pad = None
@@ -189,10 +189,10 @@ class Page:
 
 
 class Dashboard:
-    def __init__(self,window,pages = []):
+    def __init__(self,window,pages = None):
         """ Dashboard driver that holds an array of pages """
         self.window = window
-        self.pages = pages
+        self.pages = pages if pages else []
         self.current_page = 0
         self.current_panel = None
         self.current_graph = 0
