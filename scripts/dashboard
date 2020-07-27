@@ -1,0 +1,142 @@
+#!/usr/bin/env python3
+# code=UTF-8
+# Copyright 2020 James P Goodwin dashboard@jlgoodwin.com
+import locale
+locale.setlocale(locale.LC_ALL,"")
+import curses
+import curses.ascii
+import sys
+import os
+import re
+import traceback
+import signal
+import json
+from optparse import OptionParser
+from dashboard.version import __version__
+from dashboard import *
+from char_draw import *
+
+# A config file is of the form:
+# {
+#   "tables" : list of table objects describing the data sources to be graphed in the dashboard below
+#       [
+#           {
+#           "name" : name to refer to this table below,
+#           "type" : one of "SyslogDataTable" ( more to come),
+#           "refresh_minutes" : number of minutes to automatically refresh optional, 0 if only manual, default is 5 minutes
+#           },
+#       ],
+#   "dashboard": definition of the dashboard to present
+#       {
+#       "auto_tour_delay" : integer seconds or 0 for no tour,
+#       "pages" : list of page objects defining pages of dashboard
+#           [
+#               {
+#                   "height" : height in characters, optional, -1 if not provided indicating to fill initial window,
+#                   "width" : width in characters, optional, -1 if not provided indicating to fill initial window,
+#                   "panels" : list of panel objects defining how this page is divided up
+#                       [
+#                           {
+#                           "y" : vertical offset in page in characters optional, -1 if not provided saying to have the container lay out the panel,
+#                           "x" : horizontal offset in page in characters optional, -1 if not provided saying to have the container lay out the panel,
+#                           "height" : height in characters optional, -1 if not provided saying to have the container lay out the panel,
+#                           "width" : width in characters optional, -1 if not provided saying to have the container lay out the panel,
+#                           "graphs" : list of graph objects to be laid out in this panel
+#                               [
+#                                   {
+#                                   "type" : one of "LineGraph","BarGraph","PieGraph",
+#                                   "table" : name of table from tables list above,
+#                                   "xseries" : name of the column in the table that represents the x axis values or pie labels for the graph,
+#                                   "yseries" : [ list of column names of series to graph against the xseries ],
+#                                   "top" : for graphs that support top-n selection it defines how many top items from the columns to graph, default is 0 which graphs all values in column,
+#                                   },
+#                               ]
+#                           },
+#                       ]
+#               },
+#           ]
+#       }
+# }
+
+def load_config( stdscr, options ):
+    """ load the dashboard configuration from the options.config path and factory all the objects, returns a context with the initialized objects  """
+    cf = json.load(open(options.config,"r"))
+    context = {}          
+    context["tables"] = []
+    for t in cf["tables"]:
+        if t["type"] == "SyslogDataTable":
+            refresh_minutes = None
+            if "refresh_minutes" in t:
+                refresh_minutes = t["refresh_minutes"]
+            if refresh_minutes != None:
+                dt = SyslogDataTable(refresh_minutes=refresh_minutes)
+            else:
+                dt = SyslogDataTable()
+            dt.start_refresh()
+            context["tables"].append((t["name"],dt))
+
+    def lookup_table( name ):
+        for t in cf["tables"]:
+            if t[0] == name:
+                return t[1]
+                
+    df = cf["dashboard"]
+    auto_tour_delay = df.get("auto_tour_delay",None)
+    if auto_tour_delay != None:
+        dashboard = Dashboard(stdscr,auto_tour_delay = auto_tour_delay)
+    else:
+        dashboard = Dashboard(stdscr)
+        
+    context["dashboard"] = dashboard
+    for p in df["pages"]:
+        height = p.get("height",-1)
+        width  = p.get("width",-1)
+        page = Page(stdscr,height=height,width=width)
+        for pp in p["panels"]:
+            x = pp.get("x",-1)
+            y = pp.get("y",-1)
+            height = pp.get("height",-1)
+            width = pp.get("width",-1)
+            panel = Panel(x = x, y = y, height = height, width = width )
+            for g in pp["graphs"]:
+                type = g["type"]
+                graph = None
+                if type == "LineGraph":
+                    graph = LineGraph(lookup_table(g["table"]),g["xseries"],g["yseries"],None,None)
+                elif type == "BarGraph":                                                          
+                    top = g.get("top",0)
+                    graph = BarGraph(lookup_table(g["table"]),g["xseries"],g["yseries"],None,None,top)
+                elif type == "PieGraph":
+                    graph = PieGraph(lookup_table(g["table"]),g["xseries"],g["yseries"],None,None)
+                panel.add_graph(graph)
+            page.add_panel(panel)
+        dashboard.add_page(page)
+        
+    return context
+
+def main(stdscr, options, args):
+    """ The main driver for the dashboard utility """
+
+    try:
+        c = load_config(stdscr,options)
+        ret = c["dashboard"].main()
+        for d in c["tables"]:
+            d[1].stop_refresh()
+    except:
+        tb = traceback.format_exc()
+        print(tb, file=sys.stderr)
+        return 1
+
+if __name__ == '__main__':
+    parser = OptionParser(usage="usage: %prog [options]", description="A dashboard to display pages of graphs of data from multiple sources and refresh them")
+    parser.add_option("-c","--config", dest="config", default="~/.dashboard/config", help="Path to dashboard config file, defaults to ~/.dashboard/config")
+    parser.add_option("-v","--verbose", dest="verbose", action="store_true", default=False, help="Log all activity to console")
+    parser.add_option("-V","--version", dest="version", action="store_true", default=False, help="Print the version of the script and exit")
+
+    (options,args) = parser.parse_args()
+
+    if options.version:
+        print("dashboard version %s"%__version__)
+        return 0
+
+    exit(curses.wrapper(main,options,args))

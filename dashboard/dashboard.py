@@ -13,7 +13,7 @@ from char_draw import graph
 from data_sources import data_table,syslog_data
 
 class Panel:
-    def __init__(self, y=0,x=0,height=0,width=0,graphs=None,parent=None):
+    def __init__(self, y=-1,x=-1,height=-1,width=-1,graphs=None,parent=None):
         """ A panel is a container for a collection of graphs they fit within it's bounds """
         self.x = x
         self.y = y
@@ -25,6 +25,18 @@ class Panel:
         self.pad = None
         if parent:
             self.set_parent( parent )
+
+    def set_layout( self, y, x, height, width ):
+        """ set the current layout of this panel """
+        self.y = y
+        self.x = x
+        self.height = height
+        self.width = width
+        self.layout_graphs()
+
+    def get_layout( self ):
+        """ return the panel layout """
+        return (self.y,self.x,self.height,self.width)
 
     def get_pad( self ):
         """ return this panel's pad just a passthru to the parent's pad """
@@ -43,33 +55,35 @@ class Panel:
 
     def layout_graphs( self ):
         """ compute a rectangular layout of graphs within the panel and assign them those locations """
-        ngraphs = len(self.graphs)
-        best_fit = None
-        min_dxy = None
-        for cols in range(1,ngraphs+1):
-            for rows in range(1,ngraphs+1):
-                if rows*cols >= ngraphs:
-                    dx = self.width//cols
-                    dy = self.height//rows
-                    dxy = max(dx,dy)-min(dx,dy)
-                    if min_dxy == None or dxy < min_dxy:
-                        min_dxy = dxy
-                        best_fit = (rows,cols,dy,dx)
-        rows,cols,dy,dx = best_fit
-        x = 0
-        y = 0
         self.graph_layout = []
-        for g in self.graphs:
-            self.graph_layout.append((y,x,dy,dx))
-            pad = self.get_pad()
-            if pad:
-                g_pad = pad.subpad(dy,dx,y,x)
-                g_canvas = canvas.Canvas(g_pad)
-                g.set_canvas(g_canvas)
-            x += dx
-            if x >= self.width:
-                x = 0
-                y += dy
+        if self.x >= 0: # if the panel has been sized
+            ngraphs = len(self.graphs)
+            best_fit = None
+            min_dxy = None
+            for cols in range(1,ngraphs+1):
+                for rows in range(1,ngraphs+1):
+                    if rows*cols >= ngraphs:
+                        dx = self.width//cols
+                        dy = self.height//rows
+                        dxy = max(dx,dy)-min(dx,dy)
+                        if min_dxy == None or dxy < min_dxy:
+                            min_dxy = dxy
+                            best_fit = (rows,cols,dy,dx)
+            rows,cols,dy,dx = best_fit
+            x = 0
+            y = 0
+            for g in self.graphs:
+                self.graph_layout.append((y,x,dy,dx))
+                pad = self.get_pad()
+                if pad:
+                    g_pad = pad.subpad(dy,dx,y,x)
+                    g_canvas = canvas.Canvas(g_pad)
+                    g.set_canvas(g_canvas)
+                x += dx
+                if x >= self.width:
+                    x = 0
+                    y += dy
+        return self.graph_layout
 
     def get_graph_layout( self ):
         """ return a list of tuples (graph,y,x,height,width) for the current layout """
@@ -104,6 +118,7 @@ class Page:
         self.pad = curses.newpad(height,width)
         self.position = (0,0)
         self.panels = []
+        self.panel_layout = []
         self.current_panel = 0
 
     def get_pad( self ):
@@ -114,6 +129,7 @@ class Page:
         """ add a panel into the page """
         self.panels.append(panel)
         panel.set_parent(self)
+        self.layout_panels()
 
     def move( self, row, col ):
         """ move the current scroll position to a new location """
@@ -172,8 +188,57 @@ class Page:
 
     def redraw( self ):
         """ redraw all of the panels """
+        if not self.get_panel_layout():
+            self.layout_panels()
+
         for p in self.panels:
             p.redraw()
+
+    def layout_panels( self ):
+        """ compute a rectangular layout of panels within the page and assign them those locations """
+        self.panel_layout = []
+
+        is_dynamic = False
+        for g in self.panels:
+            y,x,dy,dx = g.get_layout()
+            if x < 0:
+                is_dynamic = True
+
+        if is_dynamic:
+            npanels = len(self.panels)
+            best_fit = None
+            min_dxy = None
+            for cols in range(1,npanels+1):
+                for rows in range(1,npanels+1):
+                    if rows*cols >= npanels:
+                        dx = self.width//cols
+                        dy = self.height//rows
+                        dxy = max(dx,dy)-min(dx,dy)
+                        if min_dxy == None or dxy < min_dxy:
+                            min_dxy = dxy
+                            best_fit = (rows,cols,dy,dx)
+
+            rows,cols,dy,dx = best_fit
+            x = 0
+            y = 0
+
+            for g in self.panels:
+                self.panel_layout.append((y,x,dy,dx))
+                g.set_layout(y,x,dy,dx)
+                x += dx
+                if x >= self.width:
+                    x = 0
+                    y += dy
+        else:
+            for g in self.panels:
+                y,x,dy,dx = g.get_layout()
+                self.panel_layout.append((g,y,x,dy,dx))
+
+        return self.panel_layout
+
+    def get_panel_layout( self ):
+        """ return the layout for the panels, tuples are panel,y,x,height,width """
+        return self.panel_layout
 
     def refresh( self ):
         """ refresh this page showing the current position """
@@ -197,8 +262,6 @@ class Page:
                 except:
                     pass
                 h += 1
-
-
 
 class Dashboard:
     def __init__(self,window,pages = None, auto_tour_delay = 0):
