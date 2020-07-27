@@ -7,6 +7,7 @@ import curses.ascii
 import sys
 import os
 import math
+import time
 from char_draw import canvas
 from char_draw import graph
 from data_sources import data_table,syslog_data
@@ -77,7 +78,7 @@ class Panel:
         ret_layout = []
         idx = 0
         for y,x,dy,dx in self.graph_layout:
-            ret_layout.append((self.graphs[idx],y,x,dy,dx))
+            ret_layout.append((self.graphs[idx],self.y+y,self.x+x,dy,dx))
             idx += 1
         return ret_layout
 
@@ -87,7 +88,8 @@ class Panel:
             self.layout_graphs()
         if self.get_pad():
             for g in self.graphs:
-                g.render()
+                if g.is_modified():
+                    g.render()
 
 class Page:
     def __init__(self, window, height=-1, width=-1 ):
@@ -115,7 +117,7 @@ class Page:
 
     def move( self, row, col ):
         """ move the current scroll position to a new location """
-        if row < height and row >= 0 and col < width and col >= 0:
+        if row < self.height and row >= 0 and col < self.width and col >= 0:
             self.position = (row,col)
         return self.position
 
@@ -170,7 +172,6 @@ class Page:
 
     def redraw( self ):
         """ redraw all of the panels """
-        self.pad.clear()
         for p in self.panels:
             p.redraw()
 
@@ -181,21 +182,21 @@ class Page:
             self.pad.refresh(0,0,0,0,self.height,self.width)
         else:
            p_y,p_x = self.position
-           p_y = max(0,p_y-(w_ymax//2))
-           p_x = max(0,p_x-(w_xmax//2))
-           h = min(w_ymax,self.height - p_y)
-           w = min(w_xmax,self.width - p_x)
+           h = min(w_ymax,self.height - p_y)-1
+           w = min(w_xmax,self.width - p_x)-1
            self.pad.refresh(p_y,p_x,0,0,h,w)
 
 
 class Dashboard:
-    def __init__(self,window,pages = None):
-        """ Dashboard driver that holds an array of pages """
+    def __init__(self,window,pages = None, auto_tour_delay = 0):
+        """ Dashboard driver that holds an array of pages, auto_tour_delay > 0 will tab around all of the graphs with this delay in seconds between each """
         self.window = window
         self.pages = pages if pages else []
         self.current_page = 0
         self.current_panel = None
         self.current_graph = 0
+        self.current_graph_pos = None
+        self.auto_tour_delay = auto_tour_delay
 
     def add_page(self, page ):
         """ add a page to this dashboard """
@@ -212,6 +213,16 @@ class Dashboard:
             page = self.pages[self.current_page]
         return page
 
+
+    def reset_position( self ):
+        """ Reset the tour position """
+        page = self.get_current_page()
+        if page:
+            self.current_panel = page.first_panel()
+            self.current_graph = 0
+            page.move(0,0)
+            self.current_graph_pos = None
+
     def next_page( self ):
         """ Goto the next page and return it or return None if at the end """
         page = None
@@ -219,8 +230,7 @@ class Dashboard:
             if self.current_page+1 < len(self.pages):
                 self.current_page += 1
                 page = self.pages[self.current_page]
-                self.current_panel = page.first_panel()
-                self.current_graph = 0
+                self.reset_position()
         return page
 
     def prev_page( self ):
@@ -230,8 +240,7 @@ class Dashboard:
             if self.current_page > 0:
                 self.current_page -= 1
                 page = self.pages[self.current_page]
-                self.current_panel = page.first_panel()
-                self.current_graph = 0
+                self.reset_position()
         return page
 
     def first_page( self ):
@@ -240,8 +249,7 @@ class Dashboard:
         if self.pages:
             self.current_page = 0
             page = self.pages[self.current_page]
-            self.current_panel = page.first_panel()
-            self.current_graph = 0
+            self.reset_position()
         return page
 
     def last_page( self ):
@@ -250,8 +258,7 @@ class Dashboard:
         if self.pages:
             self.current_page = len(self.pages)-1
             page = self.pages[self.current_page]
-            self.current_panel = page.first_panel()
-            self.current_graph = 0
+            self.reset_position()
         return page
 
     def get_current_panel( self ):
@@ -278,6 +285,7 @@ class Dashboard:
         """ step forward to the next graph,panel,page return the graph tuple for the current graph, return None at the end """
         graph = None
         panel = self.get_current_panel()
+        page = self.get_current_page()
         if panel:
             graphs = panel.get_graph_layout()
             while panel and graphs and not graph:
@@ -297,6 +305,9 @@ class Dashboard:
                     else:
                         graphs = panel.get_graph_layout()
                         graph = graphs[self.current_graph]
+            if graph:
+                page.move(graph[1],graph[2])
+
         return graph
 
 
@@ -310,9 +321,14 @@ class Dashboard:
         curses.raw()
         curses.mousemask( curses.ALL_MOUSE_EVENTS | curses.REPORT_MOUSE_POSITION )
 
+        start_time = time.time()
+        positions = []
         while True:
             ch = self.window.getch()
             if ch > -1:
+                page = self.get_current_page()
+                py,px = page.get_position()
+
                 if ch == 27: # esc key
                     return 0
                 elif ch == 9: # tab key
@@ -325,6 +341,41 @@ class Dashboard:
                     self.first_page()
                 elif ch == curses.KEY_END:
                     self.last_page()
+                elif ch == curses.KEY_RIGHT:
+                    page.move(py,px+1)
+                elif ch == curses.KEY_LEFT:
+                    page.move(py,px-1)
+                elif ch == curses.KEY_UP:
+                    page.move(py-1,px)
+                elif ch == curses.KEY_DOWN:
+                    page.move(py+1,px)
+                elif ch == curses.KEY_MOUSE:
+                    mid, mx, my, mz, mtype = curses.getmouse()
+                    max_y,max_x = self.window.getmaxyx()
+                    if mtype & curses.BUTTON1_CLICKED:
+                        if mx == 0 and my == 0:
+                            self.first_page()
+                        elif mx == 0 and my > 0:
+                            self.prev_page()
+                        elif mx == max_x-1 and my == max_y-1:
+                            self.last_page()
+                        elif mx == max_x-1 and my < max_y-1:
+                            self.next_page()
+                start_time = time.time()
+                positions = []
+
+            if self.auto_tour_delay:
+                if time.time() - start_time > self.auto_tour_delay:
+                    if not positions:
+                        g = self.next_graph()
+                        if not g:
+                            self.first_page()
+                            g = self.get_current_graph()
+                        positions = [(g[1],g[2]),(g[1]+(g[3]//2),g[2]),(g[1],g[2]+(g[4]//2)),(g[1]+(g[3]//2),g[2]+(g[4]//2))]
+                    py,px = positions.pop()
+                    self.get_current_page().move(py,px)
+                    start_time = time.time()
+
             page = self.get_current_page()
             if page:
                 page.redraw()
@@ -335,7 +386,7 @@ def main(stdscr):
 
     sd = syslog_data.SyslogDataTable(refresh_minutes=1)
     sd.start_refresh()
-    d = Dashboard(stdscr)
+    d = Dashboard(stdscr,auto_tour_delay = 5)
     p = Page(stdscr)
     height, width = p.get_size()
     pp = Panel(0,0,height,width)
