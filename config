@@ -1,26 +1,26 @@
 {
 "tables": [
     {"name": "syslog", "type": "SyslogDataTable", "refresh_minutes": 1}
-    ], 
+    ],
 "dashboard": {
-    "auto_tour_delay": 5, 
+    "auto_tour_delay": 5,
     "pages": [
         {
         "panels": [
             {
             "graphs": [
-                {"type": "LineGraph", "table": "syslog", "xseries": "Time Stamps", "yseries": ["Errors by Time"]}, 
-                {"type": "LineGraph", "table": "syslog", "xseries": "Time Stamps", "yseries": ["Messages by Time"]}
+                {"type": "LineGraph", "table": "syslog", "xseries": "Time Stamps", "yseries": ["Errors by Time"], "yunit":"Message Count"},
+                {"type": "LineGraph", "table": "syslog", "xseries": "Time Stamps", "yseries": ["Messages by Time"], "yunit":"Message Count"}
                 ]
             }
             ]
-        }, 
+        },
         {
         "panels": [
             {
             "graphs": [
-                {"type": "LineGraph", "table": "syslog", "xseries": "Time Stamps", "yseries": ["Warnings by Time"]},
-                {"type": "BarGraph", "table": "syslog", "xseries": "Services", "yseries": ["Messages by Service"], "top": 5}
+                {"type": "LineGraph", "table": "syslog", "xseries": "Time Stamps", "yseries": ["Warnings by Time"], "yunit":"Message Count"},
+                {"type": "BarGraph", "table": "syslog", "xseries": "Services", "yseries": ["Messages by Service"], "top": 5, "yunit":"Message Count"}
                 ]
             }
             ]
@@ -28,4 +28,3 @@
         ]
     }
 }
-

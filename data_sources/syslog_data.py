@@ -230,7 +230,9 @@ class SyslogDataTable( DataTable ):
                 else:
                     self.add_column(c)
 
-            self.changed()
+            self.changed()         
+            
+            DataTable.refresh(self)
         finally:
             self.refresh_lock.release()
 

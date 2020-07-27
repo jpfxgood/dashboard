@@ -220,6 +220,10 @@ class DataTable(object):
 
     def put(self, row, reference, value):
         self.columns[self.map_column(reference)].put(row,value)
+        
+    def refresh(self):
+        """ base class method for forcing a refresh on a table """
+        pass
 
 
 def main():

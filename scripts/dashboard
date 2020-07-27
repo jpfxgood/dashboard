@@ -49,6 +49,7 @@ from data_sources.syslog_data import SyslogDataTable
 #                                   "table" : name of table from tables list above,
 #                                   "xseries" : name of the column in the table that represents the x axis values or pie labels for the graph,
 #                                   "yseries" : [ list of column names of series to graph against the xseries ],
+#                                   "yunit" : name of the units on the Y axis Bar and Line Graph only,
 #                                   "top" : for graphs that support top-n selection it defines how many top items from the columns to graph, default is 0 which graphs all values in column,
 #                                   },
 #                               ]
@@ -102,11 +103,12 @@ def load_config( stdscr, options ):
             for g in pp["graphs"]:
                 type = g["type"]
                 graph = None
+                yunit = g.get("yunit","")
                 if type == "LineGraph":
-                    graph = LineGraph(lookup_table(g["table"]),g["xseries"],g["yseries"],None,None)
+                    graph = LineGraph(lookup_table(g["table"]),g["xseries"],g["yseries"],yunit,None,None)
                 elif type == "BarGraph":
                     top = g.get("top",0)
-                    graph = BarGraph(lookup_table(g["table"]),g["xseries"],g["yseries"],None,None,top)
+                    graph = BarGraph(lookup_table(g["table"]),g["xseries"],g["yseries"],yunit,None,None,top)
                 elif type == "PieGraph":
                     graph = PieGraph(lookup_table(g["table"]),g["xseries"],g["yseries"],None,None)
                 panel.add_graph(graph)

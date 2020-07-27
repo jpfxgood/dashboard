@@ -223,7 +223,7 @@ class Page:
             y = 0
 
             for g in self.panels:
-                self.panel_layout.append((y,x,dy,dx))
+                self.panel_layout.append((g,y,x,dy,dx))
                 g.set_layout(y,x,dy,dx)
                 x += dx
                 if x >= self.width:
@@ -434,6 +434,11 @@ class Dashboard:
                         page.move(py-1,px)
                     elif ch == curses.KEY_DOWN:
                         page.move(py+1,px)
+                    elif ch == curses.KEY_F5:
+                        for p in self.pages:
+                            for pp in p.get_panel_layout():
+                                for gg in pp[0].get_graph_layout():
+                                    gg[0].refresh_data()
                     elif ch == curses.KEY_ENTER or ch == 10: # ENTER KEY
                         zoomed = True
                         zoomed_graph = self.get_current_graph()

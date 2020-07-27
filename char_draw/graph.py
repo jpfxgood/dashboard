@@ -27,7 +27,7 @@ class GraphSeries():
 class Graph(display_list.DisplayList):
     """Graph base class for all graph types """
 
-    def __init__(self,data_table=None,x_values=None,y_values=None,parent=None,canvas=None,top=0):
+    def __init__(self,data_table=None,x_values=None,y_values=None,y_unit="",parent=None,canvas=None,top=0):
         """ base constructor for all graph types constructor takes a data_table which contains values to be graphed,
         x_values is a column reference in the data table for the xaxis values,
         y_values is a list of column references to series of numerical data to be graphed,
@@ -38,6 +38,7 @@ class Graph(display_list.DisplayList):
         self.data = data_table
         self.x_values_name = x_values
         self.y_values_names = y_values
+        self.y_unit = y_unit
         self.x_values = None
         self.y_values = []
         self.top = top
@@ -51,6 +52,10 @@ class Graph(display_list.DisplayList):
                 self.x_values = GraphSeries(self.data, self.x_values_name, self.canvas.green )
                 self.y_values = [GraphSeries(self.data, sy,self.colors[self.y_values_names.index(sy)%len(self.colors)]) for sy in self.y_values_names]
                 self.data.listen(self.data_changed)
+
+    def get_series_unit( self ):
+        """ get the name of the units for the y axis """
+        return self.y_unit
 
     def get_series( self ):
         """ return list of GraphSeries objects that describe the data series to be graphed """
@@ -67,6 +72,10 @@ class Graph(display_list.DisplayList):
     def data_changed(self,data_table):
         """ listener that gets called if the data table is changed """
         self.modified = True
+        
+    def refresh_data(self):
+        """ force a refresh on the data backing this graph """
+        self.data.refresh()
 
     def render(self):
         """ override render to force initialization and layout"""
@@ -537,13 +546,13 @@ class GraphLines(GraphElement):
 
 class BarGraph(Graph):
     """BarGraph that displays a data table as a bar graph"""
-    def __init__(self,data_table=None,x_values=None,y_values=None,parent=None,canvas=None,top=0):
+    def __init__(self,data_table=None,x_values=None,y_values=None,y_unit="",parent=None,canvas=None,top=0):
         """ constructor takes a data_table which contains values to be graphed,
         x_values is a column reference in the data table for the xaxis values,
         y_values is a list of column references to series of numerical data to be graphed,
         parent is a reference to an enclosing display list,
         canvas is a reference to a canvas to render on """
-        Graph.__init__(self,data_table,x_values,y_values,parent,canvas,top)
+        Graph.__init__(self,data_table,x_values,y_values,y_unit,parent,canvas,top)
         self.title = None
         self.legend = None
         self.x_axis_title = None
@@ -561,8 +570,8 @@ class BarGraph(Graph):
             Graph.init(self)
             self.title = GraphTitle(self,self.get_data().get_name())
             self.legend = GraphLegend(self,[(s.column,s.color) for s in self.get_series()])
-            self.x_axis_title = GraphXAxisTitle(self,"X Axis")
-            self.y_axis_title = GraphYAxisTitle(self,"Y Axis")
+            self.x_axis_title = GraphXAxisTitle(self,self.get_xvalues().column)
+            self.y_axis_title = GraphYAxisTitle(self,self.get_series_unit())
             self.x_axis = GraphXAxis(self, horizontal = True )
             self.y_axis = GraphYAxis(self, vertical = True )
             self.chart_area = GraphArea(self)
@@ -625,13 +634,13 @@ class BarGraph(Graph):
 
 class LineGraph(Graph):
     """LineGraph that displays a data table as a line graph"""
-    def __init__(self,data_table=None,x_values=None,y_values=None,parent=None,canvas=None,area=False):
+    def __init__(self,data_table=None,x_values=None,y_values=None,y_unit="",parent=None,canvas=None,area=False):
         """ constructor takes a data_table which contains values to be graphed,
         x_values is a column reference in the data table for the xaxis values,
         y_values is a list of column references to series of numerical data to be graphed,
         parent is a reference to an enclosing display list,
         canvas is a reference to a canvas to render on """
-        Graph.__init__(self,data_table,x_values,y_values,parent,canvas)
+        Graph.__init__(self,data_table,x_values,y_values,y_unit,parent,canvas)
         self.title = None
         self.legend = None
         self.x_axis_title = None
@@ -650,8 +659,8 @@ class LineGraph(Graph):
             Graph.init(self)
             self.title = GraphTitle(self,self.get_data().get_name())
             self.legend = GraphLegend(self,[(s.column,s.color) for s in self.get_series()])
-            self.x_axis_title = GraphXAxisTitle(self,"X Axis")
-            self.y_axis_title = GraphYAxisTitle(self,"Y Axis")
+            self.x_axis_title = GraphXAxisTitle(self,self.get_xvalues().column)
+            self.y_axis_title = GraphYAxisTitle(self,self.get_series_unit())
             self.x_axis = GraphXAxis(self, horizontal = True )
             self.y_axis = GraphYAxis(self, vertical = True )
             self.chart_area = GraphArea(self)
@@ -772,7 +781,7 @@ class PieGraph(Graph):
         slice_values is a list of column references to series of numerical data to be graphed,
         parent is a reference to an enclosing display list,
         canvas is a reference to a canvas to render on """
-        Graph.__init__(self,data_table,pie_labels,slice_values,parent,canvas)
+        Graph.__init__(self,data_table,pie_labels,slice_values,"",parent,canvas)
         self.title = None
         self.x_axis_title = None
         self.y_axis_title = None
@@ -846,42 +855,3 @@ class PieGraph(Graph):
                     cs.set_size((width,height*0.80))
 
         return Graph.get_bbox(self)
-
-
-def main(stdscr):
-    """ test driver for the chardraw """
-
-    stdscr.getch()
-
-    d = data_table.DataTable(name="Simple Pie Chart")
-    cx = data_table.Column(name="Pie Labels")
-    for x in range(0,5):
-        cx.put(x,data_table.Cell(data_table.string_type,"Label %d"%x,data_table.format_string))
-    cy = data_table.Column(name="Pie Values")
-    for y in range(0,5):
-        cy.put(y,data_table.Cell(data_table.float_type,float((y*10)+200),data_table.format_float))
-
-    cy1 = data_table.Column(name="Pie Values 1")
-    for y in range(0,5):
-        cy1.put(y,data_table.Cell(data_table.float_type,float((y*20)+200),data_table.format_float))
-
-    cy2 = data_table.Column(name="Pie Values 2")
-    for y in range(0,5):
-        cy2.put(y,data_table.Cell(data_table.float_type,float((y*30)+200),data_table.format_float))
-
-    d.add_column(cx)
-    d.add_column(cy)
-    d.add_column(cy1)
-    d.add_column(cy2)
-
-    c = canvas.Canvas(stdscr)
-    bc = PieGraph(d,"Pie Labels",["Pie Values","Pie Values 1","Pie Values 2"],None,c)
-    bc.render()
-    c.refresh()
-
-    stdscr.getch()
-
-    return 0
-
-if __name__ == '__main__':
-    curses.wrapper(main)

@@ -62,11 +62,11 @@ class DisplayList:
         """ set focus to True or False to tell graph to render in focus mode """
         self.focus = state
         self.modified = True
-        
+
     def is_focus( self ):
         """ return the current focus state """
         return self.focus
-        
+
     def set_parent(self,parent):
         """ set the parent of this object """
         self.parent = parent
@@ -501,37 +501,3 @@ class Polygon(PolyLine):
         """ override rendering to draw requested polygon """
         self.canvas.polygon(self.transform_points(),self.color,self.fill)
 
-def main(stdscr):
-    """ test driver for the chardraw """
-    curses.init_pair(1,curses.COLOR_GREEN,curses.COLOR_BLACK)
-    curses.init_pair(2,curses.COLOR_RED,curses.COLOR_BLACK)
-    curses.init_pair(3,curses.COLOR_CYAN,curses.COLOR_BLACK)
-    curses.init_pair(4,curses.COLOR_WHITE,curses.COLOR_BLACK)
-
-    c = canvas.Canvas(stdscr)
-    d = DisplayList( canvas = c )
-    c1 = Circle(10.0,10.0,5.0,c.red,True)
-    c2 = Circle(15.0,15.0,5.0,c.cyan,True)
-    c3 = Circle(25.0,15.0,10.0,c.white,True)
-    a1 = Arc(30.0,30.0,10.0,20.0,50.0,c.green,True)
-    d.add_child(c1)
-    d.add_child(c2)
-    d.add_child(c3)
-    d.add_child(a1)
-    p = [(50,50),(55,55),(55,60),(50,60),(40,55),(45,57)]
-    k = [(x*2-50,y*2-50) for x,y in p]
-    l = [(x+100,y) for x,y in k]
-    d.add_child(PolyLine(p,c.red))
-    d.add_child(Polygon(k,c.cyan,False))
-    d.add_child(Polygon(l,c.white,True))
-    d.add_child(Text(10.0,10.0,str(c1.get_bbox()),c.green))
-    d.add_child(Text(15.0,15.0,str(c2.get_bbox()),c.green))
-    d.add_child(Text(25.0,18.0,str(c3.get_bbox()),c.green))
-    d.add_child(Text(30.0,30.0,str(a1.get_bbox()),c.green))
-    d.add_child(Text(0.0,0.0,str(d.get_bbox()),c.green))
-    d.render()
-    c.refresh()
-    eval(input())
-
-if __name__ == '__main__':
-    curses.wrapper(main)

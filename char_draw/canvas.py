@@ -477,17 +477,3 @@ class Canvas:
                         self.put_pixel(x,y,color)
                 self.poly_fill(points,color,put_pixel)
 
-def main(stdscr):
-    """ test driver for the chardraw """
-    curses.init_pair(1,curses.COLOR_GREEN,curses.COLOR_BLACK)
-    curses.init_pair(2,curses.COLOR_RED,curses.COLOR_BLACK)
-    curses.init_pair(3,curses.COLOR_CYAN,curses.COLOR_BLACK)
-    curses.init_pair(4,curses.COLOR_WHITE,curses.COLOR_BLACK)
-
-    c = Canvas(stdscr)
-    c.polygon([(50,50),(55,55),(55,60),(50,60),(40,55)],c.red,True)
-    c.refresh()
-    eval(input())
-
-if __name__ == '__main__':
-    curses.wrapper(main)
