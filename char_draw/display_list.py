@@ -52,11 +52,21 @@ class DisplayList:
         # set up canvas
         self.canvas = None
         self.xform = [1.0,1.0]
+        self.focus = False
         if canvas:
             self.set_canvas(canvas)
         elif parent:
             self.set_canvas(parent.get_canvas())
 
+    def set_focus( self, state  ):
+        """ set focus to True or False to tell graph to render in focus mode """
+        self.focus = state
+        self.modified = True
+        
+    def is_focus( self ):
+        """ return the current focus state """
+        return self.focus
+        
     def set_parent(self,parent):
         """ set the parent of this object """
         self.parent = parent
@@ -75,6 +85,8 @@ class DisplayList:
         self.xform = [1.0,1.0]
         self.canvas = canvas
         self.modified = True
+        for c in self.children:
+            c.set_canvas(canvas)
 
     def get_bbox(self):
         """ computes the bounding box of the display list object """

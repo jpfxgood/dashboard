@@ -181,10 +181,23 @@ class Page:
         if w_ymax >= self.height and w_xmax >= self.width:
             self.pad.refresh(0,0,0,0,self.height,self.width)
         else:
-           p_y,p_x = self.position
-           h = min(w_ymax,self.height - p_y)-1
-           w = min(w_xmax,self.width - p_x)-1
-           self.pad.refresh(p_y,p_x,0,0,h,w)
+            p_y,p_x = self.position
+            h = min(w_ymax,self.height - p_y)
+            w = min(w_xmax,self.width - p_x)
+            self.pad.refresh(p_y,p_x,0,0,h-1,w-1)
+            if w < w_xmax:
+                for y in range(0,h):
+                    try:
+                        self.window.addstr(y,w,' '*(w_xmax-w))
+                    except:
+                        pass
+            while h < w_ymax:
+                try:
+                    self.window.addstr(h,0,' '*(w_xmax-1))
+                except:
+                    pass
+                h += 1
+
 
 
 class Dashboard:
@@ -323,63 +336,97 @@ class Dashboard:
 
         start_time = time.time()
         positions = []
+        zoomed = False
+        zoomed_canvas = None
+        zoomed_graph = None
+        zoomed_restore_canvas = None
         while True:
             ch = self.window.getch()
-            if ch > -1:
-                page = self.get_current_page()
-                py,px = page.get_position()
 
-                if ch == 27: # esc key
-                    return 0
-                elif ch == 9: # tab key
-                    self.next_graph()
-                elif ch == curses.KEY_NPAGE:
-                    self.next_page()
-                elif ch == curses.KEY_PPAGE:
-                    self.prev_page()
-                elif ch == curses.KEY_HOME:
-                    self.first_page()
-                elif ch == curses.KEY_END:
-                    self.last_page()
-                elif ch == curses.KEY_RIGHT:
-                    page.move(py,px+1)
-                elif ch == curses.KEY_LEFT:
-                    page.move(py,px-1)
-                elif ch == curses.KEY_UP:
-                    page.move(py-1,px)
-                elif ch == curses.KEY_DOWN:
-                    page.move(py+1,px)
-                elif ch == curses.KEY_MOUSE:
-                    mid, mx, my, mz, mtype = curses.getmouse()
-                    max_y,max_x = self.window.getmaxyx()
-                    if mtype & curses.BUTTON1_CLICKED:
-                        if mx == 0 and my == 0:
-                            self.first_page()
-                        elif mx == 0 and my > 0:
-                            self.prev_page()
-                        elif mx == max_x-1 and my == max_y-1:
-                            self.last_page()
-                        elif mx == max_x-1 and my < max_y-1:
-                            self.next_page()
-                start_time = time.time()
-                positions = []
+            if not zoomed:
+                cur_graph = self.get_current_graph()
+                cur_graph[0].set_focus(True)
 
-            if self.auto_tour_delay:
-                if time.time() - start_time > self.auto_tour_delay:
-                    if not positions:
-                        g = self.next_graph()
-                        if not g:
-                            self.first_page()
-                            g = self.get_current_graph()
-                        positions = [(g[1],g[2]),(g[1]+(g[3]//2),g[2]),(g[1],g[2]+(g[4]//2)),(g[1]+(g[3]//2),g[2]+(g[4]//2))]
-                    py,px = positions.pop()
-                    self.get_current_page().move(py,px)
+                if ch > -1:
+                    page = self.get_current_page()
+                    py,px = page.get_position()
+
+                    if ch == 27: # esc key
+                        return 0
+                    elif ch == 9: # tab key
+                        self.next_graph()
+                    elif ch == curses.KEY_NPAGE:
+                        self.next_page()
+                    elif ch == curses.KEY_PPAGE:
+                        self.prev_page()
+                    elif ch == curses.KEY_HOME:
+                        self.first_page()
+                    elif ch == curses.KEY_END:
+                        self.last_page()
+                    elif ch == curses.KEY_RIGHT:
+                        page.move(py,px+1)
+                    elif ch == curses.KEY_LEFT:
+                        page.move(py,px-1)
+                    elif ch == curses.KEY_UP:
+                        page.move(py-1,px)
+                    elif ch == curses.KEY_DOWN:
+                        page.move(py+1,px)
+                    elif ch == curses.KEY_ENTER or ch == 10: # ENTER KEY
+                        zoomed = True
+                        zoomed_graph = self.get_current_graph()
+                        zoomed_canvas = canvas.Canvas(self.window)
+                        zoomed_restore_canvas = zoomed_graph[0].get_canvas()
+                        zoomed_graph[0].set_canvas(zoomed_canvas)
+                        self.window.clear()
+                        continue
+                    elif ch == curses.KEY_MOUSE:
+                        mid, mx, my, mz, mtype = curses.getmouse()
+                        max_y,max_x = self.window.getmaxyx()
+                        if mtype & curses.BUTTON1_CLICKED:
+                            if mx == 0 and my == 0:
+                                self.first_page()
+                            elif mx == 0 and my > 0:
+                                self.prev_page()
+                            elif mx == max_x-1 and my == max_y-1:
+                                self.last_page()
+                            elif mx == max_x-1 and my < max_y-1:
+                                self.next_page()
                     start_time = time.time()
+                    positions = []
 
-            page = self.get_current_page()
-            if page:
-                page.redraw()
-                page.refresh()
+                if self.auto_tour_delay:
+                    if time.time() - start_time > (self.auto_tour_delay/4): # 4 views per graph
+                        if not positions:
+                            g = self.next_graph()
+                            if not g:
+                                self.first_page()
+                                g = self.get_current_graph()
+                            positions = [(g[1],g[2]),(g[1]+(g[3]//2),g[2]),(g[1]+(g[3]//2),g[2]+(g[4]//2)),(g[1],g[2]+(g[4]//2))]
+                        py,px = positions.pop(0)
+                        self.get_current_page().move(py,px)
+                        start_time = time.time()
+
+                if cur_graph[0] != self.get_current_graph()[0]:
+                    cur_graph[0].set_focus(False)
+
+                page = self.get_current_page()
+                if page:
+                    page.redraw()
+                    page.refresh()
+
+            if zoomed:
+                if ch > -1:
+                    if ch == 27: # esc key
+                        zoomed_graph[0].set_canvas(zoomed_restore_canvas)
+                        zoomed = False
+                        zoomed_graph = None
+                        zoomed_canvas = None
+                        zoomed_restore_canvas = None
+
+                if zoomed_graph and zoomed_graph[0].is_modified():
+                    zoomed_graph[0].render()
+                    self.window.refresh()
+
 
 def main(stdscr):
     """ test driver for the dashboard """

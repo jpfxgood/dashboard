@@ -147,7 +147,7 @@ class GraphTitle(GraphElement):
                         s_idx = cols
                 else:
                     s_idx = cols
-                new_children.append(display_list.Text(x,y,text[:s_idx],self.canvas.white))
+                new_children.append(display_list.Text(x,y,text[:s_idx],self.canvas.white|(curses.A_STANDOUT if self.is_focus() else curses.A_NORMAL)))
                 rows -= 1
                 y += r_height
                 text = text[s_idx:].lstrip()
@@ -578,6 +578,12 @@ class BarGraph(Graph):
             self.add_child(self.y_axis)
             self.initialized = True
 
+    def set_focus( self, state ):
+        """ set focus to this graph, in this case tell the title about it so it will highlight """
+        if self.title:
+            self.title.set_focus(state)
+        Graph.set_focus(self,state)
+
     def get_bbox(self):
         """ arrange the children of the graph based on size of graph """
 
@@ -660,6 +666,12 @@ class LineGraph(Graph):
             self.add_child(self.x_axis)
             self.add_child(self.y_axis)
             self.initialized = True
+
+    def set_focus( self, state ):
+        """ set focus to this graph, in this case tell the title about it so it will highlight """
+        if self.title:
+            self.title.set_focus(state)
+        Graph.set_focus(self,state)
 
     def get_bbox(self):
         """ arrange the children of the graph based on size of graph """
@@ -783,6 +795,12 @@ class PieGraph(Graph):
             for cs in self.chart_series:
                 self.add_child(cs)
             self.initialized = True
+
+    def set_focus( self, state ):
+        """ set focus to this graph, in this case tell the title about it so it will highlight """
+        if self.title:
+            self.title.set_focus(state)
+        Graph.set_focus(self,state)
 
     def get_bbox(self):
         """ arrange the children of the graph based on size of graph """
