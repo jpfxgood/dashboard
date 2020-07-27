@@ -1,64 +1,31 @@
 {
-    "tables" : 
-        [
-            { 
-                "name" : "syslog",
-                "type" : "SyslogDataTable",
-                "refresh_minutes" : 1
-            },
-        ],
-    "dashboard" :
+"tables": [
+    {"name": "syslog", "type": "SyslogDataTable", "refresh_minutes": 1}
+    ], 
+"dashboard": {
+    "auto_tour_delay": 5, 
+    "pages": [
         {
-            "auto_tour_delay" : 5,
-            "pages" : 
-                [
-                    {
-                    "panels" :
-                        [
-                            {
-                            "graphs" :
-                                [
-                                    {
-                                        "type" : "LineGraph",
-                                        "table" : "syslog",
-                                        "xseries" : "Time Stamps",
-                                        "yseries" : [ "Errors by Time" ]
-                                    },
-                                    {
-                                        "type" : "LineGraph",
-                                        "table" : "syslog",
-                                        "xseries" : "Time Stamps",
-                                        "yseries" : [ "Messages by Time" ]
-                                    },
-                                ]
-                            }
-                        ]
-                    },
-                    {
-                    "panels" :
-                        [
-                            {
-                            "graphs" :
-                                [
-                                    {
-                                        "type" : "LineGraph",
-                                        "table" : "syslog",
-                                        "xseries" : "Time Stamps",
-                                        "yseries" : [ "Warnings by Time" ]
-                                    },
-                                    {
-                                        "type" : "LineGraph",
-                                        "table" : "syslog",
-                                        "xseries" : "Services",
-                                        "yseries" : [ "Messages by Service" ]
-                                    },
-                                ]
-                            }
-                        ]
-                    },
+        "panels": [
+            {
+            "graphs": [
+                {"type": "LineGraph", "table": "syslog", "xseries": "Time Stamps", "yseries": ["Errors by Time"]}, 
+                {"type": "LineGraph", "table": "syslog", "xseries": "Time Stamps", "yseries": ["Messages by Time"]}
                 ]
+            }
+            ]
+        }, 
+        {
+        "panels": [
+            {
+            "graphs": [
+                {"type": "LineGraph", "table": "syslog", "xseries": "Time Stamps", "yseries": ["Warnings by Time"]},
+                {"type": "BarGraph", "table": "syslog", "xseries": "Services", "yseries": ["Messages by Service"], "top": 5}
+                ]
+            }
+            ]
         }
+        ]
+    }
 }
-
-
 
