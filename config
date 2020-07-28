@@ -24,6 +24,16 @@
                 ]
             }
             ]
+        },
+        {
+        "panels": [
+            {
+            "graphs": [
+                {"type": "PieGraph", "table": "syslog", "xseries": "Services", "yseries": ["Messages by Service","Errors by Service","Warnings by Service"]},
+                {"type": "TableGraph", "table": "syslog", "xseries": "Services", "yseries": ["Messages by Service","Errors by Service","Warnings by Service"]}
+                ]
+            }
+            ]
         }
         ]
     }

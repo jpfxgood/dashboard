@@ -14,7 +14,7 @@ import json
 from optparse import OptionParser
 from dashboard.version import __version__
 from dashboard.dashboard import Dashboard,Page,Panel
-from char_draw.graph import LineGraph,BarGraph,PieGraph
+from char_draw.graph import LineGraph,BarGraph,PieGraph,TableGraph
 from data_sources.syslog_data import SyslogDataTable
 
 # A config file is of the form:
@@ -45,7 +45,7 @@ from data_sources.syslog_data import SyslogDataTable
 #                           "graphs" : list of graph objects to be laid out in this panel
 #                               [
 #                                   {
-#                                   "type" : one of "LineGraph","BarGraph","PieGraph",
+#                                   "type" : one of "LineGraph","BarGraph","PieGraph","TableGraph"
 #                                   "table" : name of table from tables list above,
 #                                   "xseries" : name of the column in the table that represents the x axis values or pie labels for the graph,
 #                                   "yseries" : [ list of column names of series to graph against the xseries ],
@@ -111,6 +111,8 @@ def load_config( stdscr, options ):
                     graph = BarGraph(lookup_table(g["table"]),g["xseries"],g["yseries"],yunit,None,None,top)
                 elif type == "PieGraph":
                     graph = PieGraph(lookup_table(g["table"]),g["xseries"],g["yseries"],None,None)
+                elif type == "TableGraph":
+                    graph = TableGraph(lookup_table(g["table"]),g["xseries"],g["yseries"],None,None)
                 panel.add_graph(graph)
             page.add_panel(panel)
         dashboard.add_page(page)
@@ -119,16 +121,13 @@ def load_config( stdscr, options ):
 
 def main(stdscr, options, args):
     """ The main driver for the dashboard utility """
-
     try:
         c = load_config(stdscr,options)
         ret = c["dashboard"].main()
+    finally:
         for d in c["tables"]:
             d[1].stop_refresh()
-    except:
-        tb = traceback.format_exc()
-        print(tb, file=sys.stderr)
-        return 1
+    return 0
 
 if __name__ == '__main__':
     parser = OptionParser(usage="usage: %prog [options]", description="A dashboard to display pages of graphs of data from multiple sources and refresh them")
@@ -142,4 +141,12 @@ if __name__ == '__main__':
         print("dashboard version %s"%__version__)
         exit(0)
 
-    exit(curses.wrapper(main,options,args))
+    try:
+        ret = curses.wrapper(main,options,args)
+    except:
+        tb = traceback.format_exc()
+        print(tb, file=sys.stderr)
+        sys.stderr.flush()
+        ret = 1
+
+    exit(ret)

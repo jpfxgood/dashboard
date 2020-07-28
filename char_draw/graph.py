@@ -72,7 +72,7 @@ class Graph(display_list.DisplayList):
     def data_changed(self,data_table):
         """ listener that gets called if the data table is changed """
         self.modified = True
-        
+
     def refresh_data(self):
         """ force a refresh on the data backing this graph """
         self.data.refresh()
@@ -741,40 +741,47 @@ class GraphSlices(GraphElement):
             for idx in range(0,data_column.size()):
                 data_total += data_column.get(idx).get_float_value()
 
-            total_degrees = 0
-            self.set_children([])
-            label_children = []
-            for idx in range(0,data_column.size()):
-                data_degrees = round(360.0 * (data_column.get(idx).get_float_value()/data_total))
-                arc = display_list.Arc(x+width/2,
-                                       y+height/2,
-                                       min(height,width)/2,
-                                       total_degrees,
-                                       total_degrees+data_degrees,
-                                       curses.color_pair(self.canvas.color_min+((idx*11)%(self.canvas.color_max-self.canvas.color_min)))
-                                       ,True)
-                self.add_child(arc)
-                bbarc = arc.get_bbox()
-                lcx = bbarc.x0+((bbarc.x1 - bbarc.x0)/2)
-                lcy = bbarc.y0+((bbarc.y1 - bbarc.y0)/2)
-                label = str(label_column.get(idx))
-                l_height,l_width = self.canvas.from_rowcol(1,len(label))
-                if lcx+l_width > width:
-                    lcx -= l_width
-                else:
-                    lcx -= (l_width/2)
-                if lcy+l_height > height:
-                    lcy -= l_height
-                label_children.append(display_list.Text(lcx,lcy,label,label_series.color))
-                total_degrees += data_degrees
+            if data_total > 0:
+                total_degrees = 0
+                self.set_children([])
+                label_children = []
+                for idx in range(0,data_column.size()):
+                    data_degrees = round(360.0 * (data_column.get(idx).get_float_value()/data_total))
+                    arc = display_list.Arc(x+width/2,
+                                           y+height/2,
+                                           min(height,width)/2,
+                                           total_degrees,
+                                           total_degrees+data_degrees,
+                                           curses.color_pair(self.canvas.color_min+((idx*11)%(self.canvas.color_max-self.canvas.color_min)))
+                                           ,True)
+                    self.add_child(arc)
+                    bbarc = arc.get_bbox()
+                    lcx = bbarc.x0+((bbarc.x1 - bbarc.x0)/2)
+                    lcy = bbarc.y0+((bbarc.y1 - bbarc.y0)/2)
+                    label = str(label_column.get(idx))
+                    l_height,l_width = self.canvas.from_rowcol(1,len(label))
+                    if lcx+l_width > width:
+                        lcx -= l_width
+                    else:
+                        lcx -= (l_width/2)
+                    if lcy+l_height > height:
+                        lcy -= l_height
+                    label_children.append(display_list.Text(lcx,lcy,label,label_series.color))
+                    total_degrees += data_degrees                                         
+                    
+                title = self.series.column
+                l_height,l_width = self.canvas.from_rowcol(1,len(title))
+                lcx = x+width/2 - l_width/2
+                lcy = y+height
+                label_children.append(display_list.Text(lcx,lcy,title,label_series.color))
 
-            for lc in label_children:
-                self.add_child(lc)
+                for lc in label_children:
+                    self.add_child(lc)
 
         return GraphElement.get_bbox(self)
 
 class PieGraph(Graph):
-    """LineGraph that displays a data table as a line graph"""
+    """PieGraph that displays a data table as a pie chart"""
     def __init__(self,data_table=None,pie_labels=None,slice_values=None,parent=None,canvas=None):
         """ constructor takes a data_table which contains values to be graphed,
         pie_labels is a column reference in the data table for the pie slice labels,
@@ -783,10 +790,6 @@ class PieGraph(Graph):
         canvas is a reference to a canvas to render on """
         Graph.__init__(self,data_table,pie_labels,slice_values,"",parent,canvas)
         self.title = None
-        self.x_axis_title = None
-        self.y_axis_title = None
-        self.x_axis = None
-        self.y_axis = None
         self.chart_area = None
         self.chart_series = []
         if self.canvas:
@@ -853,5 +856,105 @@ class PieGraph(Graph):
                 for cs in self.chart_series:
                     cs.set_location((x,y))
                     cs.set_size((width,height*0.80))
+
+        return Graph.get_bbox(self)
+
+class GraphTable(GraphElement):
+    """ Element that lays out a table of text for the series """
+    def __init__(self,parent):
+        GraphElement.__init__(self,parent)
+
+    def get_bbox(self):
+        """ recompute and relayout the component and return it's bbox """
+        if self.modified:
+            new_children = []
+            x,y = self.get_location()
+            width,height = self.get_size()
+            row_labels = self.parent.get_xvalues()
+            columns = self.parent.get_series()
+
+            n_columns = len(columns)+1
+            cw = width / n_columns
+            ch = height
+
+            rows,cols = self.canvas.to_rowcol(width,height)
+            r_height,r_nothing = self.canvas.from_rowcol(1,1)
+            col_width = cols // n_columns
+
+            rlc = row_labels.data.get_column(row_labels.column)
+
+            def pad( s, width ):
+                if len(s) < width:
+                    return s+' '*(width-len(s))
+                else:
+                    return s
+
+            new_children.append(display_list.Text(x,y,pad(row_labels.column[0:col_width],col_width),self.canvas.white|curses.A_STANDOUT))
+            for idx in range(len(columns)):
+                new_children.append(display_list.Text(x+cw+idx*cw,y,pad(columns[idx].column[0:col_width],col_width),self.canvas.white|curses.A_STANDOUT))
+            for ridx in range(min(rows-1,rlc.size())):
+                y += r_height
+                new_children.append(display_list.Text(x,y,pad(str(rlc.get(ridx))[0:col_width],col_width),self.canvas.white))
+                for cidx in range(len(columns)):
+                    column = columns[cidx].data.get_column(columns[cidx].column)
+                    new_children.append(display_list.Text(x+cw+cidx*cw,y,pad(str(column.get(ridx))[0:col_width],col_width),self.canvas.white))
+
+            self.set_children(new_children)
+
+            return GraphElement.get_bbox(self)
+
+class TableGraph(Graph):
+    """TableGraph that displays a data table as a formatted table"""
+    def __init__(self,data_table=None,row_labels=None,column_values=None,parent=None,canvas=None):
+        """ constructor takes a data_table which contains values to be graphed,
+        pie_labels is a column reference in the data table for the pie slice labels,
+        slice_values is a list of column references to series of numerical data to be graphed,
+        parent is a reference to an enclosing display list,
+        canvas is a reference to a canvas to render on """
+        Graph.__init__(self,data_table,row_labels,column_values,"",parent,canvas)
+        self.title = None
+        self.chart_area = None
+        self.graph_table = None
+        if self.canvas:
+            self.init()
+
+    def init(self):
+        """ create the children for all of the graph components """
+        if not self.initialized:
+            Graph.init(self)
+            self.title = GraphTitle(self,self.get_data().get_name())
+            self.chart_area = GraphArea(self)
+            self.graph_table = GraphTable(self)
+            self.add_child(self.title)
+            self.add_child(self.chart_area)
+            self.add_child(self.graph_table)
+            self.initialized = True
+
+    def set_focus( self, state ):
+        """ set focus to this graph, in this case tell the title about it so it will highlight """
+        if self.title:
+            self.title.set_focus(state)
+        Graph.set_focus(self,state)
+
+    def get_bbox(self):
+        """ arrange the children of the graph based on size of graph """
+
+        if self.modified:
+            min_x,min_y,max_x,max_y = self.bounds()
+
+            width = (max_x-min_x) - 4
+            height = (max_y-min_y) - 4
+
+            x = 2
+            y = 2
+            self.title.set_location((x,y))
+            self.title.set_size((width,height*0.10))
+            y = y + height*0.15
+
+            self.chart_area.set_location((x,y))
+            self.chart_area.set_size((width,height*0.80))
+
+            self.graph_table.set_location((x,y))
+            self.graph_table.set_size((width,height*0.80))
 
         return Graph.get_bbox(self)
