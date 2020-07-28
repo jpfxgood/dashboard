@@ -16,6 +16,7 @@ from dashboard.version import __version__
 from dashboard.dashboard import Dashboard,Page,Panel
 from char_draw.graph import LineGraph,BarGraph,PieGraph,TableGraph
 from data_sources.syslog_data import SyslogDataTable
+from data_sources.proc_data import ProcDataTable
 
 # A config file is of the form:
 # {
@@ -25,6 +26,9 @@ from data_sources.syslog_data import SyslogDataTable
 #           "name" : name to refer to this table below,
 #           "type" : one of "SyslogDataTable" ( more to come),
 #           "refresh_minutes" : number of minutes to automatically refresh optional, 0 if only manual, default is 5 minutes
+#           "num_hours" : number of hours of history to look at
+#           "bucket_hours" : number of hours per bucket, table will have num_hours/bucket_hours entries
+#           "syslog_glob" : full unix glob pattern to match syslogs for the SyslogDataTable
 #           },
 #       ],
 #   "dashboard": definition of the dashboard to present
@@ -66,16 +70,16 @@ def load_config( stdscr, options ):
     context = {}
     context["tables"] = []
     for t in cf["tables"]:
+        refresh_minutes = t.get("refresh_minutes",1)
+        syslog_glob = t.get("syslog_glob","/var/log/syslog*")
+        num_hours = t.get("num_hours",24)
+        bucket_hours = t.get("bucket_hours",1)
         if t["type"] == "SyslogDataTable":
-            refresh_minutes = None
-            if "refresh_minutes" in t:
-                refresh_minutes = t["refresh_minutes"]
-            if refresh_minutes != None:
-                dt = SyslogDataTable(refresh_minutes=refresh_minutes)
-            else:
-                dt = SyslogDataTable()
-            dt.start_refresh()
-            context["tables"].append((t["name"],dt))
+            dt = SyslogDataTable(syslog_glob,num_hours,bucket_hours,refresh_minutes)
+        elif t["type"] == "ProcDataTable":
+            dt = ProcDataTable(num_hours,bucket_hours,refresh_minutes)
+        dt.start_refresh()
+        context["tables"].append((t["name"],dt))
 
     def lookup_table( name ):
         for t in context["tables"]:
@@ -121,12 +125,14 @@ def load_config( stdscr, options ):
 
 def main(stdscr, options, args):
     """ The main driver for the dashboard utility """
+    c = None
     try:
         c = load_config(stdscr,options)
         ret = c["dashboard"].main()
     finally:
-        for d in c["tables"]:
-            d[1].stop_refresh()
+        if c and "tables" in c:
+            for d in c["tables"]:
+                d[1].stop_refresh()
     return 0
 
 if __name__ == '__main__':

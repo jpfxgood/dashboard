@@ -1,6 +1,7 @@
 {
 "tables": [
-    {"name": "syslog", "type": "SyslogDataTable", "refresh_minutes": 1}
+    {"name": "syslog", "type": "SyslogDataTable", "refresh_minutes": 1},
+    {"name": "procdata", "type": "ProcDataTable", "refresh_minutes": 1}
     ],
 "dashboard": {
     "auto_tour_delay": 5,
@@ -31,6 +32,16 @@
             "graphs": [
                 {"type": "PieGraph", "table": "syslog", "xseries": "Services", "yseries": ["Messages by Service","Errors by Service","Warnings by Service"]},
                 {"type": "TableGraph", "table": "syslog", "xseries": "Services", "yseries": ["Messages by Service","Errors by Service","Warnings by Service"]}
+                ]
+            }
+            ]
+        },
+        {
+        "panels": [
+            {
+            "graphs": [
+                {"type": "LineGraph", "table": "procdata", "xseries": "Time Stamps", "yseries": ["CPU Percent"], "yunit":"Average % Utilization"},
+                {"type": "LineGraph", "table": "procdata", "xseries": "Time Stamps", "yseries": ["Total Virtual Memory","Available Virtual Memory"], "yunit":"Average Memory Bytes"}
                 ]
             }
             ]

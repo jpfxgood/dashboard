@@ -3,6 +3,9 @@
 import sys
 import os
 import datetime
+import threading
+import time
+from functools import wraps
 
 string_type = '_string'
 float_type = '_float'
@@ -36,6 +39,9 @@ class Cell(object):
 
     def get_value(self):
         return self.value
+
+    def put_value(self,value):
+        self.value = value
 
     def get_float_value(self):
         if self.type in [float_type,int_type]:
@@ -82,6 +88,16 @@ class Column(object):
         """ get the size of this column """
         return len(self.values)
 
+    def delete(self,idx):
+        if idx < len(self.values):
+            del self.values[idx]
+
+    def ins(self,idx,value):
+        if idx < len(self.values):
+            self.values.insert(idx,value)
+        else:
+            self.put(idx,value)
+
     def get(self,idx):
         """ get the cell at index idx in column """
         if idx < len(self.values):
@@ -115,16 +131,58 @@ class Column(object):
 
 blank_column = Column()
 
+def synchronized(method):
+    @wraps(method)
+    def wrapper(self, *args, **kwargs):
+        with self.refresh_lock:
+            return method(self, *args, **kwargs)
+    return wrapper
+
 class DataTable(object):
-    def __init__(self,columns=None,name=None):
+    def __init__(self,columns=None,name=None,refresh_minutes=10):
         """ accepts a list of columns and a name for the table """
         self.listeners = []
         self.columns = []
         self.name = name
         self.cnames = {}
+        self.refresh_lock = threading.RLock()
+        self.refresh_minutes = refresh_minutes
+        self.refresh_thread = None
+        self.refresh_thread_stop = False
         if columns:
             for c in columns:
                 self.add_column(c)
+
+    def acquire_refresh_lock(self):
+        """ acquire the refresh lock before reading/writing the table state """
+        self.refresh_lock.acquire()
+
+    def release_refresh_lock(self):
+        """ release the refresh lock after reading/writing the table state """
+        self.refresh_lock.release()
+
+    def start_refresh( self ):
+        """ Start the background refresh thread """
+        self.stop_refresh()
+        self.refresh_thread = threading.Thread(target=self.perform_refresh)
+        self.refresh_thread.start()
+
+    def perform_refresh( self ):
+        """ Thread worker that sleeps and refreshes the data on a schedule """
+        start_time = time.time()
+        while not self.refresh_thread_stop:
+            if time.time() - start_time >= self.refresh_minutes*60.0:
+                self.refresh()
+                start_time = time.time()
+            time.sleep(0)
+
+    def stop_refresh( self ):
+        """ Stop the background refresh thread """
+        self.refresh_thread_stop = True
+        if self.refresh_thread and self.refresh_thread.is_alive():
+            self.refresh_thread.join()
+        self.refresh_thread = None
+        self.refresh_thread_stop = False
 
     def listen(self,listen_func):
         """ register for notifications when a change event is raised on this table """
@@ -139,6 +197,7 @@ class DataTable(object):
         for f in self.listeners:
             f(self)
 
+    @synchronized
     def get_bounds(self):
         """ return a tuple (rows,cols) where rows is the maximum number of rows and cols is the maximum number of cols """
         cols = len(self.columns)
@@ -153,14 +212,17 @@ class DataTable(object):
         """ return the name of the table """
         return self.name
 
+    @synchronized
     def get_names(self):
         """ return a list of the names of the columns in order"""
         return [c.get_name() for c in self.columns]
 
+    @synchronized
     def get_columns(self):
         """ return the list of columns """
         return self.columns
 
+    @synchronized
     def add_column(self,column):
         idx = len(self.columns)
         column.set_idx(idx)
@@ -170,6 +232,7 @@ class DataTable(object):
         self.cnames[column.get_name()] = column
         column.set_table(self)
 
+    @synchronized
     def insert_column(self,idx,column):
         while idx > len(self.columns):
             self.add_column(blank_column)
@@ -188,6 +251,7 @@ class DataTable(object):
                 self.columns[idx].set_idx(idx)
                 idx += 1
 
+    @synchronized
     def replace_column(self,idx,column):
         column.set_idx(idx)
         if not column.get_name():
@@ -196,6 +260,7 @@ class DataTable(object):
         self.cnames[column.get_name()] = column
         column.set_table(self)
 
+    @synchronized
     def map_column(self, reference ):
         if type(reference) == str or type(reference) == str:
             return self.cnames[reference].get_idx()
@@ -204,6 +269,7 @@ class DataTable(object):
         else:
             raise TypeError("wrong type in mapping")
 
+    @synchronized
     def has_column(self, reference ):
         if type(reference) == str or type(reference) == str:
             return reference in self.cnames
@@ -212,60 +278,19 @@ class DataTable(object):
         else:
             return False
 
+    @synchronized
     def get_column(self, reference):
         return self.columns[self.map_column(reference)]
 
+    @synchronized
     def get(self, row, reference ):
         return self.columns[self.map_column(reference)].get(row)
 
+    @synchronized
     def put(self, row, reference, value):
         self.columns[self.map_column(reference)].put(row,value)
-        
+
+    @synchronized
     def refresh(self):
         """ base class method for forcing a refresh on a table """
         pass
-
-
-def main():
-    """ test driver for this module """
-    d = DataTable(name="TestTable")
-    c = Column(name="Strings")
-    for s in range(0,25):
-        c.put(s,Cell(string_type,"String_%d"%s, format_string))
-    c1 = Column(name="Floats")
-    for s in range(0,25):
-        c1.put(s,Cell(float_type,float(s*0.25), format_float))
-    c2 = Column(name="Dates")
-    for s in range(5,20):
-        c2.put(s,Cell(date_type,datetime.datetime.now(), format_date))
-
-    d.add_column(c)
-    d.add_column(c1)
-    d.add_column(c2)
-
-    def print_table(dt):
-        rows,cols = dt.get_bounds()
-
-        sys.stdout.write(",".join(dt.get_names()))
-        sys.stdout.write("\n")
-        for r in range(rows):
-            for c in range(cols):
-                sys.stdout.write(str(dt.get(r,c)))
-                if c+1 < cols:
-                    sys.stdout.write(",")
-            sys.stdout.write("\n")
-        sys.stdout.write("\n")
-
-    print_table(d)
-
-    c3 = Column(name="Ints")
-    for s in range(3,21):
-        c3.put(s,Cell(int_type,s,format_int))
-
-    d.insert_column(2,c3)
-
-    print_table(d)
-
-
-if __name__ == '__main__':
-    main()

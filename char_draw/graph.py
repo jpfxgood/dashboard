@@ -288,11 +288,12 @@ class GraphXAxis(GraphElement):
                         if self.range_max == None or value > self.range_max:
                             self.range_max = value
                         self.values.append((value,str(c)))
-
-                    extra_value = self.values[-1][0] + (self.values[-1][0] - self.values[-2][0])
-                    self.values.append((extra_value," "))
-                    if extra_value > self.range_max:
-                        self.range_max = extra_value
+                                                        
+                    if len(self.values) >= 2:
+                        extra_value = self.values[-1][0] + (self.values[-1][0] - self.values[-2][0])
+                        self.values.append((extra_value," "))
+                        if extra_value > self.range_max:
+                            self.range_max = extra_value
 
             r_height,r_width = self.canvas.from_rowcol(1,1)
             width,height = self.get_size()
@@ -767,8 +768,8 @@ class GraphSlices(GraphElement):
                     if lcy+l_height > height:
                         lcy -= l_height
                     label_children.append(display_list.Text(lcx,lcy,label,label_series.color))
-                    total_degrees += data_degrees                                         
-                    
+                    total_degrees += data_degrees
+
                 title = self.series.column
                 l_height,l_width = self.canvas.from_rowcol(1,len(title))
                 lcx = x+width/2 - l_width/2
