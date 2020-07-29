@@ -62,6 +62,35 @@ class Canvas:
         """ return the pixel location of a character position, returns upper left pixel in matrix"""
         return (int(row)*2,int(col)*2)
 
+    def round_text_position(self, x, y):
+        """ adjust a text position so that it always ends up down and to the right if it is at a half pixel offset """
+        r,c = self.to_rowcol(x,y)
+        y1,x1 = self.from_rowcol(r,c)
+        h,w = self.from_rowcol(1,1)
+        if y1 < y:
+            y = y + h/2
+        if x1 < x:
+            x = x + w/2
+        return x, y
+
+    def round_text_x_position(self, x):
+        """ adjust a text position so that it always ends up down and to the right if it is at a half pixel offset """
+        r,c = self.to_rowcol(x,0)
+        y1,x1 = self.from_rowcol(r,c)
+        h,w = self.from_rowcol(1,1)
+        if x1 < x:
+            x = x + w/2
+        return x
+
+    def round_text_y_position(self, y):
+        """ adjust a text position so that it always ends up down and to the right if it is at a half pixel offset """
+        r,c = self.to_rowcol(0,y)
+        y1,x1 = self.from_rowcol(r,c)
+        h,w = self.from_rowcol(1,1)
+        if y1 < y:
+            y = y + h/2
+        return y
+
     def set_win(self, win ):
         """ point this canvas at a window and initialize things, will blank out the window """
         self.win = win
@@ -136,8 +165,10 @@ class Canvas:
             self.char_map[col][row] = self.mask_to_char[ mask | current_mask ]
         else:
             self.char_map[col][row] = self.mask_to_char[ mask ^ current_mask ]
-
-        self.win.addstr(row,col,self.char_map[col][row].encode('utf_8'),color)
+        try:
+            self.win.addstr(row,col,self.char_map[col][row].encode('utf_8'),color)
+        except:
+            pass
 
     def line(self, x0, y0, x1, y1, color, put_pixel=None ):
         """ draw a line between x0,y0 and x1,y1 in color """
@@ -371,11 +402,23 @@ class Canvas:
 
     def textat(self,x,y,color,message):
         """ draw a text message at a coordinate in the color specified """
-        x = int(x)
-        y = int(y)
+        x,y = self.round_text_position(x,y)
+
+        height, width = self.from_rowcol(1,len(message))
 
         if x < 0 or x >self.max_x or y < 0 or y >self.max_y:
             return
+
+        if y + height > self.max_y:
+            return
+
+        if x + height > self.max_x:
+            clip_height,clip_width = self.to_rowcol(1,(self.max_x-x))
+            if clip_width > 0:
+                message = message[:clip_width]
+            else:
+                return
+
         row,col = self.to_rowcol(x,y)
         self.win.addstr(row,col,message.encode('utf_8'),color)
 
@@ -476,4 +519,3 @@ class Canvas:
                     else:
                         self.put_pixel(x,y,color)
                 self.poly_fill(points,color,put_pixel)
-

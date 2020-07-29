@@ -8,7 +8,7 @@ import curses
 
 class Bbox:
     """ Bounding box object """
-    def __init__(self, x0,y0,x1,y1):
+    def __init__(self, x0=0,y0=0,x1=0,y1=0):
         """ constructor, takex the bounding points of the bounding box """
         self.x0 = x0 if x0 < x1 else x1
         self.y0 = y0 if y0 < y1 else y1
@@ -48,7 +48,7 @@ class DisplayList:
         # modified flag indicates if the object has been changed
         self.modified = True
         # initialize bbox
-        self.bbox = Bbox(0.0,0.0,0.0,0.0)
+        self.bbox = None
         # set up canvas
         self.canvas = None
         self.xform = [1.0,1.0]
@@ -92,8 +92,13 @@ class DisplayList:
         """ computes the bounding box of the display list object """
         ret = self.bbox
         if self.modified:
+            ret = self.bbox = None
             for c in self.children:
-                ret = ret.union(c.get_bbox())
+                if not ret:
+                    ret = c.get_bbox()
+                else:
+                    ret = ret.union(c.get_bbox())
+            self.bbox = ret
             self.modified = False
         return (ret)
 
@@ -178,7 +183,7 @@ class Rect(DisplayList):
         self.y1 = y1
         self.color = color
         self.fill = fill
-        self.bbox = Bbox(0.0,0.0,0.0,0.0)
+        self.bbox = None
 
     def get_points( self ):
         """ return the rectangle's raw points """
@@ -234,7 +239,7 @@ class Circle(DisplayList):
         self.radius = radius
         self.color = color
         self.fill = fill
-        self.bbox = Bbox(0.0,0.0,0.0,0.0)
+        self.bbox = None
 
     def get_center( self ):
         """ return the center of the circle """
@@ -303,7 +308,7 @@ class Arc(DisplayList):
         self.fill = fill
         self.a0 = a0
         self.a1 = a1
-        self.bbox = Bbox(0.0,0.0,0.0,0.0)
+        self.bbox = None
 
     def get_angles( self ):
         """ get the start and end angles for the arc """
@@ -387,7 +392,7 @@ class Text(DisplayList):
         self.y = y
         self.message = message
         self.color = color
-        self.bbox = Bbox(0.0,0.0,0.0,0.0)
+        self.bbox = None
 
     def get_location(self):
         """ get the text location """
@@ -426,10 +431,16 @@ class Text(DisplayList):
         ret = self.bbox
         if self.canvas and self.modified:
             cx,cy = self.transform(self.x,self.y)
-            row,col = self.canvas.to_rowcol(cx,cy)
-            col+=len(self.message)
-            tx,ty = self.canvas.from_rowcol(row+1,col+1)
-            self.bbox = ret = Bbox(cx,cy,tx-1.0,ty-1.0)
+            cx,cy = self.canvas.round_text_position(cx,cy)
+            ty,tx = self.canvas.from_rowcol(1,len(self.message))
+            max_x,max_y = self.canvas.get_maxxy()
+            cx1 = cx+tx
+            cy1 = cy+ty
+            if cx1 > max_x:
+                cx1 = max_x
+            if cy1 > max_y:
+                cy1 = max_y
+            self.bbox = ret = Bbox(cx,cy,cx+tx,cy+ty)
             self.modified = False
         return ret
 
@@ -439,7 +450,7 @@ class PolyLine(DisplayList):
         """ points is a list of (x,y) tuples in order to be drawn as a polyline in color """
         self.points = points
         self.color = color
-        self.bbox = Bbox(0.0,0.0,0.0,0.0)
+        self.bbox = None
         self.transformed_points = None
         DisplayList.__init__(self,parent,None,None)
 
@@ -473,6 +484,8 @@ class PolyLine(DisplayList):
     def get_bbox( self ):
         """ get the bounding box """
         if (not self.transformed_points or self.modified) and self.canvas:
+            if not self.bbox:
+                self.bbox = Bbox()
             self.bbox.x0,self.bbox.y0,self.bbox.x1,self.bbox.y1 = self.canvas.get_bounds(self.transform_points())
             self.modified = False
         return self.bbox
@@ -500,4 +513,3 @@ class Polygon(PolyLine):
     def render(self):
         """ override rendering to draw requested polygon """
         self.canvas.polygon(self.transform_points(),self.color,self.fill)
-

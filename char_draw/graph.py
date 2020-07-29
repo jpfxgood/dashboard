@@ -128,6 +128,13 @@ class GraphElement( display_list.DisplayList ):
         self.width,self.height = size
         self.modified = True
 
+    def get_bbox( self ):
+        """ return the bounding box of this element if it has no children make it based on it's height and width """
+        ret = display_list.DisplayList.get_bbox(self)
+        if not ret:
+            ret = display_list.Bbox(self.x,self.y,self.x+self.width,self.y+self.height)
+        return ret
+
 
 class GraphTitle(GraphElement):
     """ A title to be displayed on a graph """
@@ -247,7 +254,10 @@ class GraphXAxis(GraphElement):
                     type = c.get_type()
                 elif type != c.get_type():
                     type = 'mixed'
-
+            self.range_min = -1
+            self.range_max = -1
+            self.sx = 0
+            self.dx = 0
             self.values = []
             if self.parent.is_top():
                 top_indexes = self.parent.get_top_indexes()
@@ -288,7 +298,7 @@ class GraphXAxis(GraphElement):
                         if self.range_max == None or value > self.range_max:
                             self.range_max = value
                         self.values.append((value,str(c)))
-                                                        
+
                     if len(self.values) >= 2:
                         extra_value = self.values[-1][0] + (self.values[-1][0] - self.values[-2][0])
                         self.values.append((extra_value," "))
@@ -337,14 +347,14 @@ class GraphXAxis(GraphElement):
                 if prev_scaled_x != None:
                     total_dx += (scaled_x - prev_scaled_x)
                 prev_scaled_x = scaled_x
-                if ox+scaled_x >= x or force:
-                    x = ox+scaled_x
-                    points.append((x,y))
-                    points.append((x,y+1))
-                    points.append((x,y))
-                    labels.append((x,y+1+r_height,label))
+                t_x,t_y = self.canvas.round_text_position(ox+scaled_x,y+1)
+                if t_x >= x or force:
+                    points.append((t_x,y))
+                    points.append((t_x,t_y))
+                    points.append((t_x,y))
+                    labels.append((t_x,t_y,label))
                     l_height,l_width = self.canvas.from_rowcol(1,len(label)+1)
-                    x += l_width
+                    x = t_x + l_width
             if points[-1][0] < ox+width:
                 points.append((ox+width,y))
             self.dx = total_dx / len(self.values)
@@ -375,6 +385,7 @@ class GraphYAxis(GraphElement):
             y_values = self.parent.get_series()
             self.range_min = -1
             self.range_max = -1
+            self.dy = 0
 
             if self.parent.is_top():
                 top_indexes = self.parent.get_top_indexes()
@@ -397,6 +408,10 @@ class GraphYAxis(GraphElement):
                         if self.range_max < 0 or value > self.range_max:
                             self.range_max = value
 
+            if self.range_min <= 0:
+                self.range_min = 0
+            if self.range_max <= 0:
+                self.range_max = 1
             tick_size = max(1.0,(self.range_max-self.range_min))/5
             if tick_size > 1:
                 tick_size = round(tick_size)
@@ -406,7 +421,7 @@ class GraphYAxis(GraphElement):
             ox,oy = self.get_location()
             new_children.append(display_list.Rect(ox,oy,ox+width,oy+height,self.canvas.black,fill=True))
             oy += height
-            ox += (width-1)
+            ox += (width- 1)
             self.sy = height / max(1.0,(self.range_max-self.range_min))
             x = ox
             y = oy
@@ -417,14 +432,14 @@ class GraphYAxis(GraphElement):
                 label = data_table.format_float(float(data_y))
                 if label.endswith(".00"):
                     label=label[:-3]
-                if oy-scaled_y <= y:
+                t_x,t_y = self.canvas.round_text_position(x-3,oy-scaled_y)
+                if t_y <= y:
                     l_height,l_width = self.canvas.from_rowcol(1,len(label)+1)
-                    y = oy-scaled_y
-                    points.append((x,y))
-                    points.append((x-2,y))
-                    points.append((x,y))
-                    labels.append((x-l_width,y,label))
-                    y -= l_height
+                    points.append((x,t_y))
+                    points.append((t_x,t_y))
+                    points.append((x,t_y))
+                    labels.append((t_x-l_width,t_y-(l_height/2),label))
+                    y = t_y-l_height
 
             if points[-1][1] > oy-height:
                 points.append((x,oy-height))
@@ -706,8 +721,21 @@ class LineGraph(Graph):
             self.y_axis.set_size((width*0.05,height*0.70))
             self.x_axis.set_location((x+(width*0.10),y+(height*0.70)+1.0))
             self.x_axis.set_size((width*0.80,height*0.07))
+
+            ya_bbox = self.y_axis.get_bbox()
+            yat_bbox = self.y_axis_title.get_bbox()
+            if ya_bbox.x0 < yat_bbox.x1:
+                self.y_axis.set_location((self.canvas.round_text_x_position(yat_bbox.x1),ya_bbox.y0))
+                self.y_axis.set_size(((ya_bbox.x1-ya_bbox.x0),height*0.70))
+
             ya_x,ya_y = self.y_axis.get_location()
             ya_w,ya_h = self.y_axis.get_size()
+
+            xa_x,xa_y = self.x_axis.get_location()
+            xa_w,xa_h = self.x_axis.get_size()
+            self.x_axis.set_location((ya_x+ya_w,ya_y+ya_h))
+            self.x_axis.set_size((xa_w - ((ya_x+ya_w)-xa_x),xa_h))
+
             xa_x,xa_y = self.x_axis.get_location()
             xa_w,xa_h = self.x_axis.get_size()
 
