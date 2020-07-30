@@ -1,0 +1,3601 @@
+<!doctype html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+
+    <title>dashboard.dashboard API documentation</title>
+    <meta name="description" content="module that implements graphs of data rendered in a terminal window" />
+
+  <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,300' rel='stylesheet' type='text/css'>
+  
+  <style type="text/css">
+  
+* {
+  box-sizing: border-box;
+}
+/*! normalize.css v1.1.1 | MIT License | git.io/normalize */
+
+/* ==========================================================================
+   HTML5 display definitions
+   ========================================================================== */
+
+/**
+ * Correct `block` display not defined in IE 6/7/8/9 and Firefox 3.
+ */
+
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+main,
+nav,
+section,
+summary {
+    display: block;
+}
+
+/**
+ * Correct `inline-block` display not defined in IE 6/7/8/9 and Firefox 3.
+ */
+
+audio,
+canvas,
+video {
+    display: inline-block;
+    *display: inline;
+    *zoom: 1;
+}
+
+/**
+ * Prevent modern browsers from displaying `audio` without controls.
+ * Remove excess height in iOS 5 devices.
+ */
+
+audio:not([controls]) {
+    display: none;
+    height: 0;
+}
+
+/**
+ * Address styling not present in IE 7/8/9, Firefox 3, and Safari 4.
+ * Known issue: no IE 6 support.
+ */
+
+[hidden] {
+    display: none;
+}
+
+/* ==========================================================================
+   Base
+   ========================================================================== */
+
+/**
+ * 1. Prevent system color scheme's background color being used in Firefox, IE,
+ *    and Opera.
+ * 2. Prevent system color scheme's text color being used in Firefox, IE, and
+ *    Opera.
+ * 3. Correct text resizing oddly in IE 6/7 when body `font-size` is set using
+ *    `em` units.
+ * 4. Prevent iOS text size adjust after orientation change, without disabling
+ *    user zoom.
+ */
+
+html {
+    background: #fff; /* 1 */
+    color: #000; /* 2 */
+    font-size: 100%; /* 3 */
+    -webkit-text-size-adjust: 100%; /* 4 */
+    -ms-text-size-adjust: 100%; /* 4 */
+}
+
+/**
+ * Address `font-family` inconsistency between `textarea` and other form
+ * elements.
+ */
+
+html,
+button,
+input,
+select,
+textarea {
+    font-family: sans-serif;
+}
+
+/**
+ * Address margins handled incorrectly in IE 6/7.
+ */
+
+body {
+    margin: 0;
+}
+
+/* ==========================================================================
+   Links
+   ========================================================================== */
+
+/**
+ * Address `outline` inconsistency between Chrome and other browsers.
+ */
+
+a:focus {
+    outline: thin dotted;
+}
+
+/**
+ * Improve readability when focused and also mouse hovered in all browsers.
+ */
+
+a:active,
+a:hover {
+    outline: 0;
+}
+
+/* ==========================================================================
+   Typography
+   ========================================================================== */
+
+/**
+ * Address font sizes and margins set differently in IE 6/7.
+ * Address font sizes within `section` and `article` in Firefox 4+, Safari 5,
+ * and Chrome.
+ */
+
+h1 {
+    font-size: 2em;
+    margin: 0.67em 0;
+}
+
+h2 {
+    font-size: 1.5em;
+    margin: 0.83em 0;
+}
+
+h3 {
+    font-size: 1.17em;
+    margin: 1em 0;
+}
+
+h4 {
+    font-size: 1em;
+    margin: 1.33em 0;
+}
+
+h5 {
+    font-size: 0.83em;
+    margin: 1.67em 0;
+}
+
+h6 {
+    font-size: 0.67em;
+    margin: 2.33em 0;
+}
+
+/**
+ * Address styling not present in IE 7/8/9, Safari 5, and Chrome.
+ */
+
+abbr[title] {
+    border-bottom: 1px dotted;
+}
+
+/**
+ * Address style set to `bolder` in Firefox 3+, Safari 4/5, and Chrome.
+ */
+
+b,
+strong {
+    font-weight: bold;
+}
+
+blockquote {
+    margin: 1em 40px;
+}
+
+/**
+ * Address styling not present in Safari 5 and Chrome.
+ */
+
+dfn {
+    font-style: italic;
+}
+
+/**
+ * Address differences between Firefox and other browsers.
+ * Known issue: no IE 6/7 normalization.
+ */
+
+hr {
+    -moz-box-sizing: content-box;
+    box-sizing: content-box;
+    height: 0;
+}
+
+/**
+ * Address styling not present in IE 6/7/8/9.
+ */
+
+mark {
+    background: #ff0;
+    color: #000;
+}
+
+/**
+ * Address margins set differently in IE 6/7.
+ */
+
+p,
+pre {
+    margin: 1em 0;
+}
+
+/**
+ * Correct font family set oddly in IE 6, Safari 4/5, and Chrome.
+ */
+
+code,
+kbd,
+pre,
+samp {
+    font-family: monospace, serif;
+    _font-family: 'courier new', monospace;
+    font-size: 1em;
+}
+
+/**
+ * Improve readability of pre-formatted text in all browsers.
+ */
+
+pre {
+    white-space: pre;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+
+/**
+ * Address CSS quotes not supported in IE 6/7.
+ */
+
+q {
+    quotes: none;
+}
+
+/**
+ * Address `quotes` property not supported in Safari 4.
+ */
+
+q:before,
+q:after {
+    content: '';
+    content: none;
+}
+
+/**
+ * Address inconsistent and variable font size in all browsers.
+ */
+
+small {
+    font-size: 80%;
+}
+
+/**
+ * Prevent `sub` and `sup` affecting `line-height` in all browsers.
+ */
+
+sub,
+sup {
+    font-size: 75%;
+    line-height: 0;
+    position: relative;
+    vertical-align: baseline;
+}
+
+sup {
+    top: -0.5em;
+}
+
+sub {
+    bottom: -0.25em;
+}
+
+/* ==========================================================================
+   Lists
+   ========================================================================== */
+
+/**
+ * Address margins set differently in IE 6/7.
+ */
+
+dl,
+menu,
+ol,
+ul {
+    margin: 1em 0;
+}
+
+dd {
+    margin: 0 0 0 40px;
+}
+
+/**
+ * Address paddings set differently in IE 6/7.
+ */
+
+menu,
+ol,
+ul {
+    padding: 0 0 0 40px;
+}
+
+/**
+ * Correct list images handled incorrectly in IE 7.
+ */
+
+nav ul,
+nav ol {
+    list-style: none;
+    list-style-image: none;
+}
+
+/* ==========================================================================
+   Embedded content
+   ========================================================================== */
+
+/**
+ * 1. Remove border when inside `a` element in IE 6/7/8/9 and Firefox 3.
+ * 2. Improve image quality when scaled in IE 7.
+ */
+
+img {
+    border: 0; /* 1 */
+    -ms-interpolation-mode: bicubic; /* 2 */
+}
+
+/**
+ * Correct overflow displayed oddly in IE 9.
+ */
+
+svg:not(:root) {
+    overflow: hidden;
+}
+
+/* ==========================================================================
+   Figures
+   ========================================================================== */
+
+/**
+ * Address margin not present in IE 6/7/8/9, Safari 5, and Opera 11.
+ */
+
+figure {
+    margin: 0;
+}
+
+/* ==========================================================================
+   Forms
+   ========================================================================== */
+
+/**
+ * Correct margin displayed oddly in IE 6/7.
+ */
+
+form {
+    margin: 0;
+}
+
+/**
+ * Define consistent border, margin, and padding.
+ */
+
+fieldset {
+    border: 1px solid #c0c0c0;
+    margin: 0 2px;
+    padding: 0.35em 0.625em 0.75em;
+}
+
+/**
+ * 1. Correct color not being inherited in IE 6/7/8/9.
+ * 2. Correct text not wrapping in Firefox 3.
+ * 3. Correct alignment displayed oddly in IE 6/7.
+ */
+
+legend {
+    border: 0; /* 1 */
+    padding: 0;
+    white-space: normal; /* 2 */
+    *margin-left: -7px; /* 3 */
+}
+
+/**
+ * 1. Correct font size not being inherited in all browsers.
+ * 2. Address margins set differently in IE 6/7, Firefox 3+, Safari 5,
+ *    and Chrome.
+ * 3. Improve appearance and consistency in all browsers.
+ */
+
+button,
+input,
+select,
+textarea {
+    font-size: 100%; /* 1 */
+    margin: 0; /* 2 */
+    vertical-align: baseline; /* 3 */
+    *vertical-align: middle; /* 3 */
+}
+
+/**
+ * Address Firefox 3+ setting `line-height` on `input` using `!important` in
+ * the UA stylesheet.
+ */
+
+button,
+input {
+    line-height: normal;
+}
+
+/**
+ * Address inconsistent `text-transform` inheritance for `button` and `select`.
+ * All other form control elements do not inherit `text-transform` values.
+ * Correct `button` style inheritance in Chrome, Safari 5+, and IE 6+.
+ * Correct `select` style inheritance in Firefox 4+ and Opera.
+ */
+
+button,
+select {
+    text-transform: none;
+}
+
+/**
+ * 1. Avoid the WebKit bug in Android 4.0.* where (2) destroys native `audio`
+ *    and `video` controls.
+ * 2. Correct inability to style clickable `input` types in iOS.
+ * 3. Improve usability and consistency of cursor style between image-type
+ *    `input` and others.
+ * 4. Remove inner spacing in IE 7 without affecting normal text inputs.
+ *    Known issue: inner spacing remains in IE 6.
+ */
+
+button,
+html input[type="button"], /* 1 */
+input[type="reset"],
+input[type="submit"] {
+    -webkit-appearance: button; /* 2 */
+    cursor: pointer; /* 3 */
+    *overflow: visible;  /* 4 */
+}
+
+/**
+ * Re-set default cursor for disabled elements.
+ */
+
+button[disabled],
+html input[disabled] {
+    cursor: default;
+}
+
+/**
+ * 1. Address box sizing set to content-box in IE 8/9.
+ * 2. Remove excess padding in IE 8/9.
+ * 3. Remove excess padding in IE 7.
+ *    Known issue: excess padding remains in IE 6.
+ */
+
+input[type="checkbox"],
+input[type="radio"] {
+    box-sizing: border-box; /* 1 */
+    padding: 0; /* 2 */
+    *height: 13px; /* 3 */
+    *width: 13px; /* 3 */
+}
+
+/**
+ * 1. Address `appearance` set to `searchfield` in Safari 5 and Chrome.
+ * 2. Address `box-sizing` set to `border-box` in Safari 5 and Chrome
+ *    (include `-moz` to future-proof).
+ */
+
+input[type="search"] {
+    -webkit-appearance: textfield; /* 1 */
+    -moz-box-sizing: content-box;
+    -webkit-box-sizing: content-box; /* 2 */
+    box-sizing: content-box;
+}
+
+/**
+ * Remove inner padding and search cancel button in Safari 5 and Chrome
+ * on OS X.
+ */
+
+input[type="search"]::-webkit-search-cancel-button,
+input[type="search"]::-webkit-search-decoration {
+    -webkit-appearance: none;
+}
+
+/**
+ * Remove inner padding and border in Firefox 3+.
+ */
+
+button::-moz-focus-inner,
+input::-moz-focus-inner {
+    border: 0;
+    padding: 0;
+}
+
+/**
+ * 1. Remove default vertical scrollbar in IE 6/7/8/9.
+ * 2. Improve readability and alignment in all browsers.
+ */
+
+textarea {
+    overflow: auto; /* 1 */
+    vertical-align: top; /* 2 */
+}
+
+/* ==========================================================================
+   Tables
+   ========================================================================== */
+
+/**
+ * Remove most spacing between table cells.
+ */
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+  </style>
+
+  <style type="text/css">
+  
+  html, body {
+    margin: 0;
+    padding: 0;
+    min-height: 100%;
+  }
+  body {
+    background: #fff;
+    font-family: "Source Sans Pro", "Helvetica Neueue", Helvetica, sans;
+    font-weight: 300;
+    font-size: 16px;
+    line-height: 1.6em;
+  }
+  #content {
+    width: 70%;
+    max-width: 850px;
+    float: left;
+    padding: 30px 60px;
+    border-left: 1px solid #ddd;
+  }
+  #sidebar {
+    width: 25%;
+    float: left;
+    padding: 30px;
+    overflow: hidden;
+  }
+  #nav {
+    font-size: 130%;
+    margin: 0 0 15px 0;
+  }
+
+  #top {
+    display: block;
+    position: fixed;
+    bottom: 5px;
+    left: 5px;
+    font-size: .85em;
+    text-transform: uppercase;
+  }
+
+  #footer {
+    font-size: .75em;
+    padding: 5px 30px;
+    border-top: 1px solid #ddd;
+    text-align: right;
+  }
+    #footer p {
+      margin: 0 0 0 30px;
+      display: inline-block;
+    }
+
+  h1, h2, h3, h4, h5 {
+    font-weight: 300;
+  }
+  h1 {
+    font-size: 2.5em;
+    line-height: 1.1em;
+    margin: 0 0 .50em 0;
+  }
+
+  h2 {
+    font-size: 1.75em;
+    margin: 1em 0 .50em 0;
+  }
+
+  h3 {
+    margin: 25px 0 10px 0;
+  }
+
+  h4 {
+    margin: 0;
+    font-size: 105%;
+  }
+
+  a {
+    color: #058;
+    text-decoration: none;
+    transition: color .3s ease-in-out;
+  }
+
+  a:hover {
+    color: #e08524;
+    transition: color .3s ease-in-out;
+  }
+
+  pre, code, .mono, .name {
+    font-family: "Ubuntu Mono", "Cousine", "DejaVu Sans Mono", monospace;
+  }
+
+  .title .name {
+    font-weight: bold;
+  }
+  .section-title {
+    margin-top: 2em;
+  }
+  .ident {
+    color: #900;
+  }
+
+  code {
+    background: #f9f9f9;
+  } 
+
+  pre {
+    background: #fefefe;
+    border: 1px solid #ddd;
+    box-shadow: 2px 2px 0 #f3f3f3;
+    margin: 0 30px;
+    padding: 15px 30px;
+  }
+
+  .codehilite {
+    margin: 0 30px 10px 30px;
+  }
+
+    .codehilite pre {
+      margin: 0;
+    }
+    .codehilite .err { background: #ff3300; color: #fff !important; } 
+
+  table#module-list {
+    font-size: 110%;
+  }
+
+    table#module-list tr td:first-child {
+      padding-right: 10px;
+      white-space: nowrap;
+    }
+
+    table#module-list td {
+      vertical-align: top;
+      padding-bottom: 8px;
+    }
+
+      table#module-list td p {
+        margin: 0 0 7px 0;
+      }
+
+  .def {
+    display: table;
+  }
+
+    .def p {
+      display: table-cell;
+      vertical-align: top;
+      text-align: left;
+    }
+
+    .def p:first-child {
+      white-space: nowrap;
+    }
+
+    .def p:last-child {
+      width: 100%;
+    }
+
+
+  #index {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
+    ul#index .class_name {
+      /* font-size: 110%; */
+      font-weight: bold;
+    }
+    #index ul {
+      margin: 0;
+    }
+
+  .item {
+    margin: 0 0 15px 0;
+  }
+
+    .item .class {
+      margin: 0 0 25px 30px;
+    }
+
+      .item .class ul.class_list {
+        margin: 0 0 20px 0;
+      }
+
+    .item .name {
+      background: #fafafa;
+      margin: 0;
+      font-weight: bold;
+      padding: 5px 10px;
+      border-radius: 3px;
+      display: inline-block;
+      min-width: 40%;
+    }
+      .item .name:hover {
+        background: #f6f6f6;
+      }
+
+    .item .empty_desc {
+      margin: 0 0 5px 0;
+      padding: 0;
+    }
+
+    .item .inheritance {
+      margin: 3px 0 0 30px;
+    }
+
+    .item .inherited {
+      color: #666;
+    }
+
+    .item .desc {
+      padding: 0 8px;
+      margin: 0;
+    }
+
+      .item .desc p {
+        margin: 0 0 10px 0;
+      }
+
+    .source_cont {
+      margin: 0;
+      padding: 0;
+    }
+
+    .source_link a {
+      background: #ffc300;
+      font-weight: 400;
+      font-size: .75em;
+      text-transform: uppercase;
+      color: #fff;
+      text-shadow: 1px 1px 0 #f4b700;
+      
+      padding: 3px 8px;
+      border-radius: 2px;
+      transition: background .3s ease-in-out;
+    }
+      .source_link a:hover {
+        background: #FF7200;
+        text-shadow: none;
+        transition: background .3s ease-in-out;
+      }
+
+    .source {
+      display: none;
+      max-height: 600px;
+      overflow-y: scroll;
+      margin-bottom: 15px;
+    }
+
+      .source .codehilite {
+        margin: 0;
+      }
+
+  .desc h1, .desc h2, .desc h3 {
+    font-size: 100% !important;
+  }
+  .clear {
+    clear: both;
+  }
+
+  @media all and (max-width: 950px) {
+    #sidebar {
+      width: 35%;
+    }
+    #content {
+      width: 65%;
+    }
+  }
+  @media all and (max-width: 650px) {
+    #top {
+      display: none;
+    }
+    #sidebar {
+      float: none;
+      width: auto;
+    }
+    #content {
+      float: none;
+      width: auto;
+      padding: 30px;
+    }
+
+    #index ul {
+      padding: 0;
+      margin-bottom: 15px;
+    }
+    #index ul li {
+      display: inline-block;
+      margin-right: 30px;
+    }
+    #footer {
+      text-align: left;
+    }
+    #footer p {
+      display: block;
+      margin: inherit;
+    }
+  }
+
+  /*****************************/
+
+  </style>
+
+
+  <style type="text/css">
+  
+/* ==========================================================================
+   EXAMPLE Media Queries for Responsive Design.
+   These examples override the primary ('mobile first') styles.
+   Modify as content requires.
+   ========================================================================== */
+
+@media only screen and (min-width: 35em) {
+    /* Style adjustments for viewports that meet the condition */
+}
+
+@media print,
+       (-o-min-device-pixel-ratio: 5/4),
+       (-webkit-min-device-pixel-ratio: 1.25),
+       (min-resolution: 120dpi) {
+    /* Style adjustments for high resolution devices */
+}
+
+/* ==========================================================================
+   Print styles.
+   Inlined to avoid required HTTP connection: h5bp.com/r
+   ========================================================================== */
+
+@media print {
+    * {
+        background: transparent !important;
+        color: #000 !important; /* Black prints faster: h5bp.com/s */
+        box-shadow: none !important;
+        text-shadow: none !important;
+    }
+
+    a,
+    a:visited {
+        text-decoration: underline;
+    }
+
+    a[href]:after {
+        content: " (" attr(href) ")";
+    }
+
+    abbr[title]:after {
+        content: " (" attr(title) ")";
+    }
+
+    /*
+     * Don't show links for images, or javascript/internal links
+     */
+
+    .ir a:after,
+    a[href^="javascript:"]:after,
+    a[href^="#"]:after {
+        content: "";
+    }
+
+    pre,
+    blockquote {
+        border: 1px solid #999;
+        page-break-inside: avoid;
+    }
+
+    thead {
+        display: table-header-group; /* h5bp.com/t */
+    }
+
+    tr,
+    img {
+        page-break-inside: avoid;
+    }
+
+    img {
+        max-width: 100% !important;
+    }
+
+    @page {
+        margin: 0.5cm;
+    }
+
+    p,
+    h2,
+    h3 {
+        orphans: 3;
+        widows: 3;
+    }
+
+    h2,
+    h3 {
+        page-break-after: avoid;
+    }
+}
+
+  </style>
+
+  <script type="text/javascript">
+  function toggle(id, $link) {
+    $node = document.getElementById(id);
+    if (!$node)
+    return;
+    if (!$node.style.display || $node.style.display == 'none') {
+    $node.style.display = 'block';
+    $link.innerHTML = 'Hide source &nequiv;';
+    } else {
+    $node.style.display = 'none';
+    $link.innerHTML = 'Show source &equiv;';
+    }
+  }
+  </script>
+</head>
+<body>
+<a href="#" id="top">Top</a>
+
+<div id="container">
+    
+  
+  <div id="sidebar">
+    <h1>Index</h1>
+    <ul id="index">
+
+    <li class="set"><h3><a href="#header-functions">Functions</a></h3>
+      
+  <ul>
+    <li class="mono"><a href="#dashboard.dashboard.main">main</a></li>
+  </ul>
+
+    </li>
+
+    <li class="set"><h3><a href="#header-classes">Classes</a></h3>
+      <ul>
+        <li class="mono">
+        <span class="class_name"><a href="#dashboard.dashboard.Dashboard">Dashboard</a></span>
+        
+          
+  <ul>
+    <li class="mono"><a href="#dashboard.dashboard.Dashboard.__init__">__init__</a></li>
+    <li class="mono"><a href="#dashboard.dashboard.Dashboard.add_page">add_page</a></li>
+    <li class="mono"><a href="#dashboard.dashboard.Dashboard.first_page">first_page</a></li>
+    <li class="mono"><a href="#dashboard.dashboard.Dashboard.get_current_graph">get_current_graph</a></li>
+    <li class="mono"><a href="#dashboard.dashboard.Dashboard.get_current_page">get_current_page</a></li>
+    <li class="mono"><a href="#dashboard.dashboard.Dashboard.get_current_panel">get_current_panel</a></li>
+    <li class="mono"><a href="#dashboard.dashboard.Dashboard.get_window">get_window</a></li>
+    <li class="mono"><a href="#dashboard.dashboard.Dashboard.last_page">last_page</a></li>
+    <li class="mono"><a href="#dashboard.dashboard.Dashboard.main">main</a></li>
+    <li class="mono"><a href="#dashboard.dashboard.Dashboard.next_graph">next_graph</a></li>
+    <li class="mono"><a href="#dashboard.dashboard.Dashboard.next_page">next_page</a></li>
+    <li class="mono"><a href="#dashboard.dashboard.Dashboard.prev_page">prev_page</a></li>
+    <li class="mono"><a href="#dashboard.dashboard.Dashboard.reset_position">reset_position</a></li>
+  </ul>
+
+        </li>
+        <li class="mono">
+        <span class="class_name"><a href="#dashboard.dashboard.Page">Page</a></span>
+        
+          
+  <ul>
+    <li class="mono"><a href="#dashboard.dashboard.Page.__init__">__init__</a></li>
+    <li class="mono"><a href="#dashboard.dashboard.Page.add_panel">add_panel</a></li>
+    <li class="mono"><a href="#dashboard.dashboard.Page.first_panel">first_panel</a></li>
+    <li class="mono"><a href="#dashboard.dashboard.Page.get_current_panel">get_current_panel</a></li>
+    <li class="mono"><a href="#dashboard.dashboard.Page.get_pad">get_pad</a></li>
+    <li class="mono"><a href="#dashboard.dashboard.Page.get_panel_layout">get_panel_layout</a></li>
+    <li class="mono"><a href="#dashboard.dashboard.Page.get_position">get_position</a></li>
+    <li class="mono"><a href="#dashboard.dashboard.Page.get_size">get_size</a></li>
+    <li class="mono"><a href="#dashboard.dashboard.Page.last_panel">last_panel</a></li>
+    <li class="mono"><a href="#dashboard.dashboard.Page.layout_panels">layout_panels</a></li>
+    <li class="mono"><a href="#dashboard.dashboard.Page.move">move</a></li>
+    <li class="mono"><a href="#dashboard.dashboard.Page.next_panel">next_panel</a></li>
+    <li class="mono"><a href="#dashboard.dashboard.Page.prev_panel">prev_panel</a></li>
+    <li class="mono"><a href="#dashboard.dashboard.Page.redraw">redraw</a></li>
+    <li class="mono"><a href="#dashboard.dashboard.Page.refresh">refresh</a></li>
+  </ul>
+
+        </li>
+        <li class="mono">
+        <span class="class_name"><a href="#dashboard.dashboard.Panel">Panel</a></span>
+        
+          
+  <ul>
+    <li class="mono"><a href="#dashboard.dashboard.Panel.__init__">__init__</a></li>
+    <li class="mono"><a href="#dashboard.dashboard.Panel.add_graph">add_graph</a></li>
+    <li class="mono"><a href="#dashboard.dashboard.Panel.get_graph_layout">get_graph_layout</a></li>
+    <li class="mono"><a href="#dashboard.dashboard.Panel.get_layout">get_layout</a></li>
+    <li class="mono"><a href="#dashboard.dashboard.Panel.get_pad">get_pad</a></li>
+    <li class="mono"><a href="#dashboard.dashboard.Panel.layout_graphs">layout_graphs</a></li>
+    <li class="mono"><a href="#dashboard.dashboard.Panel.redraw">redraw</a></li>
+    <li class="mono"><a href="#dashboard.dashboard.Panel.set_layout">set_layout</a></li>
+    <li class="mono"><a href="#dashboard.dashboard.Panel.set_parent">set_parent</a></li>
+  </ul>
+
+        </li>
+      </ul>
+    </li>
+
+    </ul>
+  </div>
+
+    <article id="content">
+      
+  
+
+  
+
+
+  <header id="section-intro">
+  <h1 class="title"><span class="name">dashboard.dashboard</span> module</h1>
+  <p>module that implements graphs of data rendered in a terminal window</p>
+  
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-dashboard.dashboard', this);">Show source &equiv;</a></p>
+  <div id="source-dashboard.dashboard" class="source">
+    <pre><code># Copyright 2017 James P Goodwin a package to draw graphs of data in a terminal window
+""" module that implements graphs of data rendered in a terminal window """
+import locale
+locale.setlocale(locale.LC_ALL,"")
+import curses
+import curses.ascii
+import sys
+import os
+import math
+import time
+from datetime import datetime
+from char_draw import canvas
+from char_draw import graph
+from data_sources import data_table,syslog_data
+
+class Panel:
+    def __init__(self, y=-1,x=-1,height=-1,width=-1,graphs=None,parent=None):
+        """ A panel is a container for a collection of graphs they fit within it's bounds """
+        self.x = x
+        self.y = y
+        self.height = height
+        self.width = width
+        self.graphs = graphs if graphs else []
+        self.graph_layout = []
+        self.parent = None
+        self.pad = None
+        if parent:
+            self.set_parent( parent )
+
+    def set_layout( self, y, x, height, width ):
+        """ set the current layout of this panel """
+        self.y = y
+        self.x = x
+        self.height = height
+        self.width = width
+        self.layout_graphs()
+
+    def get_layout( self ):
+        """ return the panel layout """
+        return (self.y,self.x,self.height,self.width)
+
+    def get_pad( self ):
+        """ return this panel's pad just a passthru to the parent's pad """
+        return self.pad
+
+    def set_parent( self, parent ):
+        """ set this panel to have this parent """
+        self.pad = parent.get_pad()
+        self.parent = parent
+        self.layout_graphs()
+
+    def add_graph( self, graph ):
+        """ add a graph to this panel """
+        self.graphs.append( graph )
+        self.layout_graphs()
+
+    def layout_graphs( self ):
+        """ compute a rectangular layout of graphs within the panel and assign them those locations """
+        self.graph_layout = []
+        if self.x >= 0: # if the panel has been sized
+            ngraphs = len(self.graphs)
+            best_fit = None
+            min_dxy = None
+            for cols in range(1,ngraphs+1):
+                for rows in range(1,ngraphs+1):
+                    if rows*cols >= ngraphs:
+                        dx = self.width//cols
+                        dy = self.height//rows
+                        dxy = max(dx,dy)-min(dx,dy)
+                        if min_dxy == None or dxy < min_dxy:
+                            min_dxy = dxy
+                            best_fit = (rows,cols,dy,dx)
+            rows,cols,dy,dx = best_fit
+            x = 0
+            y = 0
+            for g in self.graphs:
+                self.graph_layout.append((y,x,dy,dx))
+                pad = self.get_pad()
+                if pad:
+                    g_pad = pad.subpad(dy,dx,y,x)
+                    g_canvas = canvas.Canvas(g_pad)
+                    g.set_canvas(g_canvas)
+                x += dx
+                if x >= self.width:
+                    x = 0
+                    y += dy
+        return self.graph_layout
+
+    def get_graph_layout( self ):
+        """ return a list of tuples (graph,y,x,height,width) for the current layout """
+        if not self.graph_layout:
+            self.layout_graphs()
+        ret_layout = []
+        idx = 0
+        for y,x,dy,dx in self.graph_layout:
+            ret_layout.append((self.graphs[idx],self.y+y,self.x+x,dy,dx))
+            idx += 1
+        return ret_layout
+
+    def redraw( self ):
+        """ redraw the panel and all it's graphs """
+        if not self.graph_layout:
+            self.layout_graphs()
+        if self.get_pad():
+            for g in self.graphs:
+                if g.is_modified():
+                    g.render()
+
+class Page:
+    def __init__(self, window, height=-1, width=-1 ):
+        """ one page of a dashboard has the parent window and it's height and width """
+        self.window = window
+
+        if height <= 0 or width <= 0:
+            height,width = window.getmaxyx()
+            height = height - 1
+
+        self.height = height
+        self.width = width
+        self.pad = curses.newpad(height,width)
+        self.position = (0,0)
+        self.panels = []
+        self.panel_layout = []
+        self.current_panel = 0
+
+    def get_pad( self ):
+        """ return  your pad """
+        return self.pad
+
+    def add_panel( self, panel ):
+        """ add a panel into the page """
+        self.panels.append(panel)
+        panel.set_parent(self)
+        self.layout_panels()
+
+    def move( self, row, col ):
+        """ move the current scroll position to a new location """
+        if row < self.height and row >= 0 and col < self.width and col >= 0:
+            self.position = (row,col)
+        return self.position
+
+    def get_position( self ):
+        """ get the current position """
+        return self.position
+
+    def get_size( self ):
+        """ return the height and width of this page """
+        return (self.height,self.width)
+
+    def get_current_panel( self ):
+        """ return the current panel """
+        panel = None
+        if self.panels:
+            panel = self.panels[self.current_panel]
+        return panel
+
+    def next_panel( self ):
+        """ move to the next panel and return that panel or None if we're at the end"""
+        panel = None
+        if self.panels:
+            if self.current_panel+1 < len(self.panels):
+                self.current_panel = self.current_panel + 1
+                panel = self.panels[self.current_panel]
+        return panel
+
+    def prev_panel( self ):
+        """ move to the previous panel return that panel or None if we're at the start """
+        panel = None
+        if self.panels:
+            if self.current_panel > 0:
+                self.current_panel = self.current_panel -1
+                panel = self.panels[self.current_panel]
+        return panel
+
+    def first_panel( self ):
+        """ move to the first panel and return that panel """
+        panel = None
+        if self.panels:
+            self.current_panel = 0
+            panel = self.panels[self.current_panel]
+        return panel
+
+    def last_panel( self ):
+        """ move to the last panel and return that panel """
+        panel = None
+        if self.panels:
+            self.current_panel = len(self.panels)-1
+            panel = self.panels[self.current_panel]
+        return panel
+
+    def redraw( self ):
+        """ redraw all of the panels """
+        if not self.get_panel_layout():
+            self.layout_panels()
+
+        for p in self.panels:
+            p.redraw()
+
+    def layout_panels( self ):
+        """ compute a rectangular layout of panels within the page and assign them those locations """
+        self.panel_layout = []
+
+        is_dynamic = False
+        for g in self.panels:
+            y,x,dy,dx = g.get_layout()
+            if x < 0:
+                is_dynamic = True
+
+        if is_dynamic:
+            npanels = len(self.panels)
+            best_fit = None
+            min_dxy = None
+            for cols in range(1,npanels+1):
+                for rows in range(1,npanels+1):
+                    if rows*cols >= npanels:
+                        dx = self.width//cols
+                        dy = self.height//rows
+                        dxy = max(dx,dy)-min(dx,dy)
+                        if min_dxy == None or dxy < min_dxy:
+                            min_dxy = dxy
+                            best_fit = (rows,cols,dy,dx)
+
+            rows,cols,dy,dx = best_fit
+            x = 0
+            y = 0
+
+            for g in self.panels:
+                self.panel_layout.append((g,y,x,dy,dx))
+                g.set_layout(y,x,dy,dx)
+                x += dx
+                if x >= self.width:
+                    x = 0
+                    y += dy
+        else:
+            for g in self.panels:
+                y,x,dy,dx = g.get_layout()
+                self.panel_layout.append((g,y,x,dy,dx))
+
+        return self.panel_layout
+
+    def get_panel_layout( self ):
+        """ return the layout for the panels, tuples are panel,y,x,height,width """
+        return self.panel_layout
+
+    def refresh( self ):
+        """ refresh this page showing the current position """
+        w_ymax,w_xmax = self.window.getmaxyx()
+        w_ymax -= 1
+        if w_ymax >= self.height and w_xmax >= self.width:
+            self.pad.refresh(0,0,1,0,self.height,self.width)
+        else:
+            p_y,p_x = self.position
+            h = min(w_ymax,self.height - p_y)
+            w = min(w_xmax,self.width - p_x)
+            self.pad.refresh(p_y,p_x,1,0,h-1,w-1)
+            if w < w_xmax:
+                for y in range(0,h):
+                    try:
+                        self.window.addstr(y,w,' '*(w_xmax-w))
+                    except:
+                        pass
+            while h < w_ymax:
+                try:
+                    self.window.addstr(h,0,' '*(w_xmax-1))
+                except:
+                    pass
+                h += 1
+
+class Dashboard:
+    def __init__(self,window,pages = None, auto_tour_delay = 0):
+        """ Dashboard driver that holds an array of pages, auto_tour_delay > 0 will tab around all of the graphs with this delay in seconds between each """
+        self.window = window
+        self.pages = pages if pages else []
+        self.current_page = 0
+        self.current_panel = None
+        self.current_graph = 0
+        self.current_graph_pos = None
+        self.auto_tour_delay = auto_tour_delay
+
+    def add_page(self, page ):
+        """ add a page to this dashboard """
+        self.pages.append(page)
+
+    def get_window( self ):
+        """ Get this dashboard's window """
+        return self.window
+
+    def get_current_page( self ):
+        """ Get the current page """
+        page = None
+        if self.pages:
+            page = self.pages[self.current_page]
+        return page
+
+
+    def reset_position( self ):
+        """ Reset the tour position """
+        page = self.get_current_page()
+        if page:
+            self.current_panel = page.first_panel()
+            self.current_graph = 0
+            page.move(0,0)
+            self.current_graph_pos = None
+
+    def next_page( self ):
+        """ Goto the next page and return it or return None if at the end """
+        page = None
+        if self.pages:
+            if self.current_page+1 < len(self.pages):
+                self.current_page += 1
+                page = self.pages[self.current_page]
+                self.reset_position()
+        return page
+
+    def prev_page( self ):
+        """ goto the previous page and return it or return None if at the beginning """
+        page = None
+        if self.pages:
+            if self.current_page > 0:
+                self.current_page -= 1
+                page = self.pages[self.current_page]
+                self.reset_position()
+        return page
+
+    def first_page( self ):
+        """ goto the first page and return it or return None if no pages """
+        page = None
+        if self.pages:
+            self.current_page = 0
+            page = self.pages[self.current_page]
+            self.reset_position()
+        return page
+
+    def last_page( self ):
+        """ goto the last page and return it or return None if no pages """
+        page = None
+        if self.pages:
+            self.current_page = len(self.pages)-1
+            page = self.pages[self.current_page]
+            self.reset_position()
+        return page
+
+    def get_current_panel( self ):
+        """ get the current_panel in the current_page or None if there are none """
+        panel = None
+        page = self.get_current_page()
+        if page:
+            panel = page.get_current_panel()
+        return panel
+
+    def get_current_graph( self ):
+        """ get the current graph tuple in the current_page in the current panel, None if there is none """
+        graph = None
+        panel = self.get_current_panel()
+        if panel:
+            graphs = panel.get_graph_layout()
+            if graphs:
+                if self.current_graph >= len(graphs):
+                    self.current_graph = 0
+                graph = graphs[self.current_graph]
+        return graph
+
+    def next_graph( self ):
+        """ step forward to the next graph,panel,page return the graph tuple for the current graph, return None at the end """
+        graph = None
+        panel = self.get_current_panel()
+        page = self.get_current_page()
+        if panel:
+            graphs = panel.get_graph_layout()
+            while panel and graphs and not graph:
+                if self.current_graph+1 < len(graphs):
+                    self.current_graph += 1
+                    graph = graphs[self.current_graph]
+                else:
+                    page = self.get_current_page()
+                    panel = page.next_panel()
+                    self.current_graph = 0
+                    if not panel:
+                        page = self.next_page()
+                        if page:
+                            graph = self.get_current_graph()
+                        else:
+                            return None
+                    else:
+                        graphs = panel.get_graph_layout()
+                        graph = graphs[self.current_graph]
+            if graph:
+                page.move(graph[1],graph[2])
+
+        return graph
+
+
+    def main( self ):
+        """ main input and redraw loop for the dashboard """
+        self.window.nodelay(1)
+        self.window.notimeout(0)
+        self.window.timeout(0)
+        self.window.keypad(1)
+        curses.curs_set(0)
+        curses.raw()
+        curses.mousemask( curses.ALL_MOUSE_EVENTS | curses.REPORT_MOUSE_POSITION )
+
+        start_time = time.time()
+        positions = []
+        zoomed = False
+        zoomed_canvas = None
+        zoomed_graph = None
+        zoomed_restore_canvas = None
+        status = ""
+        while True:
+            ch = self.window.getch()
+
+            if not zoomed:
+                cur_graph = self.get_current_graph()
+                cur_graph[0].set_focus(True)
+
+                if ch > -1:
+                    page = self.get_current_page()
+                    py,px = page.get_position()
+
+                    if ch == 27: # esc key
+                        return 0
+                    elif ch == 9: # tab key
+                        self.next_graph()
+                    elif ch == curses.KEY_NPAGE:
+                        self.next_page()
+                    elif ch == curses.KEY_PPAGE:
+                        self.prev_page()
+                    elif ch == curses.KEY_HOME:
+                        self.first_page()
+                    elif ch == curses.KEY_END:
+                        self.last_page()
+                    elif ch == curses.KEY_RIGHT:
+                        page.move(py,px+1)
+                    elif ch == curses.KEY_LEFT:
+                        page.move(py,px-1)
+                    elif ch == curses.KEY_UP:
+                        page.move(py-1,px)
+                    elif ch == curses.KEY_DOWN:
+                        page.move(py+1,px)
+                    elif ch == curses.KEY_F5:
+                        for p in self.pages:
+                            for pp in p.get_panel_layout():
+                                for gg in pp[0].get_graph_layout():
+                                    gg[0].refresh_data()
+                    elif ch == curses.KEY_ENTER or ch == 10: # ENTER KEY
+                        zoomed = True
+                        zoomed_graph = self.get_current_graph()
+                        zoomed_canvas = canvas.Canvas(self.window)
+                        zoomed_restore_canvas = zoomed_graph[0].get_canvas()
+                        zoomed_graph[0].set_canvas(zoomed_canvas)
+                        self.window.clear()
+                        continue
+                    elif ch == curses.KEY_MOUSE:
+                        mid, mx, my, mz, mtype = curses.getmouse()
+                        max_y,max_x = self.window.getmaxyx()
+                        if mtype & curses.BUTTON1_CLICKED:
+                            if mx == 0 and my == 0:
+                                self.first_page()
+                            elif mx == 0 and my > 0:
+                                self.prev_page()
+                            elif mx == max_x-1 and my == max_y-1:
+                                self.last_page()
+                            elif mx == max_x-1 and my < max_y-1:
+                                self.next_page()
+                    start_time = time.time()
+                    positions = []
+
+                if self.auto_tour_delay:
+                    if time.time() - start_time > (self.auto_tour_delay/4): # 4 views per graph
+                        if not positions:
+                            g = self.next_graph()
+                            if not g:
+                                self.first_page()
+                                g = self.get_current_graph()
+                            positions = [(g[1],g[2]),(g[1]+(g[3]//2),g[2]),(g[1]+(g[3]//2),g[2]+(g[4]//2)),(g[1],g[2]+(g[4]//2))]
+                        py,px = positions.pop(0)
+                        self.get_current_page().move(py,px)
+                        start_time = time.time()
+
+                if cur_graph[0] != self.get_current_graph()[0]:
+                    cur_graph[0].set_focus(False)
+
+                page = self.get_current_page()
+                if page:
+                    page.redraw()
+                    page.refresh()
+
+            if zoomed:
+                if ch > -1:
+                    if ch == 27: # esc key
+                        zoomed_graph[0].set_canvas(zoomed_restore_canvas)
+                        zoomed = False
+                        zoomed_graph = None
+                        zoomed_canvas = None
+                        zoomed_restore_canvas = None
+
+                if zoomed_graph and zoomed_graph[0].is_modified():
+                    zoomed_graph[0].render()
+                    self.window.refresh()
+
+            latest_refresh = 0
+            for p in self.pages:
+                for pp in p.get_panel_layout():
+                    for gg in pp[0].get_graph_layout():
+                        latest_refresh = max(latest_refresh,gg[0].get_data().get_refresh_timestamp())
+
+            self.window.addstr(0,0," "*len(status),curses.color_pair(1)|curses.A_REVERSE)
+            status = "Page %d of %d Last Update %s%s"%(self.current_page+1,len(self.pages),datetime.fromtimestamp(latest_refresh).strftime("%A, %d. %B %Y %I:%M%p")," ZOOMED (Press Esc to Exit)" if zoomed else "")
+            self.window.addstr(0,0,status,curses.color_pair(1)|curses.A_REVERSE)
+
+
+
+def main(stdscr):
+    """ test driver for the dashboard """
+
+    sd = syslog_data.SyslogDataTable(refresh_minutes=1)
+    sd.start_refresh()
+    d = Dashboard(stdscr,auto_tour_delay = 5)
+    p = Page(stdscr)
+    height, width = p.get_size()
+    pp = Panel(0,0,height,width)
+    pp.add_graph(graph.LineGraph(sd,"Time Stamps",["Errors by Time"],None,None))
+    pp.add_graph(graph.LineGraph(sd,"Time Stamps",["Messages by Time"],None,None))
+    p.add_panel(pp)
+    d.add_page(p)
+    p = Page(stdscr)
+    pp = Panel(0,0,height,width)
+    pp.add_graph(graph.LineGraph(sd,"Time Stamps",["Warnings by Time"],None,None))
+    pp.add_graph(graph.BarGraph(sd,"Services",["Messages by Service"],None,None,5))
+    p.add_panel(pp)
+    d.add_page(p)
+    d.main()
+    sd.stop_refresh()
+
+    return 0
+
+if __name__ == '__main__':
+    curses.wrapper(main)
+</code></pre>
+  </div>
+
+  </header>
+
+  <section id="section-items">
+
+    <h2 class="section-title" id="header-functions">Functions</h2>
+      
+  <div class="item">
+    <div class="name def" id="dashboard.dashboard.main">
+    <p>def <span class="ident">main</span>(</p><p>stdscr)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>test driver for the dashboard</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-dashboard.dashboard.main', this);">Show source &equiv;</a></p>
+  <div id="source-dashboard.dashboard.main" class="source">
+    <pre><code>def main(stdscr):
+    """ test driver for the dashboard """
+
+    sd = syslog_data.SyslogDataTable(refresh_minutes=1)
+    sd.start_refresh()
+    d = Dashboard(stdscr,auto_tour_delay = 5)
+    p = Page(stdscr)
+    height, width = p.get_size()
+    pp = Panel(0,0,height,width)
+    pp.add_graph(graph.LineGraph(sd,"Time Stamps",["Errors by Time"],None,None))
+    pp.add_graph(graph.LineGraph(sd,"Time Stamps",["Messages by Time"],None,None))
+    p.add_panel(pp)
+    d.add_page(p)
+    p = Page(stdscr)
+    pp = Panel(0,0,height,width)
+    pp.add_graph(graph.LineGraph(sd,"Time Stamps",["Warnings by Time"],None,None))
+    pp.add_graph(graph.BarGraph(sd,"Services",["Messages by Service"],None,None,5))
+    p.add_panel(pp)
+    d.add_page(p)
+    d.main()
+    sd.stop_refresh()
+
+    return 0
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+
+    <h2 class="section-title" id="header-classes">Classes</h2>
+      
+      <div class="item">
+      <p id="dashboard.dashboard.Dashboard" class="name">class <span class="ident">Dashboard</span></p>
+      
+  
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-dashboard.dashboard.Dashboard', this);">Show source &equiv;</a></p>
+  <div id="source-dashboard.dashboard.Dashboard" class="source">
+    <pre><code>class Dashboard:
+    def __init__(self,window,pages = None, auto_tour_delay = 0):
+        """ Dashboard driver that holds an array of pages, auto_tour_delay > 0 will tab around all of the graphs with this delay in seconds between each """
+        self.window = window
+        self.pages = pages if pages else []
+        self.current_page = 0
+        self.current_panel = None
+        self.current_graph = 0
+        self.current_graph_pos = None
+        self.auto_tour_delay = auto_tour_delay
+
+    def add_page(self, page ):
+        """ add a page to this dashboard """
+        self.pages.append(page)
+
+    def get_window( self ):
+        """ Get this dashboard's window """
+        return self.window
+
+    def get_current_page( self ):
+        """ Get the current page """
+        page = None
+        if self.pages:
+            page = self.pages[self.current_page]
+        return page
+
+
+    def reset_position( self ):
+        """ Reset the tour position """
+        page = self.get_current_page()
+        if page:
+            self.current_panel = page.first_panel()
+            self.current_graph = 0
+            page.move(0,0)
+            self.current_graph_pos = None
+
+    def next_page( self ):
+        """ Goto the next page and return it or return None if at the end """
+        page = None
+        if self.pages:
+            if self.current_page+1 < len(self.pages):
+                self.current_page += 1
+                page = self.pages[self.current_page]
+                self.reset_position()
+        return page
+
+    def prev_page( self ):
+        """ goto the previous page and return it or return None if at the beginning """
+        page = None
+        if self.pages:
+            if self.current_page > 0:
+                self.current_page -= 1
+                page = self.pages[self.current_page]
+                self.reset_position()
+        return page
+
+    def first_page( self ):
+        """ goto the first page and return it or return None if no pages """
+        page = None
+        if self.pages:
+            self.current_page = 0
+            page = self.pages[self.current_page]
+            self.reset_position()
+        return page
+
+    def last_page( self ):
+        """ goto the last page and return it or return None if no pages """
+        page = None
+        if self.pages:
+            self.current_page = len(self.pages)-1
+            page = self.pages[self.current_page]
+            self.reset_position()
+        return page
+
+    def get_current_panel( self ):
+        """ get the current_panel in the current_page or None if there are none """
+        panel = None
+        page = self.get_current_page()
+        if page:
+            panel = page.get_current_panel()
+        return panel
+
+    def get_current_graph( self ):
+        """ get the current graph tuple in the current_page in the current panel, None if there is none """
+        graph = None
+        panel = self.get_current_panel()
+        if panel:
+            graphs = panel.get_graph_layout()
+            if graphs:
+                if self.current_graph >= len(graphs):
+                    self.current_graph = 0
+                graph = graphs[self.current_graph]
+        return graph
+
+    def next_graph( self ):
+        """ step forward to the next graph,panel,page return the graph tuple for the current graph, return None at the end """
+        graph = None
+        panel = self.get_current_panel()
+        page = self.get_current_page()
+        if panel:
+            graphs = panel.get_graph_layout()
+            while panel and graphs and not graph:
+                if self.current_graph+1 < len(graphs):
+                    self.current_graph += 1
+                    graph = graphs[self.current_graph]
+                else:
+                    page = self.get_current_page()
+                    panel = page.next_panel()
+                    self.current_graph = 0
+                    if not panel:
+                        page = self.next_page()
+                        if page:
+                            graph = self.get_current_graph()
+                        else:
+                            return None
+                    else:
+                        graphs = panel.get_graph_layout()
+                        graph = graphs[self.current_graph]
+            if graph:
+                page.move(graph[1],graph[2])
+
+        return graph
+
+
+    def main( self ):
+        """ main input and redraw loop for the dashboard """
+        self.window.nodelay(1)
+        self.window.notimeout(0)
+        self.window.timeout(0)
+        self.window.keypad(1)
+        curses.curs_set(0)
+        curses.raw()
+        curses.mousemask( curses.ALL_MOUSE_EVENTS | curses.REPORT_MOUSE_POSITION )
+
+        start_time = time.time()
+        positions = []
+        zoomed = False
+        zoomed_canvas = None
+        zoomed_graph = None
+        zoomed_restore_canvas = None
+        status = ""
+        while True:
+            ch = self.window.getch()
+
+            if not zoomed:
+                cur_graph = self.get_current_graph()
+                cur_graph[0].set_focus(True)
+
+                if ch > -1:
+                    page = self.get_current_page()
+                    py,px = page.get_position()
+
+                    if ch == 27: # esc key
+                        return 0
+                    elif ch == 9: # tab key
+                        self.next_graph()
+                    elif ch == curses.KEY_NPAGE:
+                        self.next_page()
+                    elif ch == curses.KEY_PPAGE:
+                        self.prev_page()
+                    elif ch == curses.KEY_HOME:
+                        self.first_page()
+                    elif ch == curses.KEY_END:
+                        self.last_page()
+                    elif ch == curses.KEY_RIGHT:
+                        page.move(py,px+1)
+                    elif ch == curses.KEY_LEFT:
+                        page.move(py,px-1)
+                    elif ch == curses.KEY_UP:
+                        page.move(py-1,px)
+                    elif ch == curses.KEY_DOWN:
+                        page.move(py+1,px)
+                    elif ch == curses.KEY_F5:
+                        for p in self.pages:
+                            for pp in p.get_panel_layout():
+                                for gg in pp[0].get_graph_layout():
+                                    gg[0].refresh_data()
+                    elif ch == curses.KEY_ENTER or ch == 10: # ENTER KEY
+                        zoomed = True
+                        zoomed_graph = self.get_current_graph()
+                        zoomed_canvas = canvas.Canvas(self.window)
+                        zoomed_restore_canvas = zoomed_graph[0].get_canvas()
+                        zoomed_graph[0].set_canvas(zoomed_canvas)
+                        self.window.clear()
+                        continue
+                    elif ch == curses.KEY_MOUSE:
+                        mid, mx, my, mz, mtype = curses.getmouse()
+                        max_y,max_x = self.window.getmaxyx()
+                        if mtype & curses.BUTTON1_CLICKED:
+                            if mx == 0 and my == 0:
+                                self.first_page()
+                            elif mx == 0 and my > 0:
+                                self.prev_page()
+                            elif mx == max_x-1 and my == max_y-1:
+                                self.last_page()
+                            elif mx == max_x-1 and my < max_y-1:
+                                self.next_page()
+                    start_time = time.time()
+                    positions = []
+
+                if self.auto_tour_delay:
+                    if time.time() - start_time > (self.auto_tour_delay/4): # 4 views per graph
+                        if not positions:
+                            g = self.next_graph()
+                            if not g:
+                                self.first_page()
+                                g = self.get_current_graph()
+                            positions = [(g[1],g[2]),(g[1]+(g[3]//2),g[2]),(g[1]+(g[3]//2),g[2]+(g[4]//2)),(g[1],g[2]+(g[4]//2))]
+                        py,px = positions.pop(0)
+                        self.get_current_page().move(py,px)
+                        start_time = time.time()
+
+                if cur_graph[0] != self.get_current_graph()[0]:
+                    cur_graph[0].set_focus(False)
+
+                page = self.get_current_page()
+                if page:
+                    page.redraw()
+                    page.refresh()
+
+            if zoomed:
+                if ch > -1:
+                    if ch == 27: # esc key
+                        zoomed_graph[0].set_canvas(zoomed_restore_canvas)
+                        zoomed = False
+                        zoomed_graph = None
+                        zoomed_canvas = None
+                        zoomed_restore_canvas = None
+
+                if zoomed_graph and zoomed_graph[0].is_modified():
+                    zoomed_graph[0].render()
+                    self.window.refresh()
+
+            latest_refresh = 0
+            for p in self.pages:
+                for pp in p.get_panel_layout():
+                    for gg in pp[0].get_graph_layout():
+                        latest_refresh = max(latest_refresh,gg[0].get_data().get_refresh_timestamp())
+
+            self.window.addstr(0,0," "*len(status),curses.color_pair(1)|curses.A_REVERSE)
+            status = "Page %d of %d Last Update %s%s"%(self.current_page+1,len(self.pages),datetime.fromtimestamp(latest_refresh).strftime("%A, %d. %B %Y %I:%M%p")," ZOOMED (Press Esc to Exit)" if zoomed else "")
+            self.window.addstr(0,0,status,curses.color_pair(1)|curses.A_REVERSE)
+</code></pre>
+  </div>
+</div>
+
+
+      <div class="class">
+          <h3>Ancestors (in MRO)</h3>
+          <ul class="class_list">
+          <li><a href="#dashboard.dashboard.Dashboard">Dashboard</a></li>
+          <li>builtins.object</li>
+          </ul>
+          <h3>Static methods</h3>
+            
+  <div class="item">
+    <div class="name def" id="dashboard.dashboard.Dashboard.__init__">
+    <p>def <span class="ident">__init__</span>(</p><p>self, window, pages=None, auto_tour_delay=0)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Dashboard driver that holds an array of pages, auto_tour_delay &gt; 0 will tab around all of the graphs with this delay in seconds between each</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-dashboard.dashboard.Dashboard.__init__', this);">Show source &equiv;</a></p>
+  <div id="source-dashboard.dashboard.Dashboard.__init__" class="source">
+    <pre><code>def __init__(self,window,pages = None, auto_tour_delay = 0):
+    """ Dashboard driver that holds an array of pages, auto_tour_delay > 0 will tab around all of the graphs with this delay in seconds between each """
+    self.window = window
+    self.pages = pages if pages else []
+    self.current_page = 0
+    self.current_panel = None
+    self.current_graph = 0
+    self.current_graph_pos = None
+    self.auto_tour_delay = auto_tour_delay
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="dashboard.dashboard.Dashboard.add_page">
+    <p>def <span class="ident">add_page</span>(</p><p>self, page)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>add a page to this dashboard</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-dashboard.dashboard.Dashboard.add_page', this);">Show source &equiv;</a></p>
+  <div id="source-dashboard.dashboard.Dashboard.add_page" class="source">
+    <pre><code>def add_page(self, page ):
+    """ add a page to this dashboard """
+    self.pages.append(page)
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="dashboard.dashboard.Dashboard.first_page">
+    <p>def <span class="ident">first_page</span>(</p><p>self)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>goto the first page and return it or return None if no pages</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-dashboard.dashboard.Dashboard.first_page', this);">Show source &equiv;</a></p>
+  <div id="source-dashboard.dashboard.Dashboard.first_page" class="source">
+    <pre><code>def first_page( self ):
+    """ goto the first page and return it or return None if no pages """
+    page = None
+    if self.pages:
+        self.current_page = 0
+        page = self.pages[self.current_page]
+        self.reset_position()
+    return page
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="dashboard.dashboard.Dashboard.get_current_graph">
+    <p>def <span class="ident">get_current_graph</span>(</p><p>self)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>get the current graph tuple in the current_page in the current panel, None if there is none</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-dashboard.dashboard.Dashboard.get_current_graph', this);">Show source &equiv;</a></p>
+  <div id="source-dashboard.dashboard.Dashboard.get_current_graph" class="source">
+    <pre><code>def get_current_graph( self ):
+    """ get the current graph tuple in the current_page in the current panel, None if there is none """
+    graph = None
+    panel = self.get_current_panel()
+    if panel:
+        graphs = panel.get_graph_layout()
+        if graphs:
+            if self.current_graph >= len(graphs):
+                self.current_graph = 0
+            graph = graphs[self.current_graph]
+    return graph
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="dashboard.dashboard.Dashboard.get_current_page">
+    <p>def <span class="ident">get_current_page</span>(</p><p>self)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Get the current page</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-dashboard.dashboard.Dashboard.get_current_page', this);">Show source &equiv;</a></p>
+  <div id="source-dashboard.dashboard.Dashboard.get_current_page" class="source">
+    <pre><code>def get_current_page( self ):
+    """ Get the current page """
+    page = None
+    if self.pages:
+        page = self.pages[self.current_page]
+    return page
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="dashboard.dashboard.Dashboard.get_current_panel">
+    <p>def <span class="ident">get_current_panel</span>(</p><p>self)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>get the current_panel in the current_page or None if there are none</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-dashboard.dashboard.Dashboard.get_current_panel', this);">Show source &equiv;</a></p>
+  <div id="source-dashboard.dashboard.Dashboard.get_current_panel" class="source">
+    <pre><code>def get_current_panel( self ):
+    """ get the current_panel in the current_page or None if there are none """
+    panel = None
+    page = self.get_current_page()
+    if page:
+        panel = page.get_current_panel()
+    return panel
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="dashboard.dashboard.Dashboard.get_window">
+    <p>def <span class="ident">get_window</span>(</p><p>self)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Get this dashboard's window</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-dashboard.dashboard.Dashboard.get_window', this);">Show source &equiv;</a></p>
+  <div id="source-dashboard.dashboard.Dashboard.get_window" class="source">
+    <pre><code>def get_window( self ):
+    """ Get this dashboard's window """
+    return self.window
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="dashboard.dashboard.Dashboard.last_page">
+    <p>def <span class="ident">last_page</span>(</p><p>self)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>goto the last page and return it or return None if no pages</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-dashboard.dashboard.Dashboard.last_page', this);">Show source &equiv;</a></p>
+  <div id="source-dashboard.dashboard.Dashboard.last_page" class="source">
+    <pre><code>def last_page( self ):
+    """ goto the last page and return it or return None if no pages """
+    page = None
+    if self.pages:
+        self.current_page = len(self.pages)-1
+        page = self.pages[self.current_page]
+        self.reset_position()
+    return page
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="dashboard.dashboard.Dashboard.main">
+    <p>def <span class="ident">main</span>(</p><p>self)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>main input and redraw loop for the dashboard</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-dashboard.dashboard.Dashboard.main', this);">Show source &equiv;</a></p>
+  <div id="source-dashboard.dashboard.Dashboard.main" class="source">
+    <pre><code>def main( self ):
+    """ main input and redraw loop for the dashboard """
+    self.window.nodelay(1)
+    self.window.notimeout(0)
+    self.window.timeout(0)
+    self.window.keypad(1)
+    curses.curs_set(0)
+    curses.raw()
+    curses.mousemask( curses.ALL_MOUSE_EVENTS | curses.REPORT_MOUSE_POSITION )
+    start_time = time.time()
+    positions = []
+    zoomed = False
+    zoomed_canvas = None
+    zoomed_graph = None
+    zoomed_restore_canvas = None
+    status = ""
+    while True:
+        ch = self.window.getch()
+        if not zoomed:
+            cur_graph = self.get_current_graph()
+            cur_graph[0].set_focus(True)
+            if ch > -1:
+                page = self.get_current_page()
+                py,px = page.get_position()
+                if ch == 27: # esc key
+                    return 0
+                elif ch == 9: # tab key
+                    self.next_graph()
+                elif ch == curses.KEY_NPAGE:
+                    self.next_page()
+                elif ch == curses.KEY_PPAGE:
+                    self.prev_page()
+                elif ch == curses.KEY_HOME:
+                    self.first_page()
+                elif ch == curses.KEY_END:
+                    self.last_page()
+                elif ch == curses.KEY_RIGHT:
+                    page.move(py,px+1)
+                elif ch == curses.KEY_LEFT:
+                    page.move(py,px-1)
+                elif ch == curses.KEY_UP:
+                    page.move(py-1,px)
+                elif ch == curses.KEY_DOWN:
+                    page.move(py+1,px)
+                elif ch == curses.KEY_F5:
+                    for p in self.pages:
+                        for pp in p.get_panel_layout():
+                            for gg in pp[0].get_graph_layout():
+                                gg[0].refresh_data()
+                elif ch == curses.KEY_ENTER or ch == 10: # ENTER KEY
+                    zoomed = True
+                    zoomed_graph = self.get_current_graph()
+                    zoomed_canvas = canvas.Canvas(self.window)
+                    zoomed_restore_canvas = zoomed_graph[0].get_canvas()
+                    zoomed_graph[0].set_canvas(zoomed_canvas)
+                    self.window.clear()
+                    continue
+                elif ch == curses.KEY_MOUSE:
+                    mid, mx, my, mz, mtype = curses.getmouse()
+                    max_y,max_x = self.window.getmaxyx()
+                    if mtype & curses.BUTTON1_CLICKED:
+                        if mx == 0 and my == 0:
+                            self.first_page()
+                        elif mx == 0 and my > 0:
+                            self.prev_page()
+                        elif mx == max_x-1 and my == max_y-1:
+                            self.last_page()
+                        elif mx == max_x-1 and my < max_y-1:
+                            self.next_page()
+                start_time = time.time()
+                positions = []
+            if self.auto_tour_delay:
+                if time.time() - start_time > (self.auto_tour_delay/4): # 4 views per graph
+                    if not positions:
+                        g = self.next_graph()
+                        if not g:
+                            self.first_page()
+                            g = self.get_current_graph()
+                        positions = [(g[1],g[2]),(g[1]+(g[3]//2),g[2]),(g[1]+(g[3]//2),g[2]+(g[4]//2)),(g[1],g[2]+(g[4]//2))]
+                    py,px = positions.pop(0)
+                    self.get_current_page().move(py,px)
+                    start_time = time.time()
+            if cur_graph[0] != self.get_current_graph()[0]:
+                cur_graph[0].set_focus(False)
+            page = self.get_current_page()
+            if page:
+                page.redraw()
+                page.refresh()
+        if zoomed:
+            if ch > -1:
+                if ch == 27: # esc key
+                    zoomed_graph[0].set_canvas(zoomed_restore_canvas)
+                    zoomed = False
+                    zoomed_graph = None
+                    zoomed_canvas = None
+                    zoomed_restore_canvas = None
+            if zoomed_graph and zoomed_graph[0].is_modified():
+                zoomed_graph[0].render()
+                self.window.refresh()
+        latest_refresh = 0
+        for p in self.pages:
+            for pp in p.get_panel_layout():
+                for gg in pp[0].get_graph_layout():
+                    latest_refresh = max(latest_refresh,gg[0].get_data().get_refresh_timestamp())
+        self.window.addstr(0,0," "*len(status),curses.color_pair(1)|curses.A_REVERSE)
+        status = "Page %d of %d Last Update %s%s"%(self.current_page+1,len(self.pages),datetime.fromtimestamp(latest_refresh).strftime("%A, %d. %B %Y %I:%M%p")," ZOOMED (Press Esc to Exit)" if zoomed else "")
+        self.window.addstr(0,0,status,curses.color_pair(1)|curses.A_REVERSE)
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="dashboard.dashboard.Dashboard.next_graph">
+    <p>def <span class="ident">next_graph</span>(</p><p>self)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>step forward to the next graph,panel,page return the graph tuple for the current graph, return None at the end</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-dashboard.dashboard.Dashboard.next_graph', this);">Show source &equiv;</a></p>
+  <div id="source-dashboard.dashboard.Dashboard.next_graph" class="source">
+    <pre><code>def next_graph( self ):
+    """ step forward to the next graph,panel,page return the graph tuple for the current graph, return None at the end """
+    graph = None
+    panel = self.get_current_panel()
+    page = self.get_current_page()
+    if panel:
+        graphs = panel.get_graph_layout()
+        while panel and graphs and not graph:
+            if self.current_graph+1 < len(graphs):
+                self.current_graph += 1
+                graph = graphs[self.current_graph]
+            else:
+                page = self.get_current_page()
+                panel = page.next_panel()
+                self.current_graph = 0
+                if not panel:
+                    page = self.next_page()
+                    if page:
+                        graph = self.get_current_graph()
+                    else:
+                        return None
+                else:
+                    graphs = panel.get_graph_layout()
+                    graph = graphs[self.current_graph]
+        if graph:
+            page.move(graph[1],graph[2])
+    return graph
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="dashboard.dashboard.Dashboard.next_page">
+    <p>def <span class="ident">next_page</span>(</p><p>self)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Goto the next page and return it or return None if at the end</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-dashboard.dashboard.Dashboard.next_page', this);">Show source &equiv;</a></p>
+  <div id="source-dashboard.dashboard.Dashboard.next_page" class="source">
+    <pre><code>def next_page( self ):
+    """ Goto the next page and return it or return None if at the end """
+    page = None
+    if self.pages:
+        if self.current_page+1 < len(self.pages):
+            self.current_page += 1
+            page = self.pages[self.current_page]
+            self.reset_position()
+    return page
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="dashboard.dashboard.Dashboard.prev_page">
+    <p>def <span class="ident">prev_page</span>(</p><p>self)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>goto the previous page and return it or return None if at the beginning</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-dashboard.dashboard.Dashboard.prev_page', this);">Show source &equiv;</a></p>
+  <div id="source-dashboard.dashboard.Dashboard.prev_page" class="source">
+    <pre><code>def prev_page( self ):
+    """ goto the previous page and return it or return None if at the beginning """
+    page = None
+    if self.pages:
+        if self.current_page > 0:
+            self.current_page -= 1
+            page = self.pages[self.current_page]
+            self.reset_position()
+    return page
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="dashboard.dashboard.Dashboard.reset_position">
+    <p>def <span class="ident">reset_position</span>(</p><p>self)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Reset the tour position</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-dashboard.dashboard.Dashboard.reset_position', this);">Show source &equiv;</a></p>
+  <div id="source-dashboard.dashboard.Dashboard.reset_position" class="source">
+    <pre><code>def reset_position( self ):
+    """ Reset the tour position """
+    page = self.get_current_page()
+    if page:
+        self.current_panel = page.first_panel()
+        self.current_graph = 0
+        page.move(0,0)
+        self.current_graph_pos = None
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+          <h3>Instance variables</h3>
+            <div class="item">
+            <p id="dashboard.dashboard.Dashboard.auto_tour_delay" class="name">var <span class="ident">auto_tour_delay</span></p>
+            
+
+            
+  
+  <div class="source_cont">
+</div>
+
+            </div>
+            <div class="item">
+            <p id="dashboard.dashboard.Dashboard.current_graph" class="name">var <span class="ident">current_graph</span></p>
+            
+
+            
+  
+  <div class="source_cont">
+</div>
+
+            </div>
+            <div class="item">
+            <p id="dashboard.dashboard.Dashboard.current_graph_pos" class="name">var <span class="ident">current_graph_pos</span></p>
+            
+
+            
+  
+  <div class="source_cont">
+</div>
+
+            </div>
+            <div class="item">
+            <p id="dashboard.dashboard.Dashboard.current_page" class="name">var <span class="ident">current_page</span></p>
+            
+
+            
+  
+  <div class="source_cont">
+</div>
+
+            </div>
+            <div class="item">
+            <p id="dashboard.dashboard.Dashboard.current_panel" class="name">var <span class="ident">current_panel</span></p>
+            
+
+            
+  
+  <div class="source_cont">
+</div>
+
+            </div>
+            <div class="item">
+            <p id="dashboard.dashboard.Dashboard.pages" class="name">var <span class="ident">pages</span></p>
+            
+
+            
+  
+  <div class="source_cont">
+</div>
+
+            </div>
+            <div class="item">
+            <p id="dashboard.dashboard.Dashboard.window" class="name">var <span class="ident">window</span></p>
+            
+
+            
+  
+  <div class="source_cont">
+</div>
+
+            </div>
+      </div>
+      </div>
+      
+      <div class="item">
+      <p id="dashboard.dashboard.Page" class="name">class <span class="ident">Page</span></p>
+      
+  
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-dashboard.dashboard.Page', this);">Show source &equiv;</a></p>
+  <div id="source-dashboard.dashboard.Page" class="source">
+    <pre><code>class Page:
+    def __init__(self, window, height=-1, width=-1 ):
+        """ one page of a dashboard has the parent window and it's height and width """
+        self.window = window
+
+        if height <= 0 or width <= 0:
+            height,width = window.getmaxyx()
+            height = height - 1
+
+        self.height = height
+        self.width = width
+        self.pad = curses.newpad(height,width)
+        self.position = (0,0)
+        self.panels = []
+        self.panel_layout = []
+        self.current_panel = 0
+
+    def get_pad( self ):
+        """ return  your pad """
+        return self.pad
+
+    def add_panel( self, panel ):
+        """ add a panel into the page """
+        self.panels.append(panel)
+        panel.set_parent(self)
+        self.layout_panels()
+
+    def move( self, row, col ):
+        """ move the current scroll position to a new location """
+        if row < self.height and row >= 0 and col < self.width and col >= 0:
+            self.position = (row,col)
+        return self.position
+
+    def get_position( self ):
+        """ get the current position """
+        return self.position
+
+    def get_size( self ):
+        """ return the height and width of this page """
+        return (self.height,self.width)
+
+    def get_current_panel( self ):
+        """ return the current panel """
+        panel = None
+        if self.panels:
+            panel = self.panels[self.current_panel]
+        return panel
+
+    def next_panel( self ):
+        """ move to the next panel and return that panel or None if we're at the end"""
+        panel = None
+        if self.panels:
+            if self.current_panel+1 < len(self.panels):
+                self.current_panel = self.current_panel + 1
+                panel = self.panels[self.current_panel]
+        return panel
+
+    def prev_panel( self ):
+        """ move to the previous panel return that panel or None if we're at the start """
+        panel = None
+        if self.panels:
+            if self.current_panel > 0:
+                self.current_panel = self.current_panel -1
+                panel = self.panels[self.current_panel]
+        return panel
+
+    def first_panel( self ):
+        """ move to the first panel and return that panel """
+        panel = None
+        if self.panels:
+            self.current_panel = 0
+            panel = self.panels[self.current_panel]
+        return panel
+
+    def last_panel( self ):
+        """ move to the last panel and return that panel """
+        panel = None
+        if self.panels:
+            self.current_panel = len(self.panels)-1
+            panel = self.panels[self.current_panel]
+        return panel
+
+    def redraw( self ):
+        """ redraw all of the panels """
+        if not self.get_panel_layout():
+            self.layout_panels()
+
+        for p in self.panels:
+            p.redraw()
+
+    def layout_panels( self ):
+        """ compute a rectangular layout of panels within the page and assign them those locations """
+        self.panel_layout = []
+
+        is_dynamic = False
+        for g in self.panels:
+            y,x,dy,dx = g.get_layout()
+            if x < 0:
+                is_dynamic = True
+
+        if is_dynamic:
+            npanels = len(self.panels)
+            best_fit = None
+            min_dxy = None
+            for cols in range(1,npanels+1):
+                for rows in range(1,npanels+1):
+                    if rows*cols >= npanels:
+                        dx = self.width//cols
+                        dy = self.height//rows
+                        dxy = max(dx,dy)-min(dx,dy)
+                        if min_dxy == None or dxy < min_dxy:
+                            min_dxy = dxy
+                            best_fit = (rows,cols,dy,dx)
+
+            rows,cols,dy,dx = best_fit
+            x = 0
+            y = 0
+
+            for g in self.panels:
+                self.panel_layout.append((g,y,x,dy,dx))
+                g.set_layout(y,x,dy,dx)
+                x += dx
+                if x >= self.width:
+                    x = 0
+                    y += dy
+        else:
+            for g in self.panels:
+                y,x,dy,dx = g.get_layout()
+                self.panel_layout.append((g,y,x,dy,dx))
+
+        return self.panel_layout
+
+    def get_panel_layout( self ):
+        """ return the layout for the panels, tuples are panel,y,x,height,width """
+        return self.panel_layout
+
+    def refresh( self ):
+        """ refresh this page showing the current position """
+        w_ymax,w_xmax = self.window.getmaxyx()
+        w_ymax -= 1
+        if w_ymax >= self.height and w_xmax >= self.width:
+            self.pad.refresh(0,0,1,0,self.height,self.width)
+        else:
+            p_y,p_x = self.position
+            h = min(w_ymax,self.height - p_y)
+            w = min(w_xmax,self.width - p_x)
+            self.pad.refresh(p_y,p_x,1,0,h-1,w-1)
+            if w < w_xmax:
+                for y in range(0,h):
+                    try:
+                        self.window.addstr(y,w,' '*(w_xmax-w))
+                    except:
+                        pass
+            while h < w_ymax:
+                try:
+                    self.window.addstr(h,0,' '*(w_xmax-1))
+                except:
+                    pass
+                h += 1
+</code></pre>
+  </div>
+</div>
+
+
+      <div class="class">
+          <h3>Ancestors (in MRO)</h3>
+          <ul class="class_list">
+          <li><a href="#dashboard.dashboard.Page">Page</a></li>
+          <li>builtins.object</li>
+          </ul>
+          <h3>Static methods</h3>
+            
+  <div class="item">
+    <div class="name def" id="dashboard.dashboard.Page.__init__">
+    <p>def <span class="ident">__init__</span>(</p><p>self, window, height=-1, width=-1)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>one page of a dashboard has the parent window and it's height and width</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-dashboard.dashboard.Page.__init__', this);">Show source &equiv;</a></p>
+  <div id="source-dashboard.dashboard.Page.__init__" class="source">
+    <pre><code>def __init__(self, window, height=-1, width=-1 ):
+    """ one page of a dashboard has the parent window and it's height and width """
+    self.window = window
+    if height <= 0 or width <= 0:
+        height,width = window.getmaxyx()
+        height = height - 1
+    self.height = height
+    self.width = width
+    self.pad = curses.newpad(height,width)
+    self.position = (0,0)
+    self.panels = []
+    self.panel_layout = []
+    self.current_panel = 0
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="dashboard.dashboard.Page.add_panel">
+    <p>def <span class="ident">add_panel</span>(</p><p>self, panel)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>add a panel into the page</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-dashboard.dashboard.Page.add_panel', this);">Show source &equiv;</a></p>
+  <div id="source-dashboard.dashboard.Page.add_panel" class="source">
+    <pre><code>def add_panel( self, panel ):
+    """ add a panel into the page """
+    self.panels.append(panel)
+    panel.set_parent(self)
+    self.layout_panels()
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="dashboard.dashboard.Page.first_panel">
+    <p>def <span class="ident">first_panel</span>(</p><p>self)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>move to the first panel and return that panel</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-dashboard.dashboard.Page.first_panel', this);">Show source &equiv;</a></p>
+  <div id="source-dashboard.dashboard.Page.first_panel" class="source">
+    <pre><code>def first_panel( self ):
+    """ move to the first panel and return that panel """
+    panel = None
+    if self.panels:
+        self.current_panel = 0
+        panel = self.panels[self.current_panel]
+    return panel
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="dashboard.dashboard.Page.get_current_panel">
+    <p>def <span class="ident">get_current_panel</span>(</p><p>self)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>return the current panel</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-dashboard.dashboard.Page.get_current_panel', this);">Show source &equiv;</a></p>
+  <div id="source-dashboard.dashboard.Page.get_current_panel" class="source">
+    <pre><code>def get_current_panel( self ):
+    """ return the current panel """
+    panel = None
+    if self.panels:
+        panel = self.panels[self.current_panel]
+    return panel
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="dashboard.dashboard.Page.get_pad">
+    <p>def <span class="ident">get_pad</span>(</p><p>self)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>return  your pad</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-dashboard.dashboard.Page.get_pad', this);">Show source &equiv;</a></p>
+  <div id="source-dashboard.dashboard.Page.get_pad" class="source">
+    <pre><code>def get_pad( self ):
+    """ return  your pad """
+    return self.pad
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="dashboard.dashboard.Page.get_panel_layout">
+    <p>def <span class="ident">get_panel_layout</span>(</p><p>self)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>return the layout for the panels, tuples are panel,y,x,height,width</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-dashboard.dashboard.Page.get_panel_layout', this);">Show source &equiv;</a></p>
+  <div id="source-dashboard.dashboard.Page.get_panel_layout" class="source">
+    <pre><code>def get_panel_layout( self ):
+    """ return the layout for the panels, tuples are panel,y,x,height,width """
+    return self.panel_layout
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="dashboard.dashboard.Page.get_position">
+    <p>def <span class="ident">get_position</span>(</p><p>self)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>get the current position</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-dashboard.dashboard.Page.get_position', this);">Show source &equiv;</a></p>
+  <div id="source-dashboard.dashboard.Page.get_position" class="source">
+    <pre><code>def get_position( self ):
+    """ get the current position """
+    return self.position
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="dashboard.dashboard.Page.get_size">
+    <p>def <span class="ident">get_size</span>(</p><p>self)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>return the height and width of this page</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-dashboard.dashboard.Page.get_size', this);">Show source &equiv;</a></p>
+  <div id="source-dashboard.dashboard.Page.get_size" class="source">
+    <pre><code>def get_size( self ):
+    """ return the height and width of this page """
+    return (self.height,self.width)
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="dashboard.dashboard.Page.last_panel">
+    <p>def <span class="ident">last_panel</span>(</p><p>self)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>move to the last panel and return that panel</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-dashboard.dashboard.Page.last_panel', this);">Show source &equiv;</a></p>
+  <div id="source-dashboard.dashboard.Page.last_panel" class="source">
+    <pre><code>def last_panel( self ):
+    """ move to the last panel and return that panel """
+    panel = None
+    if self.panels:
+        self.current_panel = len(self.panels)-1
+        panel = self.panels[self.current_panel]
+    return panel
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="dashboard.dashboard.Page.layout_panels">
+    <p>def <span class="ident">layout_panels</span>(</p><p>self)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>compute a rectangular layout of panels within the page and assign them those locations</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-dashboard.dashboard.Page.layout_panels', this);">Show source &equiv;</a></p>
+  <div id="source-dashboard.dashboard.Page.layout_panels" class="source">
+    <pre><code>def layout_panels( self ):
+    """ compute a rectangular layout of panels within the page and assign them those locations """
+    self.panel_layout = []
+    is_dynamic = False
+    for g in self.panels:
+        y,x,dy,dx = g.get_layout()
+        if x < 0:
+            is_dynamic = True
+    if is_dynamic:
+        npanels = len(self.panels)
+        best_fit = None
+        min_dxy = None
+        for cols in range(1,npanels+1):
+            for rows in range(1,npanels+1):
+                if rows*cols >= npanels:
+                    dx = self.width//cols
+                    dy = self.height//rows
+                    dxy = max(dx,dy)-min(dx,dy)
+                    if min_dxy == None or dxy < min_dxy:
+                        min_dxy = dxy
+                        best_fit = (rows,cols,dy,dx)
+        rows,cols,dy,dx = best_fit
+        x = 0
+        y = 0
+        for g in self.panels:
+            self.panel_layout.append((g,y,x,dy,dx))
+            g.set_layout(y,x,dy,dx)
+            x += dx
+            if x >= self.width:
+                x = 0
+                y += dy
+    else:
+        for g in self.panels:
+            y,x,dy,dx = g.get_layout()
+            self.panel_layout.append((g,y,x,dy,dx))
+    return self.panel_layout
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="dashboard.dashboard.Page.move">
+    <p>def <span class="ident">move</span>(</p><p>self, row, col)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>move the current scroll position to a new location</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-dashboard.dashboard.Page.move', this);">Show source &equiv;</a></p>
+  <div id="source-dashboard.dashboard.Page.move" class="source">
+    <pre><code>def move( self, row, col ):
+    """ move the current scroll position to a new location """
+    if row < self.height and row >= 0 and col < self.width and col >= 0:
+        self.position = (row,col)
+    return self.position
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="dashboard.dashboard.Page.next_panel">
+    <p>def <span class="ident">next_panel</span>(</p><p>self)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>move to the next panel and return that panel or None if we're at the end</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-dashboard.dashboard.Page.next_panel', this);">Show source &equiv;</a></p>
+  <div id="source-dashboard.dashboard.Page.next_panel" class="source">
+    <pre><code>def next_panel( self ):
+    """ move to the next panel and return that panel or None if we're at the end"""
+    panel = None
+    if self.panels:
+        if self.current_panel+1 < len(self.panels):
+            self.current_panel = self.current_panel + 1
+            panel = self.panels[self.current_panel]
+    return panel
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="dashboard.dashboard.Page.prev_panel">
+    <p>def <span class="ident">prev_panel</span>(</p><p>self)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>move to the previous panel return that panel or None if we're at the start</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-dashboard.dashboard.Page.prev_panel', this);">Show source &equiv;</a></p>
+  <div id="source-dashboard.dashboard.Page.prev_panel" class="source">
+    <pre><code>def prev_panel( self ):
+    """ move to the previous panel return that panel or None if we're at the start """
+    panel = None
+    if self.panels:
+        if self.current_panel > 0:
+            self.current_panel = self.current_panel -1
+            panel = self.panels[self.current_panel]
+    return panel
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="dashboard.dashboard.Page.redraw">
+    <p>def <span class="ident">redraw</span>(</p><p>self)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>redraw all of the panels</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-dashboard.dashboard.Page.redraw', this);">Show source &equiv;</a></p>
+  <div id="source-dashboard.dashboard.Page.redraw" class="source">
+    <pre><code>def redraw( self ):
+    """ redraw all of the panels """
+    if not self.get_panel_layout():
+        self.layout_panels()
+    for p in self.panels:
+        p.redraw()
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="dashboard.dashboard.Page.refresh">
+    <p>def <span class="ident">refresh</span>(</p><p>self)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>refresh this page showing the current position</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-dashboard.dashboard.Page.refresh', this);">Show source &equiv;</a></p>
+  <div id="source-dashboard.dashboard.Page.refresh" class="source">
+    <pre><code>def refresh( self ):
+    """ refresh this page showing the current position """
+    w_ymax,w_xmax = self.window.getmaxyx()
+    w_ymax -= 1
+    if w_ymax >= self.height and w_xmax >= self.width:
+        self.pad.refresh(0,0,1,0,self.height,self.width)
+    else:
+        p_y,p_x = self.position
+        h = min(w_ymax,self.height - p_y)
+        w = min(w_xmax,self.width - p_x)
+        self.pad.refresh(p_y,p_x,1,0,h-1,w-1)
+        if w < w_xmax:
+            for y in range(0,h):
+                try:
+                    self.window.addstr(y,w,' '*(w_xmax-w))
+                except:
+                    pass
+        while h < w_ymax:
+            try:
+                self.window.addstr(h,0,' '*(w_xmax-1))
+            except:
+                pass
+            h += 1
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+          <h3>Instance variables</h3>
+            <div class="item">
+            <p id="dashboard.dashboard.Page.current_panel" class="name">var <span class="ident">current_panel</span></p>
+            
+
+            
+  
+  <div class="source_cont">
+</div>
+
+            </div>
+            <div class="item">
+            <p id="dashboard.dashboard.Page.height" class="name">var <span class="ident">height</span></p>
+            
+
+            
+  
+  <div class="source_cont">
+</div>
+
+            </div>
+            <div class="item">
+            <p id="dashboard.dashboard.Page.pad" class="name">var <span class="ident">pad</span></p>
+            
+
+            
+  
+  <div class="source_cont">
+</div>
+
+            </div>
+            <div class="item">
+            <p id="dashboard.dashboard.Page.panel_layout" class="name">var <span class="ident">panel_layout</span></p>
+            
+
+            
+  
+  <div class="source_cont">
+</div>
+
+            </div>
+            <div class="item">
+            <p id="dashboard.dashboard.Page.panels" class="name">var <span class="ident">panels</span></p>
+            
+
+            
+  
+  <div class="source_cont">
+</div>
+
+            </div>
+            <div class="item">
+            <p id="dashboard.dashboard.Page.position" class="name">var <span class="ident">position</span></p>
+            
+
+            
+  
+  <div class="source_cont">
+</div>
+
+            </div>
+            <div class="item">
+            <p id="dashboard.dashboard.Page.width" class="name">var <span class="ident">width</span></p>
+            
+
+            
+  
+  <div class="source_cont">
+</div>
+
+            </div>
+            <div class="item">
+            <p id="dashboard.dashboard.Page.window" class="name">var <span class="ident">window</span></p>
+            
+
+            
+  
+  <div class="source_cont">
+</div>
+
+            </div>
+      </div>
+      </div>
+      
+      <div class="item">
+      <p id="dashboard.dashboard.Panel" class="name">class <span class="ident">Panel</span></p>
+      
+  
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-dashboard.dashboard.Panel', this);">Show source &equiv;</a></p>
+  <div id="source-dashboard.dashboard.Panel" class="source">
+    <pre><code>class Panel:
+    def __init__(self, y=-1,x=-1,height=-1,width=-1,graphs=None,parent=None):
+        """ A panel is a container for a collection of graphs they fit within it's bounds """
+        self.x = x
+        self.y = y
+        self.height = height
+        self.width = width
+        self.graphs = graphs if graphs else []
+        self.graph_layout = []
+        self.parent = None
+        self.pad = None
+        if parent:
+            self.set_parent( parent )
+
+    def set_layout( self, y, x, height, width ):
+        """ set the current layout of this panel """
+        self.y = y
+        self.x = x
+        self.height = height
+        self.width = width
+        self.layout_graphs()
+
+    def get_layout( self ):
+        """ return the panel layout """
+        return (self.y,self.x,self.height,self.width)
+
+    def get_pad( self ):
+        """ return this panel's pad just a passthru to the parent's pad """
+        return self.pad
+
+    def set_parent( self, parent ):
+        """ set this panel to have this parent """
+        self.pad = parent.get_pad()
+        self.parent = parent
+        self.layout_graphs()
+
+    def add_graph( self, graph ):
+        """ add a graph to this panel """
+        self.graphs.append( graph )
+        self.layout_graphs()
+
+    def layout_graphs( self ):
+        """ compute a rectangular layout of graphs within the panel and assign them those locations """
+        self.graph_layout = []
+        if self.x >= 0: # if the panel has been sized
+            ngraphs = len(self.graphs)
+            best_fit = None
+            min_dxy = None
+            for cols in range(1,ngraphs+1):
+                for rows in range(1,ngraphs+1):
+                    if rows*cols >= ngraphs:
+                        dx = self.width//cols
+                        dy = self.height//rows
+                        dxy = max(dx,dy)-min(dx,dy)
+                        if min_dxy == None or dxy < min_dxy:
+                            min_dxy = dxy
+                            best_fit = (rows,cols,dy,dx)
+            rows,cols,dy,dx = best_fit
+            x = 0
+            y = 0
+            for g in self.graphs:
+                self.graph_layout.append((y,x,dy,dx))
+                pad = self.get_pad()
+                if pad:
+                    g_pad = pad.subpad(dy,dx,y,x)
+                    g_canvas = canvas.Canvas(g_pad)
+                    g.set_canvas(g_canvas)
+                x += dx
+                if x >= self.width:
+                    x = 0
+                    y += dy
+        return self.graph_layout
+
+    def get_graph_layout( self ):
+        """ return a list of tuples (graph,y,x,height,width) for the current layout """
+        if not self.graph_layout:
+            self.layout_graphs()
+        ret_layout = []
+        idx = 0
+        for y,x,dy,dx in self.graph_layout:
+            ret_layout.append((self.graphs[idx],self.y+y,self.x+x,dy,dx))
+            idx += 1
+        return ret_layout
+
+    def redraw( self ):
+        """ redraw the panel and all it's graphs """
+        if not self.graph_layout:
+            self.layout_graphs()
+        if self.get_pad():
+            for g in self.graphs:
+                if g.is_modified():
+                    g.render()
+</code></pre>
+  </div>
+</div>
+
+
+      <div class="class">
+          <h3>Ancestors (in MRO)</h3>
+          <ul class="class_list">
+          <li><a href="#dashboard.dashboard.Panel">Panel</a></li>
+          <li>builtins.object</li>
+          </ul>
+          <h3>Static methods</h3>
+            
+  <div class="item">
+    <div class="name def" id="dashboard.dashboard.Panel.__init__">
+    <p>def <span class="ident">__init__</span>(</p><p>self, y=-1, x=-1, height=-1, width=-1, graphs=None, parent=None)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>A panel is a container for a collection of graphs they fit within it's bounds</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-dashboard.dashboard.Panel.__init__', this);">Show source &equiv;</a></p>
+  <div id="source-dashboard.dashboard.Panel.__init__" class="source">
+    <pre><code>def __init__(self, y=-1,x=-1,height=-1,width=-1,graphs=None,parent=None):
+    """ A panel is a container for a collection of graphs they fit within it's bounds """
+    self.x = x
+    self.y = y
+    self.height = height
+    self.width = width
+    self.graphs = graphs if graphs else []
+    self.graph_layout = []
+    self.parent = None
+    self.pad = None
+    if parent:
+        self.set_parent( parent )
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="dashboard.dashboard.Panel.add_graph">
+    <p>def <span class="ident">add_graph</span>(</p><p>self, graph)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>add a graph to this panel</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-dashboard.dashboard.Panel.add_graph', this);">Show source &equiv;</a></p>
+  <div id="source-dashboard.dashboard.Panel.add_graph" class="source">
+    <pre><code>def add_graph( self, graph ):
+    """ add a graph to this panel """
+    self.graphs.append( graph )
+    self.layout_graphs()
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="dashboard.dashboard.Panel.get_graph_layout">
+    <p>def <span class="ident">get_graph_layout</span>(</p><p>self)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>return a list of tuples (graph,y,x,height,width) for the current layout</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-dashboard.dashboard.Panel.get_graph_layout', this);">Show source &equiv;</a></p>
+  <div id="source-dashboard.dashboard.Panel.get_graph_layout" class="source">
+    <pre><code>def get_graph_layout( self ):
+    """ return a list of tuples (graph,y,x,height,width) for the current layout """
+    if not self.graph_layout:
+        self.layout_graphs()
+    ret_layout = []
+    idx = 0
+    for y,x,dy,dx in self.graph_layout:
+        ret_layout.append((self.graphs[idx],self.y+y,self.x+x,dy,dx))
+        idx += 1
+    return ret_layout
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="dashboard.dashboard.Panel.get_layout">
+    <p>def <span class="ident">get_layout</span>(</p><p>self)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>return the panel layout</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-dashboard.dashboard.Panel.get_layout', this);">Show source &equiv;</a></p>
+  <div id="source-dashboard.dashboard.Panel.get_layout" class="source">
+    <pre><code>def get_layout( self ):
+    """ return the panel layout """
+    return (self.y,self.x,self.height,self.width)
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="dashboard.dashboard.Panel.get_pad">
+    <p>def <span class="ident">get_pad</span>(</p><p>self)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>return this panel's pad just a passthru to the parent's pad</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-dashboard.dashboard.Panel.get_pad', this);">Show source &equiv;</a></p>
+  <div id="source-dashboard.dashboard.Panel.get_pad" class="source">
+    <pre><code>def get_pad( self ):
+    """ return this panel's pad just a passthru to the parent's pad """
+    return self.pad
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="dashboard.dashboard.Panel.layout_graphs">
+    <p>def <span class="ident">layout_graphs</span>(</p><p>self)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>compute a rectangular layout of graphs within the panel and assign them those locations</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-dashboard.dashboard.Panel.layout_graphs', this);">Show source &equiv;</a></p>
+  <div id="source-dashboard.dashboard.Panel.layout_graphs" class="source">
+    <pre><code>def layout_graphs( self ):
+    """ compute a rectangular layout of graphs within the panel and assign them those locations """
+    self.graph_layout = []
+    if self.x >= 0: # if the panel has been sized
+        ngraphs = len(self.graphs)
+        best_fit = None
+        min_dxy = None
+        for cols in range(1,ngraphs+1):
+            for rows in range(1,ngraphs+1):
+                if rows*cols >= ngraphs:
+                    dx = self.width//cols
+                    dy = self.height//rows
+                    dxy = max(dx,dy)-min(dx,dy)
+                    if min_dxy == None or dxy < min_dxy:
+                        min_dxy = dxy
+                        best_fit = (rows,cols,dy,dx)
+        rows,cols,dy,dx = best_fit
+        x = 0
+        y = 0
+        for g in self.graphs:
+            self.graph_layout.append((y,x,dy,dx))
+            pad = self.get_pad()
+            if pad:
+                g_pad = pad.subpad(dy,dx,y,x)
+                g_canvas = canvas.Canvas(g_pad)
+                g.set_canvas(g_canvas)
+            x += dx
+            if x >= self.width:
+                x = 0
+                y += dy
+    return self.graph_layout
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="dashboard.dashboard.Panel.redraw">
+    <p>def <span class="ident">redraw</span>(</p><p>self)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>redraw the panel and all it's graphs</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-dashboard.dashboard.Panel.redraw', this);">Show source &equiv;</a></p>
+  <div id="source-dashboard.dashboard.Panel.redraw" class="source">
+    <pre><code>def redraw( self ):
+    """ redraw the panel and all it's graphs """
+    if not self.graph_layout:
+        self.layout_graphs()
+    if self.get_pad():
+        for g in self.graphs:
+            if g.is_modified():
+                g.render()
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="dashboard.dashboard.Panel.set_layout">
+    <p>def <span class="ident">set_layout</span>(</p><p>self, y, x, height, width)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>set the current layout of this panel</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-dashboard.dashboard.Panel.set_layout', this);">Show source &equiv;</a></p>
+  <div id="source-dashboard.dashboard.Panel.set_layout" class="source">
+    <pre><code>def set_layout( self, y, x, height, width ):
+    """ set the current layout of this panel """
+    self.y = y
+    self.x = x
+    self.height = height
+    self.width = width
+    self.layout_graphs()
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="dashboard.dashboard.Panel.set_parent">
+    <p>def <span class="ident">set_parent</span>(</p><p>self, parent)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>set this panel to have this parent</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-dashboard.dashboard.Panel.set_parent', this);">Show source &equiv;</a></p>
+  <div id="source-dashboard.dashboard.Panel.set_parent" class="source">
+    <pre><code>def set_parent( self, parent ):
+    """ set this panel to have this parent """
+    self.pad = parent.get_pad()
+    self.parent = parent
+    self.layout_graphs()
+</code></pre>
+  </div>
+</div>
+
+  </div>
+  
+          <h3>Instance variables</h3>
+            <div class="item">
+            <p id="dashboard.dashboard.Panel.graph_layout" class="name">var <span class="ident">graph_layout</span></p>
+            
+
+            
+  
+  <div class="source_cont">
+</div>
+
+            </div>
+            <div class="item">
+            <p id="dashboard.dashboard.Panel.graphs" class="name">var <span class="ident">graphs</span></p>
+            
+
+            
+  
+  <div class="source_cont">
+</div>
+
+            </div>
+            <div class="item">
+            <p id="dashboard.dashboard.Panel.height" class="name">var <span class="ident">height</span></p>
+            
+
+            
+  
+  <div class="source_cont">
+</div>
+
+            </div>
+            <div class="item">
+            <p id="dashboard.dashboard.Panel.pad" class="name">var <span class="ident">pad</span></p>
+            
+
+            
+  
+  <div class="source_cont">
+</div>
+
+            </div>
+            <div class="item">
+            <p id="dashboard.dashboard.Panel.parent" class="name">var <span class="ident">parent</span></p>
+            
+
+            
+  
+  <div class="source_cont">
+</div>
+
+            </div>
+            <div class="item">
+            <p id="dashboard.dashboard.Panel.width" class="name">var <span class="ident">width</span></p>
+            
+
+            
+  
+  <div class="source_cont">
+</div>
+
+            </div>
+            <div class="item">
+            <p id="dashboard.dashboard.Panel.x" class="name">var <span class="ident">x</span></p>
+            
+
+            
+  
+  <div class="source_cont">
+</div>
+
+            </div>
+            <div class="item">
+            <p id="dashboard.dashboard.Panel.y" class="name">var <span class="ident">y</span></p>
+            
+
+            
+  
+  <div class="source_cont">
+</div>
+
+            </div>
+      </div>
+      </div>
+
+  </section>
+
+    </article>
+  <div class="clear"> </div>
+  <footer id="footer">
+    <p>
+      Documentation generated by
+      <a href="https://github.com/BurntSushi/pdoc">pdoc 0.3.2</a>
+    </p>
+
+    <p>pdoc is in the public domain with the
+      <a href="http://unlicense.org">UNLICENSE</a></p>
+
+    <p>Design by <a href="http://nadh.in">Kailash Nadh</a></p>
+  </footer>
+</div>
+</body>
+</html>

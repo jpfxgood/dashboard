@@ -1,0 +1,33 @@
+#!/bin/bash -x 
+if [ -d "docs" ];
+    then rm -rf docs;
+fi                     
+mkdir docs
+export PYTHONPATH=$PYTHONPATH:"."
+gen_doc () {
+    local module_name="`basename $1 .py`"
+    local module_path="`dirname $1`"
+    if [ $module_name = "__init__" ];
+        then return;
+    fi
+    pdoc --html --template-dir templates --html-dir docs $module_path.$module_name
+    echo "<li><a href=\"./$module_path/$module_name.m.html\">$module_name</a></li>" >>docs/index.html
+    }
+cat templates/header.html >docs/index.html
+markdown LICENSE >>docs/index.html
+markdown README.md >>docs/index.html
+echo "<h1>API Documentation</h1>" >>docs/index.html
+echo "<h3>Packages/Modules</h3>" >>docs/index.html
+echo "<ul>" >>docs/index.html
+package_list=("char_draw dashboard data_sources")
+for package in ${package_list[*]}; do
+    echo "<li>$package" >>docs/index.html
+    echo "<ul>" >>docs/index.html
+    for source_file in $package/*.py;
+        do gen_doc $source_file;
+    done
+    echo "</li>" >>docs/index.html
+    echo "</ul>" >>docs/index.html
+done
+echo "</ul>" >>docs/index.html
+cat templates/footer.html >>docs/index.html
