@@ -20,10 +20,24 @@ def format_date( d ):
     return d.strftime("%m/%d/%y %H:%M")
 
 def format_float( d ):
-    return "%.2f"%d
+    if d >= 1000 and d < 1000000:
+        return "%.0fK"%(d/1000)
+    elif d >= 1000000 and d < 1000000000:
+        return "%.0fM"%(d/1000000)
+    elif d >= 1000000000:
+        return "%.0fG"%(d/1000000000)
+    else:
+        return "%.2f"%d
 
 def format_int( d ):
-    return "%d"%d
+    if d >= 1000 and d < 1000000:
+        return "%dK"%(d//1000)
+    elif d >= 1000000 and d < 1000000000:
+        return "%dM"%(d//1000000)
+    elif d >= 1000000000:
+        return "%dG"%(d//1000000000)
+    else:
+        return "%d"%d
 
 class Cell(object):
     def __init__(self,type,value,format):

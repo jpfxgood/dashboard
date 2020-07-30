@@ -756,6 +756,8 @@ class GraphSlices(GraphElement):
     def __init__(self,parent,series):
         self.series = series
         GraphElement.__init__(self,parent)
+        self.label_positions = []
+        self.angle = 0
 
     def get_bbox(self):
         """ compute the bounding box """
@@ -766,42 +768,61 @@ class GraphSlices(GraphElement):
             x,y = self.get_location()
             width,height = self.get_size()
 
+            data_idxs = []
             data_total = 0
             for idx in range(0,data_column.size()):
-                data_total += data_column.get(idx).get_float_value()
+                cell = data_column.get(idx)
+                value = cell.get_float_value()
+                data_total += value
+                data_idxs.append((value,idx,str(label_column.get(idx))))
+
+            data_idxs.sort(reverse=True)
+
+            total_included = 0
+            for idx in range(0,len(data_idxs)):
+                if data_idxs[idx][0]/data_total < 0.02:
+                    remaining = len(data_idxs) - idx
+                    remaining_idx = data_idxs[idx][1]
+                    data_idxs = data_idxs[:idx]
+                    data_idxs.append((data_total-total_included,remaining_idx,"%d < 2%%"%(remaining)))
+                    break
+                else:
+                    total_included += data_idxs[idx][0]
+
 
             if data_total > 0:
                 total_degrees = 0
                 self.set_children([])
                 label_children = []
-                for idx in range(0,data_column.size()):
-                    data_degrees = round(360.0 * (data_column.get(idx).get_float_value()/data_total))
-                    arc = display_list.Arc(x+width/2,
-                                           y+height/2,
-                                           min(height,width)/2,
+                lcx = x
+                lcy = y
+                l_height,l_width = self.canvas.from_rowcol(1,11)
+                px = x+l_width
+                pw = width - l_width
+                py = y+l_height
+                ph = height - (l_height*2)
+                for idx in range(0,len(data_idxs)):
+                    data_percent = (data_idxs[idx][0]/data_total)
+                    data_degrees = round(360.0 * data_percent )
+                    slice_color = curses.color_pair(self.canvas.color_min+((idx*11)%(self.canvas.color_max-self.canvas.color_min)))
+                    arc = display_list.Arc(px+pw/2,
+                                           py+ph/2,
+                                           min(ph,pw)/2,
                                            total_degrees,
                                            total_degrees+data_degrees,
-                                           curses.color_pair(self.canvas.color_min+((idx*11)%(self.canvas.color_max-self.canvas.color_min)))
-                                           ,True)
+                                           slice_color,
+                                           True)
                     self.add_child(arc)
-                    bbarc = arc.get_bbox()
-                    lcx = bbarc.x0+((bbarc.x1 - bbarc.x0)/2)
-                    lcy = bbarc.y0+((bbarc.y1 - bbarc.y0)/2)
-                    label = str(label_column.get(idx))
-                    l_height,l_width = self.canvas.from_rowcol(1,len(label))
-                    if lcx+l_width > width:
-                        lcx -= l_width
-                    else:
-                        lcx -= (l_width/2)
-                    if lcy+l_height > height:
-                        lcy -= l_height
-                    label_children.append(display_list.Text(lcx,lcy,label,label_series.color))
+                    label = "(%.0f%%) %s"%(data_percent*100.00, data_idxs[idx][2][:11])
+                    if lcy < y + height:
+                        label_children.append(display_list.Text(lcx,lcy,label,slice_color))
+                    lcy += l_height
                     total_degrees += data_degrees
 
                 title = self.series.column
                 l_height,l_width = self.canvas.from_rowcol(1,len(title))
                 lcx = x+width/2 - l_width/2
-                lcy = y+height
+                lcy = y+height-l_height
                 label_children.append(display_list.Text(lcx,lcy,title,label_series.color))
 
                 for lc in label_children:
@@ -936,8 +957,8 @@ class TableGraph(Graph):
     """TableGraph that displays a data table as a formatted table"""
     def __init__(self,data_table=None,row_labels=None,column_values=None,parent=None,canvas=None):
         """ constructor takes a data_table which contains values to be graphed,
-        pie_labels is a column reference in the data table for the pie slice labels,
-        slice_values is a list of column references to series of numerical data to be graphed,
+        row_labels is a column reference in the data table for the table row labels,
+        column_values is a list of column references to series of numerical or text data to be displayed in the table,
         parent is a reference to an enclosing display list,
         canvas is a reference to a canvas to render on """
         Graph.__init__(self,data_table,row_labels,column_values,"",parent,canvas)

@@ -365,7 +365,7 @@ class Canvas:
         """ draw a circle centered at x0,y0 of radius radius in color """
         self.arc(x0,y0,radius,0,360,color,fill,put_pixel)
 
-    def arc(self,x0,y0,radius,a0,a1,color,fill=False,put_pixel=None):
+    def arc(self,x0,y0,radius,a0,a1,color,fill=False,put_pixel=None,just_points=False):
         """ draw an arc between a0 degrees to a1 degrees centered at x0,y0 with radius and color """
         def circle_point(x0,y0,a,radius):
             return (x0+(1.5*math.cos(math.radians(a))*radius), y0+math.sin(math.radians(a))*radius)
@@ -377,8 +377,13 @@ class Canvas:
             xp,yp = circle_point(x0,y0,a,radius)
             a = a + 1.0
             points.append((xp,yp))
+                                
 
-        self.polygon(points,color,fill,put_pixel)
+        if just_points:
+            for x,y in points:
+                put_pixel(x,y,color)
+        else:
+            self.polygon(points,color,fill,put_pixel)
 
     def rect(self,x0,y0,x1,y1,color,fill=False,put_pixel=None):
         """ draw a rectangle bounding x0,y0, x1,y1, in color == color optionally filling """
