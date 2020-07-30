@@ -8,6 +8,7 @@ import sys
 import os
 import math
 import time
+from datetime import datetime
 from char_draw import canvas
 from char_draw import graph
 from data_sources import data_table,syslog_data
@@ -112,6 +113,7 @@ class Page:
 
         if height <= 0 or width <= 0:
             height,width = window.getmaxyx()
+            height = height - 1
 
         self.height = height
         self.width = width
@@ -243,13 +245,14 @@ class Page:
     def refresh( self ):
         """ refresh this page showing the current position """
         w_ymax,w_xmax = self.window.getmaxyx()
+        w_ymax -= 1
         if w_ymax >= self.height and w_xmax >= self.width:
-            self.pad.refresh(0,0,0,0,self.height,self.width)
+            self.pad.refresh(0,0,1,0,self.height,self.width)
         else:
             p_y,p_x = self.position
             h = min(w_ymax,self.height - p_y)
             w = min(w_xmax,self.width - p_x)
-            self.pad.refresh(p_y,p_x,0,0,h-1,w-1)
+            self.pad.refresh(p_y,p_x,1,0,h-1,w-1)
             if w < w_xmax:
                 for y in range(0,h):
                     try:
@@ -403,6 +406,7 @@ class Dashboard:
         zoomed_canvas = None
         zoomed_graph = None
         zoomed_restore_canvas = None
+        status = ""
         while True:
             ch = self.window.getch()
 
@@ -494,6 +498,17 @@ class Dashboard:
                 if zoomed_graph and zoomed_graph[0].is_modified():
                     zoomed_graph[0].render()
                     self.window.refresh()
+
+            latest_refresh = 0
+            for p in self.pages:
+                for pp in p.get_panel_layout():
+                    for gg in pp[0].get_graph_layout():
+                        latest_refresh = max(latest_refresh,gg[0].get_data().get_refresh_timestamp())
+
+            self.window.addstr(0,0," "*len(status),curses.color_pair(1)|curses.A_REVERSE)
+            status = "Page %d of %d Last Update %s%s"%(self.current_page+1,len(self.pages),datetime.fromtimestamp(latest_refresh).strftime("%A, %d. %B %Y %I:%M%p")," ZOOMED (Press Esc to Exit)" if zoomed else "")
+            self.window.addstr(0,0,status,curses.color_pair(1)|curses.A_REVERSE)
+
 
 
 def main(stdscr):

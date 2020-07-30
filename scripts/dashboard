@@ -55,6 +55,8 @@ from data_sources.proc_data import ProcDataTable
 #                                   "yseries" : [ list of column names of series to graph against the xseries ],
 #                                   "yunit" : name of the units on the Y axis Bar and Line Graph only,
 #                                   "top" : for graphs that support top-n selection it defines how many top items from the columns to graph, default is 0 which graphs all values in column,
+#                                   "title" : title of this graph defaults to name of data table,
+#                                   "area" : for LineGraph draw this as an area chart filling under the curve, defaults to False
 #                                   },
 #                               ]
 #                           },
@@ -108,15 +110,17 @@ def load_config( stdscr, options ):
                 type = g["type"]
                 graph = None
                 yunit = g.get("yunit","")
+                top = g.get("top",0)
+                title = g.get("title",None)
+                area = g.get("area",False)
                 if type == "LineGraph":
-                    graph = LineGraph(lookup_table(g["table"]),g["xseries"],g["yseries"],yunit,None,None)
+                    graph = LineGraph(lookup_table(g["table"]),g["xseries"],g["yseries"],yunit,None,None,title=title,area=area)
                 elif type == "BarGraph":
-                    top = g.get("top",0)
-                    graph = BarGraph(lookup_table(g["table"]),g["xseries"],g["yseries"],yunit,None,None,top)
+                    graph = BarGraph(lookup_table(g["table"]),g["xseries"],g["yseries"],yunit,None,None,top,title=title)
                 elif type == "PieGraph":
-                    graph = PieGraph(lookup_table(g["table"]),g["xseries"],g["yseries"],None,None)
+                    graph = PieGraph(lookup_table(g["table"]),g["xseries"],g["yseries"],None,None,title=title)
                 elif type == "TableGraph":
-                    graph = TableGraph(lookup_table(g["table"]),g["xseries"],g["yseries"],None,None)
+                    graph = TableGraph(lookup_table(g["table"]),g["xseries"],g["yseries"],None,None,title=title)
                 panel.add_graph(graph)
             page.add_panel(panel)
         dashboard.add_page(page)

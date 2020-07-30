@@ -10,8 +10,8 @@
         "panels": [
             {
             "graphs": [
-                {"type": "LineGraph", "table": "syslog", "xseries": "Time Stamps", "yseries": ["Errors by Time"], "yunit":"Message Count"},
-                {"type": "LineGraph", "table": "syslog", "xseries": "Time Stamps", "yseries": ["Messages by Time"], "yunit":"Message Count"}
+                { "title" :"Syslog Errors", "type": "LineGraph", "table": "syslog", "xseries": "Time Stamps", "yseries": ["Errors by Time"], "yunit":"Message Count" },
+                { "title" :"Syslog Messages", "type": "LineGraph", "table": "syslog", "xseries": "Time Stamps", "yseries": ["Messages by Time"], "yunit":"Message Count" }
                 ]
             }
             ]
@@ -20,8 +20,8 @@
         "panels": [
             {
             "graphs": [
-                {"type": "LineGraph", "table": "syslog", "xseries": "Time Stamps", "yseries": ["Warnings by Time"], "yunit":"Message Count"},
-                {"type": "BarGraph", "table": "syslog", "xseries": "Services", "yseries": ["Messages by Service"], "top": 5, "yunit":"Message Count"}
+                { "title" :"Syslog Warnings", "type": "LineGraph", "table": "syslog", "xseries": "Time Stamps", "yseries": ["Warnings by Time"], "yunit":"Message Count" },
+                { "title" :"Top 5 Syslog Message Sources", "type": "BarGraph", "table": "syslog", "xseries": "Services", "yseries": ["Messages by Service"], "top": 5, "yunit":"Message Count"}
                 ]
             }
             ]
@@ -30,8 +30,8 @@
         "panels": [
             {
             "graphs": [
-                {"type": "PieGraph", "table": "syslog", "xseries": "Services", "yseries": ["Messages by Service","Errors by Service","Warnings by Service"]},
-                {"type": "TableGraph", "table": "syslog", "xseries": "Services", "yseries": ["Messages by Service","Errors by Service","Warnings by Service"]}
+                { "title" :"Syslog Message Summary", "type": "PieGraph", "table": "syslog", "xseries": "Services", "yseries": ["Messages by Service","Errors by Service","Warnings by Service"]},
+                { "title" :"Syslog Message Detail", "type": "TableGraph", "table": "syslog", "xseries": "Services", "yseries": ["Messages by Service","Errors by Service","Warnings by Service"]}
                 ]
             }
             ]
@@ -40,8 +40,8 @@
         "panels": [
             {
             "graphs": [
-                {"type": "LineGraph", "table": "procdata", "xseries": "Time Stamps", "yseries": ["CPU Percent"], "yunit":"Average % Utilization"},
-                {"type": "LineGraph", "table": "procdata", "xseries": "Time Stamps", "yseries": ["Total Virtual Memory","Available Virtual Memory"], "yunit":"Average Memory Bytes"}
+                { "title" :"CPU Utilization", "type": "LineGraph", "table": "procdata", "xseries": "Time Stamps", "yseries": ["CPU Percent"], "yunit":"Average % Utilization"},
+                { "title" :"Virtual Memory Utilization", "type": "LineGraph", "table": "procdata", "xseries": "Time Stamps", "yseries": ["Total Virtual Memory","Available Virtual Memory"], "yunit":"Average Memory Bytes"}
                 ]
             }
             ]

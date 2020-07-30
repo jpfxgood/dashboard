@@ -163,10 +163,15 @@ class DataTable(object):
         self.refresh_minutes = refresh_minutes
         self.refresh_thread = None
         self.refresh_thread_stop = False
+        self.refresh_timestamp = None
         if columns:
             for c in columns:
                 self.add_column(c)
-
+                                     
+    def get_refresh_timestamp( self ):
+        """ get the time that the table was last refreshed """
+        return self.refresh_timestamp
+        
     def acquire_refresh_lock(self):
         """ acquire the refresh lock before reading/writing the table state """
         self.refresh_lock.acquire()
@@ -307,4 +312,4 @@ class DataTable(object):
     @synchronized
     def refresh(self):
         """ base class method for forcing a refresh on a table """
-        pass
+        self.refresh_timestamp = time.time()

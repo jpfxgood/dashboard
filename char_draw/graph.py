@@ -27,7 +27,7 @@ class GraphSeries():
 class Graph(display_list.DisplayList):
     """Graph base class for all graph types """
 
-    def __init__(self,data_table=None,x_values=None,y_values=None,y_unit="",parent=None,canvas=None,top=0):
+    def __init__(self,data_table=None,x_values=None,y_values=None,y_unit="",parent=None,canvas=None,top=0,title=None):
         """ base constructor for all graph types constructor takes a data_table which contains values to be graphed,
         x_values is a column reference in the data table for the xaxis values,
         y_values is a list of column references to series of numerical data to be graphed,
@@ -42,6 +42,7 @@ class Graph(display_list.DisplayList):
         self.x_values = None
         self.y_values = []
         self.top = top
+        self.graph_title = title
         self.initialized = False
 
     def init(self):
@@ -96,6 +97,13 @@ class Graph(display_list.DisplayList):
         for idx in range(self.top):
             top_indexes.append(top_values[idx][1])
         return top_indexes
+
+    def get_title( self ):
+        """ return the title for this graph """
+        if self.graph_title:
+            return self.graph_title
+        else:
+            return self.get_data().get_name()
 
     def is_top(self):
         """ are we justing just the self.top highest items """
@@ -562,13 +570,13 @@ class GraphLines(GraphElement):
 
 class BarGraph(Graph):
     """BarGraph that displays a data table as a bar graph"""
-    def __init__(self,data_table=None,x_values=None,y_values=None,y_unit="",parent=None,canvas=None,top=0):
+    def __init__(self,data_table=None,x_values=None,y_values=None,y_unit="",parent=None,canvas=None,top=0,title=None):
         """ constructor takes a data_table which contains values to be graphed,
         x_values is a column reference in the data table for the xaxis values,
         y_values is a list of column references to series of numerical data to be graphed,
         parent is a reference to an enclosing display list,
         canvas is a reference to a canvas to render on """
-        Graph.__init__(self,data_table,x_values,y_values,y_unit,parent,canvas,top)
+        Graph.__init__(self,data_table,x_values,y_values,y_unit,parent,canvas,top,title=title)
         self.title = None
         self.legend = None
         self.x_axis_title = None
@@ -584,7 +592,7 @@ class BarGraph(Graph):
         """ create the children for all of the graph components """
         if not self.initialized:
             Graph.init(self)
-            self.title = GraphTitle(self,self.get_data().get_name())
+            self.title = GraphTitle(self,self.get_title())
             self.legend = GraphLegend(self,[(s.column,s.color) for s in self.get_series()])
             self.x_axis_title = GraphXAxisTitle(self,self.get_xvalues().column)
             self.y_axis_title = GraphYAxisTitle(self,self.get_series_unit())
@@ -650,13 +658,13 @@ class BarGraph(Graph):
 
 class LineGraph(Graph):
     """LineGraph that displays a data table as a line graph"""
-    def __init__(self,data_table=None,x_values=None,y_values=None,y_unit="",parent=None,canvas=None,area=False):
+    def __init__(self,data_table=None,x_values=None,y_values=None,y_unit="",parent=None,canvas=None,area=False,title=None):
         """ constructor takes a data_table which contains values to be graphed,
         x_values is a column reference in the data table for the xaxis values,
         y_values is a list of column references to series of numerical data to be graphed,
         parent is a reference to an enclosing display list,
         canvas is a reference to a canvas to render on """
-        Graph.__init__(self,data_table,x_values,y_values,y_unit,parent,canvas)
+        Graph.__init__(self,data_table,x_values,y_values,y_unit,parent,canvas,title=title)
         self.title = None
         self.legend = None
         self.x_axis_title = None
@@ -673,7 +681,7 @@ class LineGraph(Graph):
         """ create the children for all of the graph components """
         if not self.initialized:
             Graph.init(self)
-            self.title = GraphTitle(self,self.get_data().get_name())
+            self.title = GraphTitle(self,self.get_title())
             self.legend = GraphLegend(self,[(s.column,s.color) for s in self.get_series()])
             self.x_axis_title = GraphXAxisTitle(self,self.get_xvalues().column)
             self.y_axis_title = GraphYAxisTitle(self,self.get_series_unit())
@@ -832,13 +840,13 @@ class GraphSlices(GraphElement):
 
 class PieGraph(Graph):
     """PieGraph that displays a data table as a pie chart"""
-    def __init__(self,data_table=None,pie_labels=None,slice_values=None,parent=None,canvas=None):
+    def __init__(self,data_table=None,pie_labels=None,slice_values=None,parent=None,canvas=None,title=None):
         """ constructor takes a data_table which contains values to be graphed,
         pie_labels is a column reference in the data table for the pie slice labels,
         slice_values is a list of column references to series of numerical data to be graphed,
         parent is a reference to an enclosing display list,
         canvas is a reference to a canvas to render on """
-        Graph.__init__(self,data_table,pie_labels,slice_values,"",parent,canvas)
+        Graph.__init__(self,data_table,pie_labels,slice_values,"",parent,canvas,title=title)
         self.title = None
         self.chart_area = None
         self.chart_series = []
@@ -849,7 +857,7 @@ class PieGraph(Graph):
         """ create the children for all of the graph components """
         if not self.initialized:
             Graph.init(self)
-            self.title = GraphTitle(self,self.get_data().get_name())
+            self.title = GraphTitle(self,self.get_title())
             self.chart_area = GraphArea(self)
             self.chart_series = [GraphSlices(self,series) for series in self.get_series()]
             self.add_child(self.title)
@@ -955,13 +963,13 @@ class GraphTable(GraphElement):
 
 class TableGraph(Graph):
     """TableGraph that displays a data table as a formatted table"""
-    def __init__(self,data_table=None,row_labels=None,column_values=None,parent=None,canvas=None):
+    def __init__(self,data_table=None,row_labels=None,column_values=None,parent=None,canvas=None,title=None):
         """ constructor takes a data_table which contains values to be graphed,
         row_labels is a column reference in the data table for the table row labels,
         column_values is a list of column references to series of numerical or text data to be displayed in the table,
         parent is a reference to an enclosing display list,
         canvas is a reference to a canvas to render on """
-        Graph.__init__(self,data_table,row_labels,column_values,"",parent,canvas)
+        Graph.__init__(self,data_table,row_labels,column_values,"",parent,canvas,title=title)
         self.title = None
         self.chart_area = None
         self.graph_table = None
@@ -972,7 +980,7 @@ class TableGraph(Graph):
         """ create the children for all of the graph components """
         if not self.initialized:
             Graph.init(self)
-            self.title = GraphTitle(self,self.get_data().get_name())
+            self.title = GraphTitle(self,self.get_title())
             self.chart_area = GraphArea(self)
             self.graph_table = GraphTable(self)
             self.add_child(self.title)
