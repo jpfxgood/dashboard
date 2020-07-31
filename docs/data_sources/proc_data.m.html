@@ -851,6 +851,77 @@ table {
 
   </style>
 
+  <style type="text/css">
+  .codehilite .hll { background-color: #ffffcc }
+.codehilite  { background: #f8f8f8; }
+.codehilite .c { color: #408080; font-style: italic } /* Comment */
+.codehilite .err { border: 1px solid #FF0000 } /* Error */
+.codehilite .k { color: #008000; font-weight: bold } /* Keyword */
+.codehilite .o { color: #666666 } /* Operator */
+.codehilite .ch { color: #408080; font-style: italic } /* Comment.Hashbang */
+.codehilite .cm { color: #408080; font-style: italic } /* Comment.Multiline */
+.codehilite .cp { color: #BC7A00 } /* Comment.Preproc */
+.codehilite .cpf { color: #408080; font-style: italic } /* Comment.PreprocFile */
+.codehilite .c1 { color: #408080; font-style: italic } /* Comment.Single */
+.codehilite .cs { color: #408080; font-style: italic } /* Comment.Special */
+.codehilite .gd { color: #A00000 } /* Generic.Deleted */
+.codehilite .ge { font-style: italic } /* Generic.Emph */
+.codehilite .gr { color: #FF0000 } /* Generic.Error */
+.codehilite .gh { color: #000080; font-weight: bold } /* Generic.Heading */
+.codehilite .gi { color: #00A000 } /* Generic.Inserted */
+.codehilite .go { color: #888888 } /* Generic.Output */
+.codehilite .gp { color: #000080; font-weight: bold } /* Generic.Prompt */
+.codehilite .gs { font-weight: bold } /* Generic.Strong */
+.codehilite .gu { color: #800080; font-weight: bold } /* Generic.Subheading */
+.codehilite .gt { color: #0044DD } /* Generic.Traceback */
+.codehilite .kc { color: #008000; font-weight: bold } /* Keyword.Constant */
+.codehilite .kd { color: #008000; font-weight: bold } /* Keyword.Declaration */
+.codehilite .kn { color: #008000; font-weight: bold } /* Keyword.Namespace */
+.codehilite .kp { color: #008000 } /* Keyword.Pseudo */
+.codehilite .kr { color: #008000; font-weight: bold } /* Keyword.Reserved */
+.codehilite .kt { color: #B00040 } /* Keyword.Type */
+.codehilite .m { color: #666666 } /* Literal.Number */
+.codehilite .s { color: #BA2121 } /* Literal.String */
+.codehilite .na { color: #7D9029 } /* Name.Attribute */
+.codehilite .nb { color: #008000 } /* Name.Builtin */
+.codehilite .nc { color: #0000FF; font-weight: bold } /* Name.Class */
+.codehilite .no { color: #880000 } /* Name.Constant */
+.codehilite .nd { color: #AA22FF } /* Name.Decorator */
+.codehilite .ni { color: #999999; font-weight: bold } /* Name.Entity */
+.codehilite .ne { color: #D2413A; font-weight: bold } /* Name.Exception */
+.codehilite .nf { color: #0000FF } /* Name.Function */
+.codehilite .nl { color: #A0A000 } /* Name.Label */
+.codehilite .nn { color: #0000FF; font-weight: bold } /* Name.Namespace */
+.codehilite .nt { color: #008000; font-weight: bold } /* Name.Tag */
+.codehilite .nv { color: #19177C } /* Name.Variable */
+.codehilite .ow { color: #AA22FF; font-weight: bold } /* Operator.Word */
+.codehilite .w { color: #bbbbbb } /* Text.Whitespace */
+.codehilite .mb { color: #666666 } /* Literal.Number.Bin */
+.codehilite .mf { color: #666666 } /* Literal.Number.Float */
+.codehilite .mh { color: #666666 } /* Literal.Number.Hex */
+.codehilite .mi { color: #666666 } /* Literal.Number.Integer */
+.codehilite .mo { color: #666666 } /* Literal.Number.Oct */
+.codehilite .sa { color: #BA2121 } /* Literal.String.Affix */
+.codehilite .sb { color: #BA2121 } /* Literal.String.Backtick */
+.codehilite .sc { color: #BA2121 } /* Literal.String.Char */
+.codehilite .dl { color: #BA2121 } /* Literal.String.Delimiter */
+.codehilite .sd { color: #BA2121; font-style: italic } /* Literal.String.Doc */
+.codehilite .s2 { color: #BA2121 } /* Literal.String.Double */
+.codehilite .se { color: #BB6622; font-weight: bold } /* Literal.String.Escape */
+.codehilite .sh { color: #BA2121 } /* Literal.String.Heredoc */
+.codehilite .si { color: #BB6688; font-weight: bold } /* Literal.String.Interpol */
+.codehilite .sx { color: #008000 } /* Literal.String.Other */
+.codehilite .sr { color: #BB6688 } /* Literal.String.Regex */
+.codehilite .s1 { color: #BA2121 } /* Literal.String.Single */
+.codehilite .ss { color: #19177C } /* Literal.String.Symbol */
+.codehilite .bp { color: #008000 } /* Name.Builtin.Pseudo */
+.codehilite .fm { color: #0000FF } /* Name.Function.Magic */
+.codehilite .vc { color: #19177C } /* Name.Variable.Class */
+.codehilite .vg { color: #19177C } /* Name.Variable.Global */
+.codehilite .vi { color: #19177C } /* Name.Variable.Instance */
+.codehilite .vm { color: #19177C } /* Name.Variable.Magic */
+.codehilite .il { color: #666666 } /* Literal.Number.Integer.Long */
+  </style>
 
   <style type="text/css">
   
@@ -1049,107 +1120,108 @@ table {
   
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-data_sources.proc_data', this);">Show source &equiv;</a></p>
   <div id="source-data_sources.proc_data" class="source">
-    <pre><code># Copyright 2020 James P Goodwin data table package to manage sparse columnar data
-""" module that aggregates data from the syslog and provides a set of data tables """
-import locale
-locale.setlocale(locale.LC_ALL,'')
-import sys
-import os
-import glob
-import gzip
-import re
-import psutil
-from datetime import datetime,timedelta
-from data_sources.data_table import DataTable,Column,Cell,blank_type,string_type,float_type,int_type,date_type,format_string,format_float,format_date,format_int,synchronized
+    <div class="codehilite"><pre><span></span><span class="c1"># Copyright 2020 James P Goodwin data table package to manage sparse columnar data</span>
+<span class="sd">&quot;&quot;&quot; module that aggregates data from the syslog and provides a set of data tables &quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">locale</span>
+<span class="n">locale</span><span class="o">.</span><span class="n">setlocale</span><span class="p">(</span><span class="n">locale</span><span class="o">.</span><span class="n">LC_ALL</span><span class="p">,</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">glob</span>
+<span class="kn">import</span> <span class="nn">gzip</span>
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">import</span> <span class="nn">psutil</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span><span class="p">,</span><span class="n">timedelta</span>
+<span class="kn">from</span> <span class="nn">data_sources.data_table</span> <span class="kn">import</span> <span class="n">DataTable</span><span class="p">,</span><span class="n">Column</span><span class="p">,</span><span class="n">Cell</span><span class="p">,</span><span class="n">blank_type</span><span class="p">,</span><span class="n">string_type</span><span class="p">,</span><span class="n">float_type</span><span class="p">,</span><span class="n">int_type</span><span class="p">,</span><span class="n">date_type</span><span class="p">,</span><span class="n">format_string</span><span class="p">,</span><span class="n">format_float</span><span class="p">,</span><span class="n">format_date</span><span class="p">,</span><span class="n">format_int</span><span class="p">,</span><span class="n">synchronized</span>
 
-class AverageCell(Cell):
-    def __init__(self,type,value,format):
-        self.type = type
-        self.value = value
-        self.format = format
-        self.values = [ value ]
+<span class="k">class</span> <span class="nc">AverageCell</span><span class="p">(</span><span class="n">Cell</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="nb">type</span><span class="p">,</span><span class="n">value</span><span class="p">,</span><span class="nb">format</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">type</span> <span class="o">=</span> <span class="nb">type</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">value</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">format</span> <span class="o">=</span> <span class="nb">format</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">values</span> <span class="o">=</span> <span class="p">[</span> <span class="n">value</span> <span class="p">]</span>
 
-    def put_value(self,value):
-        self.values.append(value)
-        self.value = sum(self.values)/len(self.values)
+    <span class="k">def</span> <span class="nf">put_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">value</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="p">)</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
 
-class ProcDataTable( DataTable ):
-    """ class that collects a time based aggregation of data from system process information into a data_table """
-    def __init__(self,num_hours=24,bucket_hours=1,refresh_minutes=10):
-        """ Initialize the ProcDataTable to collect system process information, a timespan to aggregate for, aggregation bucket in hours, a refresh interval for updating in minutes """
-        self.num_hours = num_hours
-        self.bucket_hours = bucket_hours
-        DataTable.__init__(self,None,
-            "Proc Data: for the last %d hours in %d hour buckets, refreshed every %d minutes"%(
-            self.num_hours,
-            self.bucket_hours,
-            refresh_minutes),refresh_minutes)
-        self.refresh()
+<span class="k">class</span> <span class="nc">ProcDataTable</span><span class="p">(</span> <span class="n">DataTable</span> <span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; class that collects a time based aggregation of data from system process information into a data_table &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">num_hours</span><span class="o">=</span><span class="mi">24</span><span class="p">,</span><span class="n">bucket_hours</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">refresh_minutes</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Initialize the ProcDataTable to collect system process information, a timespan to aggregate for, aggregation bucket in hours, a refresh interval for updating in minutes &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">num_hours</span> <span class="o">=</span> <span class="n">num_hours</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bucket_hours</span> <span class="o">=</span> <span class="n">bucket_hours</span>
+        <span class="n">DataTable</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="kc">None</span><span class="p">,</span>
+            <span class="s2">&quot;Proc Data: for the last </span><span class="si">%d</span><span class="s2"> hours in </span><span class="si">%d</span><span class="s2"> hour buckets, refreshed every </span><span class="si">%d</span><span class="s2"> minutes&quot;</span><span class="o">%</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">num_hours</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">bucket_hours</span><span class="p">,</span>
+            <span class="n">refresh_minutes</span><span class="p">),</span><span class="n">refresh_minutes</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">refresh</span><span class="p">()</span>
 
-    @synchronized
-    def refresh( self ):
-        """ refresh or rebuild tables """
+    <span class="nd">@synchronized</span>
+    <span class="k">def</span> <span class="nf">refresh</span><span class="p">(</span> <span class="bp">self</span> <span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; refresh or rebuild tables &quot;&quot;&quot;</span>
 
-        current_time = datetime.now()
+        <span class="n">current_time</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
 
-        column_names = [ "Time Stamps", "CPU Percent", "Load Avg",
-            "Total Virtual Memory", "Available Virtual Memory",
-            "Filesystem Percent Full", "Filesystem Read Bytes", "Filesystem Write Bytes",
-            "Network Sent Bytes","Network Received Bytes","Network Connections" ]
+        <span class="n">column_names</span> <span class="o">=</span> <span class="p">[</span> <span class="s2">&quot;Time Stamps&quot;</span><span class="p">,</span> <span class="s2">&quot;CPU Percent&quot;</span><span class="p">,</span> <span class="s2">&quot;Load Avg&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;Total Virtual Memory&quot;</span><span class="p">,</span> <span class="s2">&quot;Available Virtual Memory&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;Filesystem Percent Full&quot;</span><span class="p">,</span> <span class="s2">&quot;Filesystem Read Bytes&quot;</span><span class="p">,</span> <span class="s2">&quot;Filesystem Write Bytes&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;Network Sent Bytes&quot;</span><span class="p">,</span><span class="s2">&quot;Network Received Bytes&quot;</span><span class="p">,</span><span class="s2">&quot;Network Connections&quot;</span> <span class="p">]</span>
 
-        def bucket_idx( timestamp, column ):
-            for idx in range(column.size()):
-                if column.get(idx).get_value() >= timestamp:
-                    return idx
-            else:
-                return -1
+        <span class="k">def</span> <span class="nf">bucket_idx</span><span class="p">(</span> <span class="n">timestamp</span><span class="p">,</span> <span class="n">column</span> <span class="p">):</span>
+            <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">column</span><span class="o">.</span><span class="n">size</span><span class="p">()):</span>
+                <span class="k">if</span> <span class="n">column</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span><span class="o">.</span><span class="n">get_value</span><span class="p">()</span> <span class="o">&gt;=</span> <span class="n">timestamp</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="n">idx</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
 
-        def append_bucket( timestamp, column ):
-            column.put(column.size(),Cell(date_type,timestamp+timedelta( hours=self.bucket_hours),format_date))
-            if column.size() > self.num_hours/self.bucket_hours:
-                for cn in column_names:
-                    self.get_column(cn).delete(0)
-            return column.size()-1
+        <span class="k">def</span> <span class="nf">append_bucket</span><span class="p">(</span> <span class="n">timestamp</span><span class="p">,</span> <span class="n">column</span> <span class="p">):</span>
+            <span class="n">column</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">column</span><span class="o">.</span><span class="n">size</span><span class="p">(),</span><span class="n">Cell</span><span class="p">(</span><span class="n">date_type</span><span class="p">,</span><span class="n">timestamp</span><span class="o">+</span><span class="n">timedelta</span><span class="p">(</span> <span class="n">hours</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">bucket_hours</span><span class="p">),</span><span class="n">format_date</span><span class="p">))</span>
+            <span class="k">if</span> <span class="n">column</span><span class="o">.</span><span class="n">size</span><span class="p">()</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_hours</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">bucket_hours</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">cn</span> <span class="ow">in</span> <span class="n">column_names</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">get_column</span><span class="p">(</span><span class="n">cn</span><span class="p">)</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">column</span><span class="o">.</span><span class="n">size</span><span class="p">()</span><span class="o">-</span><span class="mi">1</span>
 
-        def add_average( column_name, idx, value ):
-            column = self.get_column(column_name)
-            if not column.size() or idx >= column.size():
-                column.put(idx, AverageCell(float_type,value,format_float))
-            else:
-                column.get(idx).put_value(value)
+        <span class="k">def</span> <span class="nf">add_average</span><span class="p">(</span> <span class="n">column_name</span><span class="p">,</span> <span class="n">idx</span><span class="p">,</span> <span class="n">value</span> <span class="p">):</span>
+            <span class="n">column</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_column</span><span class="p">(</span><span class="n">column_name</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">column</span><span class="o">.</span><span class="n">size</span><span class="p">()</span> <span class="ow">or</span> <span class="n">idx</span> <span class="o">&gt;=</span> <span class="n">column</span><span class="o">.</span><span class="n">size</span><span class="p">():</span>
+                <span class="n">column</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">idx</span><span class="p">,</span> <span class="n">AverageCell</span><span class="p">(</span><span class="n">float_type</span><span class="p">,</span><span class="n">value</span><span class="p">,</span><span class="n">format_float</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">column</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span><span class="o">.</span><span class="n">put_value</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
 
-        bidx = 0
-        for cn in column_names:
-            if not self.has_column(cn):
-                self.add_column(Column(name=cn))
-            if cn == "Time Stamps":
-                bidx = bucket_idx( current_time, self.get_column(cn))
-                if bidx < 0:
-                    bidx = append_bucket( current_time, self.get_column(cn))
-            elif cn == "CPU Percent":
-                add_average(cn,bidx,psutil.cpu_percent())
-            elif cn == "Load Avg":
-                add_average(cn,bidx,psutil.getloadavg()[2])
-            elif cn == "Total Virtual Memory":
-                add_average(cn,bidx,psutil.virtual_memory().total)
-            elif cn == "Available Virtual Memory":
-                add_average(cn,bidx,psutil.virtual_memory().available)
-            elif cn == "Filesystem Percent Full":
-                add_average(cn,bidx,psutil.disk_usage("/").percent)
-            elif cn == "Filesystem Read Bytes":
-                add_average(cn,bidx,psutil.disk_io_counters().read_bytes)
-            elif cn == "Filesystem Write Bytes":
-                add_average(cn,bidx,psutil.disk_io_counters().write_bytes)
-            elif cn == "Network Sent Bytes":
-                add_average(cn,bidx,psutil.net_io_counters().bytes_sent)
-            elif cn == "Network Recieved Bytes":
-                add_average(cn,bidx,psutil.net_io_counters().bytes_recv)
-            elif cn == "Network Connections":
-                add_average(cn,bidx,float(len(psutil.net_connections())))
-        self.changed()
+        <span class="n">bidx</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">cn</span> <span class="ow">in</span> <span class="n">column_names</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">has_column</span><span class="p">(</span><span class="n">cn</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">add_column</span><span class="p">(</span><span class="n">Column</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">cn</span><span class="p">))</span>
+            <span class="k">if</span> <span class="n">cn</span> <span class="o">==</span> <span class="s2">&quot;Time Stamps&quot;</span><span class="p">:</span>
+                <span class="n">bidx</span> <span class="o">=</span> <span class="n">bucket_idx</span><span class="p">(</span> <span class="n">current_time</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_column</span><span class="p">(</span><span class="n">cn</span><span class="p">))</span>
+                <span class="k">if</span> <span class="n">bidx</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">bidx</span> <span class="o">=</span> <span class="n">append_bucket</span><span class="p">(</span> <span class="n">current_time</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_column</span><span class="p">(</span><span class="n">cn</span><span class="p">))</span>
+            <span class="k">elif</span> <span class="n">cn</span> <span class="o">==</span> <span class="s2">&quot;CPU Percent&quot;</span><span class="p">:</span>
+                <span class="n">add_average</span><span class="p">(</span><span class="n">cn</span><span class="p">,</span><span class="n">bidx</span><span class="p">,</span><span class="n">psutil</span><span class="o">.</span><span class="n">cpu_percent</span><span class="p">())</span>
+            <span class="k">elif</span> <span class="n">cn</span> <span class="o">==</span> <span class="s2">&quot;Load Avg&quot;</span><span class="p">:</span>
+                <span class="n">add_average</span><span class="p">(</span><span class="n">cn</span><span class="p">,</span><span class="n">bidx</span><span class="p">,</span><span class="n">psutil</span><span class="o">.</span><span class="n">getloadavg</span><span class="p">()[</span><span class="mi">2</span><span class="p">])</span>
+            <span class="k">elif</span> <span class="n">cn</span> <span class="o">==</span> <span class="s2">&quot;Total Virtual Memory&quot;</span><span class="p">:</span>
+                <span class="n">add_average</span><span class="p">(</span><span class="n">cn</span><span class="p">,</span><span class="n">bidx</span><span class="p">,</span><span class="n">psutil</span><span class="o">.</span><span class="n">virtual_memory</span><span class="p">()</span><span class="o">.</span><span class="n">total</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">cn</span> <span class="o">==</span> <span class="s2">&quot;Available Virtual Memory&quot;</span><span class="p">:</span>
+                <span class="n">add_average</span><span class="p">(</span><span class="n">cn</span><span class="p">,</span><span class="n">bidx</span><span class="p">,</span><span class="n">psutil</span><span class="o">.</span><span class="n">virtual_memory</span><span class="p">()</span><span class="o">.</span><span class="n">available</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">cn</span> <span class="o">==</span> <span class="s2">&quot;Filesystem Percent Full&quot;</span><span class="p">:</span>
+                <span class="n">add_average</span><span class="p">(</span><span class="n">cn</span><span class="p">,</span><span class="n">bidx</span><span class="p">,</span><span class="n">psutil</span><span class="o">.</span><span class="n">disk_usage</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">percent</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">cn</span> <span class="o">==</span> <span class="s2">&quot;Filesystem Read Bytes&quot;</span><span class="p">:</span>
+                <span class="n">add_average</span><span class="p">(</span><span class="n">cn</span><span class="p">,</span><span class="n">bidx</span><span class="p">,</span><span class="n">psutil</span><span class="o">.</span><span class="n">disk_io_counters</span><span class="p">()</span><span class="o">.</span><span class="n">read_bytes</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">cn</span> <span class="o">==</span> <span class="s2">&quot;Filesystem Write Bytes&quot;</span><span class="p">:</span>
+                <span class="n">add_average</span><span class="p">(</span><span class="n">cn</span><span class="p">,</span><span class="n">bidx</span><span class="p">,</span><span class="n">psutil</span><span class="o">.</span><span class="n">disk_io_counters</span><span class="p">()</span><span class="o">.</span><span class="n">write_bytes</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">cn</span> <span class="o">==</span> <span class="s2">&quot;Network Sent Bytes&quot;</span><span class="p">:</span>
+                <span class="n">add_average</span><span class="p">(</span><span class="n">cn</span><span class="p">,</span><span class="n">bidx</span><span class="p">,</span><span class="n">psutil</span><span class="o">.</span><span class="n">net_io_counters</span><span class="p">()</span><span class="o">.</span><span class="n">bytes_sent</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">cn</span> <span class="o">==</span> <span class="s2">&quot;Network Recieved Bytes&quot;</span><span class="p">:</span>
+                <span class="n">add_average</span><span class="p">(</span><span class="n">cn</span><span class="p">,</span><span class="n">bidx</span><span class="p">,</span><span class="n">psutil</span><span class="o">.</span><span class="n">net_io_counters</span><span class="p">()</span><span class="o">.</span><span class="n">bytes_recv</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">cn</span> <span class="o">==</span> <span class="s2">&quot;Network Connections&quot;</span><span class="p">:</span>
+                <span class="n">add_average</span><span class="p">(</span><span class="n">cn</span><span class="p">,</span><span class="n">bidx</span><span class="p">,</span><span class="nb">float</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">psutil</span><span class="o">.</span><span class="n">net_connections</span><span class="p">())))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">changed</span><span class="p">()</span>
 
-        DataTable.refresh(self)
-</code></pre>
+        <span class="n">DataTable</span><span class="o">.</span><span class="n">refresh</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+</pre></div>
+
   </div>
 
   </header>
@@ -1207,17 +1279,18 @@ class ProcDataTable( DataTable ):
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-data_sources.proc_data.AverageCell', this);">Show source &equiv;</a></p>
   <div id="source-data_sources.proc_data.AverageCell" class="source">
-    <pre><code>class AverageCell(Cell):
-    def __init__(self,type,value,format):
-        self.type = type
-        self.value = value
-        self.format = format
-        self.values = [ value ]
+    <div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">AverageCell</span><span class="p">(</span><span class="n">Cell</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="nb">type</span><span class="p">,</span><span class="n">value</span><span class="p">,</span><span class="nb">format</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">type</span> <span class="o">=</span> <span class="nb">type</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">value</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">format</span> <span class="o">=</span> <span class="nb">format</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">values</span> <span class="o">=</span> <span class="p">[</span> <span class="n">value</span> <span class="p">]</span>
 
-    def put_value(self,value):
-        self.values.append(value)
-        self.value = sum(self.values)/len(self.values)
-</code></pre>
+    <span class="k">def</span> <span class="nf">put_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">value</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="p">)</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+</pre></div>
+
   </div>
 </div>
 
@@ -1243,12 +1316,13 @@ class ProcDataTable( DataTable ):
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-data_sources.proc_data.AverageCell.__init__', this);">Show source &equiv;</a></p>
   <div id="source-data_sources.proc_data.AverageCell.__init__" class="source">
-    <pre><code>def __init__(self,type,value,format):
-    self.type = type
-    self.value = value
-    self.format = format
-    self.values = [ value ]
-</code></pre>
+    <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="nb">type</span><span class="p">,</span><span class="n">value</span><span class="p">,</span><span class="nb">format</span><span class="p">):</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">type</span> <span class="o">=</span> <span class="nb">type</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">value</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">format</span> <span class="o">=</span> <span class="nb">format</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">values</span> <span class="o">=</span> <span class="p">[</span> <span class="n">value</span> <span class="p">]</span>
+</pre></div>
+
   </div>
 </div>
 
@@ -1266,14 +1340,15 @@ class ProcDataTable( DataTable ):
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-data_sources.proc_data.AverageCell.get_float_value', this);">Show source &equiv;</a></p>
   <div id="source-data_sources.proc_data.AverageCell.get_float_value" class="source">
-    <pre><code>def get_float_value(self):
-    if self.type in [float_type,int_type]:
-        return float(self.value)
-    elif self.type == date_type:
-        return self.value.timestamp()
-    else:
-        return 0.0
-</code></pre>
+    <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">get_float_value</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">type</span> <span class="ow">in</span> <span class="p">[</span><span class="n">float_type</span><span class="p">,</span><span class="n">int_type</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">date_type</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">timestamp</span><span class="p">()</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mf">0.0</span>
+</pre></div>
+
   </div>
 </div>
 
@@ -1291,9 +1366,10 @@ class ProcDataTable( DataTable ):
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-data_sources.proc_data.AverageCell.get_format', this);">Show source &equiv;</a></p>
   <div id="source-data_sources.proc_data.AverageCell.get_format" class="source">
-    <pre><code>def get_format(self):
-    return self.format
-</code></pre>
+    <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">get_format</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">format</span>
+</pre></div>
+
   </div>
 </div>
 
@@ -1311,9 +1387,10 @@ class ProcDataTable( DataTable ):
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-data_sources.proc_data.AverageCell.get_type', this);">Show source &equiv;</a></p>
   <div id="source-data_sources.proc_data.AverageCell.get_type" class="source">
-    <pre><code>def get_type(self):
-    return self.type
-</code></pre>
+    <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">get_type</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">type</span>
+</pre></div>
+
   </div>
 </div>
 
@@ -1331,9 +1408,10 @@ class ProcDataTable( DataTable ):
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-data_sources.proc_data.AverageCell.get_value', this);">Show source &equiv;</a></p>
   <div id="source-data_sources.proc_data.AverageCell.get_value" class="source">
-    <pre><code>def get_value(self):
-    return self.value
-</code></pre>
+    <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">get_value</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span>
+</pre></div>
+
   </div>
 </div>
 
@@ -1351,10 +1429,11 @@ class ProcDataTable( DataTable ):
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-data_sources.proc_data.AverageCell.put_value', this);">Show source &equiv;</a></p>
   <div id="source-data_sources.proc_data.AverageCell.put_value" class="source">
-    <pre><code>def put_value(self,value):
-    self.values.append(value)
-    self.value = sum(self.values)/len(self.values)
-</code></pre>
+    <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">put_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">value</span><span class="p">):</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="p">)</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+</pre></div>
+
   </div>
 </div>
 
@@ -1372,9 +1451,10 @@ class ProcDataTable( DataTable ):
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-data_sources.proc_data.AverageCell.set_format', this);">Show source &equiv;</a></p>
   <div id="source-data_sources.proc_data.AverageCell.set_format" class="source">
-    <pre><code>def set_format(self,format):
-    self.format = format
-</code></pre>
+    <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">set_format</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="nb">format</span><span class="p">):</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">format</span> <span class="o">=</span> <span class="nb">format</span>
+</pre></div>
+
   </div>
 </div>
 
@@ -1432,83 +1512,84 @@ class ProcDataTable( DataTable ):
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-data_sources.proc_data.ProcDataTable', this);">Show source &equiv;</a></p>
   <div id="source-data_sources.proc_data.ProcDataTable" class="source">
-    <pre><code>class ProcDataTable( DataTable ):
-    """ class that collects a time based aggregation of data from system process information into a data_table """
-    def __init__(self,num_hours=24,bucket_hours=1,refresh_minutes=10):
-        """ Initialize the ProcDataTable to collect system process information, a timespan to aggregate for, aggregation bucket in hours, a refresh interval for updating in minutes """
-        self.num_hours = num_hours
-        self.bucket_hours = bucket_hours
-        DataTable.__init__(self,None,
-            "Proc Data: for the last %d hours in %d hour buckets, refreshed every %d minutes"%(
-            self.num_hours,
-            self.bucket_hours,
-            refresh_minutes),refresh_minutes)
-        self.refresh()
+    <div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">ProcDataTable</span><span class="p">(</span> <span class="n">DataTable</span> <span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; class that collects a time based aggregation of data from system process information into a data_table &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">num_hours</span><span class="o">=</span><span class="mi">24</span><span class="p">,</span><span class="n">bucket_hours</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">refresh_minutes</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Initialize the ProcDataTable to collect system process information, a timespan to aggregate for, aggregation bucket in hours, a refresh interval for updating in minutes &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">num_hours</span> <span class="o">=</span> <span class="n">num_hours</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bucket_hours</span> <span class="o">=</span> <span class="n">bucket_hours</span>
+        <span class="n">DataTable</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="kc">None</span><span class="p">,</span>
+            <span class="s2">&quot;Proc Data: for the last </span><span class="si">%d</span><span class="s2"> hours in </span><span class="si">%d</span><span class="s2"> hour buckets, refreshed every </span><span class="si">%d</span><span class="s2"> minutes&quot;</span><span class="o">%</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">num_hours</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">bucket_hours</span><span class="p">,</span>
+            <span class="n">refresh_minutes</span><span class="p">),</span><span class="n">refresh_minutes</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">refresh</span><span class="p">()</span>
 
-    @synchronized
-    def refresh( self ):
-        """ refresh or rebuild tables """
+    <span class="nd">@synchronized</span>
+    <span class="k">def</span> <span class="nf">refresh</span><span class="p">(</span> <span class="bp">self</span> <span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; refresh or rebuild tables &quot;&quot;&quot;</span>
 
-        current_time = datetime.now()
+        <span class="n">current_time</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
 
-        column_names = [ "Time Stamps", "CPU Percent", "Load Avg",
-            "Total Virtual Memory", "Available Virtual Memory",
-            "Filesystem Percent Full", "Filesystem Read Bytes", "Filesystem Write Bytes",
-            "Network Sent Bytes","Network Received Bytes","Network Connections" ]
+        <span class="n">column_names</span> <span class="o">=</span> <span class="p">[</span> <span class="s2">&quot;Time Stamps&quot;</span><span class="p">,</span> <span class="s2">&quot;CPU Percent&quot;</span><span class="p">,</span> <span class="s2">&quot;Load Avg&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;Total Virtual Memory&quot;</span><span class="p">,</span> <span class="s2">&quot;Available Virtual Memory&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;Filesystem Percent Full&quot;</span><span class="p">,</span> <span class="s2">&quot;Filesystem Read Bytes&quot;</span><span class="p">,</span> <span class="s2">&quot;Filesystem Write Bytes&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;Network Sent Bytes&quot;</span><span class="p">,</span><span class="s2">&quot;Network Received Bytes&quot;</span><span class="p">,</span><span class="s2">&quot;Network Connections&quot;</span> <span class="p">]</span>
 
-        def bucket_idx( timestamp, column ):
-            for idx in range(column.size()):
-                if column.get(idx).get_value() >= timestamp:
-                    return idx
-            else:
-                return -1
+        <span class="k">def</span> <span class="nf">bucket_idx</span><span class="p">(</span> <span class="n">timestamp</span><span class="p">,</span> <span class="n">column</span> <span class="p">):</span>
+            <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">column</span><span class="o">.</span><span class="n">size</span><span class="p">()):</span>
+                <span class="k">if</span> <span class="n">column</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span><span class="o">.</span><span class="n">get_value</span><span class="p">()</span> <span class="o">&gt;=</span> <span class="n">timestamp</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="n">idx</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
 
-        def append_bucket( timestamp, column ):
-            column.put(column.size(),Cell(date_type,timestamp+timedelta( hours=self.bucket_hours),format_date))
-            if column.size() > self.num_hours/self.bucket_hours:
-                for cn in column_names:
-                    self.get_column(cn).delete(0)
-            return column.size()-1
+        <span class="k">def</span> <span class="nf">append_bucket</span><span class="p">(</span> <span class="n">timestamp</span><span class="p">,</span> <span class="n">column</span> <span class="p">):</span>
+            <span class="n">column</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">column</span><span class="o">.</span><span class="n">size</span><span class="p">(),</span><span class="n">Cell</span><span class="p">(</span><span class="n">date_type</span><span class="p">,</span><span class="n">timestamp</span><span class="o">+</span><span class="n">timedelta</span><span class="p">(</span> <span class="n">hours</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">bucket_hours</span><span class="p">),</span><span class="n">format_date</span><span class="p">))</span>
+            <span class="k">if</span> <span class="n">column</span><span class="o">.</span><span class="n">size</span><span class="p">()</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_hours</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">bucket_hours</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">cn</span> <span class="ow">in</span> <span class="n">column_names</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">get_column</span><span class="p">(</span><span class="n">cn</span><span class="p">)</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">column</span><span class="o">.</span><span class="n">size</span><span class="p">()</span><span class="o">-</span><span class="mi">1</span>
 
-        def add_average( column_name, idx, value ):
-            column = self.get_column(column_name)
-            if not column.size() or idx >= column.size():
-                column.put(idx, AverageCell(float_type,value,format_float))
-            else:
-                column.get(idx).put_value(value)
+        <span class="k">def</span> <span class="nf">add_average</span><span class="p">(</span> <span class="n">column_name</span><span class="p">,</span> <span class="n">idx</span><span class="p">,</span> <span class="n">value</span> <span class="p">):</span>
+            <span class="n">column</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_column</span><span class="p">(</span><span class="n">column_name</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">column</span><span class="o">.</span><span class="n">size</span><span class="p">()</span> <span class="ow">or</span> <span class="n">idx</span> <span class="o">&gt;=</span> <span class="n">column</span><span class="o">.</span><span class="n">size</span><span class="p">():</span>
+                <span class="n">column</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">idx</span><span class="p">,</span> <span class="n">AverageCell</span><span class="p">(</span><span class="n">float_type</span><span class="p">,</span><span class="n">value</span><span class="p">,</span><span class="n">format_float</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">column</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span><span class="o">.</span><span class="n">put_value</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
 
-        bidx = 0
-        for cn in column_names:
-            if not self.has_column(cn):
-                self.add_column(Column(name=cn))
-            if cn == "Time Stamps":
-                bidx = bucket_idx( current_time, self.get_column(cn))
-                if bidx < 0:
-                    bidx = append_bucket( current_time, self.get_column(cn))
-            elif cn == "CPU Percent":
-                add_average(cn,bidx,psutil.cpu_percent())
-            elif cn == "Load Avg":
-                add_average(cn,bidx,psutil.getloadavg()[2])
-            elif cn == "Total Virtual Memory":
-                add_average(cn,bidx,psutil.virtual_memory().total)
-            elif cn == "Available Virtual Memory":
-                add_average(cn,bidx,psutil.virtual_memory().available)
-            elif cn == "Filesystem Percent Full":
-                add_average(cn,bidx,psutil.disk_usage("/").percent)
-            elif cn == "Filesystem Read Bytes":
-                add_average(cn,bidx,psutil.disk_io_counters().read_bytes)
-            elif cn == "Filesystem Write Bytes":
-                add_average(cn,bidx,psutil.disk_io_counters().write_bytes)
-            elif cn == "Network Sent Bytes":
-                add_average(cn,bidx,psutil.net_io_counters().bytes_sent)
-            elif cn == "Network Recieved Bytes":
-                add_average(cn,bidx,psutil.net_io_counters().bytes_recv)
-            elif cn == "Network Connections":
-                add_average(cn,bidx,float(len(psutil.net_connections())))
-        self.changed()
+        <span class="n">bidx</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">cn</span> <span class="ow">in</span> <span class="n">column_names</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">has_column</span><span class="p">(</span><span class="n">cn</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">add_column</span><span class="p">(</span><span class="n">Column</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">cn</span><span class="p">))</span>
+            <span class="k">if</span> <span class="n">cn</span> <span class="o">==</span> <span class="s2">&quot;Time Stamps&quot;</span><span class="p">:</span>
+                <span class="n">bidx</span> <span class="o">=</span> <span class="n">bucket_idx</span><span class="p">(</span> <span class="n">current_time</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_column</span><span class="p">(</span><span class="n">cn</span><span class="p">))</span>
+                <span class="k">if</span> <span class="n">bidx</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">bidx</span> <span class="o">=</span> <span class="n">append_bucket</span><span class="p">(</span> <span class="n">current_time</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_column</span><span class="p">(</span><span class="n">cn</span><span class="p">))</span>
+            <span class="k">elif</span> <span class="n">cn</span> <span class="o">==</span> <span class="s2">&quot;CPU Percent&quot;</span><span class="p">:</span>
+                <span class="n">add_average</span><span class="p">(</span><span class="n">cn</span><span class="p">,</span><span class="n">bidx</span><span class="p">,</span><span class="n">psutil</span><span class="o">.</span><span class="n">cpu_percent</span><span class="p">())</span>
+            <span class="k">elif</span> <span class="n">cn</span> <span class="o">==</span> <span class="s2">&quot;Load Avg&quot;</span><span class="p">:</span>
+                <span class="n">add_average</span><span class="p">(</span><span class="n">cn</span><span class="p">,</span><span class="n">bidx</span><span class="p">,</span><span class="n">psutil</span><span class="o">.</span><span class="n">getloadavg</span><span class="p">()[</span><span class="mi">2</span><span class="p">])</span>
+            <span class="k">elif</span> <span class="n">cn</span> <span class="o">==</span> <span class="s2">&quot;Total Virtual Memory&quot;</span><span class="p">:</span>
+                <span class="n">add_average</span><span class="p">(</span><span class="n">cn</span><span class="p">,</span><span class="n">bidx</span><span class="p">,</span><span class="n">psutil</span><span class="o">.</span><span class="n">virtual_memory</span><span class="p">()</span><span class="o">.</span><span class="n">total</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">cn</span> <span class="o">==</span> <span class="s2">&quot;Available Virtual Memory&quot;</span><span class="p">:</span>
+                <span class="n">add_average</span><span class="p">(</span><span class="n">cn</span><span class="p">,</span><span class="n">bidx</span><span class="p">,</span><span class="n">psutil</span><span class="o">.</span><span class="n">virtual_memory</span><span class="p">()</span><span class="o">.</span><span class="n">available</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">cn</span> <span class="o">==</span> <span class="s2">&quot;Filesystem Percent Full&quot;</span><span class="p">:</span>
+                <span class="n">add_average</span><span class="p">(</span><span class="n">cn</span><span class="p">,</span><span class="n">bidx</span><span class="p">,</span><span class="n">psutil</span><span class="o">.</span><span class="n">disk_usage</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">percent</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">cn</span> <span class="o">==</span> <span class="s2">&quot;Filesystem Read Bytes&quot;</span><span class="p">:</span>
+                <span class="n">add_average</span><span class="p">(</span><span class="n">cn</span><span class="p">,</span><span class="n">bidx</span><span class="p">,</span><span class="n">psutil</span><span class="o">.</span><span class="n">disk_io_counters</span><span class="p">()</span><span class="o">.</span><span class="n">read_bytes</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">cn</span> <span class="o">==</span> <span class="s2">&quot;Filesystem Write Bytes&quot;</span><span class="p">:</span>
+                <span class="n">add_average</span><span class="p">(</span><span class="n">cn</span><span class="p">,</span><span class="n">bidx</span><span class="p">,</span><span class="n">psutil</span><span class="o">.</span><span class="n">disk_io_counters</span><span class="p">()</span><span class="o">.</span><span class="n">write_bytes</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">cn</span> <span class="o">==</span> <span class="s2">&quot;Network Sent Bytes&quot;</span><span class="p">:</span>
+                <span class="n">add_average</span><span class="p">(</span><span class="n">cn</span><span class="p">,</span><span class="n">bidx</span><span class="p">,</span><span class="n">psutil</span><span class="o">.</span><span class="n">net_io_counters</span><span class="p">()</span><span class="o">.</span><span class="n">bytes_sent</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">cn</span> <span class="o">==</span> <span class="s2">&quot;Network Recieved Bytes&quot;</span><span class="p">:</span>
+                <span class="n">add_average</span><span class="p">(</span><span class="n">cn</span><span class="p">,</span><span class="n">bidx</span><span class="p">,</span><span class="n">psutil</span><span class="o">.</span><span class="n">net_io_counters</span><span class="p">()</span><span class="o">.</span><span class="n">bytes_recv</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">cn</span> <span class="o">==</span> <span class="s2">&quot;Network Connections&quot;</span><span class="p">:</span>
+                <span class="n">add_average</span><span class="p">(</span><span class="n">cn</span><span class="p">,</span><span class="n">bidx</span><span class="p">,</span><span class="nb">float</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">psutil</span><span class="o">.</span><span class="n">net_connections</span><span class="p">())))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">changed</span><span class="p">()</span>
 
-        DataTable.refresh(self)
-</code></pre>
+        <span class="n">DataTable</span><span class="o">.</span><span class="n">refresh</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+</pre></div>
+
   </div>
 </div>
 
@@ -1534,17 +1615,18 @@ class ProcDataTable( DataTable ):
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-data_sources.proc_data.ProcDataTable.__init__', this);">Show source &equiv;</a></p>
   <div id="source-data_sources.proc_data.ProcDataTable.__init__" class="source">
-    <pre><code>def __init__(self,num_hours=24,bucket_hours=1,refresh_minutes=10):
-    """ Initialize the ProcDataTable to collect system process information, a timespan to aggregate for, aggregation bucket in hours, a refresh interval for updating in minutes """
-    self.num_hours = num_hours
-    self.bucket_hours = bucket_hours
-    DataTable.__init__(self,None,
-        "Proc Data: for the last %d hours in %d hour buckets, refreshed every %d minutes"%(
-        self.num_hours,
-        self.bucket_hours,
-        refresh_minutes),refresh_minutes)
-    self.refresh()
-</code></pre>
+    <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">num_hours</span><span class="o">=</span><span class="mi">24</span><span class="p">,</span><span class="n">bucket_hours</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">refresh_minutes</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Initialize the ProcDataTable to collect system process information, a timespan to aggregate for, aggregation bucket in hours, a refresh interval for updating in minutes &quot;&quot;&quot;</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">num_hours</span> <span class="o">=</span> <span class="n">num_hours</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">bucket_hours</span> <span class="o">=</span> <span class="n">bucket_hours</span>
+    <span class="n">DataTable</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="kc">None</span><span class="p">,</span>
+        <span class="s2">&quot;Proc Data: for the last </span><span class="si">%d</span><span class="s2"> hours in </span><span class="si">%d</span><span class="s2"> hour buckets, refreshed every </span><span class="si">%d</span><span class="s2"> minutes&quot;</span><span class="o">%</span><span class="p">(</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">num_hours</span><span class="p">,</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bucket_hours</span><span class="p">,</span>
+        <span class="n">refresh_minutes</span><span class="p">),</span><span class="n">refresh_minutes</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">refresh</span><span class="p">()</span>
+</pre></div>
+
   </div>
 </div>
 
@@ -1563,10 +1645,11 @@ class ProcDataTable( DataTable ):
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-data_sources.proc_data.ProcDataTable.acquire_refresh_lock', this);">Show source &equiv;</a></p>
   <div id="source-data_sources.proc_data.ProcDataTable.acquire_refresh_lock" class="source">
-    <pre><code>def acquire_refresh_lock(self):
-    """ acquire the refresh lock before reading/writing the table state """
-    self.refresh_lock.acquire()
-</code></pre>
+    <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">acquire_refresh_lock</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; acquire the refresh lock before reading/writing the table state &quot;&quot;&quot;</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">refresh_lock</span><span class="o">.</span><span class="n">acquire</span><span class="p">()</span>
+</pre></div>
+
   </div>
 </div>
 
@@ -1584,16 +1667,17 @@ class ProcDataTable( DataTable ):
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-data_sources.proc_data.ProcDataTable.add_column', this);">Show source &equiv;</a></p>
   <div id="source-data_sources.proc_data.ProcDataTable.add_column" class="source">
-    <pre><code>@synchronized
-def add_column(self,column):
-    idx = len(self.columns)
-    column.set_idx(idx)
-    if not column.get_name():
-        column.set_name("%s_%d"%(self.name,idx))
-    self.columns.append(column)
-    self.cnames[column.get_name()] = column
-    column.set_table(self)
-</code></pre>
+    <div class="codehilite"><pre><span></span><span class="nd">@synchronized</span>
+<span class="k">def</span> <span class="nf">add_column</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">column</span><span class="p">):</span>
+    <span class="n">idx</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
+    <span class="n">column</span><span class="o">.</span><span class="n">set_idx</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">column</span><span class="o">.</span><span class="n">get_name</span><span class="p">():</span>
+        <span class="n">column</span><span class="o">.</span><span class="n">set_name</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">_</span><span class="si">%d</span><span class="s2">&quot;</span><span class="o">%</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span><span class="n">idx</span><span class="p">))</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">column</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">cnames</span><span class="p">[</span><span class="n">column</span><span class="o">.</span><span class="n">get_name</span><span class="p">()]</span> <span class="o">=</span> <span class="n">column</span>
+    <span class="n">column</span><span class="o">.</span><span class="n">set_table</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+</pre></div>
+
   </div>
 </div>
 
@@ -1612,11 +1696,12 @@ def add_column(self,column):
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-data_sources.proc_data.ProcDataTable.changed', this);">Show source &equiv;</a></p>
   <div id="source-data_sources.proc_data.ProcDataTable.changed" class="source">
-    <pre><code>def changed(self):
-    """ notify listeners that this table has been changed """
-    for f in self.listeners:
-        f(self)
-</code></pre>
+    <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">changed</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; notify listeners that this table has been changed &quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">listeners</span><span class="p">:</span>
+        <span class="n">f</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+</pre></div>
+
   </div>
 </div>
 
@@ -1634,10 +1719,11 @@ def add_column(self,column):
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-data_sources.proc_data.ProcDataTable.get', this);">Show source &equiv;</a></p>
   <div id="source-data_sources.proc_data.ProcDataTable.get" class="source">
-    <pre><code>@synchronized
-def get(self, row, reference ):
-    return self.columns[self.map_column(reference)].get(row)
-</code></pre>
+    <div class="codehilite"><pre><span></span><span class="nd">@synchronized</span>
+<span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">reference</span> <span class="p">):</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">map_column</span><span class="p">(</span><span class="n">reference</span><span class="p">)]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
+</pre></div>
+
   </div>
 </div>
 
@@ -1656,17 +1742,18 @@ def get(self, row, reference ):
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-data_sources.proc_data.ProcDataTable.get_bounds', this);">Show source &equiv;</a></p>
   <div id="source-data_sources.proc_data.ProcDataTable.get_bounds" class="source">
-    <pre><code>@synchronized
-def get_bounds(self):
-    """ return a tuple (rows,cols) where rows is the maximum number of rows and cols is the maximum number of cols """
-    cols = len(self.columns)
-    rows = -1
-    for c in self.columns:
-        size = c.size()
-        if rows < 0 or size > rows:
-            rows = size
-    return (rows,cols)
-</code></pre>
+    <div class="codehilite"><pre><span></span><span class="nd">@synchronized</span>
+<span class="k">def</span> <span class="nf">get_bounds</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; return a tuple (rows,cols) where rows is the maximum number of rows and cols is the maximum number of cols &quot;&quot;&quot;</span>
+    <span class="n">cols</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
+    <span class="n">rows</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+    <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+        <span class="n">size</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">size</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">rows</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">size</span> <span class="o">&gt;</span> <span class="n">rows</span><span class="p">:</span>
+            <span class="n">rows</span> <span class="o">=</span> <span class="n">size</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">rows</span><span class="p">,</span><span class="n">cols</span><span class="p">)</span>
+</pre></div>
+
   </div>
 </div>
 
@@ -1684,10 +1771,11 @@ def get_bounds(self):
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-data_sources.proc_data.ProcDataTable.get_column', this);">Show source &equiv;</a></p>
   <div id="source-data_sources.proc_data.ProcDataTable.get_column" class="source">
-    <pre><code>@synchronized
-def get_column(self, reference):
-    return self.columns[self.map_column(reference)]
-</code></pre>
+    <div class="codehilite"><pre><span></span><span class="nd">@synchronized</span>
+<span class="k">def</span> <span class="nf">get_column</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reference</span><span class="p">):</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">map_column</span><span class="p">(</span><span class="n">reference</span><span class="p">)]</span>
+</pre></div>
+
   </div>
 </div>
 
@@ -1706,11 +1794,12 @@ def get_column(self, reference):
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-data_sources.proc_data.ProcDataTable.get_columns', this);">Show source &equiv;</a></p>
   <div id="source-data_sources.proc_data.ProcDataTable.get_columns" class="source">
-    <pre><code>@synchronized
-def get_columns(self):
-    """ return the list of columns """
-    return self.columns
-</code></pre>
+    <div class="codehilite"><pre><span></span><span class="nd">@synchronized</span>
+<span class="k">def</span> <span class="nf">get_columns</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; return the list of columns &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">columns</span>
+</pre></div>
+
   </div>
 </div>
 
@@ -1729,10 +1818,11 @@ def get_columns(self):
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-data_sources.proc_data.ProcDataTable.get_name', this);">Show source &equiv;</a></p>
   <div id="source-data_sources.proc_data.ProcDataTable.get_name" class="source">
-    <pre><code>def get_name(self):
-    """ return the name of the table """
-    return self.name
-</code></pre>
+    <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">get_name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; return the name of the table &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
+</pre></div>
+
   </div>
 </div>
 
@@ -1751,11 +1841,12 @@ def get_columns(self):
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-data_sources.proc_data.ProcDataTable.get_names', this);">Show source &equiv;</a></p>
   <div id="source-data_sources.proc_data.ProcDataTable.get_names" class="source">
-    <pre><code>@synchronized
-def get_names(self):
-    """ return a list of the names of the columns in order"""
-    return [c.get_name() for c in self.columns]
-</code></pre>
+    <div class="codehilite"><pre><span></span><span class="nd">@synchronized</span>
+<span class="k">def</span> <span class="nf">get_names</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; return a list of the names of the columns in order&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">get_name</span><span class="p">()</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">]</span>
+</pre></div>
+
   </div>
 </div>
 
@@ -1774,10 +1865,11 @@ def get_names(self):
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-data_sources.proc_data.ProcDataTable.get_refresh_timestamp', this);">Show source &equiv;</a></p>
   <div id="source-data_sources.proc_data.ProcDataTable.get_refresh_timestamp" class="source">
-    <pre><code>def get_refresh_timestamp( self ):
-    """ get the time that the table was last refreshed """
-    return self.refresh_timestamp
-</code></pre>
+    <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">get_refresh_timestamp</span><span class="p">(</span> <span class="bp">self</span> <span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; get the time that the table was last refreshed &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">refresh_timestamp</span>
+</pre></div>
+
   </div>
 </div>
 
@@ -1795,15 +1887,16 @@ def get_names(self):
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-data_sources.proc_data.ProcDataTable.has_column', this);">Show source &equiv;</a></p>
   <div id="source-data_sources.proc_data.ProcDataTable.has_column" class="source">
-    <pre><code>@synchronized
-def has_column(self, reference ):
-    if type(reference) == str or type(reference) == str:
-        return reference in self.cnames
-    elif type(reference) == int:
-        return idx < len(self.columns)
-    else:
-        return False
-</code></pre>
+    <div class="codehilite"><pre><span></span><span class="nd">@synchronized</span>
+<span class="k">def</span> <span class="nf">has_column</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reference</span> <span class="p">):</span>
+    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">reference</span><span class="p">)</span> <span class="o">==</span> <span class="nb">str</span> <span class="ow">or</span> <span class="nb">type</span><span class="p">(</span><span class="n">reference</span><span class="p">)</span> <span class="o">==</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">reference</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">cnames</span>
+    <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">reference</span><span class="p">)</span> <span class="o">==</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">idx</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+</pre></div>
+
   </div>
 </div>
 
@@ -1821,25 +1914,26 @@ def has_column(self, reference ):
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-data_sources.proc_data.ProcDataTable.insert_column', this);">Show source &equiv;</a></p>
   <div id="source-data_sources.proc_data.ProcDataTable.insert_column" class="source">
-    <pre><code>@synchronized
-def insert_column(self,idx,column):
-    while idx > len(self.columns):
-        self.add_column(blank_column)
-    if idx == len(self.columns):
-        self.add_column(column)
-    else:
-        if not column.get_name():
-            column.set_name("%s_%d"%(self.name,idx))
-        self.columns.insert(idx,column)
-        self.cnames[column.get_name()] = column
-        column.set_table(self)
-        while idx < len(self.columns):
-            if column.get_name() == "%s_%d"%(self.name,idx-1):
-                column.set_name("%s_%d"%(self.name,idx))
-                self.cnames[column.get_name()] = column
-            self.columns[idx].set_idx(idx)
-            idx += 1
-</code></pre>
+    <div class="codehilite"><pre><span></span><span class="nd">@synchronized</span>
+<span class="k">def</span> <span class="nf">insert_column</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">idx</span><span class="p">,</span><span class="n">column</span><span class="p">):</span>
+    <span class="k">while</span> <span class="n">idx</span> <span class="o">&gt;</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_column</span><span class="p">(</span><span class="n">blank_column</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">idx</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_column</span><span class="p">(</span><span class="n">column</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">column</span><span class="o">.</span><span class="n">get_name</span><span class="p">():</span>
+            <span class="n">column</span><span class="o">.</span><span class="n">set_name</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">_</span><span class="si">%d</span><span class="s2">&quot;</span><span class="o">%</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span><span class="n">idx</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">idx</span><span class="p">,</span><span class="n">column</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cnames</span><span class="p">[</span><span class="n">column</span><span class="o">.</span><span class="n">get_name</span><span class="p">()]</span> <span class="o">=</span> <span class="n">column</span>
+        <span class="n">column</span><span class="o">.</span><span class="n">set_table</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="k">while</span> <span class="n">idx</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">column</span><span class="o">.</span><span class="n">get_name</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">_</span><span class="si">%d</span><span class="s2">&quot;</span><span class="o">%</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span><span class="n">idx</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+                <span class="n">column</span><span class="o">.</span><span class="n">set_name</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">_</span><span class="si">%d</span><span class="s2">&quot;</span><span class="o">%</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span><span class="n">idx</span><span class="p">))</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">cnames</span><span class="p">[</span><span class="n">column</span><span class="o">.</span><span class="n">get_name</span><span class="p">()]</span> <span class="o">=</span> <span class="n">column</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="o">.</span><span class="n">set_idx</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span>
+            <span class="n">idx</span> <span class="o">+=</span> <span class="mi">1</span>
+</pre></div>
+
   </div>
 </div>
 
@@ -1858,10 +1952,11 @@ def insert_column(self,idx,column):
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-data_sources.proc_data.ProcDataTable.listen', this);">Show source &equiv;</a></p>
   <div id="source-data_sources.proc_data.ProcDataTable.listen" class="source">
-    <pre><code>def listen(self,listen_func):
-    """ register for notifications when a change event is raised on this table """
-    self.listeners.append(listen_func)
-</code></pre>
+    <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">listen</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">listen_func</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; register for notifications when a change event is raised on this table &quot;&quot;&quot;</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">listeners</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">listen_func</span><span class="p">)</span>
+</pre></div>
+
   </div>
 </div>
 
@@ -1879,15 +1974,16 @@ def insert_column(self,idx,column):
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-data_sources.proc_data.ProcDataTable.map_column', this);">Show source &equiv;</a></p>
   <div id="source-data_sources.proc_data.ProcDataTable.map_column" class="source">
-    <pre><code>@synchronized
-def map_column(self, reference ):
-    if type(reference) == str or type(reference) == str:
-        return self.cnames[reference].get_idx()
-    elif type(reference) == int:
-        return reference
-    else:
-        raise TypeError("wrong type in mapping")
-</code></pre>
+    <div class="codehilite"><pre><span></span><span class="nd">@synchronized</span>
+<span class="k">def</span> <span class="nf">map_column</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reference</span> <span class="p">):</span>
+    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">reference</span><span class="p">)</span> <span class="o">==</span> <span class="nb">str</span> <span class="ow">or</span> <span class="nb">type</span><span class="p">(</span><span class="n">reference</span><span class="p">)</span> <span class="o">==</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cnames</span><span class="p">[</span><span class="n">reference</span><span class="p">]</span><span class="o">.</span><span class="n">get_idx</span><span class="p">()</span>
+    <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">reference</span><span class="p">)</span> <span class="o">==</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">reference</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;wrong type in mapping&quot;</span><span class="p">)</span>
+</pre></div>
+
   </div>
 </div>
 
@@ -1906,15 +2002,16 @@ def map_column(self, reference ):
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-data_sources.proc_data.ProcDataTable.perform_refresh', this);">Show source &equiv;</a></p>
   <div id="source-data_sources.proc_data.ProcDataTable.perform_refresh" class="source">
-    <pre><code>def perform_refresh( self ):
-    """ Thread worker that sleeps and refreshes the data on a schedule """
-    start_time = time.time()
-    while not self.refresh_thread_stop:
-        if time.time() - start_time >= self.refresh_minutes*60.0:
-            self.refresh()
-            start_time = time.time()
-        time.sleep(0)
-</code></pre>
+    <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">perform_refresh</span><span class="p">(</span> <span class="bp">self</span> <span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Thread worker that sleeps and refreshes the data on a schedule &quot;&quot;&quot;</span>
+    <span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+    <span class="k">while</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">refresh_thread_stop</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start_time</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">refresh_minutes</span><span class="o">*</span><span class="mf">60.0</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">refresh</span><span class="p">()</span>
+            <span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+
   </div>
 </div>
 
@@ -1932,10 +2029,11 @@ def map_column(self, reference ):
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-data_sources.proc_data.ProcDataTable.put', this);">Show source &equiv;</a></p>
   <div id="source-data_sources.proc_data.ProcDataTable.put" class="source">
-    <pre><code>@synchronized
-def put(self, row, reference, value):
-    self.columns[self.map_column(reference)].put(row,value)
-</code></pre>
+    <div class="codehilite"><pre><span></span><span class="nd">@synchronized</span>
+<span class="k">def</span> <span class="nf">put</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">reference</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">map_column</span><span class="p">(</span><span class="n">reference</span><span class="p">)]</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">row</span><span class="p">,</span><span class="n">value</span><span class="p">)</span>
+</pre></div>
+
   </div>
 </div>
 
@@ -1954,63 +2052,64 @@ def put(self, row, reference, value):
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-data_sources.proc_data.ProcDataTable.refresh', this);">Show source &equiv;</a></p>
   <div id="source-data_sources.proc_data.ProcDataTable.refresh" class="source">
-    <pre><code>@synchronized
-def refresh( self ):
-    """ refresh or rebuild tables """
-    current_time = datetime.now()
-    column_names = [ "Time Stamps", "CPU Percent", "Load Avg",
-        "Total Virtual Memory", "Available Virtual Memory",
-        "Filesystem Percent Full", "Filesystem Read Bytes", "Filesystem Write Bytes",
-        "Network Sent Bytes","Network Received Bytes","Network Connections" ]
-    def bucket_idx( timestamp, column ):
-        for idx in range(column.size()):
-            if column.get(idx).get_value() >= timestamp:
-                return idx
-        else:
-            return -1
-    def append_bucket( timestamp, column ):
-        column.put(column.size(),Cell(date_type,timestamp+timedelta( hours=self.bucket_hours),format_date))
-        if column.size() > self.num_hours/self.bucket_hours:
-            for cn in column_names:
-                self.get_column(cn).delete(0)
-        return column.size()-1
-    def add_average( column_name, idx, value ):
-        column = self.get_column(column_name)
-        if not column.size() or idx >= column.size():
-            column.put(idx, AverageCell(float_type,value,format_float))
-        else:
-            column.get(idx).put_value(value)
-    bidx = 0
-    for cn in column_names:
-        if not self.has_column(cn):
-            self.add_column(Column(name=cn))
-        if cn == "Time Stamps":
-            bidx = bucket_idx( current_time, self.get_column(cn))
-            if bidx < 0:
-                bidx = append_bucket( current_time, self.get_column(cn))
-        elif cn == "CPU Percent":
-            add_average(cn,bidx,psutil.cpu_percent())
-        elif cn == "Load Avg":
-            add_average(cn,bidx,psutil.getloadavg()[2])
-        elif cn == "Total Virtual Memory":
-            add_average(cn,bidx,psutil.virtual_memory().total)
-        elif cn == "Available Virtual Memory":
-            add_average(cn,bidx,psutil.virtual_memory().available)
-        elif cn == "Filesystem Percent Full":
-            add_average(cn,bidx,psutil.disk_usage("/").percent)
-        elif cn == "Filesystem Read Bytes":
-            add_average(cn,bidx,psutil.disk_io_counters().read_bytes)
-        elif cn == "Filesystem Write Bytes":
-            add_average(cn,bidx,psutil.disk_io_counters().write_bytes)
-        elif cn == "Network Sent Bytes":
-            add_average(cn,bidx,psutil.net_io_counters().bytes_sent)
-        elif cn == "Network Recieved Bytes":
-            add_average(cn,bidx,psutil.net_io_counters().bytes_recv)
-        elif cn == "Network Connections":
-            add_average(cn,bidx,float(len(psutil.net_connections())))
-    self.changed()
-    DataTable.refresh(self)
-</code></pre>
+    <div class="codehilite"><pre><span></span><span class="nd">@synchronized</span>
+<span class="k">def</span> <span class="nf">refresh</span><span class="p">(</span> <span class="bp">self</span> <span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; refresh or rebuild tables &quot;&quot;&quot;</span>
+    <span class="n">current_time</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+    <span class="n">column_names</span> <span class="o">=</span> <span class="p">[</span> <span class="s2">&quot;Time Stamps&quot;</span><span class="p">,</span> <span class="s2">&quot;CPU Percent&quot;</span><span class="p">,</span> <span class="s2">&quot;Load Avg&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Total Virtual Memory&quot;</span><span class="p">,</span> <span class="s2">&quot;Available Virtual Memory&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Filesystem Percent Full&quot;</span><span class="p">,</span> <span class="s2">&quot;Filesystem Read Bytes&quot;</span><span class="p">,</span> <span class="s2">&quot;Filesystem Write Bytes&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Network Sent Bytes&quot;</span><span class="p">,</span><span class="s2">&quot;Network Received Bytes&quot;</span><span class="p">,</span><span class="s2">&quot;Network Connections&quot;</span> <span class="p">]</span>
+    <span class="k">def</span> <span class="nf">bucket_idx</span><span class="p">(</span> <span class="n">timestamp</span><span class="p">,</span> <span class="n">column</span> <span class="p">):</span>
+        <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">column</span><span class="o">.</span><span class="n">size</span><span class="p">()):</span>
+            <span class="k">if</span> <span class="n">column</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span><span class="o">.</span><span class="n">get_value</span><span class="p">()</span> <span class="o">&gt;=</span> <span class="n">timestamp</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">idx</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
+    <span class="k">def</span> <span class="nf">append_bucket</span><span class="p">(</span> <span class="n">timestamp</span><span class="p">,</span> <span class="n">column</span> <span class="p">):</span>
+        <span class="n">column</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">column</span><span class="o">.</span><span class="n">size</span><span class="p">(),</span><span class="n">Cell</span><span class="p">(</span><span class="n">date_type</span><span class="p">,</span><span class="n">timestamp</span><span class="o">+</span><span class="n">timedelta</span><span class="p">(</span> <span class="n">hours</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">bucket_hours</span><span class="p">),</span><span class="n">format_date</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">column</span><span class="o">.</span><span class="n">size</span><span class="p">()</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_hours</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">bucket_hours</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">cn</span> <span class="ow">in</span> <span class="n">column_names</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">get_column</span><span class="p">(</span><span class="n">cn</span><span class="p">)</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">column</span><span class="o">.</span><span class="n">size</span><span class="p">()</span><span class="o">-</span><span class="mi">1</span>
+    <span class="k">def</span> <span class="nf">add_average</span><span class="p">(</span> <span class="n">column_name</span><span class="p">,</span> <span class="n">idx</span><span class="p">,</span> <span class="n">value</span> <span class="p">):</span>
+        <span class="n">column</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_column</span><span class="p">(</span><span class="n">column_name</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">column</span><span class="o">.</span><span class="n">size</span><span class="p">()</span> <span class="ow">or</span> <span class="n">idx</span> <span class="o">&gt;=</span> <span class="n">column</span><span class="o">.</span><span class="n">size</span><span class="p">():</span>
+            <span class="n">column</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">idx</span><span class="p">,</span> <span class="n">AverageCell</span><span class="p">(</span><span class="n">float_type</span><span class="p">,</span><span class="n">value</span><span class="p">,</span><span class="n">format_float</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">column</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span><span class="o">.</span><span class="n">put_value</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+    <span class="n">bidx</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">cn</span> <span class="ow">in</span> <span class="n">column_names</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">has_column</span><span class="p">(</span><span class="n">cn</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">add_column</span><span class="p">(</span><span class="n">Column</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">cn</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">cn</span> <span class="o">==</span> <span class="s2">&quot;Time Stamps&quot;</span><span class="p">:</span>
+            <span class="n">bidx</span> <span class="o">=</span> <span class="n">bucket_idx</span><span class="p">(</span> <span class="n">current_time</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_column</span><span class="p">(</span><span class="n">cn</span><span class="p">))</span>
+            <span class="k">if</span> <span class="n">bidx</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">bidx</span> <span class="o">=</span> <span class="n">append_bucket</span><span class="p">(</span> <span class="n">current_time</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_column</span><span class="p">(</span><span class="n">cn</span><span class="p">))</span>
+        <span class="k">elif</span> <span class="n">cn</span> <span class="o">==</span> <span class="s2">&quot;CPU Percent&quot;</span><span class="p">:</span>
+            <span class="n">add_average</span><span class="p">(</span><span class="n">cn</span><span class="p">,</span><span class="n">bidx</span><span class="p">,</span><span class="n">psutil</span><span class="o">.</span><span class="n">cpu_percent</span><span class="p">())</span>
+        <span class="k">elif</span> <span class="n">cn</span> <span class="o">==</span> <span class="s2">&quot;Load Avg&quot;</span><span class="p">:</span>
+            <span class="n">add_average</span><span class="p">(</span><span class="n">cn</span><span class="p">,</span><span class="n">bidx</span><span class="p">,</span><span class="n">psutil</span><span class="o">.</span><span class="n">getloadavg</span><span class="p">()[</span><span class="mi">2</span><span class="p">])</span>
+        <span class="k">elif</span> <span class="n">cn</span> <span class="o">==</span> <span class="s2">&quot;Total Virtual Memory&quot;</span><span class="p">:</span>
+            <span class="n">add_average</span><span class="p">(</span><span class="n">cn</span><span class="p">,</span><span class="n">bidx</span><span class="p">,</span><span class="n">psutil</span><span class="o">.</span><span class="n">virtual_memory</span><span class="p">()</span><span class="o">.</span><span class="n">total</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">cn</span> <span class="o">==</span> <span class="s2">&quot;Available Virtual Memory&quot;</span><span class="p">:</span>
+            <span class="n">add_average</span><span class="p">(</span><span class="n">cn</span><span class="p">,</span><span class="n">bidx</span><span class="p">,</span><span class="n">psutil</span><span class="o">.</span><span class="n">virtual_memory</span><span class="p">()</span><span class="o">.</span><span class="n">available</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">cn</span> <span class="o">==</span> <span class="s2">&quot;Filesystem Percent Full&quot;</span><span class="p">:</span>
+            <span class="n">add_average</span><span class="p">(</span><span class="n">cn</span><span class="p">,</span><span class="n">bidx</span><span class="p">,</span><span class="n">psutil</span><span class="o">.</span><span class="n">disk_usage</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">percent</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">cn</span> <span class="o">==</span> <span class="s2">&quot;Filesystem Read Bytes&quot;</span><span class="p">:</span>
+            <span class="n">add_average</span><span class="p">(</span><span class="n">cn</span><span class="p">,</span><span class="n">bidx</span><span class="p">,</span><span class="n">psutil</span><span class="o">.</span><span class="n">disk_io_counters</span><span class="p">()</span><span class="o">.</span><span class="n">read_bytes</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">cn</span> <span class="o">==</span> <span class="s2">&quot;Filesystem Write Bytes&quot;</span><span class="p">:</span>
+            <span class="n">add_average</span><span class="p">(</span><span class="n">cn</span><span class="p">,</span><span class="n">bidx</span><span class="p">,</span><span class="n">psutil</span><span class="o">.</span><span class="n">disk_io_counters</span><span class="p">()</span><span class="o">.</span><span class="n">write_bytes</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">cn</span> <span class="o">==</span> <span class="s2">&quot;Network Sent Bytes&quot;</span><span class="p">:</span>
+            <span class="n">add_average</span><span class="p">(</span><span class="n">cn</span><span class="p">,</span><span class="n">bidx</span><span class="p">,</span><span class="n">psutil</span><span class="o">.</span><span class="n">net_io_counters</span><span class="p">()</span><span class="o">.</span><span class="n">bytes_sent</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">cn</span> <span class="o">==</span> <span class="s2">&quot;Network Recieved Bytes&quot;</span><span class="p">:</span>
+            <span class="n">add_average</span><span class="p">(</span><span class="n">cn</span><span class="p">,</span><span class="n">bidx</span><span class="p">,</span><span class="n">psutil</span><span class="o">.</span><span class="n">net_io_counters</span><span class="p">()</span><span class="o">.</span><span class="n">bytes_recv</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">cn</span> <span class="o">==</span> <span class="s2">&quot;Network Connections&quot;</span><span class="p">:</span>
+            <span class="n">add_average</span><span class="p">(</span><span class="n">cn</span><span class="p">,</span><span class="n">bidx</span><span class="p">,</span><span class="nb">float</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">psutil</span><span class="o">.</span><span class="n">net_connections</span><span class="p">())))</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">changed</span><span class="p">()</span>
+    <span class="n">DataTable</span><span class="o">.</span><span class="n">refresh</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+</pre></div>
+
   </div>
 </div>
 
@@ -2029,10 +2128,11 @@ def refresh( self ):
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-data_sources.proc_data.ProcDataTable.release_refresh_lock', this);">Show source &equiv;</a></p>
   <div id="source-data_sources.proc_data.ProcDataTable.release_refresh_lock" class="source">
-    <pre><code>def release_refresh_lock(self):
-    """ release the refresh lock after reading/writing the table state """
-    self.refresh_lock.release()
-</code></pre>
+    <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">release_refresh_lock</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; release the refresh lock after reading/writing the table state &quot;&quot;&quot;</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">refresh_lock</span><span class="o">.</span><span class="n">release</span><span class="p">()</span>
+</pre></div>
+
   </div>
 </div>
 
@@ -2050,15 +2150,16 @@ def refresh( self ):
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-data_sources.proc_data.ProcDataTable.replace_column', this);">Show source &equiv;</a></p>
   <div id="source-data_sources.proc_data.ProcDataTable.replace_column" class="source">
-    <pre><code>@synchronized
-def replace_column(self,idx,column):
-    column.set_idx(idx)
-    if not column.get_name():
-        column.set_name("%s_%d"%(self.name,idx))
-    self.columns[idx] = column
-    self.cnames[column.get_name()] = column
-    column.set_table(self)
-</code></pre>
+    <div class="codehilite"><pre><span></span><span class="nd">@synchronized</span>
+<span class="k">def</span> <span class="nf">replace_column</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">idx</span><span class="p">,</span><span class="n">column</span><span class="p">):</span>
+    <span class="n">column</span><span class="o">.</span><span class="n">set_idx</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">column</span><span class="o">.</span><span class="n">get_name</span><span class="p">():</span>
+        <span class="n">column</span><span class="o">.</span><span class="n">set_name</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">_</span><span class="si">%d</span><span class="s2">&quot;</span><span class="o">%</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span><span class="n">idx</span><span class="p">))</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">column</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">cnames</span><span class="p">[</span><span class="n">column</span><span class="o">.</span><span class="n">get_name</span><span class="p">()]</span> <span class="o">=</span> <span class="n">column</span>
+    <span class="n">column</span><span class="o">.</span><span class="n">set_table</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+</pre></div>
+
   </div>
 </div>
 
@@ -2077,12 +2178,13 @@ def replace_column(self,idx,column):
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-data_sources.proc_data.ProcDataTable.start_refresh', this);">Show source &equiv;</a></p>
   <div id="source-data_sources.proc_data.ProcDataTable.start_refresh" class="source">
-    <pre><code>def start_refresh( self ):
-    """ Start the background refresh thread """
-    self.stop_refresh()
-    self.refresh_thread = threading.Thread(target=self.perform_refresh)
-    self.refresh_thread.start()
-</code></pre>
+    <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">start_refresh</span><span class="p">(</span> <span class="bp">self</span> <span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Start the background refresh thread &quot;&quot;&quot;</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">stop_refresh</span><span class="p">()</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">refresh_thread</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">perform_refresh</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">refresh_thread</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+</pre></div>
+
   </div>
 </div>
 
@@ -2101,14 +2203,15 @@ def replace_column(self,idx,column):
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-data_sources.proc_data.ProcDataTable.stop_refresh', this);">Show source &equiv;</a></p>
   <div id="source-data_sources.proc_data.ProcDataTable.stop_refresh" class="source">
-    <pre><code>def stop_refresh( self ):
-    """ Stop the background refresh thread """
-    self.refresh_thread_stop = True
-    if self.refresh_thread and self.refresh_thread.is_alive():
-        self.refresh_thread.join()
-    self.refresh_thread = None
-    self.refresh_thread_stop = False
-</code></pre>
+    <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">stop_refresh</span><span class="p">(</span> <span class="bp">self</span> <span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Stop the background refresh thread &quot;&quot;&quot;</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">refresh_thread_stop</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">refresh_thread</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">refresh_thread</span><span class="o">.</span><span class="n">is_alive</span><span class="p">():</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">refresh_thread</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">refresh_thread</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">refresh_thread_stop</span> <span class="o">=</span> <span class="kc">False</span>
+</pre></div>
+
   </div>
 </div>
 
@@ -2127,10 +2230,11 @@ def replace_column(self,idx,column):
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-data_sources.proc_data.ProcDataTable.unlisten', this);">Show source &equiv;</a></p>
   <div id="source-data_sources.proc_data.ProcDataTable.unlisten" class="source">
-    <pre><code>def unlisten(self,listen_func):
-    """ unregister for notifications when a change event is raised on this table """
-    self.listeners.remove(listen_func)
-</code></pre>
+    <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">unlisten</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">listen_func</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; unregister for notifications when a change event is raised on this table &quot;&quot;&quot;</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">listeners</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">listen_func</span><span class="p">)</span>
+</pre></div>
+
   </div>
 </div>
 

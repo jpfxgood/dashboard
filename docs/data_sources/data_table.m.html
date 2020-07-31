@@ -851,6 +851,77 @@ table {
 
   </style>
 
+  <style type="text/css">
+  .codehilite .hll { background-color: #ffffcc }
+.codehilite  { background: #f8f8f8; }
+.codehilite .c { color: #408080; font-style: italic } /* Comment */
+.codehilite .err { border: 1px solid #FF0000 } /* Error */
+.codehilite .k { color: #008000; font-weight: bold } /* Keyword */
+.codehilite .o { color: #666666 } /* Operator */
+.codehilite .ch { color: #408080; font-style: italic } /* Comment.Hashbang */
+.codehilite .cm { color: #408080; font-style: italic } /* Comment.Multiline */
+.codehilite .cp { color: #BC7A00 } /* Comment.Preproc */
+.codehilite .cpf { color: #408080; font-style: italic } /* Comment.PreprocFile */
+.codehilite .c1 { color: #408080; font-style: italic } /* Comment.Single */
+.codehilite .cs { color: #408080; font-style: italic } /* Comment.Special */
+.codehilite .gd { color: #A00000 } /* Generic.Deleted */
+.codehilite .ge { font-style: italic } /* Generic.Emph */
+.codehilite .gr { color: #FF0000 } /* Generic.Error */
+.codehilite .gh { color: #000080; font-weight: bold } /* Generic.Heading */
+.codehilite .gi { color: #00A000 } /* Generic.Inserted */
+.codehilite .go { color: #888888 } /* Generic.Output */
+.codehilite .gp { color: #000080; font-weight: bold } /* Generic.Prompt */
+.codehilite .gs { font-weight: bold } /* Generic.Strong */
+.codehilite .gu { color: #800080; font-weight: bold } /* Generic.Subheading */
+.codehilite .gt { color: #0044DD } /* Generic.Traceback */
+.codehilite .kc { color: #008000; font-weight: bold } /* Keyword.Constant */
+.codehilite .kd { color: #008000; font-weight: bold } /* Keyword.Declaration */
+.codehilite .kn { color: #008000; font-weight: bold } /* Keyword.Namespace */
+.codehilite .kp { color: #008000 } /* Keyword.Pseudo */
+.codehilite .kr { color: #008000; font-weight: bold } /* Keyword.Reserved */
+.codehilite .kt { color: #B00040 } /* Keyword.Type */
+.codehilite .m { color: #666666 } /* Literal.Number */
+.codehilite .s { color: #BA2121 } /* Literal.String */
+.codehilite .na { color: #7D9029 } /* Name.Attribute */
+.codehilite .nb { color: #008000 } /* Name.Builtin */
+.codehilite .nc { color: #0000FF; font-weight: bold } /* Name.Class */
+.codehilite .no { color: #880000 } /* Name.Constant */
+.codehilite .nd { color: #AA22FF } /* Name.Decorator */
+.codehilite .ni { color: #999999; font-weight: bold } /* Name.Entity */
+.codehilite .ne { color: #D2413A; font-weight: bold } /* Name.Exception */
+.codehilite .nf { color: #0000FF } /* Name.Function */
+.codehilite .nl { color: #A0A000 } /* Name.Label */
+.codehilite .nn { color: #0000FF; font-weight: bold } /* Name.Namespace */
+.codehilite .nt { color: #008000; font-weight: bold } /* Name.Tag */
+.codehilite .nv { color: #19177C } /* Name.Variable */
+.codehilite .ow { color: #AA22FF; font-weight: bold } /* Operator.Word */
+.codehilite .w { color: #bbbbbb } /* Text.Whitespace */
+.codehilite .mb { color: #666666 } /* Literal.Number.Bin */
+.codehilite .mf { color: #666666 } /* Literal.Number.Float */
+.codehilite .mh { color: #666666 } /* Literal.Number.Hex */
+.codehilite .mi { color: #666666 } /* Literal.Number.Integer */
+.codehilite .mo { color: #666666 } /* Literal.Number.Oct */
+.codehilite .sa { color: #BA2121 } /* Literal.String.Affix */
+.codehilite .sb { color: #BA2121 } /* Literal.String.Backtick */
+.codehilite .sc { color: #BA2121 } /* Literal.String.Char */
+.codehilite .dl { color: #BA2121 } /* Literal.String.Delimiter */
+.codehilite .sd { color: #BA2121; font-style: italic } /* Literal.String.Doc */
+.codehilite .s2 { color: #BA2121 } /* Literal.String.Double */
+.codehilite .se { color: #BB6622; font-weight: bold } /* Literal.String.Escape */
+.codehilite .sh { color: #BA2121 } /* Literal.String.Heredoc */
+.codehilite .si { color: #BB6688; font-weight: bold } /* Literal.String.Interpol */
+.codehilite .sx { color: #008000 } /* Literal.String.Other */
+.codehilite .sr { color: #BB6688 } /* Literal.String.Regex */
+.codehilite .s1 { color: #BA2121 } /* Literal.String.Single */
+.codehilite .ss { color: #19177C } /* Literal.String.Symbol */
+.codehilite .bp { color: #008000 } /* Name.Builtin.Pseudo */
+.codehilite .fm { color: #0000FF } /* Name.Function.Magic */
+.codehilite .vc { color: #19177C } /* Name.Variable.Class */
+.codehilite .vg { color: #19177C } /* Name.Variable.Global */
+.codehilite .vi { color: #19177C } /* Name.Variable.Instance */
+.codehilite .vm { color: #19177C } /* Name.Variable.Magic */
+.codehilite .il { color: #666666 } /* Literal.Number.Integer.Long */
+  </style>
 
   <style type="text/css">
   
@@ -1091,322 +1162,323 @@ table {
   
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-data_sources.data_table', this);">Show source &equiv;</a></p>
   <div id="source-data_sources.data_table" class="source">
-    <pre><code># Copyright 2017 James P Goodwin data table package to manage sparse columnar data
-""" module that implement a data table package to manage sparse columnar data window """
-import sys
-import os
-import datetime
-import threading
-import time
-from functools import wraps
+    <div class="codehilite"><pre><span></span><span class="c1"># Copyright 2017 James P Goodwin data table package to manage sparse columnar data</span>
+<span class="sd">&quot;&quot;&quot; module that implement a data table package to manage sparse columnar data window &quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">datetime</span>
+<span class="kn">import</span> <span class="nn">threading</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">wraps</span>
 
-string_type = '_string'
-float_type = '_float'
-int_type = '_int'
-date_type = '_date'
-blank_type = '_blank'
+<span class="n">string_type</span> <span class="o">=</span> <span class="s1">&#39;_string&#39;</span>
+<span class="n">float_type</span> <span class="o">=</span> <span class="s1">&#39;_float&#39;</span>
+<span class="n">int_type</span> <span class="o">=</span> <span class="s1">&#39;_int&#39;</span>
+<span class="n">date_type</span> <span class="o">=</span> <span class="s1">&#39;_date&#39;</span>
+<span class="n">blank_type</span> <span class="o">=</span> <span class="s1">&#39;_blank&#39;</span>
 
-def format_string( s ):
-    return str(s)
+<span class="k">def</span> <span class="nf">format_string</span><span class="p">(</span> <span class="n">s</span> <span class="p">):</span>
+    <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
 
-def format_date( d ):
-    return d.strftime("%m/%d/%y %H:%M")
+<span class="k">def</span> <span class="nf">format_date</span><span class="p">(</span> <span class="n">d</span> <span class="p">):</span>
+    <span class="k">return</span> <span class="n">d</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%m/</span><span class="si">%d</span><span class="s2">/%y %H:%M&quot;</span><span class="p">)</span>
 
-def format_float( d ):
-    if d >= 1000 and d < 1000000:
-        return "%.0fK"%(d/1000)
-    elif d >= 1000000 and d < 1000000000:
-        return "%.0fM"%(d/1000000)
-    elif d >= 1000000000:
-        return "%.0fG"%(d/1000000000)
-    else:
-        return "%.2f"%d
+<span class="k">def</span> <span class="nf">format_float</span><span class="p">(</span> <span class="n">d</span> <span class="p">):</span>
+    <span class="k">if</span> <span class="n">d</span> <span class="o">&gt;=</span> <span class="mi">1000</span> <span class="ow">and</span> <span class="n">d</span> <span class="o">&lt;</span> <span class="mi">1000000</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s2">&quot;</span><span class="si">%.0f</span><span class="s2">K&quot;</span><span class="o">%</span><span class="p">(</span><span class="n">d</span><span class="o">/</span><span class="mi">1000</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">d</span> <span class="o">&gt;=</span> <span class="mi">1000000</span> <span class="ow">and</span> <span class="n">d</span> <span class="o">&lt;</span> <span class="mi">1000000000</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s2">&quot;</span><span class="si">%.0f</span><span class="s2">M&quot;</span><span class="o">%</span><span class="p">(</span><span class="n">d</span><span class="o">/</span><span class="mi">1000000</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">d</span> <span class="o">&gt;=</span> <span class="mi">1000000000</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s2">&quot;</span><span class="si">%.0f</span><span class="s2">G&quot;</span><span class="o">%</span><span class="p">(</span><span class="n">d</span><span class="o">/</span><span class="mi">1000000000</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s2">&quot;</span><span class="si">%.2f</span><span class="s2">&quot;</span><span class="o">%</span><span class="n">d</span>
 
-def format_int( d ):
-    if d >= 1000 and d < 1000000:
-        return "%dK"%(d//1000)
-    elif d >= 1000000 and d < 1000000000:
-        return "%dM"%(d//1000000)
-    elif d >= 1000000000:
-        return "%dG"%(d//1000000000)
-    else:
-        return "%d"%d
+<span class="k">def</span> <span class="nf">format_int</span><span class="p">(</span> <span class="n">d</span> <span class="p">):</span>
+    <span class="k">if</span> <span class="n">d</span> <span class="o">&gt;=</span> <span class="mi">1000</span> <span class="ow">and</span> <span class="n">d</span> <span class="o">&lt;</span> <span class="mi">1000000</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s2">&quot;</span><span class="si">%d</span><span class="s2">K&quot;</span><span class="o">%</span><span class="p">(</span><span class="n">d</span><span class="o">//</span><span class="mi">1000</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">d</span> <span class="o">&gt;=</span> <span class="mi">1000000</span> <span class="ow">and</span> <span class="n">d</span> <span class="o">&lt;</span> <span class="mi">1000000000</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s2">&quot;</span><span class="si">%d</span><span class="s2">M&quot;</span><span class="o">%</span><span class="p">(</span><span class="n">d</span><span class="o">//</span><span class="mi">1000000</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">d</span> <span class="o">&gt;=</span> <span class="mi">1000000000</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s2">&quot;</span><span class="si">%d</span><span class="s2">G&quot;</span><span class="o">%</span><span class="p">(</span><span class="n">d</span><span class="o">//</span><span class="mi">1000000000</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s2">&quot;</span><span class="si">%d</span><span class="s2">&quot;</span><span class="o">%</span><span class="n">d</span>
 
-class Cell(object):
-    def __init__(self,type,value,format):
-        self.type = type
-        self.value = value
-        self.format = format
+<span class="k">class</span> <span class="nc">Cell</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="nb">type</span><span class="p">,</span><span class="n">value</span><span class="p">,</span><span class="nb">format</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">type</span> <span class="o">=</span> <span class="nb">type</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">value</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">format</span> <span class="o">=</span> <span class="nb">format</span>
 
-    def __str__(self):
-        return self.format(self.value)
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
 
-    def get_type(self):
-        return self.type
+    <span class="k">def</span> <span class="nf">get_type</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">type</span>
 
-    def get_value(self):
-        return self.value
+    <span class="k">def</span> <span class="nf">get_value</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span>
 
-    def put_value(self,value):
-        self.value = value
+    <span class="k">def</span> <span class="nf">put_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">value</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">value</span>
 
-    def get_float_value(self):
-        if self.type in [float_type,int_type]:
-            return float(self.value)
-        elif self.type == date_type:
-            return self.value.timestamp()
-        else:
-            return 0.0
+    <span class="k">def</span> <span class="nf">get_float_value</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">type</span> <span class="ow">in</span> <span class="p">[</span><span class="n">float_type</span><span class="p">,</span><span class="n">int_type</span><span class="p">]:</span>
+            <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">date_type</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">timestamp</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="mf">0.0</span>
 
-    def get_format(self):
-        return self.format
+    <span class="k">def</span> <span class="nf">get_format</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">format</span>
 
-    def set_format(self,format):
-        self.format = format
+    <span class="k">def</span> <span class="nf">set_format</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="nb">format</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">format</span> <span class="o">=</span> <span class="nb">format</span>
 
-blank_cell = Cell(blank_type,None,lambda x: "")
+<span class="n">blank_cell</span> <span class="o">=</span> <span class="n">Cell</span><span class="p">(</span><span class="n">blank_type</span><span class="p">,</span><span class="kc">None</span><span class="p">,</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
 
-class ColumnIterator(object):
-    def __init__(self,column):
-        self.column = column
-        self.idx = 0
-        self.limit = column.size()
+<span class="k">class</span> <span class="nc">ColumnIterator</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">column</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">column</span> <span class="o">=</span> <span class="n">column</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">idx</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">limit</span> <span class="o">=</span> <span class="n">column</span><span class="o">.</span><span class="n">size</span><span class="p">()</span>
 
-    def __iter__(self):
-        return self
+    <span class="k">def</span> <span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span>
 
-    def __next__(self):
-        if self.idx >= self.limit:
-            raise StopIteration
-        ret = self.column.get(self.idx)
-        self.idx += 1
-        return ret
+    <span class="k">def</span> <span class="fm">__next__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">idx</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">limit</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">StopIteration</span>
+        <span class="n">ret</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">column</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">idx</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">idx</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="n">ret</span>
 
 
-class Column(object):
-    def __init__(self,values=None,idx=0,name=None,table=None):
-        """ accept a list of Cell objects, a column index, and a column name, and a table to be a part of """
-        self.values = values if values else []
-        self.idx = 0
-        self.name = name
-        self.table = table
+<span class="k">class</span> <span class="nc">Column</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">values</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">idx</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">table</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; accept a list of Cell objects, a column index, and a column name, and a table to be a part of &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">values</span> <span class="o">=</span> <span class="n">values</span> <span class="k">if</span> <span class="n">values</span> <span class="k">else</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">idx</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">table</span> <span class="o">=</span> <span class="n">table</span>
 
-    def size(self):
-        """ get the size of this column """
-        return len(self.values)
+    <span class="k">def</span> <span class="nf">size</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; get the size of this column &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
 
-    def delete(self,idx):
-        if idx < len(self.values):
-            del self.values[idx]
+    <span class="k">def</span> <span class="nf">delete</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">idx</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">idx</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="p">):</span>
+            <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
 
-    def ins(self,idx,value):
-        if idx < len(self.values):
-            self.values.insert(idx,value)
-        else:
-            self.put(idx,value)
+    <span class="k">def</span> <span class="nf">ins</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">idx</span><span class="p">,</span><span class="n">value</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">idx</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">idx</span><span class="p">,</span><span class="n">value</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">idx</span><span class="p">,</span><span class="n">value</span><span class="p">)</span>
 
-    def get(self,idx):
-        """ get the cell at index idx in column """
-        if idx < len(self.values):
-            return self.values[idx]
-        else:
-            return blank_cell
+    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">idx</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; get the cell at index idx in column &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">idx</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">blank_cell</span>
 
-    def put(self,idx,value):
-        """ put a Cell value at index idx in column """
-        while idx >= len(self.values):
-            self.values.append(blank_cell)
-        self.values[idx] = value
+    <span class="k">def</span> <span class="nf">put</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">idx</span><span class="p">,</span><span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; put a Cell value at index idx in column &quot;&quot;&quot;</span>
+        <span class="k">while</span> <span class="n">idx</span> <span class="o">&gt;=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">blank_cell</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
 
-    def get_name(self):
-        return self.name
+    <span class="k">def</span> <span class="nf">get_name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
 
-    def set_name(self,name):
-        self.name = name
+    <span class="k">def</span> <span class="nf">set_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">name</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
 
-    def get_idx(self):
-        return self.idx
+    <span class="k">def</span> <span class="nf">get_idx</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">idx</span>
 
-    def set_idx(self,idx):
-        self.idx = idx
+    <span class="k">def</span> <span class="nf">set_idx</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">idx</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">idx</span> <span class="o">=</span> <span class="n">idx</span>
 
-    def get_table(self):
-        return self.table
+    <span class="k">def</span> <span class="nf">get_table</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">table</span>
 
-    def set_table(self,table):
-        self.table = table
+    <span class="k">def</span> <span class="nf">set_table</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">table</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">table</span> <span class="o">=</span> <span class="n">table</span>
 
-blank_column = Column()
+<span class="n">blank_column</span> <span class="o">=</span> <span class="n">Column</span><span class="p">()</span>
 
-def synchronized(method):
-    @wraps(method)
-    def wrapper(self, *args, **kwargs):
-        with self.refresh_lock:
-            return method(self, *args, **kwargs)
-    return wrapper
+<span class="k">def</span> <span class="nf">synchronized</span><span class="p">(</span><span class="n">method</span><span class="p">):</span>
+    <span class="nd">@wraps</span><span class="p">(</span><span class="n">method</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">wrapper</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">refresh_lock</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">method</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">wrapper</span>
 
-class DataTable(object):
-    def __init__(self,columns=None,name=None,refresh_minutes=10):
-        """ accepts a list of columns and a name for the table """
-        self.listeners = []
-        self.columns = []
-        self.name = name
-        self.cnames = {}
-        self.refresh_lock = threading.RLock()
-        self.refresh_minutes = refresh_minutes
-        self.refresh_thread = None
-        self.refresh_thread_stop = False
-        self.refresh_timestamp = None
-        if columns:
-            for c in columns:
-                self.add_column(c)
+<span class="k">class</span> <span class="nc">DataTable</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">columns</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">refresh_minutes</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; accepts a list of columns and a name for the table &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">listeners</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cnames</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">refresh_lock</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">RLock</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">refresh_minutes</span> <span class="o">=</span> <span class="n">refresh_minutes</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">refresh_thread</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">refresh_thread_stop</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">refresh_timestamp</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="n">columns</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">columns</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">add_column</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
                                      
-    def get_refresh_timestamp( self ):
-        """ get the time that the table was last refreshed """
-        return self.refresh_timestamp
+    <span class="k">def</span> <span class="nf">get_refresh_timestamp</span><span class="p">(</span> <span class="bp">self</span> <span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; get the time that the table was last refreshed &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">refresh_timestamp</span>
         
-    def acquire_refresh_lock(self):
-        """ acquire the refresh lock before reading/writing the table state """
-        self.refresh_lock.acquire()
+    <span class="k">def</span> <span class="nf">acquire_refresh_lock</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; acquire the refresh lock before reading/writing the table state &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">refresh_lock</span><span class="o">.</span><span class="n">acquire</span><span class="p">()</span>
 
-    def release_refresh_lock(self):
-        """ release the refresh lock after reading/writing the table state """
-        self.refresh_lock.release()
+    <span class="k">def</span> <span class="nf">release_refresh_lock</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; release the refresh lock after reading/writing the table state &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">refresh_lock</span><span class="o">.</span><span class="n">release</span><span class="p">()</span>
 
-    def start_refresh( self ):
-        """ Start the background refresh thread """
-        self.stop_refresh()
-        self.refresh_thread = threading.Thread(target=self.perform_refresh)
-        self.refresh_thread.start()
+    <span class="k">def</span> <span class="nf">start_refresh</span><span class="p">(</span> <span class="bp">self</span> <span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Start the background refresh thread &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stop_refresh</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">refresh_thread</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">perform_refresh</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">refresh_thread</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
 
-    def perform_refresh( self ):
-        """ Thread worker that sleeps and refreshes the data on a schedule """
-        start_time = time.time()
-        while not self.refresh_thread_stop:
-            if time.time() - start_time >= self.refresh_minutes*60.0:
-                self.refresh()
-                start_time = time.time()
-            time.sleep(0)
+    <span class="k">def</span> <span class="nf">perform_refresh</span><span class="p">(</span> <span class="bp">self</span> <span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Thread worker that sleeps and refreshes the data on a schedule &quot;&quot;&quot;</span>
+        <span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+        <span class="k">while</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">refresh_thread_stop</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start_time</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">refresh_minutes</span><span class="o">*</span><span class="mf">60.0</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">refresh</span><span class="p">()</span>
+                <span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+            <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 
-    def stop_refresh( self ):
-        """ Stop the background refresh thread """
-        self.refresh_thread_stop = True
-        if self.refresh_thread and self.refresh_thread.is_alive():
-            self.refresh_thread.join()
-        self.refresh_thread = None
-        self.refresh_thread_stop = False
+    <span class="k">def</span> <span class="nf">stop_refresh</span><span class="p">(</span> <span class="bp">self</span> <span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Stop the background refresh thread &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">refresh_thread_stop</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">refresh_thread</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">refresh_thread</span><span class="o">.</span><span class="n">is_alive</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">refresh_thread</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">refresh_thread</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">refresh_thread_stop</span> <span class="o">=</span> <span class="kc">False</span>
 
-    def listen(self,listen_func):
-        """ register for notifications when a change event is raised on this table """
-        self.listeners.append(listen_func)
+    <span class="k">def</span> <span class="nf">listen</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">listen_func</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; register for notifications when a change event is raised on this table &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">listeners</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">listen_func</span><span class="p">)</span>
 
-    def unlisten(self,listen_func):
-        """ unregister for notifications when a change event is raised on this table """
-        self.listeners.remove(listen_func)
+    <span class="k">def</span> <span class="nf">unlisten</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">listen_func</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; unregister for notifications when a change event is raised on this table &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">listeners</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">listen_func</span><span class="p">)</span>
 
-    def changed(self):
-        """ notify listeners that this table has been changed """
-        for f in self.listeners:
-            f(self)
+    <span class="k">def</span> <span class="nf">changed</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; notify listeners that this table has been changed &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">listeners</span><span class="p">:</span>
+            <span class="n">f</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 
-    @synchronized
-    def get_bounds(self):
-        """ return a tuple (rows,cols) where rows is the maximum number of rows and cols is the maximum number of cols """
-        cols = len(self.columns)
-        rows = -1
-        for c in self.columns:
-            size = c.size()
-            if rows < 0 or size > rows:
-                rows = size
-        return (rows,cols)
+    <span class="nd">@synchronized</span>
+    <span class="k">def</span> <span class="nf">get_bounds</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; return a tuple (rows,cols) where rows is the maximum number of rows and cols is the maximum number of cols &quot;&quot;&quot;</span>
+        <span class="n">cols</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
+        <span class="n">rows</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+        <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+            <span class="n">size</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">size</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">rows</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">size</span> <span class="o">&gt;</span> <span class="n">rows</span><span class="p">:</span>
+                <span class="n">rows</span> <span class="o">=</span> <span class="n">size</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">rows</span><span class="p">,</span><span class="n">cols</span><span class="p">)</span>
 
-    def get_name(self):
-        """ return the name of the table """
-        return self.name
+    <span class="k">def</span> <span class="nf">get_name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; return the name of the table &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
 
-    @synchronized
-    def get_names(self):
-        """ return a list of the names of the columns in order"""
-        return [c.get_name() for c in self.columns]
+    <span class="nd">@synchronized</span>
+    <span class="k">def</span> <span class="nf">get_names</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; return a list of the names of the columns in order&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">get_name</span><span class="p">()</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">]</span>
 
-    @synchronized
-    def get_columns(self):
-        """ return the list of columns """
-        return self.columns
+    <span class="nd">@synchronized</span>
+    <span class="k">def</span> <span class="nf">get_columns</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; return the list of columns &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">columns</span>
 
-    @synchronized
-    def add_column(self,column):
-        idx = len(self.columns)
-        column.set_idx(idx)
-        if not column.get_name():
-            column.set_name("%s_%d"%(self.name,idx))
-        self.columns.append(column)
-        self.cnames[column.get_name()] = column
-        column.set_table(self)
+    <span class="nd">@synchronized</span>
+    <span class="k">def</span> <span class="nf">add_column</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">column</span><span class="p">):</span>
+        <span class="n">idx</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
+        <span class="n">column</span><span class="o">.</span><span class="n">set_idx</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">column</span><span class="o">.</span><span class="n">get_name</span><span class="p">():</span>
+            <span class="n">column</span><span class="o">.</span><span class="n">set_name</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">_</span><span class="si">%d</span><span class="s2">&quot;</span><span class="o">%</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span><span class="n">idx</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">column</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cnames</span><span class="p">[</span><span class="n">column</span><span class="o">.</span><span class="n">get_name</span><span class="p">()]</span> <span class="o">=</span> <span class="n">column</span>
+        <span class="n">column</span><span class="o">.</span><span class="n">set_table</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 
-    @synchronized
-    def insert_column(self,idx,column):
-        while idx > len(self.columns):
-            self.add_column(blank_column)
-        if idx == len(self.columns):
-            self.add_column(column)
-        else:
-            if not column.get_name():
-                column.set_name("%s_%d"%(self.name,idx))
-            self.columns.insert(idx,column)
-            self.cnames[column.get_name()] = column
-            column.set_table(self)
-            while idx < len(self.columns):
-                if column.get_name() == "%s_%d"%(self.name,idx-1):
-                    column.set_name("%s_%d"%(self.name,idx))
-                    self.cnames[column.get_name()] = column
-                self.columns[idx].set_idx(idx)
-                idx += 1
+    <span class="nd">@synchronized</span>
+    <span class="k">def</span> <span class="nf">insert_column</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">idx</span><span class="p">,</span><span class="n">column</span><span class="p">):</span>
+        <span class="k">while</span> <span class="n">idx</span> <span class="o">&gt;</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">add_column</span><span class="p">(</span><span class="n">blank_column</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">idx</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">add_column</span><span class="p">(</span><span class="n">column</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">column</span><span class="o">.</span><span class="n">get_name</span><span class="p">():</span>
+                <span class="n">column</span><span class="o">.</span><span class="n">set_name</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">_</span><span class="si">%d</span><span class="s2">&quot;</span><span class="o">%</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span><span class="n">idx</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">idx</span><span class="p">,</span><span class="n">column</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">cnames</span><span class="p">[</span><span class="n">column</span><span class="o">.</span><span class="n">get_name</span><span class="p">()]</span> <span class="o">=</span> <span class="n">column</span>
+            <span class="n">column</span><span class="o">.</span><span class="n">set_table</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+            <span class="k">while</span> <span class="n">idx</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">column</span><span class="o">.</span><span class="n">get_name</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">_</span><span class="si">%d</span><span class="s2">&quot;</span><span class="o">%</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span><span class="n">idx</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+                    <span class="n">column</span><span class="o">.</span><span class="n">set_name</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">_</span><span class="si">%d</span><span class="s2">&quot;</span><span class="o">%</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span><span class="n">idx</span><span class="p">))</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">cnames</span><span class="p">[</span><span class="n">column</span><span class="o">.</span><span class="n">get_name</span><span class="p">()]</span> <span class="o">=</span> <span class="n">column</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="o">.</span><span class="n">set_idx</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span>
+                <span class="n">idx</span> <span class="o">+=</span> <span class="mi">1</span>
 
-    @synchronized
-    def replace_column(self,idx,column):
-        column.set_idx(idx)
-        if not column.get_name():
-            column.set_name("%s_%d"%(self.name,idx))
-        self.columns[idx] = column
-        self.cnames[column.get_name()] = column
-        column.set_table(self)
+    <span class="nd">@synchronized</span>
+    <span class="k">def</span> <span class="nf">replace_column</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">idx</span><span class="p">,</span><span class="n">column</span><span class="p">):</span>
+        <span class="n">column</span><span class="o">.</span><span class="n">set_idx</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">column</span><span class="o">.</span><span class="n">get_name</span><span class="p">():</span>
+            <span class="n">column</span><span class="o">.</span><span class="n">set_name</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">_</span><span class="si">%d</span><span class="s2">&quot;</span><span class="o">%</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span><span class="n">idx</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">column</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cnames</span><span class="p">[</span><span class="n">column</span><span class="o">.</span><span class="n">get_name</span><span class="p">()]</span> <span class="o">=</span> <span class="n">column</span>
+        <span class="n">column</span><span class="o">.</span><span class="n">set_table</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 
-    @synchronized
-    def map_column(self, reference ):
-        if type(reference) == str or type(reference) == str:
-            return self.cnames[reference].get_idx()
-        elif type(reference) == int:
-            return reference
-        else:
-            raise TypeError("wrong type in mapping")
+    <span class="nd">@synchronized</span>
+    <span class="k">def</span> <span class="nf">map_column</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reference</span> <span class="p">):</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">reference</span><span class="p">)</span> <span class="o">==</span> <span class="nb">str</span> <span class="ow">or</span> <span class="nb">type</span><span class="p">(</span><span class="n">reference</span><span class="p">)</span> <span class="o">==</span> <span class="nb">str</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cnames</span><span class="p">[</span><span class="n">reference</span><span class="p">]</span><span class="o">.</span><span class="n">get_idx</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">reference</span><span class="p">)</span> <span class="o">==</span> <span class="nb">int</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">reference</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;wrong type in mapping&quot;</span><span class="p">)</span>
 
-    @synchronized
-    def has_column(self, reference ):
-        if type(reference) == str or type(reference) == str:
-            return reference in self.cnames
-        elif type(reference) == int:
-            return idx < len(self.columns)
-        else:
-            return False
+    <span class="nd">@synchronized</span>
+    <span class="k">def</span> <span class="nf">has_column</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reference</span> <span class="p">):</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">reference</span><span class="p">)</span> <span class="o">==</span> <span class="nb">str</span> <span class="ow">or</span> <span class="nb">type</span><span class="p">(</span><span class="n">reference</span><span class="p">)</span> <span class="o">==</span> <span class="nb">str</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">reference</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">cnames</span>
+        <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">reference</span><span class="p">)</span> <span class="o">==</span> <span class="nb">int</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">idx</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
 
-    @synchronized
-    def get_column(self, reference):
-        return self.columns[self.map_column(reference)]
+    <span class="nd">@synchronized</span>
+    <span class="k">def</span> <span class="nf">get_column</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reference</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">map_column</span><span class="p">(</span><span class="n">reference</span><span class="p">)]</span>
 
-    @synchronized
-    def get(self, row, reference ):
-        return self.columns[self.map_column(reference)].get(row)
+    <span class="nd">@synchronized</span>
+    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">reference</span> <span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">map_column</span><span class="p">(</span><span class="n">reference</span><span class="p">)]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
 
-    @synchronized
-    def put(self, row, reference, value):
-        self.columns[self.map_column(reference)].put(row,value)
+    <span class="nd">@synchronized</span>
+    <span class="k">def</span> <span class="nf">put</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">reference</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">map_column</span><span class="p">(</span><span class="n">reference</span><span class="p">)]</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">row</span><span class="p">,</span><span class="n">value</span><span class="p">)</span>
 
-    @synchronized
-    def refresh(self):
-        """ base class method for forcing a refresh on a table """
-        self.refresh_timestamp = time.time()
-</code></pre>
+    <span class="nd">@synchronized</span>
+    <span class="k">def</span> <span class="nf">refresh</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; base class method for forcing a refresh on a table &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">refresh_timestamp</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+</pre></div>
+
   </div>
 
   </header>
@@ -1483,9 +1555,10 @@ class DataTable(object):
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-data_sources.data_table.format_date', this);">Show source &equiv;</a></p>
   <div id="source-data_sources.data_table.format_date" class="source">
-    <pre><code>def format_date( d ):
-    return d.strftime("%m/%d/%y %H:%M")
-</code></pre>
+    <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">format_date</span><span class="p">(</span> <span class="n">d</span> <span class="p">):</span>
+    <span class="k">return</span> <span class="n">d</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%m/</span><span class="si">%d</span><span class="s2">/%y %H:%M&quot;</span><span class="p">)</span>
+</pre></div>
+
   </div>
 </div>
 
@@ -1503,16 +1576,17 @@ class DataTable(object):
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-data_sources.data_table.format_float', this);">Show source &equiv;</a></p>
   <div id="source-data_sources.data_table.format_float" class="source">
-    <pre><code>def format_float( d ):
-    if d >= 1000 and d < 1000000:
-        return "%.0fK"%(d/1000)
-    elif d >= 1000000 and d < 1000000000:
-        return "%.0fM"%(d/1000000)
-    elif d >= 1000000000:
-        return "%.0fG"%(d/1000000000)
-    else:
-        return "%.2f"%d
-</code></pre>
+    <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">format_float</span><span class="p">(</span> <span class="n">d</span> <span class="p">):</span>
+    <span class="k">if</span> <span class="n">d</span> <span class="o">&gt;=</span> <span class="mi">1000</span> <span class="ow">and</span> <span class="n">d</span> <span class="o">&lt;</span> <span class="mi">1000000</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s2">&quot;</span><span class="si">%.0f</span><span class="s2">K&quot;</span><span class="o">%</span><span class="p">(</span><span class="n">d</span><span class="o">/</span><span class="mi">1000</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">d</span> <span class="o">&gt;=</span> <span class="mi">1000000</span> <span class="ow">and</span> <span class="n">d</span> <span class="o">&lt;</span> <span class="mi">1000000000</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s2">&quot;</span><span class="si">%.0f</span><span class="s2">M&quot;</span><span class="o">%</span><span class="p">(</span><span class="n">d</span><span class="o">/</span><span class="mi">1000000</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">d</span> <span class="o">&gt;=</span> <span class="mi">1000000000</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s2">&quot;</span><span class="si">%.0f</span><span class="s2">G&quot;</span><span class="o">%</span><span class="p">(</span><span class="n">d</span><span class="o">/</span><span class="mi">1000000000</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s2">&quot;</span><span class="si">%.2f</span><span class="s2">&quot;</span><span class="o">%</span><span class="n">d</span>
+</pre></div>
+
   </div>
 </div>
 
@@ -1530,16 +1604,17 @@ class DataTable(object):
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-data_sources.data_table.format_int', this);">Show source &equiv;</a></p>
   <div id="source-data_sources.data_table.format_int" class="source">
-    <pre><code>def format_int( d ):
-    if d >= 1000 and d < 1000000:
-        return "%dK"%(d//1000)
-    elif d >= 1000000 and d < 1000000000:
-        return "%dM"%(d//1000000)
-    elif d >= 1000000000:
-        return "%dG"%(d//1000000000)
-    else:
-        return "%d"%d
-</code></pre>
+    <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">format_int</span><span class="p">(</span> <span class="n">d</span> <span class="p">):</span>
+    <span class="k">if</span> <span class="n">d</span> <span class="o">&gt;=</span> <span class="mi">1000</span> <span class="ow">and</span> <span class="n">d</span> <span class="o">&lt;</span> <span class="mi">1000000</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s2">&quot;</span><span class="si">%d</span><span class="s2">K&quot;</span><span class="o">%</span><span class="p">(</span><span class="n">d</span><span class="o">//</span><span class="mi">1000</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">d</span> <span class="o">&gt;=</span> <span class="mi">1000000</span> <span class="ow">and</span> <span class="n">d</span> <span class="o">&lt;</span> <span class="mi">1000000000</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s2">&quot;</span><span class="si">%d</span><span class="s2">M&quot;</span><span class="o">%</span><span class="p">(</span><span class="n">d</span><span class="o">//</span><span class="mi">1000000</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">d</span> <span class="o">&gt;=</span> <span class="mi">1000000000</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s2">&quot;</span><span class="si">%d</span><span class="s2">G&quot;</span><span class="o">%</span><span class="p">(</span><span class="n">d</span><span class="o">//</span><span class="mi">1000000000</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s2">&quot;</span><span class="si">%d</span><span class="s2">&quot;</span><span class="o">%</span><span class="n">d</span>
+</pre></div>
+
   </div>
 </div>
 
@@ -1557,9 +1632,10 @@ class DataTable(object):
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-data_sources.data_table.format_string', this);">Show source &equiv;</a></p>
   <div id="source-data_sources.data_table.format_string" class="source">
-    <pre><code>def format_string( s ):
-    return str(s)
-</code></pre>
+    <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">format_string</span><span class="p">(</span> <span class="n">s</span> <span class="p">):</span>
+    <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+</pre></div>
+
   </div>
 </div>
 
@@ -1577,13 +1653,14 @@ class DataTable(object):
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-data_sources.data_table.synchronized', this);">Show source &equiv;</a></p>
   <div id="source-data_sources.data_table.synchronized" class="source">
-    <pre><code>def synchronized(method):
-    @wraps(method)
-    def wrapper(self, *args, **kwargs):
-        with self.refresh_lock:
-            return method(self, *args, **kwargs)
-    return wrapper
-</code></pre>
+    <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">synchronized</span><span class="p">(</span><span class="n">method</span><span class="p">):</span>
+    <span class="nd">@wraps</span><span class="p">(</span><span class="n">method</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">wrapper</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">refresh_lock</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">method</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">wrapper</span>
+</pre></div>
+
   </div>
 </div>
 
@@ -1599,38 +1676,39 @@ class DataTable(object):
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-data_sources.data_table.Cell', this);">Show source &equiv;</a></p>
   <div id="source-data_sources.data_table.Cell" class="source">
-    <pre><code>class Cell(object):
-    def __init__(self,type,value,format):
-        self.type = type
-        self.value = value
-        self.format = format
+    <div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">Cell</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="nb">type</span><span class="p">,</span><span class="n">value</span><span class="p">,</span><span class="nb">format</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">type</span> <span class="o">=</span> <span class="nb">type</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">value</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">format</span> <span class="o">=</span> <span class="nb">format</span>
 
-    def __str__(self):
-        return self.format(self.value)
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
 
-    def get_type(self):
-        return self.type
+    <span class="k">def</span> <span class="nf">get_type</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">type</span>
 
-    def get_value(self):
-        return self.value
+    <span class="k">def</span> <span class="nf">get_value</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span>
 
-    def put_value(self,value):
-        self.value = value
+    <span class="k">def</span> <span class="nf">put_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">value</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">value</span>
 
-    def get_float_value(self):
-        if self.type in [float_type,int_type]:
-            return float(self.value)
-        elif self.type == date_type:
-            return self.value.timestamp()
-        else:
-            return 0.0
+    <span class="k">def</span> <span class="nf">get_float_value</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">type</span> <span class="ow">in</span> <span class="p">[</span><span class="n">float_type</span><span class="p">,</span><span class="n">int_type</span><span class="p">]:</span>
+            <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">date_type</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">timestamp</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="mf">0.0</span>
 
-    def get_format(self):
-        return self.format
+    <span class="k">def</span> <span class="nf">get_format</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">format</span>
 
-    def set_format(self,format):
-        self.format = format
-</code></pre>
+    <span class="k">def</span> <span class="nf">set_format</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="nb">format</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">format</span> <span class="o">=</span> <span class="nb">format</span>
+</pre></div>
+
   </div>
 </div>
 
@@ -1655,11 +1733,12 @@ class DataTable(object):
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-data_sources.data_table.Cell.__init__', this);">Show source &equiv;</a></p>
   <div id="source-data_sources.data_table.Cell.__init__" class="source">
-    <pre><code>def __init__(self,type,value,format):
-    self.type = type
-    self.value = value
-    self.format = format
-</code></pre>
+    <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="nb">type</span><span class="p">,</span><span class="n">value</span><span class="p">,</span><span class="nb">format</span><span class="p">):</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">type</span> <span class="o">=</span> <span class="nb">type</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">value</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">format</span> <span class="o">=</span> <span class="nb">format</span>
+</pre></div>
+
   </div>
 </div>
 
@@ -1677,14 +1756,15 @@ class DataTable(object):
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-data_sources.data_table.Cell.get_float_value', this);">Show source &equiv;</a></p>
   <div id="source-data_sources.data_table.Cell.get_float_value" class="source">
-    <pre><code>def get_float_value(self):
-    if self.type in [float_type,int_type]:
-        return float(self.value)
-    elif self.type == date_type:
-        return self.value.timestamp()
-    else:
-        return 0.0
-</code></pre>
+    <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">get_float_value</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">type</span> <span class="ow">in</span> <span class="p">[</span><span class="n">float_type</span><span class="p">,</span><span class="n">int_type</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">date_type</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">timestamp</span><span class="p">()</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mf">0.0</span>
+</pre></div>
+
   </div>
 </div>
 
@@ -1702,9 +1782,10 @@ class DataTable(object):
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-data_sources.data_table.Cell.get_format', this);">Show source &equiv;</a></p>
   <div id="source-data_sources.data_table.Cell.get_format" class="source">
-    <pre><code>def get_format(self):
-    return self.format
-</code></pre>
+    <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">get_format</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">format</span>
+</pre></div>
+
   </div>
 </div>
 
@@ -1722,9 +1803,10 @@ class DataTable(object):
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-data_sources.data_table.Cell.get_type', this);">Show source &equiv;</a></p>
   <div id="source-data_sources.data_table.Cell.get_type" class="source">
-    <pre><code>def get_type(self):
-    return self.type
-</code></pre>
+    <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">get_type</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">type</span>
+</pre></div>
+
   </div>
 </div>
 
@@ -1742,9 +1824,10 @@ class DataTable(object):
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-data_sources.data_table.Cell.get_value', this);">Show source &equiv;</a></p>
   <div id="source-data_sources.data_table.Cell.get_value" class="source">
-    <pre><code>def get_value(self):
-    return self.value
-</code></pre>
+    <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">get_value</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span>
+</pre></div>
+
   </div>
 </div>
 
@@ -1762,9 +1845,10 @@ class DataTable(object):
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-data_sources.data_table.Cell.put_value', this);">Show source &equiv;</a></p>
   <div id="source-data_sources.data_table.Cell.put_value" class="source">
-    <pre><code>def put_value(self,value):
-    self.value = value
-</code></pre>
+    <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">put_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">value</span><span class="p">):</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">value</span>
+</pre></div>
+
   </div>
 </div>
 
@@ -1782,9 +1866,10 @@ class DataTable(object):
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-data_sources.data_table.Cell.set_format', this);">Show source &equiv;</a></p>
   <div id="source-data_sources.data_table.Cell.set_format" class="source">
-    <pre><code>def set_format(self,format):
-    self.format = format
-</code></pre>
+    <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">set_format</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="nb">format</span><span class="p">):</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">format</span> <span class="o">=</span> <span class="nb">format</span>
+</pre></div>
+
   </div>
 </div>
 
@@ -1831,59 +1916,60 @@ class DataTable(object):
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-data_sources.data_table.Column', this);">Show source &equiv;</a></p>
   <div id="source-data_sources.data_table.Column" class="source">
-    <pre><code>class Column(object):
-    def __init__(self,values=None,idx=0,name=None,table=None):
-        """ accept a list of Cell objects, a column index, and a column name, and a table to be a part of """
-        self.values = values if values else []
-        self.idx = 0
-        self.name = name
-        self.table = table
+    <div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">Column</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">values</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">idx</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">table</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; accept a list of Cell objects, a column index, and a column name, and a table to be a part of &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">values</span> <span class="o">=</span> <span class="n">values</span> <span class="k">if</span> <span class="n">values</span> <span class="k">else</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">idx</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">table</span> <span class="o">=</span> <span class="n">table</span>
 
-    def size(self):
-        """ get the size of this column """
-        return len(self.values)
+    <span class="k">def</span> <span class="nf">size</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; get the size of this column &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
 
-    def delete(self,idx):
-        if idx < len(self.values):
-            del self.values[idx]
+    <span class="k">def</span> <span class="nf">delete</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">idx</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">idx</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="p">):</span>
+            <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
 
-    def ins(self,idx,value):
-        if idx < len(self.values):
-            self.values.insert(idx,value)
-        else:
-            self.put(idx,value)
+    <span class="k">def</span> <span class="nf">ins</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">idx</span><span class="p">,</span><span class="n">value</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">idx</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">idx</span><span class="p">,</span><span class="n">value</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">idx</span><span class="p">,</span><span class="n">value</span><span class="p">)</span>
 
-    def get(self,idx):
-        """ get the cell at index idx in column """
-        if idx < len(self.values):
-            return self.values[idx]
-        else:
-            return blank_cell
+    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">idx</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; get the cell at index idx in column &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">idx</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">blank_cell</span>
 
-    def put(self,idx,value):
-        """ put a Cell value at index idx in column """
-        while idx >= len(self.values):
-            self.values.append(blank_cell)
-        self.values[idx] = value
+    <span class="k">def</span> <span class="nf">put</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">idx</span><span class="p">,</span><span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; put a Cell value at index idx in column &quot;&quot;&quot;</span>
+        <span class="k">while</span> <span class="n">idx</span> <span class="o">&gt;=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">blank_cell</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
 
-    def get_name(self):
-        return self.name
+    <span class="k">def</span> <span class="nf">get_name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
 
-    def set_name(self,name):
-        self.name = name
+    <span class="k">def</span> <span class="nf">set_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">name</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
 
-    def get_idx(self):
-        return self.idx
+    <span class="k">def</span> <span class="nf">get_idx</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">idx</span>
 
-    def set_idx(self,idx):
-        self.idx = idx
+    <span class="k">def</span> <span class="nf">set_idx</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">idx</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">idx</span> <span class="o">=</span> <span class="n">idx</span>
 
-    def get_table(self):
-        return self.table
+    <span class="k">def</span> <span class="nf">get_table</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">table</span>
 
-    def set_table(self,table):
-        self.table = table
-</code></pre>
+    <span class="k">def</span> <span class="nf">set_table</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">table</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">table</span> <span class="o">=</span> <span class="n">table</span>
+</pre></div>
+
   </div>
 </div>
 
@@ -1908,13 +1994,14 @@ class DataTable(object):
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-data_sources.data_table.Column.__init__', this);">Show source &equiv;</a></p>
   <div id="source-data_sources.data_table.Column.__init__" class="source">
-    <pre><code>def __init__(self,values=None,idx=0,name=None,table=None):
-    """ accept a list of Cell objects, a column index, and a column name, and a table to be a part of """
-    self.values = values if values else []
-    self.idx = 0
-    self.name = name
-    self.table = table
-</code></pre>
+    <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">values</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">idx</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">table</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; accept a list of Cell objects, a column index, and a column name, and a table to be a part of &quot;&quot;&quot;</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">values</span> <span class="o">=</span> <span class="n">values</span> <span class="k">if</span> <span class="n">values</span> <span class="k">else</span> <span class="p">[]</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">idx</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">table</span> <span class="o">=</span> <span class="n">table</span>
+</pre></div>
+
   </div>
 </div>
 
@@ -1932,10 +2019,11 @@ class DataTable(object):
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-data_sources.data_table.Column.delete', this);">Show source &equiv;</a></p>
   <div id="source-data_sources.data_table.Column.delete" class="source">
-    <pre><code>def delete(self,idx):
-    if idx < len(self.values):
-        del self.values[idx]
-</code></pre>
+    <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">delete</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">idx</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">idx</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="p">):</span>
+        <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+</pre></div>
+
   </div>
 </div>
 
@@ -1954,13 +2042,14 @@ class DataTable(object):
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-data_sources.data_table.Column.get', this);">Show source &equiv;</a></p>
   <div id="source-data_sources.data_table.Column.get" class="source">
-    <pre><code>def get(self,idx):
-    """ get the cell at index idx in column """
-    if idx < len(self.values):
-        return self.values[idx]
-    else:
-        return blank_cell
-</code></pre>
+    <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">idx</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; get the cell at index idx in column &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">idx</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">blank_cell</span>
+</pre></div>
+
   </div>
 </div>
 
@@ -1978,9 +2067,10 @@ class DataTable(object):
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-data_sources.data_table.Column.get_idx', this);">Show source &equiv;</a></p>
   <div id="source-data_sources.data_table.Column.get_idx" class="source">
-    <pre><code>def get_idx(self):
-    return self.idx
-</code></pre>
+    <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">get_idx</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">idx</span>
+</pre></div>
+
   </div>
 </div>
 
@@ -1998,9 +2088,10 @@ class DataTable(object):
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-data_sources.data_table.Column.get_name', this);">Show source &equiv;</a></p>
   <div id="source-data_sources.data_table.Column.get_name" class="source">
-    <pre><code>def get_name(self):
-    return self.name
-</code></pre>
+    <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">get_name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
+</pre></div>
+
   </div>
 </div>
 
@@ -2018,9 +2109,10 @@ class DataTable(object):
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-data_sources.data_table.Column.get_table', this);">Show source &equiv;</a></p>
   <div id="source-data_sources.data_table.Column.get_table" class="source">
-    <pre><code>def get_table(self):
-    return self.table
-</code></pre>
+    <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">get_table</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">table</span>
+</pre></div>
+
   </div>
 </div>
 
@@ -2038,12 +2130,13 @@ class DataTable(object):
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-data_sources.data_table.Column.ins', this);">Show source &equiv;</a></p>
   <div id="source-data_sources.data_table.Column.ins" class="source">
-    <pre><code>def ins(self,idx,value):
-    if idx < len(self.values):
-        self.values.insert(idx,value)
-    else:
-        self.put(idx,value)
-</code></pre>
+    <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">ins</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">idx</span><span class="p">,</span><span class="n">value</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">idx</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">idx</span><span class="p">,</span><span class="n">value</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">idx</span><span class="p">,</span><span class="n">value</span><span class="p">)</span>
+</pre></div>
+
   </div>
 </div>
 
@@ -2062,12 +2155,13 @@ class DataTable(object):
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-data_sources.data_table.Column.put', this);">Show source &equiv;</a></p>
   <div id="source-data_sources.data_table.Column.put" class="source">
-    <pre><code>def put(self,idx,value):
-    """ put a Cell value at index idx in column """
-    while idx >= len(self.values):
-        self.values.append(blank_cell)
-    self.values[idx] = value
-</code></pre>
+    <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">put</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">idx</span><span class="p">,</span><span class="n">value</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; put a Cell value at index idx in column &quot;&quot;&quot;</span>
+    <span class="k">while</span> <span class="n">idx</span> <span class="o">&gt;=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">blank_cell</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+</pre></div>
+
   </div>
 </div>
 
@@ -2085,9 +2179,10 @@ class DataTable(object):
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-data_sources.data_table.Column.set_idx', this);">Show source &equiv;</a></p>
   <div id="source-data_sources.data_table.Column.set_idx" class="source">
-    <pre><code>def set_idx(self,idx):
-    self.idx = idx
-</code></pre>
+    <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">set_idx</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">idx</span><span class="p">):</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">idx</span> <span class="o">=</span> <span class="n">idx</span>
+</pre></div>
+
   </div>
 </div>
 
@@ -2105,9 +2200,10 @@ class DataTable(object):
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-data_sources.data_table.Column.set_name', this);">Show source &equiv;</a></p>
   <div id="source-data_sources.data_table.Column.set_name" class="source">
-    <pre><code>def set_name(self,name):
-    self.name = name
-</code></pre>
+    <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">set_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">name</span><span class="p">):</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+</pre></div>
+
   </div>
 </div>
 
@@ -2125,9 +2221,10 @@ class DataTable(object):
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-data_sources.data_table.Column.set_table', this);">Show source &equiv;</a></p>
   <div id="source-data_sources.data_table.Column.set_table" class="source">
-    <pre><code>def set_table(self,table):
-    self.table = table
-</code></pre>
+    <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">set_table</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">table</span><span class="p">):</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">table</span> <span class="o">=</span> <span class="n">table</span>
+</pre></div>
+
   </div>
 </div>
 
@@ -2146,10 +2243,11 @@ class DataTable(object):
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-data_sources.data_table.Column.size', this);">Show source &equiv;</a></p>
   <div id="source-data_sources.data_table.Column.size" class="source">
-    <pre><code>def size(self):
-    """ get the size of this column """
-    return len(self.values)
-</code></pre>
+    <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">size</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; get the size of this column &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+</pre></div>
+
   </div>
 </div>
 
@@ -2206,22 +2304,23 @@ class DataTable(object):
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-data_sources.data_table.ColumnIterator', this);">Show source &equiv;</a></p>
   <div id="source-data_sources.data_table.ColumnIterator" class="source">
-    <pre><code>class ColumnIterator(object):
-    def __init__(self,column):
-        self.column = column
-        self.idx = 0
-        self.limit = column.size()
+    <div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">ColumnIterator</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">column</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">column</span> <span class="o">=</span> <span class="n">column</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">idx</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">limit</span> <span class="o">=</span> <span class="n">column</span><span class="o">.</span><span class="n">size</span><span class="p">()</span>
 
-    def __iter__(self):
-        return self
+    <span class="k">def</span> <span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span>
 
-    def __next__(self):
-        if self.idx >= self.limit:
-            raise StopIteration
-        ret = self.column.get(self.idx)
-        self.idx += 1
-        return ret
-</code></pre>
+    <span class="k">def</span> <span class="fm">__next__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">idx</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">limit</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">StopIteration</span>
+        <span class="n">ret</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">column</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">idx</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">idx</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="n">ret</span>
+</pre></div>
+
   </div>
 </div>
 
@@ -2246,11 +2345,12 @@ class DataTable(object):
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-data_sources.data_table.ColumnIterator.__init__', this);">Show source &equiv;</a></p>
   <div id="source-data_sources.data_table.ColumnIterator.__init__" class="source">
-    <pre><code>def __init__(self,column):
-    self.column = column
-    self.idx = 0
-    self.limit = column.size()
-</code></pre>
+    <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">column</span><span class="p">):</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">column</span> <span class="o">=</span> <span class="n">column</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">idx</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">limit</span> <span class="o">=</span> <span class="n">column</span><span class="o">.</span><span class="n">size</span><span class="p">()</span>
+</pre></div>
+
   </div>
 </div>
 
@@ -2297,168 +2397,169 @@ class DataTable(object):
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-data_sources.data_table.DataTable', this);">Show source &equiv;</a></p>
   <div id="source-data_sources.data_table.DataTable" class="source">
-    <pre><code>class DataTable(object):
-    def __init__(self,columns=None,name=None,refresh_minutes=10):
-        """ accepts a list of columns and a name for the table """
-        self.listeners = []
-        self.columns = []
-        self.name = name
-        self.cnames = {}
-        self.refresh_lock = threading.RLock()
-        self.refresh_minutes = refresh_minutes
-        self.refresh_thread = None
-        self.refresh_thread_stop = False
-        self.refresh_timestamp = None
-        if columns:
-            for c in columns:
-                self.add_column(c)
+    <div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">DataTable</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">columns</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">refresh_minutes</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; accepts a list of columns and a name for the table &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">listeners</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cnames</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">refresh_lock</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">RLock</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">refresh_minutes</span> <span class="o">=</span> <span class="n">refresh_minutes</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">refresh_thread</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">refresh_thread_stop</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">refresh_timestamp</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="n">columns</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">columns</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">add_column</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
                                      
-    def get_refresh_timestamp( self ):
-        """ get the time that the table was last refreshed """
-        return self.refresh_timestamp
+    <span class="k">def</span> <span class="nf">get_refresh_timestamp</span><span class="p">(</span> <span class="bp">self</span> <span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; get the time that the table was last refreshed &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">refresh_timestamp</span>
         
-    def acquire_refresh_lock(self):
-        """ acquire the refresh lock before reading/writing the table state """
-        self.refresh_lock.acquire()
+    <span class="k">def</span> <span class="nf">acquire_refresh_lock</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; acquire the refresh lock before reading/writing the table state &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">refresh_lock</span><span class="o">.</span><span class="n">acquire</span><span class="p">()</span>
 
-    def release_refresh_lock(self):
-        """ release the refresh lock after reading/writing the table state """
-        self.refresh_lock.release()
+    <span class="k">def</span> <span class="nf">release_refresh_lock</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; release the refresh lock after reading/writing the table state &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">refresh_lock</span><span class="o">.</span><span class="n">release</span><span class="p">()</span>
 
-    def start_refresh( self ):
-        """ Start the background refresh thread """
-        self.stop_refresh()
-        self.refresh_thread = threading.Thread(target=self.perform_refresh)
-        self.refresh_thread.start()
+    <span class="k">def</span> <span class="nf">start_refresh</span><span class="p">(</span> <span class="bp">self</span> <span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Start the background refresh thread &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stop_refresh</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">refresh_thread</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">perform_refresh</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">refresh_thread</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
 
-    def perform_refresh( self ):
-        """ Thread worker that sleeps and refreshes the data on a schedule """
-        start_time = time.time()
-        while not self.refresh_thread_stop:
-            if time.time() - start_time >= self.refresh_minutes*60.0:
-                self.refresh()
-                start_time = time.time()
-            time.sleep(0)
+    <span class="k">def</span> <span class="nf">perform_refresh</span><span class="p">(</span> <span class="bp">self</span> <span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Thread worker that sleeps and refreshes the data on a schedule &quot;&quot;&quot;</span>
+        <span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+        <span class="k">while</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">refresh_thread_stop</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start_time</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">refresh_minutes</span><span class="o">*</span><span class="mf">60.0</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">refresh</span><span class="p">()</span>
+                <span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+            <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 
-    def stop_refresh( self ):
-        """ Stop the background refresh thread """
-        self.refresh_thread_stop = True
-        if self.refresh_thread and self.refresh_thread.is_alive():
-            self.refresh_thread.join()
-        self.refresh_thread = None
-        self.refresh_thread_stop = False
+    <span class="k">def</span> <span class="nf">stop_refresh</span><span class="p">(</span> <span class="bp">self</span> <span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Stop the background refresh thread &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">refresh_thread_stop</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">refresh_thread</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">refresh_thread</span><span class="o">.</span><span class="n">is_alive</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">refresh_thread</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">refresh_thread</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">refresh_thread_stop</span> <span class="o">=</span> <span class="kc">False</span>
 
-    def listen(self,listen_func):
-        """ register for notifications when a change event is raised on this table """
-        self.listeners.append(listen_func)
+    <span class="k">def</span> <span class="nf">listen</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">listen_func</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; register for notifications when a change event is raised on this table &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">listeners</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">listen_func</span><span class="p">)</span>
 
-    def unlisten(self,listen_func):
-        """ unregister for notifications when a change event is raised on this table """
-        self.listeners.remove(listen_func)
+    <span class="k">def</span> <span class="nf">unlisten</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">listen_func</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; unregister for notifications when a change event is raised on this table &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">listeners</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">listen_func</span><span class="p">)</span>
 
-    def changed(self):
-        """ notify listeners that this table has been changed """
-        for f in self.listeners:
-            f(self)
+    <span class="k">def</span> <span class="nf">changed</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; notify listeners that this table has been changed &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">listeners</span><span class="p">:</span>
+            <span class="n">f</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 
-    @synchronized
-    def get_bounds(self):
-        """ return a tuple (rows,cols) where rows is the maximum number of rows and cols is the maximum number of cols """
-        cols = len(self.columns)
-        rows = -1
-        for c in self.columns:
-            size = c.size()
-            if rows < 0 or size > rows:
-                rows = size
-        return (rows,cols)
+    <span class="nd">@synchronized</span>
+    <span class="k">def</span> <span class="nf">get_bounds</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; return a tuple (rows,cols) where rows is the maximum number of rows and cols is the maximum number of cols &quot;&quot;&quot;</span>
+        <span class="n">cols</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
+        <span class="n">rows</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+        <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+            <span class="n">size</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">size</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">rows</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">size</span> <span class="o">&gt;</span> <span class="n">rows</span><span class="p">:</span>
+                <span class="n">rows</span> <span class="o">=</span> <span class="n">size</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">rows</span><span class="p">,</span><span class="n">cols</span><span class="p">)</span>
 
-    def get_name(self):
-        """ return the name of the table """
-        return self.name
+    <span class="k">def</span> <span class="nf">get_name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; return the name of the table &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
 
-    @synchronized
-    def get_names(self):
-        """ return a list of the names of the columns in order"""
-        return [c.get_name() for c in self.columns]
+    <span class="nd">@synchronized</span>
+    <span class="k">def</span> <span class="nf">get_names</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; return a list of the names of the columns in order&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">get_name</span><span class="p">()</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">]</span>
 
-    @synchronized
-    def get_columns(self):
-        """ return the list of columns """
-        return self.columns
+    <span class="nd">@synchronized</span>
+    <span class="k">def</span> <span class="nf">get_columns</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; return the list of columns &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">columns</span>
 
-    @synchronized
-    def add_column(self,column):
-        idx = len(self.columns)
-        column.set_idx(idx)
-        if not column.get_name():
-            column.set_name("%s_%d"%(self.name,idx))
-        self.columns.append(column)
-        self.cnames[column.get_name()] = column
-        column.set_table(self)
+    <span class="nd">@synchronized</span>
+    <span class="k">def</span> <span class="nf">add_column</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">column</span><span class="p">):</span>
+        <span class="n">idx</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
+        <span class="n">column</span><span class="o">.</span><span class="n">set_idx</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">column</span><span class="o">.</span><span class="n">get_name</span><span class="p">():</span>
+            <span class="n">column</span><span class="o">.</span><span class="n">set_name</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">_</span><span class="si">%d</span><span class="s2">&quot;</span><span class="o">%</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span><span class="n">idx</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">column</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cnames</span><span class="p">[</span><span class="n">column</span><span class="o">.</span><span class="n">get_name</span><span class="p">()]</span> <span class="o">=</span> <span class="n">column</span>
+        <span class="n">column</span><span class="o">.</span><span class="n">set_table</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 
-    @synchronized
-    def insert_column(self,idx,column):
-        while idx > len(self.columns):
-            self.add_column(blank_column)
-        if idx == len(self.columns):
-            self.add_column(column)
-        else:
-            if not column.get_name():
-                column.set_name("%s_%d"%(self.name,idx))
-            self.columns.insert(idx,column)
-            self.cnames[column.get_name()] = column
-            column.set_table(self)
-            while idx < len(self.columns):
-                if column.get_name() == "%s_%d"%(self.name,idx-1):
-                    column.set_name("%s_%d"%(self.name,idx))
-                    self.cnames[column.get_name()] = column
-                self.columns[idx].set_idx(idx)
-                idx += 1
+    <span class="nd">@synchronized</span>
+    <span class="k">def</span> <span class="nf">insert_column</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">idx</span><span class="p">,</span><span class="n">column</span><span class="p">):</span>
+        <span class="k">while</span> <span class="n">idx</span> <span class="o">&gt;</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">add_column</span><span class="p">(</span><span class="n">blank_column</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">idx</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">add_column</span><span class="p">(</span><span class="n">column</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">column</span><span class="o">.</span><span class="n">get_name</span><span class="p">():</span>
+                <span class="n">column</span><span class="o">.</span><span class="n">set_name</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">_</span><span class="si">%d</span><span class="s2">&quot;</span><span class="o">%</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span><span class="n">idx</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">idx</span><span class="p">,</span><span class="n">column</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">cnames</span><span class="p">[</span><span class="n">column</span><span class="o">.</span><span class="n">get_name</span><span class="p">()]</span> <span class="o">=</span> <span class="n">column</span>
+            <span class="n">column</span><span class="o">.</span><span class="n">set_table</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+            <span class="k">while</span> <span class="n">idx</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">column</span><span class="o">.</span><span class="n">get_name</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">_</span><span class="si">%d</span><span class="s2">&quot;</span><span class="o">%</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span><span class="n">idx</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+                    <span class="n">column</span><span class="o">.</span><span class="n">set_name</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">_</span><span class="si">%d</span><span class="s2">&quot;</span><span class="o">%</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span><span class="n">idx</span><span class="p">))</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">cnames</span><span class="p">[</span><span class="n">column</span><span class="o">.</span><span class="n">get_name</span><span class="p">()]</span> <span class="o">=</span> <span class="n">column</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="o">.</span><span class="n">set_idx</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span>
+                <span class="n">idx</span> <span class="o">+=</span> <span class="mi">1</span>
 
-    @synchronized
-    def replace_column(self,idx,column):
-        column.set_idx(idx)
-        if not column.get_name():
-            column.set_name("%s_%d"%(self.name,idx))
-        self.columns[idx] = column
-        self.cnames[column.get_name()] = column
-        column.set_table(self)
+    <span class="nd">@synchronized</span>
+    <span class="k">def</span> <span class="nf">replace_column</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">idx</span><span class="p">,</span><span class="n">column</span><span class="p">):</span>
+        <span class="n">column</span><span class="o">.</span><span class="n">set_idx</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">column</span><span class="o">.</span><span class="n">get_name</span><span class="p">():</span>
+            <span class="n">column</span><span class="o">.</span><span class="n">set_name</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">_</span><span class="si">%d</span><span class="s2">&quot;</span><span class="o">%</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span><span class="n">idx</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">column</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cnames</span><span class="p">[</span><span class="n">column</span><span class="o">.</span><span class="n">get_name</span><span class="p">()]</span> <span class="o">=</span> <span class="n">column</span>
+        <span class="n">column</span><span class="o">.</span><span class="n">set_table</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 
-    @synchronized
-    def map_column(self, reference ):
-        if type(reference) == str or type(reference) == str:
-            return self.cnames[reference].get_idx()
-        elif type(reference) == int:
-            return reference
-        else:
-            raise TypeError("wrong type in mapping")
+    <span class="nd">@synchronized</span>
+    <span class="k">def</span> <span class="nf">map_column</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reference</span> <span class="p">):</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">reference</span><span class="p">)</span> <span class="o">==</span> <span class="nb">str</span> <span class="ow">or</span> <span class="nb">type</span><span class="p">(</span><span class="n">reference</span><span class="p">)</span> <span class="o">==</span> <span class="nb">str</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cnames</span><span class="p">[</span><span class="n">reference</span><span class="p">]</span><span class="o">.</span><span class="n">get_idx</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">reference</span><span class="p">)</span> <span class="o">==</span> <span class="nb">int</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">reference</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;wrong type in mapping&quot;</span><span class="p">)</span>
 
-    @synchronized
-    def has_column(self, reference ):
-        if type(reference) == str or type(reference) == str:
-            return reference in self.cnames
-        elif type(reference) == int:
-            return idx < len(self.columns)
-        else:
-            return False
+    <span class="nd">@synchronized</span>
+    <span class="k">def</span> <span class="nf">has_column</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reference</span> <span class="p">):</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">reference</span><span class="p">)</span> <span class="o">==</span> <span class="nb">str</span> <span class="ow">or</span> <span class="nb">type</span><span class="p">(</span><span class="n">reference</span><span class="p">)</span> <span class="o">==</span> <span class="nb">str</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">reference</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">cnames</span>
+        <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">reference</span><span class="p">)</span> <span class="o">==</span> <span class="nb">int</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">idx</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
 
-    @synchronized
-    def get_column(self, reference):
-        return self.columns[self.map_column(reference)]
+    <span class="nd">@synchronized</span>
+    <span class="k">def</span> <span class="nf">get_column</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reference</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">map_column</span><span class="p">(</span><span class="n">reference</span><span class="p">)]</span>
 
-    @synchronized
-    def get(self, row, reference ):
-        return self.columns[self.map_column(reference)].get(row)
+    <span class="nd">@synchronized</span>
+    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">reference</span> <span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">map_column</span><span class="p">(</span><span class="n">reference</span><span class="p">)]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
 
-    @synchronized
-    def put(self, row, reference, value):
-        self.columns[self.map_column(reference)].put(row,value)
+    <span class="nd">@synchronized</span>
+    <span class="k">def</span> <span class="nf">put</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">reference</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">map_column</span><span class="p">(</span><span class="n">reference</span><span class="p">)]</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">row</span><span class="p">,</span><span class="n">value</span><span class="p">)</span>
 
-    @synchronized
-    def refresh(self):
-        """ base class method for forcing a refresh on a table """
-        self.refresh_timestamp = time.time()
-</code></pre>
+    <span class="nd">@synchronized</span>
+    <span class="k">def</span> <span class="nf">refresh</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; base class method for forcing a refresh on a table &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">refresh_timestamp</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+</pre></div>
+
   </div>
 </div>
 
@@ -2483,21 +2584,22 @@ class DataTable(object):
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-data_sources.data_table.DataTable.__init__', this);">Show source &equiv;</a></p>
   <div id="source-data_sources.data_table.DataTable.__init__" class="source">
-    <pre><code>def __init__(self,columns=None,name=None,refresh_minutes=10):
-    """ accepts a list of columns and a name for the table """
-    self.listeners = []
-    self.columns = []
-    self.name = name
-    self.cnames = {}
-    self.refresh_lock = threading.RLock()
-    self.refresh_minutes = refresh_minutes
-    self.refresh_thread = None
-    self.refresh_thread_stop = False
-    self.refresh_timestamp = None
-    if columns:
-        for c in columns:
-            self.add_column(c)
-</code></pre>
+    <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">columns</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">refresh_minutes</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; accepts a list of columns and a name for the table &quot;&quot;&quot;</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">listeners</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">cnames</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">refresh_lock</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">RLock</span><span class="p">()</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">refresh_minutes</span> <span class="o">=</span> <span class="n">refresh_minutes</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">refresh_thread</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">refresh_thread_stop</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">refresh_timestamp</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">if</span> <span class="n">columns</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">columns</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">add_column</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+</pre></div>
+
   </div>
 </div>
 
@@ -2516,10 +2618,11 @@ class DataTable(object):
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-data_sources.data_table.DataTable.acquire_refresh_lock', this);">Show source &equiv;</a></p>
   <div id="source-data_sources.data_table.DataTable.acquire_refresh_lock" class="source">
-    <pre><code>def acquire_refresh_lock(self):
-    """ acquire the refresh lock before reading/writing the table state """
-    self.refresh_lock.acquire()
-</code></pre>
+    <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">acquire_refresh_lock</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; acquire the refresh lock before reading/writing the table state &quot;&quot;&quot;</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">refresh_lock</span><span class="o">.</span><span class="n">acquire</span><span class="p">()</span>
+</pre></div>
+
   </div>
 </div>
 
@@ -2537,16 +2640,17 @@ class DataTable(object):
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-data_sources.data_table.DataTable.add_column', this);">Show source &equiv;</a></p>
   <div id="source-data_sources.data_table.DataTable.add_column" class="source">
-    <pre><code>@synchronized
-def add_column(self,column):
-    idx = len(self.columns)
-    column.set_idx(idx)
-    if not column.get_name():
-        column.set_name("%s_%d"%(self.name,idx))
-    self.columns.append(column)
-    self.cnames[column.get_name()] = column
-    column.set_table(self)
-</code></pre>
+    <div class="codehilite"><pre><span></span><span class="nd">@synchronized</span>
+<span class="k">def</span> <span class="nf">add_column</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">column</span><span class="p">):</span>
+    <span class="n">idx</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
+    <span class="n">column</span><span class="o">.</span><span class="n">set_idx</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">column</span><span class="o">.</span><span class="n">get_name</span><span class="p">():</span>
+        <span class="n">column</span><span class="o">.</span><span class="n">set_name</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">_</span><span class="si">%d</span><span class="s2">&quot;</span><span class="o">%</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span><span class="n">idx</span><span class="p">))</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">column</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">cnames</span><span class="p">[</span><span class="n">column</span><span class="o">.</span><span class="n">get_name</span><span class="p">()]</span> <span class="o">=</span> <span class="n">column</span>
+    <span class="n">column</span><span class="o">.</span><span class="n">set_table</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+</pre></div>
+
   </div>
 </div>
 
@@ -2565,11 +2669,12 @@ def add_column(self,column):
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-data_sources.data_table.DataTable.changed', this);">Show source &equiv;</a></p>
   <div id="source-data_sources.data_table.DataTable.changed" class="source">
-    <pre><code>def changed(self):
-    """ notify listeners that this table has been changed """
-    for f in self.listeners:
-        f(self)
-</code></pre>
+    <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">changed</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; notify listeners that this table has been changed &quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">listeners</span><span class="p">:</span>
+        <span class="n">f</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+</pre></div>
+
   </div>
 </div>
 
@@ -2587,10 +2692,11 @@ def add_column(self,column):
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-data_sources.data_table.DataTable.get', this);">Show source &equiv;</a></p>
   <div id="source-data_sources.data_table.DataTable.get" class="source">
-    <pre><code>@synchronized
-def get(self, row, reference ):
-    return self.columns[self.map_column(reference)].get(row)
-</code></pre>
+    <div class="codehilite"><pre><span></span><span class="nd">@synchronized</span>
+<span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">reference</span> <span class="p">):</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">map_column</span><span class="p">(</span><span class="n">reference</span><span class="p">)]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
+</pre></div>
+
   </div>
 </div>
 
@@ -2609,17 +2715,18 @@ def get(self, row, reference ):
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-data_sources.data_table.DataTable.get_bounds', this);">Show source &equiv;</a></p>
   <div id="source-data_sources.data_table.DataTable.get_bounds" class="source">
-    <pre><code>@synchronized
-def get_bounds(self):
-    """ return a tuple (rows,cols) where rows is the maximum number of rows and cols is the maximum number of cols """
-    cols = len(self.columns)
-    rows = -1
-    for c in self.columns:
-        size = c.size()
-        if rows < 0 or size > rows:
-            rows = size
-    return (rows,cols)
-</code></pre>
+    <div class="codehilite"><pre><span></span><span class="nd">@synchronized</span>
+<span class="k">def</span> <span class="nf">get_bounds</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; return a tuple (rows,cols) where rows is the maximum number of rows and cols is the maximum number of cols &quot;&quot;&quot;</span>
+    <span class="n">cols</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
+    <span class="n">rows</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+    <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+        <span class="n">size</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">size</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">rows</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">size</span> <span class="o">&gt;</span> <span class="n">rows</span><span class="p">:</span>
+            <span class="n">rows</span> <span class="o">=</span> <span class="n">size</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">rows</span><span class="p">,</span><span class="n">cols</span><span class="p">)</span>
+</pre></div>
+
   </div>
 </div>
 
@@ -2637,10 +2744,11 @@ def get_bounds(self):
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-data_sources.data_table.DataTable.get_column', this);">Show source &equiv;</a></p>
   <div id="source-data_sources.data_table.DataTable.get_column" class="source">
-    <pre><code>@synchronized
-def get_column(self, reference):
-    return self.columns[self.map_column(reference)]
-</code></pre>
+    <div class="codehilite"><pre><span></span><span class="nd">@synchronized</span>
+<span class="k">def</span> <span class="nf">get_column</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reference</span><span class="p">):</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">map_column</span><span class="p">(</span><span class="n">reference</span><span class="p">)]</span>
+</pre></div>
+
   </div>
 </div>
 
@@ -2659,11 +2767,12 @@ def get_column(self, reference):
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-data_sources.data_table.DataTable.get_columns', this);">Show source &equiv;</a></p>
   <div id="source-data_sources.data_table.DataTable.get_columns" class="source">
-    <pre><code>@synchronized
-def get_columns(self):
-    """ return the list of columns """
-    return self.columns
-</code></pre>
+    <div class="codehilite"><pre><span></span><span class="nd">@synchronized</span>
+<span class="k">def</span> <span class="nf">get_columns</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; return the list of columns &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">columns</span>
+</pre></div>
+
   </div>
 </div>
 
@@ -2682,10 +2791,11 @@ def get_columns(self):
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-data_sources.data_table.DataTable.get_name', this);">Show source &equiv;</a></p>
   <div id="source-data_sources.data_table.DataTable.get_name" class="source">
-    <pre><code>def get_name(self):
-    """ return the name of the table """
-    return self.name
-</code></pre>
+    <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">get_name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; return the name of the table &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
+</pre></div>
+
   </div>
 </div>
 
@@ -2704,11 +2814,12 @@ def get_columns(self):
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-data_sources.data_table.DataTable.get_names', this);">Show source &equiv;</a></p>
   <div id="source-data_sources.data_table.DataTable.get_names" class="source">
-    <pre><code>@synchronized
-def get_names(self):
-    """ return a list of the names of the columns in order"""
-    return [c.get_name() for c in self.columns]
-</code></pre>
+    <div class="codehilite"><pre><span></span><span class="nd">@synchronized</span>
+<span class="k">def</span> <span class="nf">get_names</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; return a list of the names of the columns in order&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">get_name</span><span class="p">()</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">]</span>
+</pre></div>
+
   </div>
 </div>
 
@@ -2727,10 +2838,11 @@ def get_names(self):
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-data_sources.data_table.DataTable.get_refresh_timestamp', this);">Show source &equiv;</a></p>
   <div id="source-data_sources.data_table.DataTable.get_refresh_timestamp" class="source">
-    <pre><code>def get_refresh_timestamp( self ):
-    """ get the time that the table was last refreshed """
-    return self.refresh_timestamp
-</code></pre>
+    <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">get_refresh_timestamp</span><span class="p">(</span> <span class="bp">self</span> <span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; get the time that the table was last refreshed &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">refresh_timestamp</span>
+</pre></div>
+
   </div>
 </div>
 
@@ -2748,15 +2860,16 @@ def get_names(self):
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-data_sources.data_table.DataTable.has_column', this);">Show source &equiv;</a></p>
   <div id="source-data_sources.data_table.DataTable.has_column" class="source">
-    <pre><code>@synchronized
-def has_column(self, reference ):
-    if type(reference) == str or type(reference) == str:
-        return reference in self.cnames
-    elif type(reference) == int:
-        return idx < len(self.columns)
-    else:
-        return False
-</code></pre>
+    <div class="codehilite"><pre><span></span><span class="nd">@synchronized</span>
+<span class="k">def</span> <span class="nf">has_column</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reference</span> <span class="p">):</span>
+    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">reference</span><span class="p">)</span> <span class="o">==</span> <span class="nb">str</span> <span class="ow">or</span> <span class="nb">type</span><span class="p">(</span><span class="n">reference</span><span class="p">)</span> <span class="o">==</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">reference</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">cnames</span>
+    <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">reference</span><span class="p">)</span> <span class="o">==</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">idx</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+</pre></div>
+
   </div>
 </div>
 
@@ -2774,25 +2887,26 @@ def has_column(self, reference ):
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-data_sources.data_table.DataTable.insert_column', this);">Show source &equiv;</a></p>
   <div id="source-data_sources.data_table.DataTable.insert_column" class="source">
-    <pre><code>@synchronized
-def insert_column(self,idx,column):
-    while idx > len(self.columns):
-        self.add_column(blank_column)
-    if idx == len(self.columns):
-        self.add_column(column)
-    else:
-        if not column.get_name():
-            column.set_name("%s_%d"%(self.name,idx))
-        self.columns.insert(idx,column)
-        self.cnames[column.get_name()] = column
-        column.set_table(self)
-        while idx < len(self.columns):
-            if column.get_name() == "%s_%d"%(self.name,idx-1):
-                column.set_name("%s_%d"%(self.name,idx))
-                self.cnames[column.get_name()] = column
-            self.columns[idx].set_idx(idx)
-            idx += 1
-</code></pre>
+    <div class="codehilite"><pre><span></span><span class="nd">@synchronized</span>
+<span class="k">def</span> <span class="nf">insert_column</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">idx</span><span class="p">,</span><span class="n">column</span><span class="p">):</span>
+    <span class="k">while</span> <span class="n">idx</span> <span class="o">&gt;</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_column</span><span class="p">(</span><span class="n">blank_column</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">idx</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_column</span><span class="p">(</span><span class="n">column</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">column</span><span class="o">.</span><span class="n">get_name</span><span class="p">():</span>
+            <span class="n">column</span><span class="o">.</span><span class="n">set_name</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">_</span><span class="si">%d</span><span class="s2">&quot;</span><span class="o">%</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span><span class="n">idx</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">idx</span><span class="p">,</span><span class="n">column</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cnames</span><span class="p">[</span><span class="n">column</span><span class="o">.</span><span class="n">get_name</span><span class="p">()]</span> <span class="o">=</span> <span class="n">column</span>
+        <span class="n">column</span><span class="o">.</span><span class="n">set_table</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="k">while</span> <span class="n">idx</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">column</span><span class="o">.</span><span class="n">get_name</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">_</span><span class="si">%d</span><span class="s2">&quot;</span><span class="o">%</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span><span class="n">idx</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+                <span class="n">column</span><span class="o">.</span><span class="n">set_name</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">_</span><span class="si">%d</span><span class="s2">&quot;</span><span class="o">%</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span><span class="n">idx</span><span class="p">))</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">cnames</span><span class="p">[</span><span class="n">column</span><span class="o">.</span><span class="n">get_name</span><span class="p">()]</span> <span class="o">=</span> <span class="n">column</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="o">.</span><span class="n">set_idx</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span>
+            <span class="n">idx</span> <span class="o">+=</span> <span class="mi">1</span>
+</pre></div>
+
   </div>
 </div>
 
@@ -2811,10 +2925,11 @@ def insert_column(self,idx,column):
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-data_sources.data_table.DataTable.listen', this);">Show source &equiv;</a></p>
   <div id="source-data_sources.data_table.DataTable.listen" class="source">
-    <pre><code>def listen(self,listen_func):
-    """ register for notifications when a change event is raised on this table """
-    self.listeners.append(listen_func)
-</code></pre>
+    <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">listen</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">listen_func</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; register for notifications when a change event is raised on this table &quot;&quot;&quot;</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">listeners</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">listen_func</span><span class="p">)</span>
+</pre></div>
+
   </div>
 </div>
 
@@ -2832,15 +2947,16 @@ def insert_column(self,idx,column):
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-data_sources.data_table.DataTable.map_column', this);">Show source &equiv;</a></p>
   <div id="source-data_sources.data_table.DataTable.map_column" class="source">
-    <pre><code>@synchronized
-def map_column(self, reference ):
-    if type(reference) == str or type(reference) == str:
-        return self.cnames[reference].get_idx()
-    elif type(reference) == int:
-        return reference
-    else:
-        raise TypeError("wrong type in mapping")
-</code></pre>
+    <div class="codehilite"><pre><span></span><span class="nd">@synchronized</span>
+<span class="k">def</span> <span class="nf">map_column</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reference</span> <span class="p">):</span>
+    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">reference</span><span class="p">)</span> <span class="o">==</span> <span class="nb">str</span> <span class="ow">or</span> <span class="nb">type</span><span class="p">(</span><span class="n">reference</span><span class="p">)</span> <span class="o">==</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cnames</span><span class="p">[</span><span class="n">reference</span><span class="p">]</span><span class="o">.</span><span class="n">get_idx</span><span class="p">()</span>
+    <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">reference</span><span class="p">)</span> <span class="o">==</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">reference</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;wrong type in mapping&quot;</span><span class="p">)</span>
+</pre></div>
+
   </div>
 </div>
 
@@ -2859,15 +2975,16 @@ def map_column(self, reference ):
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-data_sources.data_table.DataTable.perform_refresh', this);">Show source &equiv;</a></p>
   <div id="source-data_sources.data_table.DataTable.perform_refresh" class="source">
-    <pre><code>def perform_refresh( self ):
-    """ Thread worker that sleeps and refreshes the data on a schedule """
-    start_time = time.time()
-    while not self.refresh_thread_stop:
-        if time.time() - start_time >= self.refresh_minutes*60.0:
-            self.refresh()
-            start_time = time.time()
-        time.sleep(0)
-</code></pre>
+    <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">perform_refresh</span><span class="p">(</span> <span class="bp">self</span> <span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Thread worker that sleeps and refreshes the data on a schedule &quot;&quot;&quot;</span>
+    <span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+    <span class="k">while</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">refresh_thread_stop</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start_time</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">refresh_minutes</span><span class="o">*</span><span class="mf">60.0</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">refresh</span><span class="p">()</span>
+            <span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+
   </div>
 </div>
 
@@ -2885,10 +3002,11 @@ def map_column(self, reference ):
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-data_sources.data_table.DataTable.put', this);">Show source &equiv;</a></p>
   <div id="source-data_sources.data_table.DataTable.put" class="source">
-    <pre><code>@synchronized
-def put(self, row, reference, value):
-    self.columns[self.map_column(reference)].put(row,value)
-</code></pre>
+    <div class="codehilite"><pre><span></span><span class="nd">@synchronized</span>
+<span class="k">def</span> <span class="nf">put</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">reference</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">map_column</span><span class="p">(</span><span class="n">reference</span><span class="p">)]</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">row</span><span class="p">,</span><span class="n">value</span><span class="p">)</span>
+</pre></div>
+
   </div>
 </div>
 
@@ -2907,11 +3025,12 @@ def put(self, row, reference, value):
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-data_sources.data_table.DataTable.refresh', this);">Show source &equiv;</a></p>
   <div id="source-data_sources.data_table.DataTable.refresh" class="source">
-    <pre><code>@synchronized
-def refresh(self):
-    """ base class method for forcing a refresh on a table """
-    self.refresh_timestamp = time.time()
-</code></pre>
+    <div class="codehilite"><pre><span></span><span class="nd">@synchronized</span>
+<span class="k">def</span> <span class="nf">refresh</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; base class method for forcing a refresh on a table &quot;&quot;&quot;</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">refresh_timestamp</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+</pre></div>
+
   </div>
 </div>
 
@@ -2930,10 +3049,11 @@ def refresh(self):
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-data_sources.data_table.DataTable.release_refresh_lock', this);">Show source &equiv;</a></p>
   <div id="source-data_sources.data_table.DataTable.release_refresh_lock" class="source">
-    <pre><code>def release_refresh_lock(self):
-    """ release the refresh lock after reading/writing the table state """
-    self.refresh_lock.release()
-</code></pre>
+    <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">release_refresh_lock</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; release the refresh lock after reading/writing the table state &quot;&quot;&quot;</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">refresh_lock</span><span class="o">.</span><span class="n">release</span><span class="p">()</span>
+</pre></div>
+
   </div>
 </div>
 
@@ -2951,15 +3071,16 @@ def refresh(self):
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-data_sources.data_table.DataTable.replace_column', this);">Show source &equiv;</a></p>
   <div id="source-data_sources.data_table.DataTable.replace_column" class="source">
-    <pre><code>@synchronized
-def replace_column(self,idx,column):
-    column.set_idx(idx)
-    if not column.get_name():
-        column.set_name("%s_%d"%(self.name,idx))
-    self.columns[idx] = column
-    self.cnames[column.get_name()] = column
-    column.set_table(self)
-</code></pre>
+    <div class="codehilite"><pre><span></span><span class="nd">@synchronized</span>
+<span class="k">def</span> <span class="nf">replace_column</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">idx</span><span class="p">,</span><span class="n">column</span><span class="p">):</span>
+    <span class="n">column</span><span class="o">.</span><span class="n">set_idx</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">column</span><span class="o">.</span><span class="n">get_name</span><span class="p">():</span>
+        <span class="n">column</span><span class="o">.</span><span class="n">set_name</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">_</span><span class="si">%d</span><span class="s2">&quot;</span><span class="o">%</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span><span class="n">idx</span><span class="p">))</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">column</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">cnames</span><span class="p">[</span><span class="n">column</span><span class="o">.</span><span class="n">get_name</span><span class="p">()]</span> <span class="o">=</span> <span class="n">column</span>
+    <span class="n">column</span><span class="o">.</span><span class="n">set_table</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+</pre></div>
+
   </div>
 </div>
 
@@ -2978,12 +3099,13 @@ def replace_column(self,idx,column):
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-data_sources.data_table.DataTable.start_refresh', this);">Show source &equiv;</a></p>
   <div id="source-data_sources.data_table.DataTable.start_refresh" class="source">
-    <pre><code>def start_refresh( self ):
-    """ Start the background refresh thread """
-    self.stop_refresh()
-    self.refresh_thread = threading.Thread(target=self.perform_refresh)
-    self.refresh_thread.start()
-</code></pre>
+    <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">start_refresh</span><span class="p">(</span> <span class="bp">self</span> <span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Start the background refresh thread &quot;&quot;&quot;</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">stop_refresh</span><span class="p">()</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">refresh_thread</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">perform_refresh</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">refresh_thread</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+</pre></div>
+
   </div>
 </div>
 
@@ -3002,14 +3124,15 @@ def replace_column(self,idx,column):
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-data_sources.data_table.DataTable.stop_refresh', this);">Show source &equiv;</a></p>
   <div id="source-data_sources.data_table.DataTable.stop_refresh" class="source">
-    <pre><code>def stop_refresh( self ):
-    """ Stop the background refresh thread """
-    self.refresh_thread_stop = True
-    if self.refresh_thread and self.refresh_thread.is_alive():
-        self.refresh_thread.join()
-    self.refresh_thread = None
-    self.refresh_thread_stop = False
-</code></pre>
+    <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">stop_refresh</span><span class="p">(</span> <span class="bp">self</span> <span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Stop the background refresh thread &quot;&quot;&quot;</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">refresh_thread_stop</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">refresh_thread</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">refresh_thread</span><span class="o">.</span><span class="n">is_alive</span><span class="p">():</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">refresh_thread</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">refresh_thread</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">refresh_thread_stop</span> <span class="o">=</span> <span class="kc">False</span>
+</pre></div>
+
   </div>
 </div>
 
@@ -3028,10 +3151,11 @@ def replace_column(self,idx,column):
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-data_sources.data_table.DataTable.unlisten', this);">Show source &equiv;</a></p>
   <div id="source-data_sources.data_table.DataTable.unlisten" class="source">
-    <pre><code>def unlisten(self,listen_func):
-    """ unregister for notifications when a change event is raised on this table """
-    self.listeners.remove(listen_func)
-</code></pre>
+    <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">unlisten</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">listen_func</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; unregister for notifications when a change event is raised on this table &quot;&quot;&quot;</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">listeners</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">listen_func</span><span class="p">)</span>
+</pre></div>
+
   </div>
 </div>
 
