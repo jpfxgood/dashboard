@@ -17,6 +17,7 @@ from dashboard.dashboard import Dashboard,Page,Panel
 from char_draw.graph import LineGraph,BarGraph,PieGraph,TableGraph
 from data_sources.syslog_data import SyslogDataTable
 from data_sources.proc_data import ProcDataTable
+from data_sources.elastic_data import ElasticsearchDataTable
 
 # A config file is of the form:
 # {
@@ -24,11 +25,14 @@ from data_sources.proc_data import ProcDataTable
 #       [
 #           {
 #           "name" : name to refer to this table below,
-#           "type" : one of "SyslogDataTable" ( more to come),
+#           "type" : one of "SyslogDataTable","ProcDataTable","ElasticsearchDataTable" ( more to come),
 #           "refresh_minutes" : number of minutes to automatically refresh optional, 0 if only manual, default is 5 minutes
 #           "num_hours" : number of hours of history to look at
 #           "bucket_hours" : number of hours per bucket, table will have num_hours/bucket_hours entries
 #           "syslog_glob" : full unix glob pattern to match syslogs for the SyslogDataTable
+#           "es_index_pattern" : only for ElasticsearchDataTable, Elasticsearch index pattern wildcard to query
+#           "es_query_body" : { body of the query to execute as well formed JSON Elasticsearch DSL },
+#           "es_field_map" : [ array of tuples [ json_path ex "aggregations.3.buckets.key" matching the value you want, column name to append it to in the table, value type one of int,float,str,or date where date is a timestamp numerical value ]...]
 #           },
 #       ],
 #   "dashboard": definition of the dashboard to present
@@ -76,10 +80,16 @@ def load_config( stdscr, options ):
         syslog_glob = t.get("syslog_glob","/var/log/syslog*")
         num_hours = t.get("num_hours",24)
         bucket_hours = t.get("bucket_hours",1)
+        es_index_pattern = t.get("es_index_pattern",None)
+        es_query_body = t.get("es_query_body",None)
+        es_field_map = t.get("es_field_map",None)
         if t["type"] == "SyslogDataTable":
             dt = SyslogDataTable(syslog_glob,num_hours,bucket_hours,refresh_minutes)
         elif t["type"] == "ProcDataTable":
             dt = ProcDataTable(num_hours,bucket_hours,refresh_minutes)
+        elif t["type"] == "ElasticsearchDataTable":
+            dt = ElasticsearchDataTable(refresh_minutes,es_index_pattern,es_query_body,es_field_map)
+
         dt.start_refresh()
         context["tables"].append((t["name"],dt))
 

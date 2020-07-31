@@ -29,6 +29,7 @@ setup(
     ],
     install_requires=[
         'psutil',
+        'elasticsearch',
     ],
     scripts=[
         'scripts/dashboard',

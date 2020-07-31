@@ -1,7 +1,251 @@
 {
 "tables": [
     {"name": "syslog", "type": "SyslogDataTable", "refresh_minutes": 1},
-    {"name": "procdata", "type": "ProcDataTable", "refresh_minutes": 1}
+    {"name": "procdata", "type": "ProcDataTable", "refresh_minutes": 1},
+    {
+        "name": "metricbeat",
+        "type": "ElasticsearchDataTable",
+        "refresh_minutes": 1,
+        "es_index_pattern": "metricbeat*",
+        "es_query_body": {
+                          "aggs": {
+                            "2": {
+                              "date_histogram": {
+                                "field": "@timestamp",
+                                "fixed_interval": "15m",
+                                "time_zone": "America/New_York",
+                                "min_doc_count": 1
+                              },
+                              "aggs": {
+                                "1": {
+                                  "stats": {
+                                    "field": "system.cpu.system.pct"
+                                  }
+                                }
+                              }
+                            }
+                          },
+                          "size": 0,
+                          "stored_fields": [
+                            "*"
+                          ],
+                          "script_fields": {},
+                          "docvalue_fields": [
+                            {
+                              "field": "@timestamp",
+                              "format": "date_time"
+                            },
+                            {
+                              "field": "ceph.monitor_health.last_updated",
+                              "format": "date_time"
+                            },
+                            {
+                              "field": "docker.container.created",
+                              "format": "date_time"
+                            },
+                            {
+                              "field": "docker.healthcheck.event.end_date",
+                              "format": "date_time"
+                            },
+                            {
+                              "field": "docker.healthcheck.event.start_date",
+                              "format": "date_time"
+                            },
+                            {
+                              "field": "docker.image.created",
+                              "format": "date_time"
+                            },
+                            {
+                              "field": "event.created",
+                              "format": "date_time"
+                            },
+                            {
+                              "field": "event.end",
+                              "format": "date_time"
+                            },
+                            {
+                              "field": "event.ingested",
+                              "format": "date_time"
+                            },
+                            {
+                              "field": "event.start",
+                              "format": "date_time"
+                            },
+                            {
+                              "field": "file.accessed",
+                              "format": "date_time"
+                            },
+                            {
+                              "field": "file.created",
+                              "format": "date_time"
+                            },
+                            {
+                              "field": "file.ctime",
+                              "format": "date_time"
+                            },
+                            {
+                              "field": "file.mtime",
+                              "format": "date_time"
+                            },
+                            {
+                              "field": "kubernetes.container.start_time",
+                              "format": "date_time"
+                            },
+                            {
+                              "field": "kubernetes.event.metadata.timestamp.created",
+                              "format": "date_time"
+                            },
+                            {
+                              "field": "kubernetes.event.timestamp.first_occurrence",
+                              "format": "date_time"
+                            },
+                            {
+                              "field": "kubernetes.event.timestamp.last_occurrence",
+                              "format": "date_time"
+                            },
+                            {
+                              "field": "kubernetes.node.start_time",
+                              "format": "date_time"
+                            },
+                            {
+                              "field": "kubernetes.pod.start_time",
+                              "format": "date_time"
+                            },
+                            {
+                              "field": "kubernetes.service.created",
+                              "format": "date_time"
+                            },
+                            {
+                              "field": "kubernetes.storageclass.created",
+                              "format": "date_time"
+                            },
+                            {
+                              "field": "kubernetes.system.start_time",
+                              "format": "date_time"
+                            },
+                            {
+                              "field": "mongodb.replstatus.server_date",
+                              "format": "date_time"
+                            },
+                            {
+                              "field": "mongodb.status.background_flushing.last_finished",
+                              "format": "date_time"
+                            },
+                            {
+                              "field": "mongodb.status.local_time",
+                              "format": "date_time"
+                            },
+                            {
+                              "field": "mssql.transaction_log.stats.backup_time",
+                              "format": "date_time"
+                            },
+                            {
+                              "field": "nats.server.time",
+                              "format": "date_time"
+                            },
+                            {
+                              "field": "package.installed",
+                              "format": "date_time"
+                            },
+                            {
+                              "field": "php_fpm.pool.start_time",
+                              "format": "date_time"
+                            },
+                            {
+                              "field": "php_fpm.process.start_time",
+                              "format": "date_time"
+                            },
+                            {
+                              "field": "postgresql.activity.backend_start",
+                              "format": "date_time"
+                            },
+                            {
+                              "field": "postgresql.activity.query_start",
+                              "format": "date_time"
+                            },
+                            {
+                              "field": "postgresql.activity.state_change",
+                              "format": "date_time"
+                            },
+                            {
+                              "field": "postgresql.activity.transaction_start",
+                              "format": "date_time"
+                            },
+                            {
+                              "field": "postgresql.bgwriter.stats_reset",
+                              "format": "date_time"
+                            },
+                            {
+                              "field": "postgresql.database.stats_reset",
+                              "format": "date_time"
+                            },
+                            {
+                              "field": "process.parent.start",
+                              "format": "date_time"
+                            },
+                            {
+                              "field": "process.start",
+                              "format": "date_time"
+                            },
+                            {
+                              "field": "system.process.cpu.start_time",
+                              "format": "date_time"
+                            },
+                            {
+                              "field": "system.service.state_since",
+                              "format": "date_time"
+                            },
+                            {
+                              "field": "tls.client.not_after",
+                              "format": "date_time"
+                            },
+                            {
+                              "field": "tls.client.not_before",
+                              "format": "date_time"
+                            },
+                            {
+                              "field": "tls.server.not_after",
+                              "format": "date_time"
+                            },
+                            {
+                              "field": "tls.server.not_before",
+                              "format": "date_time"
+                            },
+                            {
+                              "field": "zookeeper.server.version_date",
+                              "format": "date_time"
+                            }
+                          ],
+                          "_source": {
+                            "excludes": []
+                          },
+                          "query": {
+                            "bool": {
+                              "must": [],
+                              "filter": [
+                                {
+                                  "match_all": {}
+                                },
+                                {
+                                  "range": {
+                                    "@timestamp": {
+                                      "gte": "now-1d/d",
+                                      "lte": "now/d",
+                                      "format": "strict_date_optional_time"
+                                    }
+                                  }
+                                }
+                              ],
+                              "should": [],
+                              "must_not": []
+                            }
+                          }
+                        },
+        "es_field_map": [
+            ["aggregations.2.buckets.key","Time Stamps","date"],
+            ["aggregations.2.buckets.1.avg","CPU Percent","float"]
+            ]
+    }
     ],
 "dashboard": {
     "auto_tour_delay": 5,
@@ -42,6 +286,15 @@
             "graphs": [
                 { "title" :"CPU Utilization", "type": "LineGraph", "table": "procdata", "xseries": "Time Stamps", "yseries": ["CPU Percent"], "yunit":"Average % Utilization"},
                 { "title" :"Virtual Memory Utilization", "type": "LineGraph", "table": "procdata", "xseries": "Time Stamps", "yseries": ["Total Virtual Memory","Available Virtual Memory"], "yunit":"Average Memory Bytes"}
+                ]
+            }
+            ]
+        },
+        {
+        "panels": [
+            {
+            "graphs": [
+                { "title" :"Metricbeat CPU Utilization", "type": "LineGraph", "table": "metricbeat", "xseries": "Time Stamps", "yseries": ["CPU Percent"], "yunit":"Average % Utilization"}
                 ]
             }
             ]
