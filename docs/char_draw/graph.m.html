@@ -2427,19 +2427,19 @@ table {
 
             <span class="n">data_idxs</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
-            <span class="n">total_included</span> <span class="o">=</span> <span class="mi">0</span>
-            <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">data_idxs</span><span class="p">)):</span>
-                <span class="k">if</span> <span class="n">data_idxs</span><span class="p">[</span><span class="n">idx</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">/</span><span class="n">data_total</span> <span class="o">&lt;</span> <span class="mf">0.02</span><span class="p">:</span>
-                    <span class="n">remaining</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">data_idxs</span><span class="p">)</span> <span class="o">-</span> <span class="n">idx</span>
-                    <span class="n">remaining_idx</span> <span class="o">=</span> <span class="n">data_idxs</span><span class="p">[</span><span class="n">idx</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
-                    <span class="n">data_idxs</span> <span class="o">=</span> <span class="n">data_idxs</span><span class="p">[:</span><span class="n">idx</span><span class="p">]</span>
-                    <span class="n">data_idxs</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">data_total</span><span class="o">-</span><span class="n">total_included</span><span class="p">,</span><span class="n">remaining_idx</span><span class="p">,</span><span class="s2">&quot;</span><span class="si">%d</span><span class="s2"> &lt; 2</span><span class="si">%%</span><span class="s2">&quot;</span><span class="o">%</span><span class="p">(</span><span class="n">remaining</span><span class="p">)))</span>
-                    <span class="k">break</span>
-                <span class="k">else</span><span class="p">:</span>
-                    <span class="n">total_included</span> <span class="o">+=</span> <span class="n">data_idxs</span><span class="p">[</span><span class="n">idx</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
-
-
             <span class="k">if</span> <span class="n">data_total</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">total_included</span> <span class="o">=</span> <span class="mi">0</span>
+                <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">data_idxs</span><span class="p">)):</span>
+                    <span class="k">if</span> <span class="n">data_idxs</span><span class="p">[</span><span class="n">idx</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">/</span><span class="n">data_total</span> <span class="o">&lt;</span> <span class="mf">0.02</span><span class="p">:</span>
+                        <span class="n">remaining</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">data_idxs</span><span class="p">)</span> <span class="o">-</span> <span class="n">idx</span>
+                        <span class="n">remaining_idx</span> <span class="o">=</span> <span class="n">data_idxs</span><span class="p">[</span><span class="n">idx</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+                        <span class="n">data_idxs</span> <span class="o">=</span> <span class="n">data_idxs</span><span class="p">[:</span><span class="n">idx</span><span class="p">]</span>
+                        <span class="n">data_idxs</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">data_total</span><span class="o">-</span><span class="n">total_included</span><span class="p">,</span><span class="n">remaining_idx</span><span class="p">,</span><span class="s2">&quot;</span><span class="si">%d</span><span class="s2"> &lt; 2</span><span class="si">%%</span><span class="s2">&quot;</span><span class="o">%</span><span class="p">(</span><span class="n">remaining</span><span class="p">)))</span>
+                        <span class="k">break</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">total_included</span> <span class="o">+=</span> <span class="n">data_idxs</span><span class="p">[</span><span class="n">idx</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+
+
                 <span class="n">total_degrees</span> <span class="o">=</span> <span class="mi">0</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">set_children</span><span class="p">([])</span>
                 <span class="n">label_children</span> <span class="o">=</span> <span class="p">[]</span>
@@ -8103,19 +8103,19 @@ canvas is a reference to a canvas to render on</p></div>
 
             <span class="n">data_idxs</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
-            <span class="n">total_included</span> <span class="o">=</span> <span class="mi">0</span>
-            <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">data_idxs</span><span class="p">)):</span>
-                <span class="k">if</span> <span class="n">data_idxs</span><span class="p">[</span><span class="n">idx</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">/</span><span class="n">data_total</span> <span class="o">&lt;</span> <span class="mf">0.02</span><span class="p">:</span>
-                    <span class="n">remaining</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">data_idxs</span><span class="p">)</span> <span class="o">-</span> <span class="n">idx</span>
-                    <span class="n">remaining_idx</span> <span class="o">=</span> <span class="n">data_idxs</span><span class="p">[</span><span class="n">idx</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
-                    <span class="n">data_idxs</span> <span class="o">=</span> <span class="n">data_idxs</span><span class="p">[:</span><span class="n">idx</span><span class="p">]</span>
-                    <span class="n">data_idxs</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">data_total</span><span class="o">-</span><span class="n">total_included</span><span class="p">,</span><span class="n">remaining_idx</span><span class="p">,</span><span class="s2">&quot;</span><span class="si">%d</span><span class="s2"> &lt; 2</span><span class="si">%%</span><span class="s2">&quot;</span><span class="o">%</span><span class="p">(</span><span class="n">remaining</span><span class="p">)))</span>
-                    <span class="k">break</span>
-                <span class="k">else</span><span class="p">:</span>
-                    <span class="n">total_included</span> <span class="o">+=</span> <span class="n">data_idxs</span><span class="p">[</span><span class="n">idx</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
-
-
             <span class="k">if</span> <span class="n">data_total</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">total_included</span> <span class="o">=</span> <span class="mi">0</span>
+                <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">data_idxs</span><span class="p">)):</span>
+                    <span class="k">if</span> <span class="n">data_idxs</span><span class="p">[</span><span class="n">idx</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">/</span><span class="n">data_total</span> <span class="o">&lt;</span> <span class="mf">0.02</span><span class="p">:</span>
+                        <span class="n">remaining</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">data_idxs</span><span class="p">)</span> <span class="o">-</span> <span class="n">idx</span>
+                        <span class="n">remaining_idx</span> <span class="o">=</span> <span class="n">data_idxs</span><span class="p">[</span><span class="n">idx</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+                        <span class="n">data_idxs</span> <span class="o">=</span> <span class="n">data_idxs</span><span class="p">[:</span><span class="n">idx</span><span class="p">]</span>
+                        <span class="n">data_idxs</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">data_total</span><span class="o">-</span><span class="n">total_included</span><span class="p">,</span><span class="n">remaining_idx</span><span class="p">,</span><span class="s2">&quot;</span><span class="si">%d</span><span class="s2"> &lt; 2</span><span class="si">%%</span><span class="s2">&quot;</span><span class="o">%</span><span class="p">(</span><span class="n">remaining</span><span class="p">)))</span>
+                        <span class="k">break</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">total_included</span> <span class="o">+=</span> <span class="n">data_idxs</span><span class="p">[</span><span class="n">idx</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+
+
                 <span class="n">total_degrees</span> <span class="o">=</span> <span class="mi">0</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">set_children</span><span class="p">([])</span>
                 <span class="n">label_children</span> <span class="o">=</span> <span class="p">[]</span>
@@ -8273,17 +8273,17 @@ canvas is a reference to a canvas to render on</p></div>
             <span class="n">data_total</span> <span class="o">+=</span> <span class="n">value</span>
             <span class="n">data_idxs</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">value</span><span class="p">,</span><span class="n">idx</span><span class="p">,</span><span class="nb">str</span><span class="p">(</span><span class="n">label_column</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">idx</span><span class="p">))))</span>
         <span class="n">data_idxs</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-        <span class="n">total_included</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">data_idxs</span><span class="p">)):</span>
-            <span class="k">if</span> <span class="n">data_idxs</span><span class="p">[</span><span class="n">idx</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">/</span><span class="n">data_total</span> <span class="o">&lt;</span> <span class="mf">0.02</span><span class="p">:</span>
-                <span class="n">remaining</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">data_idxs</span><span class="p">)</span> <span class="o">-</span> <span class="n">idx</span>
-                <span class="n">remaining_idx</span> <span class="o">=</span> <span class="n">data_idxs</span><span class="p">[</span><span class="n">idx</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
-                <span class="n">data_idxs</span> <span class="o">=</span> <span class="n">data_idxs</span><span class="p">[:</span><span class="n">idx</span><span class="p">]</span>
-                <span class="n">data_idxs</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">data_total</span><span class="o">-</span><span class="n">total_included</span><span class="p">,</span><span class="n">remaining_idx</span><span class="p">,</span><span class="s2">&quot;</span><span class="si">%d</span><span class="s2"> &lt; 2</span><span class="si">%%</span><span class="s2">&quot;</span><span class="o">%</span><span class="p">(</span><span class="n">remaining</span><span class="p">)))</span>
-                <span class="k">break</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">total_included</span> <span class="o">+=</span> <span class="n">data_idxs</span><span class="p">[</span><span class="n">idx</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
         <span class="k">if</span> <span class="n">data_total</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">total_included</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">data_idxs</span><span class="p">)):</span>
+                <span class="k">if</span> <span class="n">data_idxs</span><span class="p">[</span><span class="n">idx</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">/</span><span class="n">data_total</span> <span class="o">&lt;</span> <span class="mf">0.02</span><span class="p">:</span>
+                    <span class="n">remaining</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">data_idxs</span><span class="p">)</span> <span class="o">-</span> <span class="n">idx</span>
+                    <span class="n">remaining_idx</span> <span class="o">=</span> <span class="n">data_idxs</span><span class="p">[</span><span class="n">idx</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+                    <span class="n">data_idxs</span> <span class="o">=</span> <span class="n">data_idxs</span><span class="p">[:</span><span class="n">idx</span><span class="p">]</span>
+                    <span class="n">data_idxs</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">data_total</span><span class="o">-</span><span class="n">total_included</span><span class="p">,</span><span class="n">remaining_idx</span><span class="p">,</span><span class="s2">&quot;</span><span class="si">%d</span><span class="s2"> &lt; 2</span><span class="si">%%</span><span class="s2">&quot;</span><span class="o">%</span><span class="p">(</span><span class="n">remaining</span><span class="p">)))</span>
+                    <span class="k">break</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">total_included</span> <span class="o">+=</span> <span class="n">data_idxs</span><span class="p">[</span><span class="n">idx</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
             <span class="n">total_degrees</span> <span class="o">=</span> <span class="mi">0</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">set_children</span><span class="p">([])</span>
             <span class="n">label_children</span> <span class="o">=</span> <span class="p">[]</span>
