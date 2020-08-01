@@ -1,4 +1,4 @@
-![Dashboard Image](images/dashboard_screen.png)
+![Dashboard Image](https://raw.githubusercontent.com/jpfxgood/dashboard/master/images/dashboard_screen.png)
 
 Overview
 ========
@@ -125,6 +125,3 @@ Coming soon:
   *     Interactions with graphs, drilldowns, mouse actions etc..
   *     pytest tests
   *     Better API documentation and developer documentation
-
-
-
