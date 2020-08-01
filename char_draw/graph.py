@@ -786,19 +786,19 @@ class GraphSlices(GraphElement):
 
             data_idxs.sort(reverse=True)
 
-            total_included = 0
-            for idx in range(0,len(data_idxs)):
-                if data_idxs[idx][0]/data_total < 0.02:
-                    remaining = len(data_idxs) - idx
-                    remaining_idx = data_idxs[idx][1]
-                    data_idxs = data_idxs[:idx]
-                    data_idxs.append((data_total-total_included,remaining_idx,"%d < 2%%"%(remaining)))
-                    break
-                else:
-                    total_included += data_idxs[idx][0]
-
-
             if data_total > 0:
+                total_included = 0
+                for idx in range(0,len(data_idxs)):
+                    if data_idxs[idx][0]/data_total < 0.02:
+                        remaining = len(data_idxs) - idx
+                        remaining_idx = data_idxs[idx][1]
+                        data_idxs = data_idxs[:idx]
+                        data_idxs.append((data_total-total_included,remaining_idx,"%d < 2%%"%(remaining)))
+                        break
+                    else:
+                        total_included += data_idxs[idx][0]
+
+
                 total_degrees = 0
                 self.set_children([])
                 label_children = []
