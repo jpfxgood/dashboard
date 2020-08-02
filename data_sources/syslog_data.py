@@ -84,9 +84,9 @@ class SyslogDataTable( DataTable ):
 
             for line in slf_f:
                 line = line.strip()
-                m = re.match(r"(\w\w\w\s\d\d\s\d\d:\d\d:\d\d)\s[a-z0-9\-]*\s([a-zA-Z0-9\-\_\.]*)[\[\]0-9]*:\s*(.*)",line)
+                m = re.match(r"(\w\w\w\s+\d+\s\d\d:\d\d:\d\d)\s[a-z0-9\-]*\s([a-zA-Z0-9\-\_\.]*)[\[\]0-9]*:\s*(.*)",line)
                 if m:
-                    log_date = "%d "%current_time.year + m.group(1)
+                    log_date = re.sub("\s+"," ","%d "%current_time.year + m.group(1))
                     log_process = m.group(2)
                     log_message = m.group(3)
                     log_datetime = datetime.strptime(log_date,"%Y %b %d %H:%M:%S")

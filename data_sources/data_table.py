@@ -2,9 +2,11 @@
 """ module that implement a data table package to manage sparse columnar data window """
 import sys
 import os
-import datetime
+from datetime import datetime
 import threading
 import time
+import csv
+import json
 from functools import wraps
 
 string_type = '_string'
@@ -152,6 +154,145 @@ def synchronized(method):
             return method(self, *args, **kwargs)
     return wrapper
 
+#   format of data table as json
+#   {
+#       "name" : name of the table,
+#       "refresh_minutes" : refresh interval in minutes,
+#       "columns" : [ array of column structures
+#           {
+#           "name": column name
+#           "values" : [ array of cells in column
+#               {
+#               "type" : one of "_string","_float","_int","_date","_blank"
+#               "value" : string, float, int, float for date, or "" for blank
+#               },
+#               ]
+#           },
+#           ]
+#   }
+def from_json( stream ):
+    """ load a DataTable from a stream as JSON, return new DataTable """
+    jtable = json.load(stream)
+    dt = DataTable(None,jtable.get("name","JSON DataTable"),jtable.get("refresh_minutes",1))
+    for c in jtable["columns"]:
+        nc = Column( name = c.get("name", None) )
+        for v in c["values"]:
+            ct = v["type"]
+            cv = v["value"]
+            if ct == string_type:
+                cc = Cell(string_type,cv,format_string)
+            elif ct == float_type:
+                cc = Cell(float_type,cv,format_float)
+            elif ct == int_type:
+                cc = Cell(int_type,cv,format_float)
+            elif ct == date_type:
+                cc = Cell(date_type,datetime.fromtimestamp(cv),format_date)
+            elif ct == blank_type:
+                cc = blank_cell
+            nc.put(nc.size(),cc)
+        dt.add_column( nc )
+    return dt
+
+def to_json( dt, stream ):
+    """ write a DataTable to a stream as JSON """
+    out_dict = {}
+    if dt.name:
+        out_dict["name"] = dt.name
+
+    out_dict["refresh_minutes"] = dt.refresh_minutes
+
+    columns  = []
+    for idx in range(len(dt.columns)):
+        dtc = dt.columns[idx]
+        column = {}
+        if dtc.name:
+            column["name"] = dtc.name
+
+        values = []
+        for dtv in dtc.values:
+            values.append( { "type":dtv.type, "value": ( dtv.value if dtv.type != date_type else dtv.get_float_value() ) } )
+        column["values"] = values
+        columns.append(column)
+
+    out_dict["columns"] = columns
+    json.dump(out_dict,stream)
+
+# csv representation of a DataTable
+# heading row at the top
+# each column of the form: table name_column name_type names cannot contain '_" and
+# types will be used to load cells can't have mixed cell types in a column
+def from_csv( stream, name=None, field_map=None ):
+    """ load a DataTable from a stream as CSV, return new DataTable, you can provide an override to the default parsing to provide a name and a field_map which is a list of tuples CSV_column_name,DataTable_column_name,DataTable_type it will only load columns in the column map """
+    dt = None
+    dr = csv.DictReader(stream)
+    for drr in dr:
+        for drc in drr:
+            parts = drc.split("_",2)
+            if not dt:
+                if name:
+                    dt = DataTable(name=name)
+                elif not field_map and len(parts) == 3:
+                    dt = DataTable(name=parts[0])
+                else:
+                    dt = DataTable()
+
+            dtc = None
+            dtt = None
+            if field_map:
+                for fm in field_map:
+                    if drc == fm[0]:
+                        dtc = fm[1]
+                        dtt = fm[2]
+                        break
+            else:
+                if len(parts) == 3:
+                    dtc = parts[1]
+                    dtt = "_"+parts[2]
+
+            if dtc and dtt:
+                if not dt.has_column(dtc):
+                    dt.add_column(Column(name=dtc))
+                dtcc = dt.get_column(dtc)
+
+                drv = drr[drc]
+                if drv and dtt == string_type:
+                    cc = Cell(string_type,drv,format_string)
+                elif drv and dtt == float_type:
+                    cc = Cell(float_type,float(drv),format_float)
+                elif drv and dtt == int_type:
+                    cc = Cell(int_type,int(drv),format_float)
+                elif drv and dtt == date_type:
+                    cc = Cell(date_type,datetime.fromtimestamp(float(drv)),format_date)
+                elif not drv or dtt == blank_type:
+                    cc = blank_cell
+                dtcc.put(dtcc.size(),cc)
+    return dt
+
+def to_csv( dt, stream ):
+    """ write a DataTable to a stream as CSV, see standard format in comments above, type for column is based on the zeroth cell """
+    field_names = []
+    idx = 0
+    max_idx = 0
+    for c in dt.columns:
+        type = blank_type
+        for tidx in range(c.size()):
+            if c.get(tidx).type != blank_type:
+                type = c.get(tidx).type
+                break
+        field_names.append((dt.name if dt.name else "DataTable")+"_"+(c.name if c.name else "Column %d"%idx)+type)
+        idx += 1
+        if c.size() > max_idx:
+            max_idx = c.size()
+    wcsv = csv.DictWriter(stream,field_names)
+    for wcridx in range(max_idx):
+        wcr = {}
+        for idx in range(len(dt.columns)):
+            cell = dt.columns[idx].get(wcridx)
+            wcr[field_names[idx]] = (cell.get_value() if cell.type != date_type else cell.get_float_value())
+        if wcridx == 0:
+            wcsv.writeheader()
+        wcsv.writerow(wcr)
+
 class DataTable(object):
     def __init__(self,columns=None,name=None,refresh_minutes=10):
         """ accepts a list of columns and a name for the table """
@@ -167,11 +308,11 @@ class DataTable(object):
         if columns:
             for c in columns:
                 self.add_column(c)
-                                     
+
     def get_refresh_timestamp( self ):
         """ get the time that the table was last refreshed """
         return self.refresh_timestamp
-        
+
     def acquire_refresh_lock(self):
         """ acquire the refresh lock before reading/writing the table state """
         self.refresh_lock.acquire()
