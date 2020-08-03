@@ -1223,25 +1223,25 @@ table {
     <span class="nd">@sync_connection</span>
     <span class="k">def</span> <span class="nf">table</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table_def</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; send request to create a new remote table, returns loaded response &quot;&quot;&quot;</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;table:</span><span class="si">%s</span><span class="s2">&quot;</span><span class="o">%</span><span class="n">table_def</span><span class="p">,</span><span class="n">file</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">stdin</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;table:</span><span class="si">%s</span><span class="s2">&quot;</span><span class="o">%</span><span class="n">table_def</span><span class="p">,</span><span class="n">file</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">stdin</span><span class="p">,</span><span class="n">flush</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_stdout_line</span><span class="p">()</span>
 
     <span class="nd">@sync_connection</span>
     <span class="k">def</span> <span class="nf">refresh</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table_name</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; send request to refresh a remote table named table_name and return response &quot;&quot;&quot;</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;refresh:</span><span class="si">%s</span><span class="s2">&quot;</span><span class="o">%</span><span class="n">table_name</span><span class="p">,</span><span class="n">file</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">stdin</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;refresh:</span><span class="si">%s</span><span class="s2">&quot;</span><span class="o">%</span><span class="n">table_name</span><span class="p">,</span><span class="n">file</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">stdin</span><span class="p">,</span><span class="n">flush</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_stdout_line</span><span class="p">()</span>
 
     <span class="nd">@sync_connection</span>
     <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table_name</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; send request to fetch table_name and return response &quot;&quot;&quot;</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;get:</span><span class="si">%s</span><span class="s2">&quot;</span><span class="o">%</span><span class="n">table_name</span><span class="p">,</span><span class="n">file</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">stdin</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;get:</span><span class="si">%s</span><span class="s2">&quot;</span><span class="o">%</span><span class="n">table_name</span><span class="p">,</span><span class="n">file</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">stdin</span><span class="p">,</span><span class="n">flush</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_stdout_line</span><span class="p">()</span>
 
     <span class="nd">@sync_connection</span>
     <span class="k">def</span> <span class="nf">exit</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; terminate the server and clean up this connection &quot;&quot;&quot;</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;exit&quot;</span><span class="p">,</span><span class="n">file</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">stdin</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;exit&quot;</span><span class="p">,</span><span class="n">file</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">stdin</span><span class="p">,</span><span class="n">flush</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="k">return</span> <span class="s2">&quot;&quot;</span>
 
     <span class="nd">@sync_connection</span>
@@ -1253,7 +1253,7 @@ table {
 <span class="k">class</span> <span class="nc">ConnectionManager</span><span class="p">():</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; manages connections to servers and their initial setup &quot;&quot;&quot;</span>
-        <span class="n">connections</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">connections</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">manager_lock</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">RLock</span><span class="p">()</span>
 
     <span class="k">def</span> <span class="fm">__del__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -1264,14 +1264,15 @@ table {
     <span class="k">def</span> <span class="nf">shutdown</span><span class="p">(</span> <span class="bp">self</span> <span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; shut down the connection manager and close all the pooled connections &quot;&quot;&quot;</span>
         <span class="k">for</span> <span class="n">cn</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">connections</span><span class="p">:</span>
-            <span class="n">cn</span><span class="o">.</span><span class="n">exit</span><span class="p">()</span>
-            <span class="n">cn</span><span class="o">.</span><span class="n">ssh_client</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">connections</span><span class="p">[</span><span class="n">cn</span><span class="p">]</span><span class="o">.</span><span class="n">exit</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">connections</span><span class="p">[</span><span class="n">cn</span><span class="p">]</span><span class="o">.</span><span class="n">ssh_client</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">connections</span> <span class="o">=</span> <span class="p">{}</span>
 
     <span class="nd">@sync_manager</span>
     <span class="k">def</span> <span class="nf">connect</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">ssh_spec</span><span class="p">,</span><span class="n">client</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; create a connection to a server &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">ssh_spec</span> <span class="ow">in</span> <span class="n">connections</span><span class="p">:</span>
-            <span class="n">connection</span> <span class="o">=</span> <span class="n">connections</span><span class="p">[</span><span class="n">ssh_spec</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">ssh_spec</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">connections</span><span class="p">:</span>
+            <span class="n">connection</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connections</span><span class="p">[</span><span class="n">ssh_spec</span><span class="p">]</span>
             <span class="n">connection</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">client</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">connection</span>
 
@@ -1286,8 +1287,8 @@ table {
         <span class="n">ssh_client</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span> <span class="n">hostname</span><span class="o">=</span><span class="n">server</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">port</span> <span class="k">if</span> <span class="n">port</span> <span class="k">else</span> <span class="mi">22</span><span class="p">),</span> <span class="n">username</span><span class="o">=</span><span class="n">username</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="n">password</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">setup</span><span class="p">(</span> <span class="n">ssh_client</span> <span class="p">):</span>
-            <span class="n">session</span><span class="p">,</span><span class="n">stdin</span><span class="p">,</span><span class="n">stdout</span><span class="p">,</span><span class="n">stderror</span> <span class="o">=</span> <span class="n">ssh_client</span><span class="o">.</span><span class="n">start_command</span><span class="p">(</span><span class="s2">&quot;dashboard --server&quot;</span><span class="p">)</span>
-            <span class="n">connection</span> <span class="o">=</span> <span class="n">Connection</span><span class="p">(</span><span class="n">this</span><span class="p">,</span><span class="n">ssh_client</span><span class="p">,</span><span class="n">session</span><span class="p">,</span><span class="n">stdin</span><span class="p">,</span><span class="n">stdout</span><span class="p">,</span><span class="n">stderror</span><span class="p">)</span>
+            <span class="n">session</span><span class="p">,</span><span class="n">stdin</span><span class="p">,</span><span class="n">stdout</span><span class="p">,</span><span class="n">stderror</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">start_command</span><span class="p">(</span><span class="n">ssh_client</span><span class="p">,</span><span class="s2">&quot;~/.local/bin/dashboard --server&quot;</span><span class="p">)</span>
+            <span class="n">connection</span> <span class="o">=</span> <span class="n">Connection</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">ssh_client</span><span class="p">,</span><span class="n">session</span><span class="p">,</span><span class="n">stdin</span><span class="p">,</span><span class="n">stdout</span><span class="p">,</span><span class="n">stderror</span><span class="p">)</span>
             <span class="n">connection</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">client</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">connections</span><span class="p">[</span><span class="n">ssh_spec</span><span class="p">]</span> <span class="o">=</span> <span class="n">connection</span>
             <span class="k">return</span> <span class="n">connection</span>
@@ -1300,9 +1301,9 @@ table {
         <span class="n">transport</span> <span class="o">=</span> <span class="n">ssh_client</span><span class="o">.</span><span class="n">get_transport</span><span class="p">()</span>
         <span class="n">session</span> <span class="o">=</span> <span class="n">transport</span><span class="o">.</span><span class="n">open_session</span><span class="p">()</span>
         <span class="n">session</span><span class="o">.</span><span class="n">exec_command</span><span class="p">(</span><span class="n">command</span><span class="p">)</span>
-        <span class="n">stdout</span> <span class="o">=</span> <span class="n">session</span><span class="o">.</span><span class="n">makefile</span><span class="p">()</span>
-        <span class="n">stderr</span> <span class="o">=</span> <span class="n">session</span><span class="o">.</span><span class="n">makefile_stderr</span><span class="p">()</span>
-        <span class="n">stdin</span> <span class="o">=</span> <span class="n">session</span><span class="o">.</span><span class="n">makefile_stdin</span><span class="p">()</span>
+        <span class="n">stdout</span> <span class="o">=</span> <span class="n">session</span><span class="o">.</span><span class="n">makefile</span><span class="p">(</span><span class="s2">&quot;r&quot;</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">stderr</span> <span class="o">=</span> <span class="n">session</span><span class="o">.</span><span class="n">makefile_stderr</span><span class="p">(</span><span class="s2">&quot;r&quot;</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">stdin</span> <span class="o">=</span> <span class="n">session</span><span class="o">.</span><span class="n">makefile_stdin</span><span class="p">(</span><span class="s2">&quot;w&quot;</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
         <span class="k">return</span> <span class="p">(</span><span class="n">session</span><span class="p">,</span><span class="n">stdin</span><span class="p">,</span><span class="n">stdout</span><span class="p">,</span><span class="n">stderr</span><span class="p">)</span>
 
     <span class="nd">@sync_manager</span>
@@ -1324,7 +1325,7 @@ table {
     <span class="k">def</span> <span class="nf">setup</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ssh_client</span> <span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; check to see that dashboard is installed and install it if needed &quot;&quot;&quot;</span>
         <span class="n">exit_status</span><span class="p">,</span><span class="n">stdout_str</span><span class="p">,</span><span class="n">stderr_str</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">run_command</span><span class="p">(</span><span class="n">ssh_client</span><span class="p">,</span><span class="s2">&quot;~/.local/bin/dashboard --version&quot;</span><span class="p">)</span>
-        <span class="n">stdout_str</span> <span class="o">=</span> <span class="n">stout_str</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+        <span class="n">stdout_str</span> <span class="o">=</span> <span class="n">stdout_str</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
         <span class="k">if</span> <span class="n">stdout_str</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;dashboard version&quot;</span><span class="p">):</span>
             <span class="k">if</span> <span class="n">stdout_str</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="n">__version__</span><span class="p">):</span>
                 <span class="k">return</span> <span class="kc">True</span>
@@ -1561,25 +1562,25 @@ table {
     <span class="nd">@sync_connection</span>
     <span class="k">def</span> <span class="nf">table</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table_def</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; send request to create a new remote table, returns loaded response &quot;&quot;&quot;</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;table:</span><span class="si">%s</span><span class="s2">&quot;</span><span class="o">%</span><span class="n">table_def</span><span class="p">,</span><span class="n">file</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">stdin</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;table:</span><span class="si">%s</span><span class="s2">&quot;</span><span class="o">%</span><span class="n">table_def</span><span class="p">,</span><span class="n">file</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">stdin</span><span class="p">,</span><span class="n">flush</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_stdout_line</span><span class="p">()</span>
 
     <span class="nd">@sync_connection</span>
     <span class="k">def</span> <span class="nf">refresh</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table_name</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; send request to refresh a remote table named table_name and return response &quot;&quot;&quot;</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;refresh:</span><span class="si">%s</span><span class="s2">&quot;</span><span class="o">%</span><span class="n">table_name</span><span class="p">,</span><span class="n">file</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">stdin</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;refresh:</span><span class="si">%s</span><span class="s2">&quot;</span><span class="o">%</span><span class="n">table_name</span><span class="p">,</span><span class="n">file</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">stdin</span><span class="p">,</span><span class="n">flush</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_stdout_line</span><span class="p">()</span>
 
     <span class="nd">@sync_connection</span>
     <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table_name</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; send request to fetch table_name and return response &quot;&quot;&quot;</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;get:</span><span class="si">%s</span><span class="s2">&quot;</span><span class="o">%</span><span class="n">table_name</span><span class="p">,</span><span class="n">file</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">stdin</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;get:</span><span class="si">%s</span><span class="s2">&quot;</span><span class="o">%</span><span class="n">table_name</span><span class="p">,</span><span class="n">file</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">stdin</span><span class="p">,</span><span class="n">flush</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_stdout_line</span><span class="p">()</span>
 
     <span class="nd">@sync_connection</span>
     <span class="k">def</span> <span class="nf">exit</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; terminate the server and clean up this connection &quot;&quot;&quot;</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;exit&quot;</span><span class="p">,</span><span class="n">file</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">stdin</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;exit&quot;</span><span class="p">,</span><span class="n">file</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">stdin</span><span class="p">,</span><span class="n">flush</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="k">return</span> <span class="s2">&quot;&quot;</span>
 
     <span class="nd">@sync_connection</span>
@@ -1678,7 +1679,7 @@ table {
     <div class="codehilite"><pre><span></span><span class="nd">@sync_connection</span>
 <span class="k">def</span> <span class="nf">exit</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; terminate the server and clean up this connection &quot;&quot;&quot;</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;exit&quot;</span><span class="p">,</span><span class="n">file</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">stdin</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;exit&quot;</span><span class="p">,</span><span class="n">file</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">stdin</span><span class="p">,</span><span class="n">flush</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="k">return</span> <span class="s2">&quot;&quot;</span>
 </pre></div>
 
@@ -1703,7 +1704,7 @@ table {
     <div class="codehilite"><pre><span></span><span class="nd">@sync_connection</span>
 <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table_name</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; send request to fetch table_name and return response &quot;&quot;&quot;</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;get:</span><span class="si">%s</span><span class="s2">&quot;</span><span class="o">%</span><span class="n">table_name</span><span class="p">,</span><span class="n">file</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">stdin</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;get:</span><span class="si">%s</span><span class="s2">&quot;</span><span class="o">%</span><span class="n">table_name</span><span class="p">,</span><span class="n">file</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">stdin</span><span class="p">,</span><span class="n">flush</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_stdout_line</span><span class="p">()</span>
 </pre></div>
 
@@ -1837,7 +1838,7 @@ table {
     <div class="codehilite"><pre><span></span><span class="nd">@sync_connection</span>
 <span class="k">def</span> <span class="nf">refresh</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table_name</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; send request to refresh a remote table named table_name and return response &quot;&quot;&quot;</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;refresh:</span><span class="si">%s</span><span class="s2">&quot;</span><span class="o">%</span><span class="n">table_name</span><span class="p">,</span><span class="n">file</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">stdin</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;refresh:</span><span class="si">%s</span><span class="s2">&quot;</span><span class="o">%</span><span class="n">table_name</span><span class="p">,</span><span class="n">file</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">stdin</span><span class="p">,</span><span class="n">flush</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_stdout_line</span><span class="p">()</span>
 </pre></div>
 
@@ -1862,7 +1863,7 @@ table {
     <div class="codehilite"><pre><span></span><span class="nd">@sync_connection</span>
 <span class="k">def</span> <span class="nf">table</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table_def</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; send request to create a new remote table, returns loaded response &quot;&quot;&quot;</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;table:</span><span class="si">%s</span><span class="s2">&quot;</span><span class="o">%</span><span class="n">table_def</span><span class="p">,</span><span class="n">file</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">stdin</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;table:</span><span class="si">%s</span><span class="s2">&quot;</span><span class="o">%</span><span class="n">table_def</span><span class="p">,</span><span class="n">file</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">stdin</span><span class="p">,</span><span class="n">flush</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_stdout_line</span><span class="p">()</span>
 </pre></div>
 
@@ -2015,7 +2016,7 @@ table {
     <div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">ConnectionManager</span><span class="p">():</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; manages connections to servers and their initial setup &quot;&quot;&quot;</span>
-        <span class="n">connections</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">connections</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">manager_lock</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">RLock</span><span class="p">()</span>
 
     <span class="k">def</span> <span class="fm">__del__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -2026,14 +2027,15 @@ table {
     <span class="k">def</span> <span class="nf">shutdown</span><span class="p">(</span> <span class="bp">self</span> <span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; shut down the connection manager and close all the pooled connections &quot;&quot;&quot;</span>
         <span class="k">for</span> <span class="n">cn</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">connections</span><span class="p">:</span>
-            <span class="n">cn</span><span class="o">.</span><span class="n">exit</span><span class="p">()</span>
-            <span class="n">cn</span><span class="o">.</span><span class="n">ssh_client</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">connections</span><span class="p">[</span><span class="n">cn</span><span class="p">]</span><span class="o">.</span><span class="n">exit</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">connections</span><span class="p">[</span><span class="n">cn</span><span class="p">]</span><span class="o">.</span><span class="n">ssh_client</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">connections</span> <span class="o">=</span> <span class="p">{}</span>
 
     <span class="nd">@sync_manager</span>
     <span class="k">def</span> <span class="nf">connect</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">ssh_spec</span><span class="p">,</span><span class="n">client</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; create a connection to a server &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">ssh_spec</span> <span class="ow">in</span> <span class="n">connections</span><span class="p">:</span>
-            <span class="n">connection</span> <span class="o">=</span> <span class="n">connections</span><span class="p">[</span><span class="n">ssh_spec</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">ssh_spec</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">connections</span><span class="p">:</span>
+            <span class="n">connection</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connections</span><span class="p">[</span><span class="n">ssh_spec</span><span class="p">]</span>
             <span class="n">connection</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">client</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">connection</span>
 
@@ -2048,8 +2050,8 @@ table {
         <span class="n">ssh_client</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span> <span class="n">hostname</span><span class="o">=</span><span class="n">server</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">port</span> <span class="k">if</span> <span class="n">port</span> <span class="k">else</span> <span class="mi">22</span><span class="p">),</span> <span class="n">username</span><span class="o">=</span><span class="n">username</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="n">password</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">setup</span><span class="p">(</span> <span class="n">ssh_client</span> <span class="p">):</span>
-            <span class="n">session</span><span class="p">,</span><span class="n">stdin</span><span class="p">,</span><span class="n">stdout</span><span class="p">,</span><span class="n">stderror</span> <span class="o">=</span> <span class="n">ssh_client</span><span class="o">.</span><span class="n">start_command</span><span class="p">(</span><span class="s2">&quot;dashboard --server&quot;</span><span class="p">)</span>
-            <span class="n">connection</span> <span class="o">=</span> <span class="n">Connection</span><span class="p">(</span><span class="n">this</span><span class="p">,</span><span class="n">ssh_client</span><span class="p">,</span><span class="n">session</span><span class="p">,</span><span class="n">stdin</span><span class="p">,</span><span class="n">stdout</span><span class="p">,</span><span class="n">stderror</span><span class="p">)</span>
+            <span class="n">session</span><span class="p">,</span><span class="n">stdin</span><span class="p">,</span><span class="n">stdout</span><span class="p">,</span><span class="n">stderror</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">start_command</span><span class="p">(</span><span class="n">ssh_client</span><span class="p">,</span><span class="s2">&quot;~/.local/bin/dashboard --server&quot;</span><span class="p">)</span>
+            <span class="n">connection</span> <span class="o">=</span> <span class="n">Connection</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">ssh_client</span><span class="p">,</span><span class="n">session</span><span class="p">,</span><span class="n">stdin</span><span class="p">,</span><span class="n">stdout</span><span class="p">,</span><span class="n">stderror</span><span class="p">)</span>
             <span class="n">connection</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">client</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">connections</span><span class="p">[</span><span class="n">ssh_spec</span><span class="p">]</span> <span class="o">=</span> <span class="n">connection</span>
             <span class="k">return</span> <span class="n">connection</span>
@@ -2062,9 +2064,9 @@ table {
         <span class="n">transport</span> <span class="o">=</span> <span class="n">ssh_client</span><span class="o">.</span><span class="n">get_transport</span><span class="p">()</span>
         <span class="n">session</span> <span class="o">=</span> <span class="n">transport</span><span class="o">.</span><span class="n">open_session</span><span class="p">()</span>
         <span class="n">session</span><span class="o">.</span><span class="n">exec_command</span><span class="p">(</span><span class="n">command</span><span class="p">)</span>
-        <span class="n">stdout</span> <span class="o">=</span> <span class="n">session</span><span class="o">.</span><span class="n">makefile</span><span class="p">()</span>
-        <span class="n">stderr</span> <span class="o">=</span> <span class="n">session</span><span class="o">.</span><span class="n">makefile_stderr</span><span class="p">()</span>
-        <span class="n">stdin</span> <span class="o">=</span> <span class="n">session</span><span class="o">.</span><span class="n">makefile_stdin</span><span class="p">()</span>
+        <span class="n">stdout</span> <span class="o">=</span> <span class="n">session</span><span class="o">.</span><span class="n">makefile</span><span class="p">(</span><span class="s2">&quot;r&quot;</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">stderr</span> <span class="o">=</span> <span class="n">session</span><span class="o">.</span><span class="n">makefile_stderr</span><span class="p">(</span><span class="s2">&quot;r&quot;</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">stdin</span> <span class="o">=</span> <span class="n">session</span><span class="o">.</span><span class="n">makefile_stdin</span><span class="p">(</span><span class="s2">&quot;w&quot;</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
         <span class="k">return</span> <span class="p">(</span><span class="n">session</span><span class="p">,</span><span class="n">stdin</span><span class="p">,</span><span class="n">stdout</span><span class="p">,</span><span class="n">stderr</span><span class="p">)</span>
 
     <span class="nd">@sync_manager</span>
@@ -2086,7 +2088,7 @@ table {
     <span class="k">def</span> <span class="nf">setup</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ssh_client</span> <span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; check to see that dashboard is installed and install it if needed &quot;&quot;&quot;</span>
         <span class="n">exit_status</span><span class="p">,</span><span class="n">stdout_str</span><span class="p">,</span><span class="n">stderr_str</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">run_command</span><span class="p">(</span><span class="n">ssh_client</span><span class="p">,</span><span class="s2">&quot;~/.local/bin/dashboard --version&quot;</span><span class="p">)</span>
-        <span class="n">stdout_str</span> <span class="o">=</span> <span class="n">stout_str</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+        <span class="n">stdout_str</span> <span class="o">=</span> <span class="n">stdout_str</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
         <span class="k">if</span> <span class="n">stdout_str</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;dashboard version&quot;</span><span class="p">):</span>
             <span class="k">if</span> <span class="n">stdout_str</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="n">__version__</span><span class="p">):</span>
                 <span class="k">return</span> <span class="kc">True</span>
@@ -2124,7 +2126,7 @@ table {
   <div id="source-data_sources.remote_data.ConnectionManager.__init__" class="source">
     <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; manages connections to servers and their initial setup &quot;&quot;&quot;</span>
-    <span class="n">connections</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">connections</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">manager_lock</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">RLock</span><span class="p">()</span>
 </pre></div>
 
@@ -2149,8 +2151,8 @@ table {
     <div class="codehilite"><pre><span></span><span class="nd">@sync_manager</span>
 <span class="k">def</span> <span class="nf">connect</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">ssh_spec</span><span class="p">,</span><span class="n">client</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; create a connection to a server &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="n">ssh_spec</span> <span class="ow">in</span> <span class="n">connections</span><span class="p">:</span>
-        <span class="n">connection</span> <span class="o">=</span> <span class="n">connections</span><span class="p">[</span><span class="n">ssh_spec</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">ssh_spec</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">connections</span><span class="p">:</span>
+        <span class="n">connection</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connections</span><span class="p">[</span><span class="n">ssh_spec</span><span class="p">]</span>
         <span class="n">connection</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">client</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">connection</span>
     <span class="n">username</span><span class="p">,</span><span class="n">server</span><span class="p">,</span><span class="n">port</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;ssh://([a-z_][a-z0-9_-]*\${0,1})@([^:]*):{0,1}(\d*){0,1}&quot;</span><span class="p">,</span><span class="n">ssh_spec</span><span class="p">)</span><span class="o">.</span><span class="n">groups</span><span class="p">()</span>
@@ -2161,8 +2163,8 @@ table {
     <span class="n">ssh_client</span><span class="o">.</span><span class="n">load_system_host_keys</span><span class="p">()</span>
     <span class="n">ssh_client</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span> <span class="n">hostname</span><span class="o">=</span><span class="n">server</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">port</span> <span class="k">if</span> <span class="n">port</span> <span class="k">else</span> <span class="mi">22</span><span class="p">),</span> <span class="n">username</span><span class="o">=</span><span class="n">username</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="n">password</span><span class="p">)</span>
     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">setup</span><span class="p">(</span> <span class="n">ssh_client</span> <span class="p">):</span>
-        <span class="n">session</span><span class="p">,</span><span class="n">stdin</span><span class="p">,</span><span class="n">stdout</span><span class="p">,</span><span class="n">stderror</span> <span class="o">=</span> <span class="n">ssh_client</span><span class="o">.</span><span class="n">start_command</span><span class="p">(</span><span class="s2">&quot;dashboard --server&quot;</span><span class="p">)</span>
-        <span class="n">connection</span> <span class="o">=</span> <span class="n">Connection</span><span class="p">(</span><span class="n">this</span><span class="p">,</span><span class="n">ssh_client</span><span class="p">,</span><span class="n">session</span><span class="p">,</span><span class="n">stdin</span><span class="p">,</span><span class="n">stdout</span><span class="p">,</span><span class="n">stderror</span><span class="p">)</span>
+        <span class="n">session</span><span class="p">,</span><span class="n">stdin</span><span class="p">,</span><span class="n">stdout</span><span class="p">,</span><span class="n">stderror</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">start_command</span><span class="p">(</span><span class="n">ssh_client</span><span class="p">,</span><span class="s2">&quot;~/.local/bin/dashboard --server&quot;</span><span class="p">)</span>
+        <span class="n">connection</span> <span class="o">=</span> <span class="n">Connection</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">ssh_client</span><span class="p">,</span><span class="n">session</span><span class="p">,</span><span class="n">stdin</span><span class="p">,</span><span class="n">stdout</span><span class="p">,</span><span class="n">stderror</span><span class="p">)</span>
         <span class="n">connection</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">client</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">connections</span><span class="p">[</span><span class="n">ssh_spec</span><span class="p">]</span> <span class="o">=</span> <span class="n">connection</span>
         <span class="k">return</span> <span class="n">connection</span>
@@ -2224,7 +2226,7 @@ table {
 <span class="k">def</span> <span class="nf">setup</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ssh_client</span> <span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; check to see that dashboard is installed and install it if needed &quot;&quot;&quot;</span>
     <span class="n">exit_status</span><span class="p">,</span><span class="n">stdout_str</span><span class="p">,</span><span class="n">stderr_str</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">run_command</span><span class="p">(</span><span class="n">ssh_client</span><span class="p">,</span><span class="s2">&quot;~/.local/bin/dashboard --version&quot;</span><span class="p">)</span>
-    <span class="n">stdout_str</span> <span class="o">=</span> <span class="n">stout_str</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+    <span class="n">stdout_str</span> <span class="o">=</span> <span class="n">stdout_str</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
     <span class="k">if</span> <span class="n">stdout_str</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;dashboard version&quot;</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">stdout_str</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="n">__version__</span><span class="p">):</span>
             <span class="k">return</span> <span class="kc">True</span>
@@ -2256,8 +2258,9 @@ table {
 <span class="k">def</span> <span class="nf">shutdown</span><span class="p">(</span> <span class="bp">self</span> <span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; shut down the connection manager and close all the pooled connections &quot;&quot;&quot;</span>
     <span class="k">for</span> <span class="n">cn</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">connections</span><span class="p">:</span>
-        <span class="n">cn</span><span class="o">.</span><span class="n">exit</span><span class="p">()</span>
-        <span class="n">cn</span><span class="o">.</span><span class="n">ssh_client</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">connections</span><span class="p">[</span><span class="n">cn</span><span class="p">]</span><span class="o">.</span><span class="n">exit</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">connections</span><span class="p">[</span><span class="n">cn</span><span class="p">]</span><span class="o">.</span><span class="n">ssh_client</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">connections</span> <span class="o">=</span> <span class="p">{}</span>
 </pre></div>
 
   </div>
@@ -2284,9 +2287,9 @@ table {
     <span class="n">transport</span> <span class="o">=</span> <span class="n">ssh_client</span><span class="o">.</span><span class="n">get_transport</span><span class="p">()</span>
     <span class="n">session</span> <span class="o">=</span> <span class="n">transport</span><span class="o">.</span><span class="n">open_session</span><span class="p">()</span>
     <span class="n">session</span><span class="o">.</span><span class="n">exec_command</span><span class="p">(</span><span class="n">command</span><span class="p">)</span>
-    <span class="n">stdout</span> <span class="o">=</span> <span class="n">session</span><span class="o">.</span><span class="n">makefile</span><span class="p">()</span>
-    <span class="n">stderr</span> <span class="o">=</span> <span class="n">session</span><span class="o">.</span><span class="n">makefile_stderr</span><span class="p">()</span>
-    <span class="n">stdin</span> <span class="o">=</span> <span class="n">session</span><span class="o">.</span><span class="n">makefile_stdin</span><span class="p">()</span>
+    <span class="n">stdout</span> <span class="o">=</span> <span class="n">session</span><span class="o">.</span><span class="n">makefile</span><span class="p">(</span><span class="s2">&quot;r&quot;</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">stderr</span> <span class="o">=</span> <span class="n">session</span><span class="o">.</span><span class="n">makefile_stderr</span><span class="p">(</span><span class="s2">&quot;r&quot;</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">stdin</span> <span class="o">=</span> <span class="n">session</span><span class="o">.</span><span class="n">makefile_stdin</span><span class="p">(</span><span class="s2">&quot;w&quot;</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
     <span class="k">return</span> <span class="p">(</span><span class="n">session</span><span class="p">,</span><span class="n">stdin</span><span class="p">,</span><span class="n">stdout</span><span class="p">,</span><span class="n">stderr</span><span class="p">)</span>
 </pre></div>
 
@@ -2296,6 +2299,16 @@ table {
   </div>
   
           <h3>Instance variables</h3>
+            <div class="item">
+            <p id="data_sources.remote_data.ConnectionManager.connections" class="name">var <span class="ident">connections</span></p>
+            
+
+            
+  
+  <div class="source_cont">
+</div>
+
+            </div>
             <div class="item">
             <p id="data_sources.remote_data.ConnectionManager.manager_lock" class="name">var <span class="ident">manager_lock</span></p>
             
@@ -2877,7 +2890,10 @@ table {
     <span class="n">column</span><span class="o">.</span><span class="n">set_idx</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">column</span><span class="o">.</span><span class="n">get_name</span><span class="p">():</span>
         <span class="n">column</span><span class="o">.</span><span class="n">set_name</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">_</span><span class="si">%d</span><span class="s2">&quot;</span><span class="o">%</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span><span class="n">idx</span><span class="p">))</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">column</span>
+    <span class="k">if</span> <span class="n">idx</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">column</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">column</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">cnames</span><span class="p">[</span><span class="n">column</span><span class="o">.</span><span class="n">get_name</span><span class="p">()]</span> <span class="o">=</span> <span class="n">column</span>
     <span class="n">column</span><span class="o">.</span><span class="n">set_table</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 </pre></div>

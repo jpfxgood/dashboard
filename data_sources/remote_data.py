@@ -85,25 +85,25 @@ class Connection():
     @sync_connection
     def table(self, table_def):
         """ send request to create a new remote table, returns loaded response """
-        print("table:%s"%table_def,file=self.stdin)
+        print("table:%s"%table_def,file=self.stdin,flush=True)
         return self.get_stdout_line()
 
     @sync_connection
     def refresh(self, table_name):
         """ send request to refresh a remote table named table_name and return response """
-        print("refresh:%s"%table_name,file=self.stdin)
+        print("refresh:%s"%table_name,file=self.stdin,flush=True)
         return self.get_stdout_line()
 
     @sync_connection
     def get(self, table_name):
         """ send request to fetch table_name and return response """
-        print("get:%s"%table_name,file=self.stdin)
+        print("get:%s"%table_name,file=self.stdin,flush=True)
         return self.get_stdout_line()
 
     @sync_connection
     def exit(self):
         """ terminate the server and clean up this connection """
-        print("exit",file=self.stdin)
+        print("exit",file=self.stdin,flush=True)
         return ""
 
     @sync_connection
@@ -115,7 +115,7 @@ class Connection():
 class ConnectionManager():
     def __init__(self):
         """ manages connections to servers and their initial setup """
-        connections = {}
+        self.connections = {}
         self.manager_lock = threading.RLock()
 
     def __del__(self):
@@ -126,14 +126,15 @@ class ConnectionManager():
     def shutdown( self ):
         """ shut down the connection manager and close all the pooled connections """
         for cn in self.connections:
-            cn.exit()
-            cn.ssh_client.close()
+            self.connections[cn].exit()
+            self.connections[cn].ssh_client.close()
+        self.connections = {}
 
     @sync_manager
     def connect(self,ssh_spec,client):
         """ create a connection to a server """
-        if ssh_spec in connections:
-            connection = connections[ssh_spec]
+        if ssh_spec in self.connections:
+            connection = self.connections[ssh_spec]
             connection.open(client)
             return connection
 
@@ -148,8 +149,8 @@ class ConnectionManager():
         ssh_client.connect( hostname=server, port=int(port if port else 22), username=username, password=password)
 
         if self.setup( ssh_client ):
-            session,stdin,stdout,stderror = ssh_client.start_command("dashboard --server")
-            connection = Connection(this,ssh_client,session,stdin,stdout,stderror)
+            session,stdin,stdout,stderror = self.start_command(ssh_client,"~/.local/bin/dashboard --server")
+            connection = Connection(self,ssh_client,session,stdin,stdout,stderror)
             connection.open(client)
             self.connections[ssh_spec] = connection
             return connection
@@ -162,9 +163,9 @@ class ConnectionManager():
         transport = ssh_client.get_transport()
         session = transport.open_session()
         session.exec_command(command)
-        stdout = session.makefile()
-        stderr = session.makefile_stderr()
-        stdin = session.makefile_stdin()
+        stdout = session.makefile("r",1)
+        stderr = session.makefile_stderr("r",1)
+        stdin = session.makefile_stdin("w",1)
         return (session,stdin,stdout,stderr)
 
     @sync_manager
@@ -186,7 +187,7 @@ class ConnectionManager():
     def setup(self, ssh_client ):
         """ check to see that dashboard is installed and install it if needed """
         exit_status,stdout_str,stderr_str = self.run_command(ssh_client,"~/.local/bin/dashboard --version")
-        stdout_str = stout_str.strip()
+        stdout_str = stdout_str.strip()
         if stdout_str.startswith("dashboard version"):
             if stdout_str.endswith(__version__):
                 return True

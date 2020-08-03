@@ -194,6 +194,10 @@ def main(stdscr, options, args):
     return 0
 
 if __name__ == '__main__':
+    sys.stdout = os.fdopen(sys.stdout.fileno(), 'w', buffering=1)
+    sys.stderr = os.fdopen(sys.stderr.fileno(), 'w', buffering=1)
+    sys.stdin = os.fdopen(sys.stdin.fileno(), 'r', buffering=1)
+    
     parser = OptionParser(usage="usage: %prog [options]", description="A dashboard to display pages of graphs of data from multiple sources and refresh them")
     parser.add_option("-c","--config", dest="config", default="~/.dashboard/config", help="Path to dashboard config file, defaults to ~/.dashboard/config")
     parser.add_option("-s","--server", dest="server", action="store_true", default=False, help="Start in server mode, read commands from stdin and write responses to stdout")

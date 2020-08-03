@@ -416,7 +416,10 @@ class DataTable(object):
         column.set_idx(idx)
         if not column.get_name():
             column.set_name("%s_%d"%(self.name,idx))
-        self.columns[idx] = column
+        if idx == len(self.columns):
+            self.columns.append(column)
+        else:
+            self.columns[idx] = column
         self.cnames[column.get_name()] = column
         column.set_table(self)
 
