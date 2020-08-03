@@ -30,6 +30,8 @@ setup(
     install_requires=[
         'psutil',
         'elasticsearch',
+        'paramiko',
+        'keyring',
     ],
     scripts=[
         'scripts/dashboard',

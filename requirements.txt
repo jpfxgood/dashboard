@@ -1,3 +1,5 @@
 psutil
 elasticsearch
+paramiko
+keyring
 
