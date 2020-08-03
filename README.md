@@ -7,6 +7,16 @@ This project is a work in progress for a system dashboard tool that displays gra
 
 At the moment it supports data from parsing the syslog (SyslogDataTable), system process statistics from psutil (ProcDataTable), and data from the results of an Elasticsearch query (ElasticsearchDataTable) which can provide acesss to data collected by Elastic Beats like metricbeat for example.
 
+There is a special type of data table which pulls data remotely from another system RemoteDataTable, you configure it with the ssh path to the server and the specification for the data table you want to generate and pull from there.
+
+It will create a connection to that machine and install dashboard there using pip (or you can pre-install the current version in that user's ~/.local/bin directory).
+
+It assumes that you have set a password for the ssh server target in your local keyring, the python keyring package comes with a command line tool where you can just say "keyring set servername username" and it will prompt you for the password and install it into the system keyring. This way no passwords have to be in any configuration.
+
+It runs the dashboard utility on the target system with the option --server which provides a simple protocol over stdin/stdout to configure tables get their contents as json and refresh them as needed.
+
+When the local dashboard shuts down it will shut down all of the remote dashboards.
+
 There are several graph types BarGraph, LineGraph (also supports area mode), PieGraph, and TableGraph all of these support multiple series on the same graph.
 
 The dashboard is configured using a JSON config file and has a series of pages and each page can be configured into multiple panels containing multiple graphs.
@@ -36,14 +46,16 @@ A config file is of the form:
           [
               {
               "name" : name to refer to this table below,
-              "type" : one of "SyslogDataTable","ProcDataTable","ElasticsearchDataTable" ( more to come),
+              "type" : one of "SyslogDataTable","ProcDataTable","ElasticsearchDataTable", "RemoteDataTable" ( more to come),
               "refresh_minutes" : number of minutes to automatically refresh optional, 0 if only manual, default is 5 minutes
               "num_hours" : number of hours of history to look at
               "bucket_hours" : number of hours per bucket, table will have num_hours/bucket_hours entries
               "syslog_glob" : full unix glob pattern to match syslogs for the SyslogDataTable
               "es_index_pattern" : only for ElasticsearchDataTable, Elasticsearch index pattern wildcard to query
               "es_query_body" : { body of the query to execute as well formed JSON Elasticsearch DSL },
-              "es_field_map" : [ array of tuples [ json_path ex "aggregations.3.buckets.key" matching the value you want, column name to append it to in the table, value type one of int,float,str,or date where date is a timestamp numerical value ]...]
+              "es_field_map" : [ array of tuples [ json_path ex "aggregations.3.buckets.key" matching the value you want, column name to append it to in the table, value type one of int,float,str,or date where date is a timestamp numerical value ]...],
+               "ssh_spec" : for the RemoteDataTable a string of the form ssh://username@hostname:port to connect to the remote system,
+               "table_def" : for the RemoteDataTable one of these table definitions, defines the remote table to populate, assumes local keyring has credentials for user at hostname
               },
           ],
       "dashboard": definition of the dashboard to present
@@ -109,6 +121,8 @@ Dashboard
       -c CONFIG, --config=CONFIG
                             Path to dashboard config file, defaults to
                             ~/.dashboard/config
+      -s, --server          Start in server mode, read commands from stdin and
+                            write responses to stdout
       -v, --verbose         Log all activity to console
       -V, --version         Print the version of the script and exit
 
@@ -118,9 +132,7 @@ Notes
 
 Coming soon:
 
-  *     Tables from CSV files
-  *     Remote tables using dashboard as a remote data source over ssh
-  *     System keyring integration for ssh credentials
+  *     Tables from CSV, JSON files ( partly done... )
   *     A plugin system for extending data sources and graph types
   *     Interactions with graphs, drilldowns, mouse actions etc..
   *     pytest tests
