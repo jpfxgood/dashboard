@@ -812,7 +812,7 @@ class GraphSlices(GraphElement):
                 for idx in range(0,len(data_idxs)):
                     data_percent = (data_idxs[idx][0]/data_total)
                     data_degrees = round(360.0 * data_percent )
-                    slice_color = curses.color_pair(self.canvas.color_min+((idx*11)%(self.canvas.color_max-self.canvas.color_min)))
+                    slice_color = curses.color_pair(self.canvas.color_min+(30+(idx*11)%((self.canvas.color_max-30)-self.canvas.color_min)))
                     arc = display_list.Arc(px+pw/2,
                                            py+ph/2,
                                            min(ph,pw)/2,

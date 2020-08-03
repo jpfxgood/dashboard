@@ -1,7 +1,5 @@
 {
 "tables": [
-    {"name": "remote_syslog", "type":"RemoteDataTable", "refresh_minutes":1, "ssh_spec":"ssh://james@james-server:22002",
-        "table_def": {"name": "syslog", "type": "SyslogDataTable", "refresh_minutes": 1}},
     {"name": "syslog", "type": "SyslogDataTable", "refresh_minutes": 1},
     {"name": "procdata", "type": "ProcDataTable", "refresh_minutes": 1},
     {
@@ -297,15 +295,6 @@
             {
             "graphs": [
                 { "title" :"Metricbeat CPU Utilization", "type": "LineGraph", "table": "metricbeat", "xseries": "Time Stamps", "yseries": ["CPU Percent"], "yunit":"Average % Utilization"}
-                ]
-            }
-            ]
-        },
-        {
-        "panels": [
-            {
-            "graphs": [
-                { "title" :"Remote Syslog", "type": "LineGraph", "table": "remote_syslog", "xseries": "Time Stamps", "yseries": ["Messages by Time","Errors by Time","Warnings by Time"], "yunit":"Number of Messages"}
                 ]
             }
             ]

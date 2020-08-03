@@ -8,7 +8,7 @@ import threading
 import time
 import csv
 import json
-from io import StringIO()
+from io import StringIO
 from paramiko.client import SSHClient
 import keyring
 from functools import wraps
@@ -205,7 +205,7 @@ def get_connection_manager():
     if not _connection_manager:
         _connection_manager = ConnectionManager()
     return _connection_manager
-    
+
 def shutdown_connection_manager():
     """ shut down the connection manager if it was ever started """
     global _connection_manager
@@ -213,7 +213,7 @@ def shutdown_connection_manager():
         _connection_manager.shutdown()
         _connection_manager = None
 
-class RemoteDataTable( DataTable )
+class RemoteDataTable( DataTable ):
     def __init__(self,ssh_spec=None,table_def=None,name=None,refresh_minutes=1):
         """ accepts an ssh_spec to connect to of the form ssh://username@server_name:port_number, a json string with the definition for the remote table, the local name for this table, and the number of minutes for refresh """
         DataTable.__init__(self,None,name,refresh_minutes)

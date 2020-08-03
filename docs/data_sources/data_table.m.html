@@ -1061,7 +1061,11 @@ table {
     <li class="mono"><a href="#data_sources.data_table.format_float">format_float</a></li>
     <li class="mono"><a href="#data_sources.data_table.format_int">format_int</a></li>
     <li class="mono"><a href="#data_sources.data_table.format_string">format_string</a></li>
+    <li class="mono"><a href="#data_sources.data_table.from_csv">from_csv</a></li>
+    <li class="mono"><a href="#data_sources.data_table.from_json">from_json</a></li>
     <li class="mono"><a href="#data_sources.data_table.synchronized">synchronized</a></li>
+    <li class="mono"><a href="#data_sources.data_table.to_csv">to_csv</a></li>
+    <li class="mono"><a href="#data_sources.data_table.to_json">to_json</a></li>
   </ul>
 
     </li>
@@ -1166,9 +1170,11 @@ table {
 <span class="sd">&quot;&quot;&quot; module that implement a data table package to manage sparse columnar data window &quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">sys</span>
 <span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">import</span> <span class="nn">datetime</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
 <span class="kn">import</span> <span class="nn">threading</span>
 <span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">csv</span>
+<span class="kn">import</span> <span class="nn">json</span>
 <span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">wraps</span>
 
 <span class="n">string_type</span> <span class="o">=</span> <span class="s1">&#39;_string&#39;</span>
@@ -1316,6 +1322,145 @@ table {
             <span class="k">return</span> <span class="n">method</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">wrapper</span>
 
+<span class="c1">#   format of data table as json</span>
+<span class="c1">#   {</span>
+<span class="c1">#       &quot;name&quot; : name of the table,</span>
+<span class="c1">#       &quot;refresh_minutes&quot; : refresh interval in minutes,</span>
+<span class="c1">#       &quot;columns&quot; : [ array of column structures</span>
+<span class="c1">#           {</span>
+<span class="c1">#           &quot;name&quot;: column name</span>
+<span class="c1">#           &quot;values&quot; : [ array of cells in column</span>
+<span class="c1">#               {</span>
+<span class="c1">#               &quot;type&quot; : one of &quot;_string&quot;,&quot;_float&quot;,&quot;_int&quot;,&quot;_date&quot;,&quot;_blank&quot;</span>
+<span class="c1">#               &quot;value&quot; : string, float, int, float for date, or &quot;&quot; for blank</span>
+<span class="c1">#               },</span>
+<span class="c1">#               ]</span>
+<span class="c1">#           },</span>
+<span class="c1">#           ]</span>
+<span class="c1">#   }</span>
+<span class="k">def</span> <span class="nf">from_json</span><span class="p">(</span> <span class="n">stream</span> <span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; load a DataTable from a stream as JSON, return new DataTable &quot;&quot;&quot;</span>
+    <span class="n">jtable</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">stream</span><span class="p">)</span>
+    <span class="n">dt</span> <span class="o">=</span> <span class="n">DataTable</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span><span class="n">jtable</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">,</span><span class="s2">&quot;JSON DataTable&quot;</span><span class="p">),</span><span class="n">jtable</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;refresh_minutes&quot;</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+    <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">jtable</span><span class="p">[</span><span class="s2">&quot;columns&quot;</span><span class="p">]:</span>
+        <span class="n">nc</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span> <span class="n">name</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="p">)</span>
+        <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">c</span><span class="p">[</span><span class="s2">&quot;values&quot;</span><span class="p">]:</span>
+            <span class="n">ct</span> <span class="o">=</span> <span class="n">v</span><span class="p">[</span><span class="s2">&quot;type&quot;</span><span class="p">]</span>
+            <span class="n">cv</span> <span class="o">=</span> <span class="n">v</span><span class="p">[</span><span class="s2">&quot;value&quot;</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">ct</span> <span class="o">==</span> <span class="n">string_type</span><span class="p">:</span>
+                <span class="n">cc</span> <span class="o">=</span> <span class="n">Cell</span><span class="p">(</span><span class="n">string_type</span><span class="p">,</span><span class="n">cv</span><span class="p">,</span><span class="n">format_string</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">ct</span> <span class="o">==</span> <span class="n">float_type</span><span class="p">:</span>
+                <span class="n">cc</span> <span class="o">=</span> <span class="n">Cell</span><span class="p">(</span><span class="n">float_type</span><span class="p">,</span><span class="n">cv</span><span class="p">,</span><span class="n">format_float</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">ct</span> <span class="o">==</span> <span class="n">int_type</span><span class="p">:</span>
+                <span class="n">cc</span> <span class="o">=</span> <span class="n">Cell</span><span class="p">(</span><span class="n">int_type</span><span class="p">,</span><span class="n">cv</span><span class="p">,</span><span class="n">format_float</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">ct</span> <span class="o">==</span> <span class="n">date_type</span><span class="p">:</span>
+                <span class="n">cc</span> <span class="o">=</span> <span class="n">Cell</span><span class="p">(</span><span class="n">date_type</span><span class="p">,</span><span class="n">datetime</span><span class="o">.</span><span class="n">fromtimestamp</span><span class="p">(</span><span class="n">cv</span><span class="p">),</span><span class="n">format_date</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">ct</span> <span class="o">==</span> <span class="n">blank_type</span><span class="p">:</span>
+                <span class="n">cc</span> <span class="o">=</span> <span class="n">blank_cell</span>
+            <span class="n">nc</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">nc</span><span class="o">.</span><span class="n">size</span><span class="p">(),</span><span class="n">cc</span><span class="p">)</span>
+        <span class="n">dt</span><span class="o">.</span><span class="n">add_column</span><span class="p">(</span> <span class="n">nc</span> <span class="p">)</span>
+    <span class="k">return</span> <span class="n">dt</span>
+
+<span class="k">def</span> <span class="nf">to_json</span><span class="p">(</span> <span class="n">dt</span><span class="p">,</span> <span class="n">stream</span> <span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; write a DataTable to a stream as JSON &quot;&quot;&quot;</span>
+    <span class="n">out_dict</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">if</span> <span class="n">dt</span><span class="o">.</span><span class="n">name</span><span class="p">:</span>
+        <span class="n">out_dict</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dt</span><span class="o">.</span><span class="n">name</span>
+
+    <span class="n">out_dict</span><span class="p">[</span><span class="s2">&quot;refresh_minutes&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dt</span><span class="o">.</span><span class="n">refresh_minutes</span>
+
+    <span class="n">columns</span>  <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">dt</span><span class="o">.</span><span class="n">columns</span><span class="p">)):</span>
+        <span class="n">dtc</span> <span class="o">=</span> <span class="n">dt</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+        <span class="n">column</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="n">dtc</span><span class="o">.</span><span class="n">name</span><span class="p">:</span>
+            <span class="n">column</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dtc</span><span class="o">.</span><span class="n">name</span>
+
+        <span class="n">values</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">dtv</span> <span class="ow">in</span> <span class="n">dtc</span><span class="o">.</span><span class="n">values</span><span class="p">:</span>
+            <span class="n">values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span> <span class="p">{</span> <span class="s2">&quot;type&quot;</span><span class="p">:</span><span class="n">dtv</span><span class="o">.</span><span class="n">type</span><span class="p">,</span> <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="p">(</span> <span class="n">dtv</span><span class="o">.</span><span class="n">value</span> <span class="k">if</span> <span class="n">dtv</span><span class="o">.</span><span class="n">type</span> <span class="o">!=</span> <span class="n">date_type</span> <span class="k">else</span> <span class="n">dtv</span><span class="o">.</span><span class="n">get_float_value</span><span class="p">()</span> <span class="p">)</span> <span class="p">}</span> <span class="p">)</span>
+        <span class="n">column</span><span class="p">[</span><span class="s2">&quot;values&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">values</span>
+        <span class="n">columns</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">column</span><span class="p">)</span>
+
+    <span class="n">out_dict</span><span class="p">[</span><span class="s2">&quot;columns&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">columns</span>
+    <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">out_dict</span><span class="p">,</span><span class="n">stream</span><span class="p">)</span>
+
+<span class="c1"># csv representation of a DataTable</span>
+<span class="c1"># heading row at the top</span>
+<span class="c1"># each column of the form: table name_column name_type names cannot contain &#39;_&quot; and</span>
+<span class="c1"># types will be used to load cells can&#39;t have mixed cell types in a column</span>
+<span class="k">def</span> <span class="nf">from_csv</span><span class="p">(</span> <span class="n">stream</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">field_map</span><span class="o">=</span><span class="kc">None</span> <span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; load a DataTable from a stream as CSV, return new DataTable, you can provide an override to the default parsing to provide a name and a field_map which is a list of tuples CSV_column_name,DataTable_column_name,DataTable_type it will only load columns in the column map &quot;&quot;&quot;</span>
+    <span class="n">dt</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">dr</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">DictReader</span><span class="p">(</span><span class="n">stream</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">drr</span> <span class="ow">in</span> <span class="n">dr</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">drc</span> <span class="ow">in</span> <span class="n">drr</span><span class="p">:</span>
+            <span class="n">parts</span> <span class="o">=</span> <span class="n">drc</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">dt</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">name</span><span class="p">:</span>
+                    <span class="n">dt</span> <span class="o">=</span> <span class="n">DataTable</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="ow">not</span> <span class="n">field_map</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">parts</span><span class="p">)</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+                    <span class="n">dt</span> <span class="o">=</span> <span class="n">DataTable</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">parts</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">dt</span> <span class="o">=</span> <span class="n">DataTable</span><span class="p">()</span>
+
+            <span class="n">dtc</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="n">dtt</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="k">if</span> <span class="n">field_map</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">fm</span> <span class="ow">in</span> <span class="n">field_map</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">drc</span> <span class="o">==</span> <span class="n">fm</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+                        <span class="n">dtc</span> <span class="o">=</span> <span class="n">fm</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+                        <span class="n">dtt</span> <span class="o">=</span> <span class="n">fm</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+                        <span class="k">break</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">parts</span><span class="p">)</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+                    <span class="n">dtc</span> <span class="o">=</span> <span class="n">parts</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+                    <span class="n">dtt</span> <span class="o">=</span> <span class="s2">&quot;_&quot;</span><span class="o">+</span><span class="n">parts</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+
+            <span class="k">if</span> <span class="n">dtc</span> <span class="ow">and</span> <span class="n">dtt</span><span class="p">:</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">dt</span><span class="o">.</span><span class="n">has_column</span><span class="p">(</span><span class="n">dtc</span><span class="p">):</span>
+                    <span class="n">dt</span><span class="o">.</span><span class="n">add_column</span><span class="p">(</span><span class="n">Column</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">dtc</span><span class="p">))</span>
+                <span class="n">dtcc</span> <span class="o">=</span> <span class="n">dt</span><span class="o">.</span><span class="n">get_column</span><span class="p">(</span><span class="n">dtc</span><span class="p">)</span>
+
+                <span class="n">drv</span> <span class="o">=</span> <span class="n">drr</span><span class="p">[</span><span class="n">drc</span><span class="p">]</span>
+                <span class="k">if</span> <span class="n">drv</span> <span class="ow">and</span> <span class="n">dtt</span> <span class="o">==</span> <span class="n">string_type</span><span class="p">:</span>
+                    <span class="n">cc</span> <span class="o">=</span> <span class="n">Cell</span><span class="p">(</span><span class="n">string_type</span><span class="p">,</span><span class="n">drv</span><span class="p">,</span><span class="n">format_string</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="n">drv</span> <span class="ow">and</span> <span class="n">dtt</span> <span class="o">==</span> <span class="n">float_type</span><span class="p">:</span>
+                    <span class="n">cc</span> <span class="o">=</span> <span class="n">Cell</span><span class="p">(</span><span class="n">float_type</span><span class="p">,</span><span class="nb">float</span><span class="p">(</span><span class="n">drv</span><span class="p">),</span><span class="n">format_float</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="n">drv</span> <span class="ow">and</span> <span class="n">dtt</span> <span class="o">==</span> <span class="n">int_type</span><span class="p">:</span>
+                    <span class="n">cc</span> <span class="o">=</span> <span class="n">Cell</span><span class="p">(</span><span class="n">int_type</span><span class="p">,</span><span class="nb">int</span><span class="p">(</span><span class="n">drv</span><span class="p">),</span><span class="n">format_float</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="n">drv</span> <span class="ow">and</span> <span class="n">dtt</span> <span class="o">==</span> <span class="n">date_type</span><span class="p">:</span>
+                    <span class="n">cc</span> <span class="o">=</span> <span class="n">Cell</span><span class="p">(</span><span class="n">date_type</span><span class="p">,</span><span class="n">datetime</span><span class="o">.</span><span class="n">fromtimestamp</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">drv</span><span class="p">)),</span><span class="n">format_date</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="ow">not</span> <span class="n">drv</span> <span class="ow">or</span> <span class="n">dtt</span> <span class="o">==</span> <span class="n">blank_type</span><span class="p">:</span>
+                    <span class="n">cc</span> <span class="o">=</span> <span class="n">blank_cell</span>
+                <span class="n">dtcc</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">dtcc</span><span class="o">.</span><span class="n">size</span><span class="p">(),</span><span class="n">cc</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">dt</span>
+
+<span class="k">def</span> <span class="nf">to_csv</span><span class="p">(</span> <span class="n">dt</span><span class="p">,</span> <span class="n">stream</span> <span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; write a DataTable to a stream as CSV, see standard format in comments above, type for column is based on the zeroth cell &quot;&quot;&quot;</span>
+    <span class="n">field_names</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">idx</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">max_idx</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">dt</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+        <span class="nb">type</span> <span class="o">=</span> <span class="n">blank_type</span>
+        <span class="k">for</span> <span class="n">tidx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">size</span><span class="p">()):</span>
+            <span class="k">if</span> <span class="n">c</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">tidx</span><span class="p">)</span><span class="o">.</span><span class="n">type</span> <span class="o">!=</span> <span class="n">blank_type</span><span class="p">:</span>
+                <span class="nb">type</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">tidx</span><span class="p">)</span><span class="o">.</span><span class="n">type</span>
+                <span class="k">break</span>
+        <span class="n">field_names</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">dt</span><span class="o">.</span><span class="n">name</span> <span class="k">if</span> <span class="n">dt</span><span class="o">.</span><span class="n">name</span> <span class="k">else</span> <span class="s2">&quot;DataTable&quot;</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot;_&quot;</span><span class="o">+</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">name</span> <span class="k">if</span> <span class="n">c</span><span class="o">.</span><span class="n">name</span> <span class="k">else</span> <span class="s2">&quot;Column </span><span class="si">%d</span><span class="s2">&quot;</span><span class="o">%</span><span class="n">idx</span><span class="p">)</span><span class="o">+</span><span class="nb">type</span><span class="p">)</span>
+        <span class="n">idx</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">if</span> <span class="n">c</span><span class="o">.</span><span class="n">size</span><span class="p">()</span> <span class="o">&gt;</span> <span class="n">max_idx</span><span class="p">:</span>
+            <span class="n">max_idx</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">size</span><span class="p">()</span>
+    <span class="n">wcsv</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">DictWriter</span><span class="p">(</span><span class="n">stream</span><span class="p">,</span><span class="n">field_names</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">wcridx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">max_idx</span><span class="p">):</span>
+        <span class="n">wcr</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">dt</span><span class="o">.</span><span class="n">columns</span><span class="p">)):</span>
+            <span class="n">cell</span> <span class="o">=</span> <span class="n">dt</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">wcridx</span><span class="p">)</span>
+            <span class="n">wcr</span><span class="p">[</span><span class="n">field_names</span><span class="p">[</span><span class="n">idx</span><span class="p">]]</span> <span class="o">=</span> <span class="p">(</span><span class="n">cell</span><span class="o">.</span><span class="n">get_value</span><span class="p">()</span> <span class="k">if</span> <span class="n">cell</span><span class="o">.</span><span class="n">type</span> <span class="o">!=</span> <span class="n">date_type</span> <span class="k">else</span> <span class="n">cell</span><span class="o">.</span><span class="n">get_float_value</span><span class="p">())</span>
+        <span class="k">if</span> <span class="n">wcridx</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">wcsv</span><span class="o">.</span><span class="n">writeheader</span><span class="p">()</span>
+        <span class="n">wcsv</span><span class="o">.</span><span class="n">writerow</span><span class="p">(</span><span class="n">wcr</span><span class="p">)</span>
+
 <span class="k">class</span> <span class="nc">DataTable</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">columns</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">refresh_minutes</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; accepts a list of columns and a name for the table &quot;&quot;&quot;</span>
@@ -1331,11 +1476,11 @@ table {
         <span class="k">if</span> <span class="n">columns</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">columns</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">add_column</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
-                                     
+
     <span class="k">def</span> <span class="nf">get_refresh_timestamp</span><span class="p">(</span> <span class="bp">self</span> <span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; get the time that the table was last refreshed &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">refresh_timestamp</span>
-        
+
     <span class="k">def</span> <span class="nf">acquire_refresh_lock</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; acquire the refresh lock before reading/writing the table state &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">refresh_lock</span><span class="o">.</span><span class="n">acquire</span><span class="p">()</span>
@@ -1643,6 +1788,114 @@ table {
   
       
   <div class="item">
+    <div class="name def" id="data_sources.data_table.from_csv">
+    <p>def <span class="ident">from_csv</span>(</p><p>stream, name=None, field_map=None)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>load a DataTable from a stream as CSV, return new DataTable, you can provide an override to the default parsing to provide a name and a field_map which is a list of tuples CSV_column_name,DataTable_column_name,DataTable_type it will only load columns in the column map</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-data_sources.data_table.from_csv', this);">Show source &equiv;</a></p>
+  <div id="source-data_sources.data_table.from_csv" class="source">
+    <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">from_csv</span><span class="p">(</span> <span class="n">stream</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">field_map</span><span class="o">=</span><span class="kc">None</span> <span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; load a DataTable from a stream as CSV, return new DataTable, you can provide an override to the default parsing to provide a name and a field_map which is a list of tuples CSV_column_name,DataTable_column_name,DataTable_type it will only load columns in the column map &quot;&quot;&quot;</span>
+    <span class="n">dt</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">dr</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">DictReader</span><span class="p">(</span><span class="n">stream</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">drr</span> <span class="ow">in</span> <span class="n">dr</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">drc</span> <span class="ow">in</span> <span class="n">drr</span><span class="p">:</span>
+            <span class="n">parts</span> <span class="o">=</span> <span class="n">drc</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">dt</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">name</span><span class="p">:</span>
+                    <span class="n">dt</span> <span class="o">=</span> <span class="n">DataTable</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="ow">not</span> <span class="n">field_map</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">parts</span><span class="p">)</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+                    <span class="n">dt</span> <span class="o">=</span> <span class="n">DataTable</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">parts</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">dt</span> <span class="o">=</span> <span class="n">DataTable</span><span class="p">()</span>
+
+            <span class="n">dtc</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="n">dtt</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="k">if</span> <span class="n">field_map</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">fm</span> <span class="ow">in</span> <span class="n">field_map</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">drc</span> <span class="o">==</span> <span class="n">fm</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+                        <span class="n">dtc</span> <span class="o">=</span> <span class="n">fm</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+                        <span class="n">dtt</span> <span class="o">=</span> <span class="n">fm</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+                        <span class="k">break</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">parts</span><span class="p">)</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+                    <span class="n">dtc</span> <span class="o">=</span> <span class="n">parts</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+                    <span class="n">dtt</span> <span class="o">=</span> <span class="s2">&quot;_&quot;</span><span class="o">+</span><span class="n">parts</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+
+            <span class="k">if</span> <span class="n">dtc</span> <span class="ow">and</span> <span class="n">dtt</span><span class="p">:</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">dt</span><span class="o">.</span><span class="n">has_column</span><span class="p">(</span><span class="n">dtc</span><span class="p">):</span>
+                    <span class="n">dt</span><span class="o">.</span><span class="n">add_column</span><span class="p">(</span><span class="n">Column</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">dtc</span><span class="p">))</span>
+                <span class="n">dtcc</span> <span class="o">=</span> <span class="n">dt</span><span class="o">.</span><span class="n">get_column</span><span class="p">(</span><span class="n">dtc</span><span class="p">)</span>
+
+                <span class="n">drv</span> <span class="o">=</span> <span class="n">drr</span><span class="p">[</span><span class="n">drc</span><span class="p">]</span>
+                <span class="k">if</span> <span class="n">drv</span> <span class="ow">and</span> <span class="n">dtt</span> <span class="o">==</span> <span class="n">string_type</span><span class="p">:</span>
+                    <span class="n">cc</span> <span class="o">=</span> <span class="n">Cell</span><span class="p">(</span><span class="n">string_type</span><span class="p">,</span><span class="n">drv</span><span class="p">,</span><span class="n">format_string</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="n">drv</span> <span class="ow">and</span> <span class="n">dtt</span> <span class="o">==</span> <span class="n">float_type</span><span class="p">:</span>
+                    <span class="n">cc</span> <span class="o">=</span> <span class="n">Cell</span><span class="p">(</span><span class="n">float_type</span><span class="p">,</span><span class="nb">float</span><span class="p">(</span><span class="n">drv</span><span class="p">),</span><span class="n">format_float</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="n">drv</span> <span class="ow">and</span> <span class="n">dtt</span> <span class="o">==</span> <span class="n">int_type</span><span class="p">:</span>
+                    <span class="n">cc</span> <span class="o">=</span> <span class="n">Cell</span><span class="p">(</span><span class="n">int_type</span><span class="p">,</span><span class="nb">int</span><span class="p">(</span><span class="n">drv</span><span class="p">),</span><span class="n">format_float</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="n">drv</span> <span class="ow">and</span> <span class="n">dtt</span> <span class="o">==</span> <span class="n">date_type</span><span class="p">:</span>
+                    <span class="n">cc</span> <span class="o">=</span> <span class="n">Cell</span><span class="p">(</span><span class="n">date_type</span><span class="p">,</span><span class="n">datetime</span><span class="o">.</span><span class="n">fromtimestamp</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">drv</span><span class="p">)),</span><span class="n">format_date</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="ow">not</span> <span class="n">drv</span> <span class="ow">or</span> <span class="n">dtt</span> <span class="o">==</span> <span class="n">blank_type</span><span class="p">:</span>
+                    <span class="n">cc</span> <span class="o">=</span> <span class="n">blank_cell</span>
+                <span class="n">dtcc</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">dtcc</span><span class="o">.</span><span class="n">size</span><span class="p">(),</span><span class="n">cc</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">dt</span>
+</pre></div>
+
+  </div>
+</div>
+
+  </div>
+  
+      
+  <div class="item">
+    <div class="name def" id="data_sources.data_table.from_json">
+    <p>def <span class="ident">from_json</span>(</p><p>stream)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>load a DataTable from a stream as JSON, return new DataTable</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-data_sources.data_table.from_json', this);">Show source &equiv;</a></p>
+  <div id="source-data_sources.data_table.from_json" class="source">
+    <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">from_json</span><span class="p">(</span> <span class="n">stream</span> <span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; load a DataTable from a stream as JSON, return new DataTable &quot;&quot;&quot;</span>
+    <span class="n">jtable</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">stream</span><span class="p">)</span>
+    <span class="n">dt</span> <span class="o">=</span> <span class="n">DataTable</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span><span class="n">jtable</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">,</span><span class="s2">&quot;JSON DataTable&quot;</span><span class="p">),</span><span class="n">jtable</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;refresh_minutes&quot;</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+    <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">jtable</span><span class="p">[</span><span class="s2">&quot;columns&quot;</span><span class="p">]:</span>
+        <span class="n">nc</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span> <span class="n">name</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="p">)</span>
+        <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">c</span><span class="p">[</span><span class="s2">&quot;values&quot;</span><span class="p">]:</span>
+            <span class="n">ct</span> <span class="o">=</span> <span class="n">v</span><span class="p">[</span><span class="s2">&quot;type&quot;</span><span class="p">]</span>
+            <span class="n">cv</span> <span class="o">=</span> <span class="n">v</span><span class="p">[</span><span class="s2">&quot;value&quot;</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">ct</span> <span class="o">==</span> <span class="n">string_type</span><span class="p">:</span>
+                <span class="n">cc</span> <span class="o">=</span> <span class="n">Cell</span><span class="p">(</span><span class="n">string_type</span><span class="p">,</span><span class="n">cv</span><span class="p">,</span><span class="n">format_string</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">ct</span> <span class="o">==</span> <span class="n">float_type</span><span class="p">:</span>
+                <span class="n">cc</span> <span class="o">=</span> <span class="n">Cell</span><span class="p">(</span><span class="n">float_type</span><span class="p">,</span><span class="n">cv</span><span class="p">,</span><span class="n">format_float</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">ct</span> <span class="o">==</span> <span class="n">int_type</span><span class="p">:</span>
+                <span class="n">cc</span> <span class="o">=</span> <span class="n">Cell</span><span class="p">(</span><span class="n">int_type</span><span class="p">,</span><span class="n">cv</span><span class="p">,</span><span class="n">format_float</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">ct</span> <span class="o">==</span> <span class="n">date_type</span><span class="p">:</span>
+                <span class="n">cc</span> <span class="o">=</span> <span class="n">Cell</span><span class="p">(</span><span class="n">date_type</span><span class="p">,</span><span class="n">datetime</span><span class="o">.</span><span class="n">fromtimestamp</span><span class="p">(</span><span class="n">cv</span><span class="p">),</span><span class="n">format_date</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">ct</span> <span class="o">==</span> <span class="n">blank_type</span><span class="p">:</span>
+                <span class="n">cc</span> <span class="o">=</span> <span class="n">blank_cell</span>
+            <span class="n">nc</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">nc</span><span class="o">.</span><span class="n">size</span><span class="p">(),</span><span class="n">cc</span><span class="p">)</span>
+        <span class="n">dt</span><span class="o">.</span><span class="n">add_column</span><span class="p">(</span> <span class="n">nc</span> <span class="p">)</span>
+    <span class="k">return</span> <span class="n">dt</span>
+</pre></div>
+
+  </div>
+</div>
+
+  </div>
+  
+      
+  <div class="item">
     <div class="name def" id="data_sources.data_table.synchronized">
     <p>def <span class="ident">synchronized</span>(</p><p>method)</p>
     </div>
@@ -1659,6 +1912,93 @@ table {
         <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">refresh_lock</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">method</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">wrapper</span>
+</pre></div>
+
+  </div>
+</div>
+
+  </div>
+  
+      
+  <div class="item">
+    <div class="name def" id="data_sources.data_table.to_csv">
+    <p>def <span class="ident">to_csv</span>(</p><p>dt, stream)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>write a DataTable to a stream as CSV, see standard format in comments above, type for column is based on the zeroth cell</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-data_sources.data_table.to_csv', this);">Show source &equiv;</a></p>
+  <div id="source-data_sources.data_table.to_csv" class="source">
+    <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">to_csv</span><span class="p">(</span> <span class="n">dt</span><span class="p">,</span> <span class="n">stream</span> <span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; write a DataTable to a stream as CSV, see standard format in comments above, type for column is based on the zeroth cell &quot;&quot;&quot;</span>
+    <span class="n">field_names</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">idx</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">max_idx</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">dt</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+        <span class="nb">type</span> <span class="o">=</span> <span class="n">blank_type</span>
+        <span class="k">for</span> <span class="n">tidx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">size</span><span class="p">()):</span>
+            <span class="k">if</span> <span class="n">c</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">tidx</span><span class="p">)</span><span class="o">.</span><span class="n">type</span> <span class="o">!=</span> <span class="n">blank_type</span><span class="p">:</span>
+                <span class="nb">type</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">tidx</span><span class="p">)</span><span class="o">.</span><span class="n">type</span>
+                <span class="k">break</span>
+        <span class="n">field_names</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">dt</span><span class="o">.</span><span class="n">name</span> <span class="k">if</span> <span class="n">dt</span><span class="o">.</span><span class="n">name</span> <span class="k">else</span> <span class="s2">&quot;DataTable&quot;</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot;_&quot;</span><span class="o">+</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">name</span> <span class="k">if</span> <span class="n">c</span><span class="o">.</span><span class="n">name</span> <span class="k">else</span> <span class="s2">&quot;Column </span><span class="si">%d</span><span class="s2">&quot;</span><span class="o">%</span><span class="n">idx</span><span class="p">)</span><span class="o">+</span><span class="nb">type</span><span class="p">)</span>
+        <span class="n">idx</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">if</span> <span class="n">c</span><span class="o">.</span><span class="n">size</span><span class="p">()</span> <span class="o">&gt;</span> <span class="n">max_idx</span><span class="p">:</span>
+            <span class="n">max_idx</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">size</span><span class="p">()</span>
+    <span class="n">wcsv</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">DictWriter</span><span class="p">(</span><span class="n">stream</span><span class="p">,</span><span class="n">field_names</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">wcridx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">max_idx</span><span class="p">):</span>
+        <span class="n">wcr</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">dt</span><span class="o">.</span><span class="n">columns</span><span class="p">)):</span>
+            <span class="n">cell</span> <span class="o">=</span> <span class="n">dt</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">wcridx</span><span class="p">)</span>
+            <span class="n">wcr</span><span class="p">[</span><span class="n">field_names</span><span class="p">[</span><span class="n">idx</span><span class="p">]]</span> <span class="o">=</span> <span class="p">(</span><span class="n">cell</span><span class="o">.</span><span class="n">get_value</span><span class="p">()</span> <span class="k">if</span> <span class="n">cell</span><span class="o">.</span><span class="n">type</span> <span class="o">!=</span> <span class="n">date_type</span> <span class="k">else</span> <span class="n">cell</span><span class="o">.</span><span class="n">get_float_value</span><span class="p">())</span>
+        <span class="k">if</span> <span class="n">wcridx</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">wcsv</span><span class="o">.</span><span class="n">writeheader</span><span class="p">()</span>
+        <span class="n">wcsv</span><span class="o">.</span><span class="n">writerow</span><span class="p">(</span><span class="n">wcr</span><span class="p">)</span>
+</pre></div>
+
+  </div>
+</div>
+
+  </div>
+  
+      
+  <div class="item">
+    <div class="name def" id="data_sources.data_table.to_json">
+    <p>def <span class="ident">to_json</span>(</p><p>dt, stream)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>write a DataTable to a stream as JSON</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-data_sources.data_table.to_json', this);">Show source &equiv;</a></p>
+  <div id="source-data_sources.data_table.to_json" class="source">
+    <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">to_json</span><span class="p">(</span> <span class="n">dt</span><span class="p">,</span> <span class="n">stream</span> <span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; write a DataTable to a stream as JSON &quot;&quot;&quot;</span>
+    <span class="n">out_dict</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">if</span> <span class="n">dt</span><span class="o">.</span><span class="n">name</span><span class="p">:</span>
+        <span class="n">out_dict</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dt</span><span class="o">.</span><span class="n">name</span>
+
+    <span class="n">out_dict</span><span class="p">[</span><span class="s2">&quot;refresh_minutes&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dt</span><span class="o">.</span><span class="n">refresh_minutes</span>
+
+    <span class="n">columns</span>  <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">dt</span><span class="o">.</span><span class="n">columns</span><span class="p">)):</span>
+        <span class="n">dtc</span> <span class="o">=</span> <span class="n">dt</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+        <span class="n">column</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="n">dtc</span><span class="o">.</span><span class="n">name</span><span class="p">:</span>
+            <span class="n">column</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dtc</span><span class="o">.</span><span class="n">name</span>
+
+        <span class="n">values</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">dtv</span> <span class="ow">in</span> <span class="n">dtc</span><span class="o">.</span><span class="n">values</span><span class="p">:</span>
+            <span class="n">values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span> <span class="p">{</span> <span class="s2">&quot;type&quot;</span><span class="p">:</span><span class="n">dtv</span><span class="o">.</span><span class="n">type</span><span class="p">,</span> <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="p">(</span> <span class="n">dtv</span><span class="o">.</span><span class="n">value</span> <span class="k">if</span> <span class="n">dtv</span><span class="o">.</span><span class="n">type</span> <span class="o">!=</span> <span class="n">date_type</span> <span class="k">else</span> <span class="n">dtv</span><span class="o">.</span><span class="n">get_float_value</span><span class="p">()</span> <span class="p">)</span> <span class="p">}</span> <span class="p">)</span>
+        <span class="n">column</span><span class="p">[</span><span class="s2">&quot;values&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">values</span>
+        <span class="n">columns</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">column</span><span class="p">)</span>
+
+    <span class="n">out_dict</span><span class="p">[</span><span class="s2">&quot;columns&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">columns</span>
+    <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">out_dict</span><span class="p">,</span><span class="n">stream</span><span class="p">)</span>
 </pre></div>
 
   </div>
@@ -2412,11 +2752,11 @@ table {
         <span class="k">if</span> <span class="n">columns</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">columns</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">add_column</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
-                                     
+
     <span class="k">def</span> <span class="nf">get_refresh_timestamp</span><span class="p">(</span> <span class="bp">self</span> <span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; get the time that the table was last refreshed &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">refresh_timestamp</span>
-        
+
     <span class="k">def</span> <span class="nf">acquire_refresh_lock</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; acquire the refresh lock before reading/writing the table state &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">refresh_lock</span><span class="o">.</span><span class="n">acquire</span><span class="p">()</span>
