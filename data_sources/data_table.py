@@ -1,5 +1,5 @@
 # Copyright 2017 James P Goodwin data table package to manage sparse columnar data
-""" module that implement a data table package to manage sparse columnar data window """
+""" module that implement a data table package to manage sparse columnar data window and refresh them automatically """
 import sys
 import os
 from datetime import datetime

@@ -2,4 +2,5 @@ psutil
 elasticsearch
 paramiko
 keyring
+pyodbc
 

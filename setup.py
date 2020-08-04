@@ -32,6 +32,7 @@ setup(
         'elasticsearch',
         'paramiko',
         'keyring',
+        'pyodbc',
     ],
     scripts=[
         'scripts/dashboard',

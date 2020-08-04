@@ -1,5 +1,5 @@
 # Copyright 2020 James P Goodwin data table package to manage sparse columnar data
-""" module that aggregates data from the syslog and provides a set of data tables """
+""" module that aggregates data from system information using psutil and provides a set of data tables """
 import locale
 locale.setlocale(locale.LC_ALL,'')
 import sys

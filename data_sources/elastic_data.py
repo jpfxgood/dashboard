@@ -1,5 +1,5 @@
 # Copyright 2020 James P Goodwin data table package to manage sparse columnar data
-""" module that aggregates data from the syslog and provides a set of data tables """
+""" module that does an Elasticsearch query and creates a table of data based on the response """
 import locale
 locale.setlocale(locale.LC_ALL,'')
 import sys

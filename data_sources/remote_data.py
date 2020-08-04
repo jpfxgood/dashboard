@@ -1,5 +1,5 @@
 # Copyright 2017 James P Goodwin data table package to manage sparse columnar data
-""" module that implement a data table package to manage sparse columnar data window """
+""" module that implements a remote data table proxy over ssh connection to the dashboard running as a table server  """
 import sys
 import os
 import re
