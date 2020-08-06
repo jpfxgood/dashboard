@@ -1,5 +1,26 @@
 {
 "tables": [
+    {"name": "testcsv", "type":"CSVDataTable","csv_spec":"/home/james/dashboard-git/test_csv.csv"},
+    {"name": "testjson", "type":"JSONDataTable","json_spec":"/home/james/dashboard-git/test_json.json"},
+    {"name": "authlog", "type":"LogDataTable",
+        "log_glob":"/var/log/auth*",
+        "log_map":[
+            {
+            "line_regex": "(\w\w\w\s+\d+\s\d\d:\d\d:\d\d)\s[a-z0-9\-]*\s([a-zA-Z0-9\-\_\.]*)[\[\]0-9]*:\s*(.*)",
+            "num_buckets" : 24,
+            "bucket_size" : 60,
+            "bucket_type" : "_date",
+            "column_map" : [ [ 1,"Time Stamps","_date","key" ], [3,"Opened Sessions by Time","_int","count(.*session opened.*)"], [3,"Closed Sessions by Time","_int","count(.*session closed.*)"],
+            },
+            {
+            "line_regex": "(\w\w\w\s+\d+\s\d\d:\d\d:\d\d)\s[a-z0-9\-]*\s([a-zA-Z0-9\-\_\.]*)[\[\]0-9]*:\s*(.*)",
+            "num_buckets" : 24,
+            "bucket_size" : 1,
+            "bucket_type" : "_date",
+            "column_map" : [ [ 2,"Service","_string","key" ], [3,"Opened Sessions by Service","_int","count(.*session opened.*)"], [3,"Closed Sessions by Service","_int","count(.*session closed.*)"],
+            }
+        ]
+        },
     {"name": "testdata", "type":"ODBCDataTable", "refresh_minutes":1,
         "sql_spec":"odbc://james@localhost/myodbc8w/james:5432",
         "sql_query":"select byhour.hour,sum(case byhour.type when 'error' then 1 else 0 end) as errors,sum(case byhour.type when 'warning' then 1 else 0 end) as warnings, sum(case byhour.type when 'info' then 1 else 0 end) as infos from ( select extract( hour from log_time) as hour, type from testdata ) as byhour group by byhour.hour order by byhour.hour;",
@@ -323,7 +344,7 @@
                 ]
             }
             ]
-        }         
+        }
         ]
     }
 }

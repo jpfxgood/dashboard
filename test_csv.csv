@@ -1,0 +1,26 @@
+"Syslog Data: /var/log/syslog* for the last 24 hours in 1 hour buckets, refreshed every 10 minutes_Time Stamps_date","Syslog Data: /var/log/syslog* for the last 24 hours in 1 hour buckets, refreshed every 10 minutes_Errors by Time_int","Syslog Data: /var/log/syslog* for the last 24 hours in 1 hour buckets, refreshed every 10 minutes_Warnings by Time_int","Syslog Data: /var/log/syslog* for the last 24 hours in 1 hour buckets, refreshed every 10 minutes_Messages by Time_int","Syslog Data: /var/log/syslog* for the last 24 hours in 1 hour buckets, refreshed every 10 minutes_Services_string","Syslog Data: /var/log/syslog* for the last 24 hours in 1 hour buckets, refreshed every 10 minutes_Errors by Service_int","Syslog Data: /var/log/syslog* for the last 24 hours in 1 hour buckets, refreshed every 10 minutes_Warnings by Service_int","Syslog Data: /var/log/syslog* for the last 24 hours in 1 hour buckets, refreshed every 10 minutes_Messages by Service_int"
+1596638337.236906,,,,metricbeat,0,0,3024
+1596641937.236906,1,0,137,CRON,0,0,178
+1596645537.236906,0,0,136,systemd,0,0,167
+1596649137.236906,0,0,136,anacron,0,0,57
+1596652737.236906,1,0,145,xscreensaver,7,0,7
+1596656337.236906,2,0,140,sSMTP,0,0,15
+1596659937.236906,4,0,140,systemd-resolved,5,0,15
+1596663537.236906,0,0,136,snapd,0,0,8
+1596667137.236906,0,0,144,ntpd,2,0,49
+1596670737.236906,0,0,136,kernel,0,0,8
+1596674337.236906,0,0,137,NetworkManager,0,0,21
+1596677937.236906,0,0,136,avahi-daemon,0,0,12
+1596681537.236906,0,0,146,dbus-daemon,0,0,6
+1596685137.236906,2,0,271,whoopsie,0,0,12
+1596688737.236906,0,0,168,nm-dispatcher,0,0,8
+1596692337.236906,0,0,140,colord,0,0,6
+1596695937.236906,0,0,138,ntpdate,0,0,6
+1596699537.236906,0,0,180,50-motd-news,0,0,6
+1596703137.236906,0,0,136,cracklib,0,0,1
+1596706737.236906,0,0,142,rsyslogd,0,0,3
+1596710337.236906,0,0,203,fwupd,0,0,2
+1596713937.236906,1,0,140,apport,0,0,2
+1596717537.236906,0,0,136,,,,
+1596721137.236906,1,0,138,,,,
+1596724737.236906,2,0,152,,,,

@@ -3,4 +3,5 @@ elasticsearch
 paramiko
 keyring
 pyodbc
+dateutil
 
