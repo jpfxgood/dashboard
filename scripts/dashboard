@@ -21,7 +21,14 @@ from data_sources.proc_data import ProcDataTable
 from data_sources.elastic_data import ElasticsearchDataTable
 from data_sources.remote_data import RemoteDataTable,shutdown_connection_manager
 from data_sources.odbc_data import ODBCDataTable
+from data_sources.json_data import JSONDataTable
+from data_sources.csv_data import CSVDataTable
+from data_sources.logs_data import LogDataTable
 from data_sources.data_table import to_json,from_json
+import importlib.util
+
+data_table_plugins = {}
+graph_plugins = {}
 
 # A config file is of the form:
 # {
@@ -29,7 +36,7 @@ from data_sources.data_table import to_json,from_json
 #       [
 #           {
 #           "name" : name to refer to this table below,
-#           "type" : one of "SyslogDataTable","ProcDataTable","ElasticsearchDataTable","RemoteDataTable","ODBCDataTable" ( more to come),
+#           "type" : one of "SyslogDataTable","ProcDataTable","ElasticsearchDataTable","RemoteDataTable","ODBCDataTable","CSVDataTable","JSONDataTable","LogDataTable" ( more to come),
 #           "refresh_minutes" : number of minutes to automatically refresh optional, 0 if only manual, default is 5 minutes
 #           "num_hours" : number of hours of history to look at
 #           "bucket_hours" : number of hours per bucket, table will have num_hours/bucket_hours entries
@@ -42,6 +49,18 @@ from data_sources.data_table import to_json,from_json
 #           "sql_spec" : for the ODBCDataTable, a string of the following form to specify a connection to an odbc database odbc://username@server/driver/database:port, assumes local keyring has credentials at this spec so something like 'keyring set odbc://james@localhost/myodbc8w/james:5432 james',
 #           "sql_query" : for the ODBCDataTable, a sql query to execute on that database,
 #           "sql_map" : for the ODBCDataTable, a list of tuples of the form [[sql_column_name,data_table_column_name],...] only these columns will be mapped into the table
+#           "csv_spec" : for the CSVDataTable, path to CSV file to read,
+#           "csv_map" : for the CSVDataTable, column specification of the form [["csv_column_name","data_table_column_name","type one of _int,_float,_string,_date"],...] only imports matching columns,
+#           "json_spec" : for the JSONDataTable path to a JSON file to read, assumed to be in the format written by the data_sources.data_table.to_json function,
+#           "log_glob" : for the LogDataTable, glob of log files to read, can include compressed logs in .gz format,
+#           "log_map" : for the LogDataTable, list of line specifications of the form:
+#                    [ { "line_regex" : "escaped python regex with a group per field to extract",
+#                        "num_buckets" : number of buckets to aggregate in,
+#                        "bucket_size" : for integer and float buckets it is just the literal size, for strings it is ignored and the last num_buckets strings will form the buckets, for dates it is the number of minutes,
+#                        "bucket_type" : one of "_string","_date","_int","_float",
+#                        "column_map: [ [ regex group number 1..n, "Data Table Column Name", "type as above","action, one of key,min,max,avg,sum,median,mode, count(regex), key is special and indicates the bucket key, count matches the regex and the value of the column is the number of matches in the bucket
+#                       },...repeated matches with different keys can collect other aggregations and also handle different types of lines
+#                    ]
 #           },
 #       ],
 #   "dashboard": definition of the dashboard to present
@@ -81,6 +100,9 @@ from data_sources.data_table import to_json,from_json
 
 def load_table( t ):
     """ load and instantiate a table based on the JSON specification t """
+    if t["type"] in data_table_plugins:
+        return data_table_plugins[t["type"]].load_table( t )
+
     refresh_minutes = t.get("refresh_minutes",1)
     syslog_glob = t.get("syslog_glob","/var/log/syslog*")
     num_hours = t.get("num_hours",24)
@@ -93,6 +115,11 @@ def load_table( t ):
     sql_spec = t.get("sql_spec",None)
     sql_query = t.get("sql_query",None)
     sql_map = t.get("sql_map",None)
+    csv_spec = t.get("csv_spec",None)
+    csv_map = t.get("csv_map",None)
+    json_spec = t.get("json_spec",None)
+    log_glob = t.get("log_glob",None)
+    log_map = t.get("log_map",None)
     if t["type"] == "SyslogDataTable":
         dt = SyslogDataTable(syslog_glob,num_hours,bucket_hours,refresh_minutes)
     elif t["type"] == "ProcDataTable":
@@ -103,15 +130,60 @@ def load_table( t ):
         dt = RemoteDataTable(ssh_spec,table_def,t["name"],refresh_minutes)
     elif t["type"] == "ODBCDataTable":
         dt = ODBCDataTable(refresh_minutes,sql_spec,sql_query,sql_map)
+    elif t["type"] == "CSVDataTable":
+        dt = CSVDataTable(refresh_minutes,csv_spec,csv_map,None)
+    elif t["type"] == "JSONDataTable":
+        dt = JSONDataTable( json_spec )
+    elif t["type"] == "LogDataTable":
+        dt = LogDataTable( log_glob, log_map, refresh_minutes)
 
     dt.start_refresh()
     return dt
 
+def load_graph( g ):
+    """ load a graph from the json graph definition, returns graph """
+    type = g["type"]
+    if type in graph_plugins:
+        return graph_plugins[type].load_graph(g)
+
+    graph = None
+    yunit = g.get("yunit","")
+    top = g.get("top",0)
+    title = g.get("title",None)
+    area = g.get("area",False)
+    if type == "LineGraph":
+        graph = LineGraph(lookup_table(g["table"]),g["xseries"],g["yseries"],yunit,None,None,title=title,area=area)
+    elif type == "BarGraph":
+        graph = BarGraph(lookup_table(g["table"]),g["xseries"],g["yseries"],yunit,None,None,top,title=title)
+    elif type == "PieGraph":
+        graph = PieGraph(lookup_table(g["table"]),g["xseries"],g["yseries"],None,None,title=title)
+    elif type == "TableGraph":
+        graph = TableGraph(lookup_table(g["table"]),g["xseries"],g["yseries"],None,None,title=title)
+
+    return graph
+
+def load_plugin( p ):
+    """ load one plugin and register it in the global tables """
+    global data_table_plugins
+    global graph_plugins
+    
+    spec = importlib.util.spec_from_file_location(p["module_name"],p["module_file"])
+    plugin_mod = importlib.util.module_from_spec(spec)
+    spec.load.exec_module(plugin_mod)
+    if p["type"] == "data_table":
+        data_table_plugins[p["name"]] = plugin_mod.load_table
+    elif p["type"] == "graph":
+        data_table_plugins[p["name"]] = plugin_mod.load_graph
 
 def load_config( stdscr, options ):
     """ load the dashboard configuration from the options.config path and factory all the objects, returns a context with the initialized objects  """
     cf = json.load(open(options.config,"r"))
+
     context = {}
+    if "plugins" in cf:
+        for p in cf["plugins"]:
+            load_plugin(p)
+
     context["tables"] = []
     for t in cf["tables"]:
         context["tables"].append((t["name"],load_table(t)))
@@ -140,21 +212,7 @@ def load_config( stdscr, options ):
             width = pp.get("width",-1)
             panel = Panel(x = x, y = y, height = height, width = width )
             for g in pp["graphs"]:
-                type = g["type"]
-                graph = None
-                yunit = g.get("yunit","")
-                top = g.get("top",0)
-                title = g.get("title",None)
-                area = g.get("area",False)
-                if type == "LineGraph":
-                    graph = LineGraph(lookup_table(g["table"]),g["xseries"],g["yseries"],yunit,None,None,title=title,area=area)
-                elif type == "BarGraph":
-                    graph = BarGraph(lookup_table(g["table"]),g["xseries"],g["yseries"],yunit,None,None,top,title=title)
-                elif type == "PieGraph":
-                    graph = PieGraph(lookup_table(g["table"]),g["xseries"],g["yseries"],None,None,title=title)
-                elif type == "TableGraph":
-                    graph = TableGraph(lookup_table(g["table"]),g["xseries"],g["yseries"],None,None,title=title)
-                panel.add_graph(graph)
+                panel.add_graph(load_graph(g))
             page.add_panel(panel)
         dashboard.add_page(page)
 

@@ -6,18 +6,18 @@
         "log_glob":"/var/log/auth*",
         "log_map":[
             {
-            "line_regex": "(\w\w\w\s+\d+\s\d\d:\d\d:\d\d)\s[a-z0-9\-]*\s([a-zA-Z0-9\-\_\.]*)[\[\]0-9]*:\s*(.*)",
+            "line_regex": "(\\w\\w\\w\\s+\\d+\\s\\d\\d:\\d\\d:\\d\\d)\\s[a-z0-9\\-]*\\s([a-zA-Z0-9\\-\\_\\.]*)[\\[\\]0-9]*:\\s*(.*)",
             "num_buckets" : 24,
             "bucket_size" : 60,
             "bucket_type" : "_date",
-            "column_map" : [ [ 1,"Time Stamps","_date","key" ], [3,"Opened Sessions by Time","_int","count(.*session opened.*)"], [3,"Closed Sessions by Time","_int","count(.*session closed.*)"],
+            "column_map" : [ [ 1,"Time Stamps","_date","key" ], [3,"Opened Sessions by Time","_int","count(.*session opened.*)"], [3,"Closed Sessions by Time","_int","count(.*session closed.*)"]]
             },
             {
-            "line_regex": "(\w\w\w\s+\d+\s\d\d:\d\d:\d\d)\s[a-z0-9\-]*\s([a-zA-Z0-9\-\_\.]*)[\[\]0-9]*:\s*(.*)",
+            "line_regex": "(\\w\\w\\w\\s+\\d+\\s\\d\\d:\\d\\d:\\d\\d)\\s[a-z0-9\\-]*\\s([a-zA-Z0-9\\-\\_\\.]*)[\\[\\]0-9]*:\\s*(.*)",
             "num_buckets" : 24,
             "bucket_size" : 1,
             "bucket_type" : "_date",
-            "column_map" : [ [ 2,"Service","_string","key" ], [3,"Opened Sessions by Service","_int","count(.*session opened.*)"], [3,"Closed Sessions by Service","_int","count(.*session closed.*)"],
+            "column_map" : [ [ 2,"Service","_string","key" ], [3,"Opened Sessions by Service","_int","count(.*session opened.*)"], [3,"Closed Sessions by Service","_int","count(.*session closed.*)"]]
             }
         ]
         },
