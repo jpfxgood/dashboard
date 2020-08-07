@@ -16,7 +16,7 @@ format_map = { date_type : format_date, int_type : format_int, float_type : form
 
 class ActionCell(Cell):
     def __init__(self,type,value,format,action):
-        Cell.__init__(type,None,format)
+        Cell.__init__(self,type,None,format)
         self.action = action
         self.values = []
         self.put_value(value)
@@ -50,11 +50,10 @@ class ActionCell(Cell):
                 self.value = sum(self.values)
             elif self.action.startswith("count("):
                 regex = self.action.split("(")[1].split(")")[0]
+                if self.value == None:
+                    self.value = self.default_value()
                 if re.match(regex,str(value)):
-                    if self.value == None:
-                        self.value = self.default_value() + 1
-                    else:
-                        self.value += 1
+                    self.value += 1
         except:
             self.value = self.default_value()
 
@@ -75,7 +74,10 @@ class Value():
             except:
                 return parser.parse(self.value)
         elif self.type == int_type:
-            return int(self.value)
+            if self.action.startswith("count("):
+                return self.value
+            else:
+                return int(self.value)
         elif self.type == float_type:
             return float(self.value)
         elif self.type == string_type:
@@ -85,7 +87,7 @@ class Value():
 
     def to_cell(self):
         """ construct and return a cell based on type, action and value """
-        return ActionCell( self.type, self.get_value(), format_map[self.type], action )
+        return ActionCell( self.type, self.get_value(), format_map[self.type], self.action )
 
 class LogDataTable( DataTable ):
     """ class that collects a time based aggregation of data from the syslog into a data_table """
@@ -108,11 +110,8 @@ class LogDataTable( DataTable ):
         self.log_glob = log_glob
         self.log_map = log_map
         DataTable.__init__(self,None,
-            "LogDataTable: %s, %d buckets, %d size, %s type, %d minutes refresh"%(
+            "LogDataTable: %s, %d minutes refresh"%(
                 self.log_glob,
-                self.num_buckets,
-                self.bucket_size,
-                self.bucket_type,
                 refresh_minutes),
                 refresh_minutes)
         self.refresh()
@@ -125,49 +124,50 @@ class LogDataTable( DataTable ):
             if not self.has_column(value.column_name):
                 self.add_column(Column(name=value.column_name))
             bc = self.get_column(value.column_name)
-            for idx in range(bc.size())
+            for idx in range(bc.size()):
                 if bc.get(idx).get_value() >= value.get_value():
                     break
             else:
                 idx = bc.size()
             if idx < bc.size():
-                if line_spec.bucket_type == string_type:
+                if line_spec["bucket_type"] == string_type:
                     if bc.get(idx).get_value() != value.get_value():
-                        bc.ins(idx,Cell(line_spec.bucket_type,value.get_value(),format_map[line_spec.bucket_type]))
+                        bc.ins(idx,Cell(line_spec["bucket_type"],value.get_value(),format_map[line_spec["bucket_type"]]))
                 return idx
             elif idx == 0 and bc.size() > 0:
                 diff = bc.get(idx).get_value() - value.get_value()
-                if line_spec.bucket_type == date_type:
-                    while diff > timedelta(minutes=line_spec.bucket_size):
-                        new_bucket = bc.get(idx).get_value() - timedelta(minutes=line_spec.bucket_size)
-                        bc.ins(idx,Cell(line_spec.bucket_type,new_bucket,format_map[line_spec.bucket_type]))
+                if line_spec["bucket_type"] == date_type:
+                    while diff > timedelta(minutes=line_spec["bucket_size"]):
+                        new_bucket = bc.get(idx).get_value() - timedelta(minutes=line_spec["bucket_size"])
+                        bc.ins(idx,Cell(line_spec["bucket_type"],new_bucket,format_map[line_spec["bucket_type"]]))
                         diff = bc.get(idx).get_value() - value.get_value()
                     return idx
-                elif line_spec.bucket_type == string_type:
-                    bc.ins(idx,Cell(line_spec.bucket_type,value.get_value(),format_map[line_spec.bucket_type]))
+                elif line_spec["bucket_type"] == string_type:
+                    bc.ins(idx,Cell(line_spec["bucket_type"],value.get_value(),format_map[line_spec["bucket_type"]]))
                     return idx
                 else:
-                    while diff > line_spec.bucket_size:
-                        new_bucket = bc.get(idx).get_value() - line_spec.bucket_size
-                        bc.ins(idx,Cell(line_spec.bucket_type,new_bucket,format_map[line_spec.bucket_type]))
+                    while diff > line_spec["bucket_size"]:
+                        new_bucket = bc.get(idx).get_value() - line_spec["bucket_size"]
+                        bc.ins(idx,Cell(line_spec["bucket_type"],new_bucket,format_map[line_spec["bucket_type"]]))
                         diff = bc.get(idx).get_value() - value.get_value()
                     return idx
             elif idx == bc.size():
-                if line_spec.bucket_type == string_type:
-                    bc.put(idx,Cell(line_spec.bucket_type,value.get_value(),format_map(line_spec.bucket_type]))
+                if line_spec["bucket_type"] == string_type:
+                    bc.put(idx,Cell(line_spec["bucket_type"],value.get_value(),format_map[line_spec["bucket_type"]]))
+                    return idx
                 else:
                     while True:
                         if idx > 0:
                             prev_bucket = bc.get(idx-1).get_value()
                         else:
                             prev_bucket = value.get_value()
-    
-                        if line_spec.bucket_type == date_type:
-                            new_bucket = prev_bucket + timedelta(minutes=line_spec.bucket_size)
+
+                        if line_spec["bucket_type"] == date_type:
+                            new_bucket = prev_bucket + timedelta(minutes=line_spec["bucket_size"])
                         else:
-                            new_bucket = prev_bucket + line_spec.bucket_size
-    
-                        bc.put(idx,Cell(line_spec.bucket_type,new_bucket,format_map[line_spec.bucket_type]))
+                            new_bucket = prev_bucket + line_spec["bucket_size"]
+
+                        bc.put(idx,Cell(line_spec["bucket_type"],new_bucket,format_map[line_spec["bucket_type"]]))
                         if value.get_value() < new_bucket:
                             return idx
                         idx = bc.size()
@@ -182,35 +182,35 @@ class LogDataTable( DataTable ):
                 cc.put(bidx,value.to_cell())
 
         def prune_buckets( line_spec ):
-            for group,column_name,type,action in line_spec.column_map:
-                if self.has_column(value.column_name):
-                    cc = self.get_column(value.column_name)
-                    while cc.size() > line_spec.num_buckets:
+            for group,column_name,type,action in line_spec["column_map"]:
+                if self.has_column(column_name):
+                    cc = self.get_column(column_name)
+                    while cc.size() > line_spec["num_buckets"]:
                         cc.delete(0)
 
         log_files = glob.glob(self.log_glob)
 
         for lf in log_files:
             if lf.endswith(".gz"):
-                lf_f = gzip.open(slf,"rt",encoding="utf-8")
+                lf_f = gzip.open(lf,"rt",encoding="utf-8")
             else:
-                lf_f = open(slf,"r",encoding="utf-8")
+                lf_f = open(lf,"r",encoding="utf-8")
 
             for line in lf_f:
                 line = line.strip()
                 for line_spec in self.log_map:
-                    m = re.match(line_spec.line_regex,line)
+                    m = re.match(line_spec["line_regex"],line)
                     if m:
                         values = []
                         key_idx = None
-                        for group,column_name,type,action in line_spec.column_map:
+                        for group,column_name,type,action in line_spec["column_map"]:
                             values.append(Value( column_name, type, action, m.group(group) ))
                             if action == "key":
                                 key_idx = len(values)-1
                         bidx = get_bucket(line_spec,values[key_idx])
                         for v in values:
                             if v.action != "key":
-                                put_value( value, bidx )
+                                put_value( v, bidx )
                         prune_buckets(line_spec)
 
         self.changed()

@@ -16,7 +16,7 @@ class JSONDataTable( DataTable ):
     def __init__(self, json_spec = None ):
         """ Initialize the JSONDataTable object from the file named in json_spec, refresh minutes will come from the loaded json """
         self.json_spec = json_spec
-        DataTable.__init(self,None,"JSONDataTable",120)
+        DataTable.__init__(self,None,"JSONDataTable",120)
         self.refresh()
 
     @synchronized
@@ -24,9 +24,9 @@ class JSONDataTable( DataTable ):
         """ refresh the table by opening the JSON file and loading it into a table """
         dt = from_json(open(self.json_spec,"r"))
         if dt:
-            rows,cols = dt.getbounds()
-            for idx in cols:
-                self.replace_col(idx,dt.get_column(idx))
+            rows,cols = dt.get_bounds()
+            for idx in range(cols):
+                self.replace_column(idx,dt.get_column(idx))
 
             if dt.get_name():
                 self.name = dt.get_name()

@@ -140,11 +140,16 @@ def load_table( t ):
     dt.start_refresh()
     return dt
 
-def load_graph( g ):
+def load_graph( context, g ):
     """ load a graph from the json graph definition, returns graph """
+    def lookup_table( name ):
+        for t in context["tables"]:
+            if t[0] == name:
+                return t[1]
+
     type = g["type"]
     if type in graph_plugins:
-        return graph_plugins[type].load_graph(g)
+        return graph_plugins[type].load_graph(context,g)
 
     graph = None
     yunit = g.get("yunit","")
@@ -166,7 +171,7 @@ def load_plugin( p ):
     """ load one plugin and register it in the global tables """
     global data_table_plugins
     global graph_plugins
-    
+
     spec = importlib.util.spec_from_file_location(p["module_name"],p["module_file"])
     plugin_mod = importlib.util.module_from_spec(spec)
     spec.load.exec_module(plugin_mod)
@@ -174,6 +179,8 @@ def load_plugin( p ):
         data_table_plugins[p["name"]] = plugin_mod.load_table
     elif p["type"] == "graph":
         data_table_plugins[p["name"]] = plugin_mod.load_graph
+    
+    return plugin_mod
 
 def load_config( stdscr, options ):
     """ load the dashboard configuration from the options.config path and factory all the objects, returns a context with the initialized objects  """
@@ -181,17 +188,14 @@ def load_config( stdscr, options ):
 
     context = {}
     if "plugins" in cf:
+        context["plugins"] = []
         for p in cf["plugins"]:
-            load_plugin(p)
+            plugin_mod = load_plugin(p)
+            context["plugins"].append( (p,plugin_mod) )
 
     context["tables"] = []
     for t in cf["tables"]:
         context["tables"].append((t["name"],load_table(t)))
-
-    def lookup_table( name ):
-        for t in context["tables"]:
-            if t[0] == name:
-                return t[1]
 
     df = cf["dashboard"]
     auto_tour_delay = df.get("auto_tour_delay",None)
@@ -212,7 +216,7 @@ def load_config( stdscr, options ):
             width = pp.get("width",-1)
             panel = Panel(x = x, y = y, height = height, width = width )
             for g in pp["graphs"]:
-                panel.add_graph(load_graph(g))
+                panel.add_graph(load_graph(context,g))
             page.add_panel(panel)
         dashboard.add_page(page)
 

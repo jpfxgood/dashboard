@@ -16,7 +16,7 @@
             "line_regex": "(\\w\\w\\w\\s+\\d+\\s\\d\\d:\\d\\d:\\d\\d)\\s[a-z0-9\\-]*\\s([a-zA-Z0-9\\-\\_\\.]*)[\\[\\]0-9]*:\\s*(.*)",
             "num_buckets" : 24,
             "bucket_size" : 1,
-            "bucket_type" : "_date",
+            "bucket_type" : "_string",
             "column_map" : [ [ 2,"Service","_string","key" ], [3,"Opened Sessions by Service","_int","count(.*session opened.*)"], [3,"Closed Sessions by Service","_int","count(.*session closed.*)"]]
             }
         ]
@@ -341,6 +341,18 @@
             {
             "graphs": [
                 { "title" :"Database Summary", "type": "LineGraph", "table": "testdata", "xseries": "Hour", "yseries": ["Number of Errors","Number of Warnings","Number of Info Messages"], "yunit":"Number of Messages"}
+                ]
+            }
+            ]
+        },
+        {
+        "panels": [
+            {
+            "graphs": [
+                { "title" :"Test CSV", "type": "LineGraph", "table": "testcsv", "xseries": "Time Stamps", "yseries": ["Errors by Time","Warnings by Time","Messages by Time"], "yunit":"Number of Messages"},
+                { "title" :"Test JSON", "type": "LineGraph", "table": "testjson", "xseries": "Time Stamps", "yseries": ["Errors by Time","Warnings by Time","Messages by Time"], "yunit":"Number of Messages"},
+                { "title" :"Auth Log", "type": "LineGraph", "table": "authlog", "xseries": "Time Stamps", "yseries": ["Opened Sessions by Time","Closed Sessions by Time"], "yunit":"Number of Sessions"},
+                { "title" :"Auth Log by Service Top 10", "top":10, "type": "BarGraph", "table": "authlog", "xseries": "Service", "yseries": ["Opened Sessions by Service","Closed Sessions by Service"], "yunit":"Number of Sessions"}
                 ]
             }
             ]

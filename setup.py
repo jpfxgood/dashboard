@@ -33,6 +33,7 @@ setup(
         'paramiko',
         'keyring',
         'pyodbc',
+        'python-dateutil',
     ],
     scripts=[
         'scripts/dashboard',
