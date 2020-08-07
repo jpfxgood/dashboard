@@ -23,7 +23,7 @@ class ActionCell(Cell):
 
     def default_value(self):
         if self.type == date_type:
-            return datetime.now()
+            return datetime.min
         elif self.type == int_type:
             return 0
         elif self.type == float_type:
@@ -32,30 +32,33 @@ class ActionCell(Cell):
             return ""
 
     def put_value(self,value):
-        self.values.append(value)
-        try:
-            if self.action == "key":
-                self.value = value
-            elif self.action == "avg":
-                self.value = statistics.mean(self.values)
-            elif self.action == "mode":
-                self.value = statistics.mode(self.values)
-            elif self.action == "median":
-                self.value = statistics.median(self.values)
-            elif self.action == "min":
-                self.value = min(self.values)
-            elif self.action == "max":
-                self.value = max(self.values)
-            elif self.action == "sum":
-                self.value = sum(self.values)
-            elif self.action.startswith("count("):
-                regex = self.action.split("(")[1].split(")")[0]
-                if self.value == None:
-                    self.value = self.default_value()
-                if re.match(regex,str(value)):
-                    self.value += 1
-        except:
+        if value == None:
             self.value = self.default_value()
+        else:
+            self.values.append(value)
+            try:
+                if self.action == "key":
+                    self.value = value
+                elif self.action == "avg":
+                    self.value = statistics.mean(self.values)
+                elif self.action == "mode":
+                    self.value = statistics.mode(self.values)
+                elif self.action == "median":
+                    self.value = statistics.median(self.values)
+                elif self.action == "min":
+                    self.value = min(self.values)
+                elif self.action == "max":
+                    self.value = max(self.values)
+                elif self.action == "sum":
+                    self.value = sum(self.values)
+                elif self.action.startswith("count("):
+                    regex = self.action.split("(")[1].split(")")[0]
+                    if self.value == None:
+                        self.value = self.default_value()
+                    if re.match(regex,str(value)):
+                        self.value += 1
+            except:
+                self.value = self.default_value()
 
 class Value():
     """ structure for mapped values """
@@ -177,7 +180,11 @@ class LogDataTable( DataTable ):
                 self.add_column(Column(name=value.column_name))
             cc = self.get_column(value.column_name)
             if bidx < cc.size():
-                cc.get(bidx).put_value(value)
+                c = cc.get(bidx)
+                if c.type == blank_type:
+                    cc.put(bidx,value.to_cell())
+                else:
+                    cc.get(bidx).put_value(value.get_value())
             else:
                 cc.put(bidx,value.to_cell())
 
@@ -187,6 +194,37 @@ class LogDataTable( DataTable ):
                     cc = self.get_column(column_name)
                     while cc.size() > line_spec["num_buckets"]:
                         cc.delete(0)
+
+        def top_buckets( line_spec ):
+            columns = []
+            key_idx = None
+            idx = 0
+            for group,column_name,type,action in line_spec["column_map"]:
+                columns.append(self.get_column(column_name))
+                if action == "key":
+                    key_idx = idx
+                idx += 1
+
+            sort_rows = []
+            for idx in range(columns[key_idx].size()):
+                values = []
+                for cidx in range(len(columns)):
+                    if cidx != key_idx:
+                        values.append(columns[cidx].get(idx).get_value())
+                values.append(idx)
+                sort_rows.append(values)
+
+            sort_rows.sort(reverse=True)
+            new_columns = []
+            for group,column_name,type,action in line_spec["column_map"]:
+                new_columns.append(Column(name=column_name))
+
+            for ridx in range(min(len(sort_rows),line_spec["num_buckets"])):
+                for cidx in range(len(columns)):
+                    new_columns[cidx].put(sort_rows[ridx][-1],columns[cidx].get(sort_rows[ridx][-1]))
+
+            for c in new_columns:
+                self.replace_column(self.map_column(c.get_name()),c)
 
         log_files = glob.glob(self.log_glob)
 
@@ -211,7 +249,30 @@ class LogDataTable( DataTable ):
                         for v in values:
                             if v.action != "key":
                                 put_value( v, bidx )
-                        prune_buckets(line_spec)
+                        if values[key_idx].type != string_type:
+                            prune_buckets(line_spec)
+
+        for line_spec in self.log_map:
+            key_idx = None
+            idx = 0
+            for group,column_name,type,action in line_spec["column_map"]:
+                if action == "key":
+                    key_idx = idx
+                    break
+                idx += 1
+
+            kg,kn,kt,ka = line_spec["column_map"][key_idx]
+            kc = self.get_column(kn)
+            for idx in range(kc.size()):
+                for fg,fn,ft,fa in line_spec["column_map"]:
+                    if fn != kn:
+                        fc = self.get_column(fn)
+                        cc = fc.get(idx)
+                        if cc.type == blank_type:
+                            fc.put(idx,ActionCell(ft,None,format_map[ft],fa))
+
+            if kt == string_type:
+                top_buckets( line_spec )
 
         self.changed()
 
