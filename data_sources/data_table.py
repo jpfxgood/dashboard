@@ -3,6 +3,7 @@
 import sys
 import os
 from datetime import datetime
+from dateutil import parser
 import threading
 import time
 import csv
@@ -73,7 +74,7 @@ class Cell(object):
     def set_format(self,format):
         self.format = format
 
-blank_cell = Cell(blank_type,None,lambda x: "")
+blank_cell = Cell(blank_type,"",lambda x: "")
 
 class ColumnIterator(object):
     def __init__(self,column):
@@ -109,7 +110,7 @@ class Column(object):
             del self.values[idx]
 
     def ins(self,idx,value):
-        if idx < len(self.values):
+        if idx <= len(self.values):
             self.values.insert(idx,value)
         else:
             self.put(idx,value)
@@ -123,9 +124,17 @@ class Column(object):
 
     def put(self,idx,value):
         """ put a Cell value at index idx in column """
-        while idx >= len(self.values):
-            self.values.append(blank_cell)
-        self.values[idx] = value
+        if idx < len(self.values):
+            self.values[idx] = value
+            return
+        if idx == len(self.values):
+            self.values.append(value)
+            return
+        elif idx > len(self.values):
+            while idx >= len(self.values):
+                self.values.append(blank_cell)
+            self.values[idx] = value
+            return
 
     def get_name(self):
         return self.name
@@ -262,7 +271,10 @@ def from_csv( stream, name=None, field_map=None ):
                 elif drv and dtt == int_type:
                     cc = Cell(int_type,int(drv),format_float)
                 elif drv and dtt == date_type:
-                    cc = Cell(date_type,datetime.fromtimestamp(float(drv)),format_date)
+                    try:
+                        cc = Cell(date_type,datetime.fromtimestamp(float(drv)),format_date)
+                    except:
+                        cc = Cell(date_type,parser.parse(drv),format_date)
                 elif not drv or dtt == blank_type:
                     cc = blank_cell
                 dtcc.put(dtcc.size(),cc)

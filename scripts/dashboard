@@ -60,7 +60,8 @@ graph_plugins = {}
 #                        "bucket_type" : one of "_string","_date","_int","_float",
 #                        "column_map: [ [ regex group number 1..n, "Data Table Column Name", "type as above","action, one of key,min,max,avg,sum,median,mode, count(regex), key is special and indicates the bucket key, count matches the regex and the value of the column is the number of matches in the bucket
 #                       },...repeated matches with different keys can collect other aggregations and also handle different types of lines
-#                    ]
+#                    ],
+#           "log_lookback" : a tuple of the number of days, hours, minutes to look back at logs [ days, hours, minutes ] all must be specified
 #           },
 #       ],
 #   "dashboard": definition of the dashboard to present
@@ -119,7 +120,8 @@ def load_table( t ):
     csv_map = t.get("csv_map",None)
     json_spec = t.get("json_spec",None)
     log_glob = t.get("log_glob",None)
-    log_map = t.get("log_map",None)
+    log_map = t.get("log_map",None)   
+    log_lookback = t.get("log_lookback",None)
     if t["type"] == "SyslogDataTable":
         dt = SyslogDataTable(syslog_glob,num_hours,bucket_hours,refresh_minutes)
     elif t["type"] == "ProcDataTable":
@@ -135,7 +137,7 @@ def load_table( t ):
     elif t["type"] == "JSONDataTable":
         dt = JSONDataTable( json_spec )
     elif t["type"] == "LogDataTable":
-        dt = LogDataTable( log_glob, log_map, refresh_minutes)
+        dt = LogDataTable( log_glob, log_map, log_lookback, refresh_minutes)
 
     dt.start_refresh()
     return dt
@@ -179,7 +181,7 @@ def load_plugin( p ):
         data_table_plugins[p["name"]] = plugin_mod.load_table
     elif p["type"] == "graph":
         data_table_plugins[p["name"]] = plugin_mod.load_graph
-    
+
     return plugin_mod
 
 def load_config( stdscr, options ):

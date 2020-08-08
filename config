@@ -1,6 +1,7 @@
 {
 "tables": [
     {"name": "testcsv", "type":"CSVDataTable","csv_spec":"/home/james/dashboard-git/test_csv.csv"},
+    {"name": "spreadsheet", "type":"CSVDataTable","csv_spec":"/home/james/dashboard-git/spreadsheet.csv", "csv_map": [["Time Stamp","Time Stamp","_date"],["Metric 1","First Metric","_int"],["Metric 4","Second Metric","_int"]]},
     {"name": "testjson", "type":"JSONDataTable","json_spec":"/home/james/dashboard-git/test_json.json"},
     {"name": "authlog", "type":"LogDataTable",
         "log_glob":"/var/log/auth*",
@@ -19,7 +20,8 @@
             "bucket_type" : "_string",
             "column_map" : [ [ 2,"Service","_string","key" ], [3,"Opened Sessions by Service","_int","count(.*session opened.*)"], [3,"Closed Sessions by Service","_int","count(.*session closed.*)"]]
             }
-        ]
+        ],
+        "log_lookback" : [ 1, 0, 0 ]
         },
     {"name": "testdata", "type":"ODBCDataTable", "refresh_minutes":1,
         "sql_spec":"odbc://james@localhost/myodbc8w/james:5432",
@@ -350,6 +352,7 @@
             {
             "graphs": [
                 { "title" :"Test CSV", "type": "LineGraph", "table": "testcsv", "xseries": "Time Stamps", "yseries": ["Errors by Time","Warnings by Time","Messages by Time"], "yunit":"Number of Messages"},
+                { "title" :"Spreadsheet", "type": "LineGraph", "table": "spreadsheet", "xseries": "Time Stamp", "yseries": ["First Metric","Second Metric"], "yunit":"Metrics"},
                 { "title" :"Test JSON", "type": "LineGraph", "table": "testjson", "xseries": "Time Stamps", "yseries": ["Errors by Time","Warnings by Time","Messages by Time"], "yunit":"Number of Messages"},
                 { "title" :"Auth Log", "type": "LineGraph", "table": "authlog", "xseries": "Time Stamps", "yseries": ["Opened Sessions by Time","Closed Sessions by Time"], "yunit":"Number of Sessions"},
                 { "title" :"Auth Log by Service Top 10", "top":10, "type": "BarGraph", "table": "authlog", "xseries": "Service", "yseries": ["Opened Sessions by Service","Closed Sessions by Service"], "yunit":"Number of Sessions"}

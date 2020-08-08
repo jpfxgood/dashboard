@@ -94,7 +94,7 @@ class Value():
 
 class LogDataTable( DataTable ):
     """ class that collects a time based aggregation of data from the syslog into a data_table """
-    def __init__(self,log_glob=None,log_map=None,refresh_minutes=10):
+    def __init__(self,log_glob=None,log_map=None,log_lookback=None,refresh_minutes=10):
         """ Initialize the LogDataTable with a file glob pattern to collect the
         matching logs on this machine, a timespan to aggregate for, aggregation
         bucket in hours, a refresh interval for updating in minutes and a
@@ -109,9 +109,13 @@ class LogDataTable( DataTable ):
                 "type one of _int,_float,_string,_date",
                 "action one of key,avg,min,max,count(value),mode,median"],
                 ...]},...]
-        the key action is special and indicates that this is the bucket key for this type of line """
+        the key action is special and indicates that this is the bucket key for this type of line
+        log_lookback is of the form [ days, hours, minutes ] all must be specified """
         self.log_glob = log_glob
         self.log_map = log_map
+        self.log_lookback = log_lookback
+        self.file_map = {}
+
         DataTable.__init__(self,None,
             "LogDataTable: %s, %d minutes refresh"%(
                 self.log_glob,
@@ -226,13 +230,28 @@ class LogDataTable( DataTable ):
             for c in new_columns:
                 self.replace_column(self.map_column(c.get_name()),c)
 
+        lb_days,lb_hours,lb_minutes = self.log_lookback
+        start_time = datetime.now() - timedelta(days=lb_days,hours=lb_hours,minutes=lb_minutes)
+
         log_files = glob.glob(self.log_glob)
 
         for lf in log_files:
+            lfp = 0
+            stat = os.stat(lf)
+            if stat.st_mtime < start_time.timestamp():
+                continue
+
+            if lf in self.file_map:
+                lft,lfp = self.file_map[lf]
+                if stat.st_mtime <= lft:
+                    continue
+
             if lf.endswith(".gz"):
                 lf_f = gzip.open(lf,"rt",encoding="utf-8")
             else:
                 lf_f = open(lf,"r",encoding="utf-8")
+
+            lf_f.seek(lfp,0)
 
             for line in lf_f:
                 line = line.strip()
@@ -251,6 +270,8 @@ class LogDataTable( DataTable ):
                                 put_value( v, bidx )
                         if values[key_idx].type != string_type:
                             prune_buckets(line_spec)
+
+            self.file_map[lf] = (stat.st_mtime,lf_f.tell())
 
         for line_spec in self.log_map:
             key_idx = None
