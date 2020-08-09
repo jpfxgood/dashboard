@@ -548,12 +548,16 @@ class GraphLines(GraphElement):
             idx = 0
             points = []
             for c in data_table.ColumnIterator(column):
-                y_value = c.get_float_value()
-                x_value = x_values[idx][0]
-                scaled_x = (x_value-x_min)*x_scale
-                scaled_y = (y_value-y_min)*y_scale
-                points.append((x+scaled_x,y-scaled_y))
-                idx += 1
+                y_value = c.get_float_value()                
+                if idx < len(x_values):
+                    x_value = x_values[idx][0]
+                    scaled_x = (x_value-x_min)*x_scale
+                    scaled_y = (y_value-y_min)*y_scale
+                    points.append((x+scaled_x,y-scaled_y))
+                    idx += 1
+                else:
+                    break
+                    
             if self.area:
                 p1 = (points[-1][0],y)
                 if p1 not in points:

@@ -4,7 +4,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
 
     <title>data_sources.proc_data API documentation</title>
-    <meta name="description" content="module that aggregates data from the syslog and provides a set of data tables" />
+    <meta name="description" content="module that aggregates data from system information using psutil and provides a set of data tables" />
 
   <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,300' rel='stylesheet' type='text/css'>
   
@@ -1116,12 +1116,12 @@ table {
 
   <header id="section-intro">
   <h1 class="title"><span class="name">data_sources.proc_data</span> module</h1>
-  <p>module that aggregates data from the syslog and provides a set of data tables</p>
+  <p>module that aggregates data from system information using psutil and provides a set of data tables</p>
   
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-data_sources.proc_data', this);">Show source &equiv;</a></p>
   <div id="source-data_sources.proc_data" class="source">
     <div class="codehilite"><pre><span></span><span class="c1"># Copyright 2020 James P Goodwin data table package to manage sparse columnar data</span>
-<span class="sd">&quot;&quot;&quot; module that aggregates data from the syslog and provides a set of data tables &quot;&quot;&quot;</span>
+<span class="sd">&quot;&quot;&quot; module that aggregates data from system information using psutil and provides a set of data tables &quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">locale</span>
 <span class="n">locale</span><span class="o">.</span><span class="n">setlocale</span><span class="p">(</span><span class="n">locale</span><span class="o">.</span><span class="n">LC_ALL</span><span class="p">,</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
 <span class="kn">import</span> <span class="nn">sys</span>
@@ -2009,7 +2009,7 @@ table {
         <span class="k">if</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start_time</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">refresh_minutes</span><span class="o">*</span><span class="mf">60.0</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">refresh</span><span class="p">()</span>
             <span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
-        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
 </pre></div>
 
   </div>

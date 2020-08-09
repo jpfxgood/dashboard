@@ -65,7 +65,7 @@ class Connection():
             with self.reader_lock:
                 if len(self.stdout_lines):
                     return self.stdout_lines.pop(0)
-            time.sleep(0)
+            time.sleep(1)
 
     @sync_connection
     def get_stderr_line( self ):
@@ -74,7 +74,7 @@ class Connection():
             with self.reader_lock:
                 if len(self.stderr_lines):
                     return self.stderr_lines.pop(0)
-            time.sleep(0)
+            time.sleep(1)
 
     @sync_connection
     def open( self, client ):

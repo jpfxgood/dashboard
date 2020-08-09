@@ -11,6 +11,7 @@ import re
 import traceback
 import signal
 import json
+import time
 from io import StringIO
 from optparse import OptionParser
 from dashboard.version import __version__
@@ -120,7 +121,7 @@ def load_table( t ):
     csv_map = t.get("csv_map",None)
     json_spec = t.get("json_spec",None)
     log_glob = t.get("log_glob",None)
-    log_map = t.get("log_map",None)   
+    log_map = t.get("log_map",None)
     log_lookback = t.get("log_lookback",None)
     if t["type"] == "SyslogDataTable":
         dt = SyslogDataTable(syslog_glob,num_hours,bucket_hours,refresh_minutes)
@@ -248,6 +249,7 @@ def server( options, args ):
                 print("%s:%s"%(name,table_json.getvalue()))
             elif line.startswith("exit"):
                 break
+            time.sleep(1)
     finally:
         for k in tables:
             tables[k].stop_refresh()

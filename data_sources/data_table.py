@@ -346,7 +346,7 @@ class DataTable(object):
             if time.time() - start_time >= self.refresh_minutes*60.0:
                 self.refresh()
                 start_time = time.time()
-            time.sleep(0)
+            time.sleep(1)
 
     def stop_refresh( self ):
         """ Stop the background refresh thread """

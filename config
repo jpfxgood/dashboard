@@ -23,13 +23,13 @@
         ],
         "log_lookback" : [ 1, 0, 0 ]
         },
+    {"name": "remote_syslog", "type":"RemoteDataTable", "refresh_minutes":1, "ssh_spec":"ssh://james@james-server:22002",
+        "table_def": {"name": "syslog", "type": "SyslogDataTable", "refresh_minutes": 1}},
     {"name": "testdata", "type":"ODBCDataTable", "refresh_minutes":1,
         "sql_spec":"odbc://james@localhost/myodbc8w/james:5432",
         "sql_query":"select byhour.hour,sum(case byhour.type when 'error' then 1 else 0 end) as errors,sum(case byhour.type when 'warning' then 1 else 0 end) as warnings, sum(case byhour.type when 'info' then 1 else 0 end) as infos from ( select extract( hour from log_time) as hour, type from testdata ) as byhour group by byhour.hour order by byhour.hour;",
         "sql_map": [ [ "hour", "Hour"],[ "errors","Number of Errors" ],[ "warnings", "Number of Warnings" ], ["infos","Number of Info Messages"]]
         },
-    {"name": "remote_syslog", "type":"RemoteDataTable", "refresh_minutes":1, "ssh_spec":"ssh://james@james-server:22002",
-        "table_def": {"name": "syslog", "type": "SyslogDataTable", "refresh_minutes": 1}},
     {"name": "syslog", "type": "SyslogDataTable", "refresh_minutes": 1},
     {"name": "procdata", "type": "ProcDataTable", "refresh_minutes": 1},
     {
@@ -333,7 +333,7 @@
         "panels": [
             {
             "graphs": [
-                { "title" :"Remote Syslog", "type": "LineGraph", "table": "remote_syslog", "xseries": "Time Stamps", "yseries": ["Messages by Time","Errors by Time","Warnings by Time"], "yunit":"Number of Messages"}
+                { "title" :"Database Summary", "type": "LineGraph", "table": "testdata", "xseries": "Hour", "yseries": ["Number of Errors","Number of Warnings","Number of Info Messages"], "yunit":"Number of Messages"}
                 ]
             }
             ]
@@ -342,11 +342,11 @@
         "panels": [
             {
             "graphs": [
-                { "title" :"Database Summary", "type": "LineGraph", "table": "testdata", "xseries": "Hour", "yseries": ["Number of Errors","Number of Warnings","Number of Info Messages"], "yunit":"Number of Messages"}
+                { "title" :"Remote Syslog", "type": "LineGraph", "table": "remote_syslog", "xseries": "Time Stamps", "yseries": ["Messages by Time","Errors by Time","Warnings by Time"], "yunit":"Number of Messages"}
                 ]
             }
             ]
-        },
+        },        
         {
         "panels": [
             {

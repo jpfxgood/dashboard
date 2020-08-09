@@ -3,8 +3,8 @@
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
 
-    <title>data_sources.elastic_data API documentation</title>
-    <meta name="description" content="module that does an Elasticsearch query and creates a table of data based on the response" />
+    <title>data_sources.odbc_data API documentation</title>
+    <meta name="description" content="module that performs a sql query on an odbc database and forms the result into a data table" />
 
   <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,300' rel='stylesheet' type='text/css'>
   
@@ -1043,11 +1043,11 @@ table {
     <li class="set"><h3><a href="#header-variables">Module variables</a></h3>
       
   <ul>
-    <li class="mono"><a href="#data_sources.elastic_data.blank_type">blank_type</a></li>
-    <li class="mono"><a href="#data_sources.elastic_data.date_type">date_type</a></li>
-    <li class="mono"><a href="#data_sources.elastic_data.float_type">float_type</a></li>
-    <li class="mono"><a href="#data_sources.elastic_data.int_type">int_type</a></li>
-    <li class="mono"><a href="#data_sources.elastic_data.string_type">string_type</a></li>
+    <li class="mono"><a href="#data_sources.odbc_data.blank_type">blank_type</a></li>
+    <li class="mono"><a href="#data_sources.odbc_data.date_type">date_type</a></li>
+    <li class="mono"><a href="#data_sources.odbc_data.float_type">float_type</a></li>
+    <li class="mono"><a href="#data_sources.odbc_data.int_type">int_type</a></li>
+    <li class="mono"><a href="#data_sources.odbc_data.string_type">string_type</a></li>
   </ul>
 
     </li>
@@ -1056,35 +1056,33 @@ table {
     <li class="set"><h3><a href="#header-classes">Classes</a></h3>
       <ul>
         <li class="mono">
-        <span class="class_name"><a href="#data_sources.elastic_data.ElasticsearchDataTable">ElasticsearchDataTable</a></span>
+        <span class="class_name"><a href="#data_sources.odbc_data.ODBCDataTable">ODBCDataTable</a></span>
         
           
   <ul>
-    <li class="mono"><a href="#data_sources.elastic_data.ElasticsearchDataTable.__init__">__init__</a></li>
-    <li class="mono"><a href="#data_sources.elastic_data.ElasticsearchDataTable.acquire_refresh_lock">acquire_refresh_lock</a></li>
-    <li class="mono"><a href="#data_sources.elastic_data.ElasticsearchDataTable.add_column">add_column</a></li>
-    <li class="mono"><a href="#data_sources.elastic_data.ElasticsearchDataTable.changed">changed</a></li>
-    <li class="mono"><a href="#data_sources.elastic_data.ElasticsearchDataTable.get">get</a></li>
-    <li class="mono"><a href="#data_sources.elastic_data.ElasticsearchDataTable.get_bounds">get_bounds</a></li>
-    <li class="mono"><a href="#data_sources.elastic_data.ElasticsearchDataTable.get_column">get_column</a></li>
-    <li class="mono"><a href="#data_sources.elastic_data.ElasticsearchDataTable.get_columns">get_columns</a></li>
-    <li class="mono"><a href="#data_sources.elastic_data.ElasticsearchDataTable.get_es_parameters">get_es_parameters</a></li>
-    <li class="mono"><a href="#data_sources.elastic_data.ElasticsearchDataTable.get_name">get_name</a></li>
-    <li class="mono"><a href="#data_sources.elastic_data.ElasticsearchDataTable.get_names">get_names</a></li>
-    <li class="mono"><a href="#data_sources.elastic_data.ElasticsearchDataTable.get_refresh_timestamp">get_refresh_timestamp</a></li>
-    <li class="mono"><a href="#data_sources.elastic_data.ElasticsearchDataTable.has_column">has_column</a></li>
-    <li class="mono"><a href="#data_sources.elastic_data.ElasticsearchDataTable.insert_column">insert_column</a></li>
-    <li class="mono"><a href="#data_sources.elastic_data.ElasticsearchDataTable.listen">listen</a></li>
-    <li class="mono"><a href="#data_sources.elastic_data.ElasticsearchDataTable.map_column">map_column</a></li>
-    <li class="mono"><a href="#data_sources.elastic_data.ElasticsearchDataTable.perform_refresh">perform_refresh</a></li>
-    <li class="mono"><a href="#data_sources.elastic_data.ElasticsearchDataTable.put">put</a></li>
-    <li class="mono"><a href="#data_sources.elastic_data.ElasticsearchDataTable.refresh">refresh</a></li>
-    <li class="mono"><a href="#data_sources.elastic_data.ElasticsearchDataTable.release_refresh_lock">release_refresh_lock</a></li>
-    <li class="mono"><a href="#data_sources.elastic_data.ElasticsearchDataTable.replace_column">replace_column</a></li>
-    <li class="mono"><a href="#data_sources.elastic_data.ElasticsearchDataTable.set_es_parameters">set_es_parameters</a></li>
-    <li class="mono"><a href="#data_sources.elastic_data.ElasticsearchDataTable.start_refresh">start_refresh</a></li>
-    <li class="mono"><a href="#data_sources.elastic_data.ElasticsearchDataTable.stop_refresh">stop_refresh</a></li>
-    <li class="mono"><a href="#data_sources.elastic_data.ElasticsearchDataTable.unlisten">unlisten</a></li>
+    <li class="mono"><a href="#data_sources.odbc_data.ODBCDataTable.__init__">__init__</a></li>
+    <li class="mono"><a href="#data_sources.odbc_data.ODBCDataTable.acquire_refresh_lock">acquire_refresh_lock</a></li>
+    <li class="mono"><a href="#data_sources.odbc_data.ODBCDataTable.add_column">add_column</a></li>
+    <li class="mono"><a href="#data_sources.odbc_data.ODBCDataTable.changed">changed</a></li>
+    <li class="mono"><a href="#data_sources.odbc_data.ODBCDataTable.get">get</a></li>
+    <li class="mono"><a href="#data_sources.odbc_data.ODBCDataTable.get_bounds">get_bounds</a></li>
+    <li class="mono"><a href="#data_sources.odbc_data.ODBCDataTable.get_column">get_column</a></li>
+    <li class="mono"><a href="#data_sources.odbc_data.ODBCDataTable.get_columns">get_columns</a></li>
+    <li class="mono"><a href="#data_sources.odbc_data.ODBCDataTable.get_name">get_name</a></li>
+    <li class="mono"><a href="#data_sources.odbc_data.ODBCDataTable.get_names">get_names</a></li>
+    <li class="mono"><a href="#data_sources.odbc_data.ODBCDataTable.get_refresh_timestamp">get_refresh_timestamp</a></li>
+    <li class="mono"><a href="#data_sources.odbc_data.ODBCDataTable.has_column">has_column</a></li>
+    <li class="mono"><a href="#data_sources.odbc_data.ODBCDataTable.insert_column">insert_column</a></li>
+    <li class="mono"><a href="#data_sources.odbc_data.ODBCDataTable.listen">listen</a></li>
+    <li class="mono"><a href="#data_sources.odbc_data.ODBCDataTable.map_column">map_column</a></li>
+    <li class="mono"><a href="#data_sources.odbc_data.ODBCDataTable.perform_refresh">perform_refresh</a></li>
+    <li class="mono"><a href="#data_sources.odbc_data.ODBCDataTable.put">put</a></li>
+    <li class="mono"><a href="#data_sources.odbc_data.ODBCDataTable.refresh">refresh</a></li>
+    <li class="mono"><a href="#data_sources.odbc_data.ODBCDataTable.release_refresh_lock">release_refresh_lock</a></li>
+    <li class="mono"><a href="#data_sources.odbc_data.ODBCDataTable.replace_column">replace_column</a></li>
+    <li class="mono"><a href="#data_sources.odbc_data.ODBCDataTable.start_refresh">start_refresh</a></li>
+    <li class="mono"><a href="#data_sources.odbc_data.ODBCDataTable.stop_refresh">stop_refresh</a></li>
+    <li class="mono"><a href="#data_sources.odbc_data.ODBCDataTable.unlisten">unlisten</a></li>
   </ul>
 
         </li>
@@ -1102,13 +1100,13 @@ table {
 
 
   <header id="section-intro">
-  <h1 class="title"><span class="name">data_sources.elastic_data</span> module</h1>
-  <p>module that does an Elasticsearch query and creates a table of data based on the response</p>
+  <h1 class="title"><span class="name">data_sources.odbc_data</span> module</h1>
+  <p>module that performs a sql query on an odbc database and forms the result into a data table</p>
   
-  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-data_sources.elastic_data', this);">Show source &equiv;</a></p>
-  <div id="source-data_sources.elastic_data" class="source">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-data_sources.odbc_data', this);">Show source &equiv;</a></p>
+  <div id="source-data_sources.odbc_data" class="source">
     <div class="codehilite"><pre><span></span><span class="c1"># Copyright 2020 James P Goodwin data table package to manage sparse columnar data</span>
-<span class="sd">&quot;&quot;&quot; module that does an Elasticsearch query and creates a table of data based on the response &quot;&quot;&quot;</span>
+<span class="sd">&quot;&quot;&quot; module that performs a sql query on an odbc database and forms the result into a data table &quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">locale</span>
 <span class="n">locale</span><span class="o">.</span><span class="n">setlocale</span><span class="p">(</span><span class="n">locale</span><span class="o">.</span><span class="n">LC_ALL</span><span class="p">,</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
 <span class="kn">import</span> <span class="nn">sys</span>
@@ -1116,87 +1114,60 @@ table {
 <span class="kn">import</span> <span class="nn">glob</span>
 <span class="kn">import</span> <span class="nn">gzip</span>
 <span class="kn">import</span> <span class="nn">re</span>
-<span class="kn">from</span> <span class="nn">elasticsearch</span> <span class="kn">import</span> <span class="n">Elasticsearch</span>
+<span class="kn">import</span> <span class="nn">pyodbc</span>
+<span class="kn">import</span> <span class="nn">keyring</span>
 <span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span><span class="p">,</span><span class="n">timedelta</span>
 <span class="kn">from</span> <span class="nn">data_sources.data_table</span> <span class="kn">import</span> <span class="n">DataTable</span><span class="p">,</span><span class="n">Column</span><span class="p">,</span><span class="n">Cell</span><span class="p">,</span><span class="n">blank_type</span><span class="p">,</span><span class="n">string_type</span><span class="p">,</span><span class="n">float_type</span><span class="p">,</span><span class="n">int_type</span><span class="p">,</span><span class="n">date_type</span><span class="p">,</span><span class="n">format_string</span><span class="p">,</span><span class="n">format_float</span><span class="p">,</span><span class="n">format_date</span><span class="p">,</span><span class="n">format_int</span><span class="p">,</span><span class="n">synchronized</span>
 
-<span class="k">class</span> <span class="nc">ElasticsearchDataTable</span><span class="p">(</span> <span class="n">DataTable</span> <span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; class that collects data from the response to a specific elasticsearch query and populates tables based on a field map &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">refresh_minutes</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">es_index_pattern</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">es_query_body</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">es_field_map</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Initialize the ElasticsearchQueryTable pass in a refresh interval in minutes, the es_query_body dict representing the query json and the field map list of tuples [( json path, field name, field type )...]&quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">es_query_body</span> <span class="o">=</span> <span class="n">es_query_body</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">es_field_map</span> <span class="o">=</span> <span class="n">es_field_map</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">es_index_pattern</span> <span class="o">=</span> <span class="n">es_index_pattern</span>
+
+<span class="k">class</span> <span class="nc">ODBCDataTable</span><span class="p">(</span> <span class="n">DataTable</span> <span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; class that collects data from the response to a specific sql query on an odbc connected database and populates tables based on a field map &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">refresh_minutes</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">sql_spec</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">sql_query</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">sql_map</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Initalize the ODBCDataTable object pass in a sql_spec to connect to the database of the form odbc://user@server/driver/database:port, a sql_query to be executed, and a field map of the form [[sql_column_name, data_table_column_name],..] indicating the columns to collect from the result &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sql_spec</span> <span class="o">=</span> <span class="n">sql_spec</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sql_query</span> <span class="o">=</span> <span class="n">sql_query</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sql_map</span> <span class="o">=</span> <span class="n">sql_map</span>
         <span class="n">DataTable</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="kc">None</span><span class="p">,</span>
-            <span class="s2">&quot;Elasticsearch query:</span><span class="si">%s</span><span class="s2">,index:</span><span class="si">%s</span><span class="s2">,fieldmap:</span><span class="si">%s</span><span class="s2">,refreshed every </span><span class="si">%d</span><span class="s2"> minutes&quot;</span><span class="o">%</span><span class="p">(</span>
-                <span class="n">es_query_body</span><span class="p">,</span><span class="n">es_index_pattern</span><span class="p">,</span><span class="n">es_field_map</span><span class="p">,</span><span class="n">refresh_minutes</span><span class="p">),</span>
+            <span class="s2">&quot;ODBCDataTable query:</span><span class="si">%s</span><span class="s2">,database:</span><span class="si">%s</span><span class="s2">,fieldmap:</span><span class="si">%s</span><span class="s2">,refreshed every </span><span class="si">%d</span><span class="s2"> minutes&quot;</span><span class="o">%</span><span class="p">(</span>
+            <span class="n">sql_query</span><span class="p">,</span><span class="n">sql_spec</span><span class="p">,</span><span class="n">sql_map</span><span class="p">,</span><span class="n">refresh_minutes</span><span class="p">),</span>
             <span class="n">refresh_minutes</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">refresh</span><span class="p">()</span>
 
-    <span class="nd">@synchronized</span>
-    <span class="k">def</span> <span class="nf">get_es_parameters</span><span class="p">(</span> <span class="bp">self</span> <span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; fetch the elasticsearch parameters for this table as a tuple (es_query_body,es_field_map,es_index_pattern) &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">es_query_body</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">es_field_map</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">es_index_pattern</span><span class="p">)</span>
-
-    <span class="nd">@synchronized</span>
-    <span class="k">def</span> <span class="nf">set_es_parameters</span><span class="p">(</span> <span class="bp">self</span><span class="p">,</span> <span class="n">es_query_body</span><span class="p">,</span><span class="n">es_field_map</span><span class="p">,</span><span class="n">es_index_pattern</span> <span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; set the elasticsearch parameters for this table &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">es_query_body</span> <span class="o">=</span> <span class="n">es_query_body</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">es_field_map</span> <span class="o">=</span> <span class="n">es_field_map</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">es_index_pattern</span> <span class="o">=</span> <span class="n">es_index_pattern</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">refresh</span><span class="p">()</span>
 
     <span class="nd">@synchronized</span>
     <span class="k">def</span> <span class="nf">refresh</span><span class="p">(</span> <span class="bp">self</span> <span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; refresh or rebuild tables &quot;&quot;&quot;</span>
+        <span class="sd">&quot;&quot;&quot; refresh the table from the query &quot;&quot;&quot;</span>
+        <span class="n">username</span><span class="p">,</span><span class="n">server</span><span class="p">,</span><span class="n">driver</span><span class="p">,</span><span class="n">database</span><span class="p">,</span><span class="n">port</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;odbc://([a-z_][a-z0-9_-]*\${0,1})@([^/]*)/([^/]*)/([^:]*):{0,1}(\d*){0,1}&quot;</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">sql_spec</span><span class="p">)</span><span class="o">.</span><span class="n">groups</span><span class="p">()</span>
 
-        <span class="n">es</span> <span class="o">=</span> <span class="n">Elasticsearch</span><span class="p">()</span>
+        <span class="n">password</span> <span class="o">=</span> <span class="n">keyring</span><span class="o">.</span><span class="n">get_password</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sql_spec</span><span class="p">,</span> <span class="n">username</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">password</span><span class="p">:</span>
+            <span class="k">return</span>
 
-        <span class="n">result</span> <span class="o">=</span> <span class="n">es</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">es_index_pattern</span><span class="p">,</span><span class="n">body</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">es_query_body</span><span class="p">)</span>
+        <span class="n">conn</span> <span class="o">=</span> <span class="n">pyodbc</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;DRIVER={</span><span class="si">%s</span><span class="s2">};DATABASE=</span><span class="si">%s</span><span class="s2">;UID=</span><span class="si">%s</span><span class="s2">;PWD=</span><span class="si">%s</span><span class="s2">;SERVER=</span><span class="si">%s</span><span class="s2">;PORT=</span><span class="si">%s</span><span class="s2">;&quot;</span><span class="o">%</span><span class="p">(</span><span class="n">driver</span><span class="p">,</span><span class="n">database</span><span class="p">,</span><span class="n">username</span><span class="p">,</span><span class="n">password</span><span class="p">,</span><span class="n">server</span><span class="p">,</span><span class="n">port</span><span class="p">))</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">conn</span><span class="p">:</span>
+            <span class="k">return</span>
 
-        <span class="k">def</span> <span class="nf">match_fields</span><span class="p">(</span> <span class="n">name</span><span class="p">,</span> <span class="n">result</span> <span class="p">):</span>
-            <span class="n">matches</span> <span class="o">=</span> <span class="p">[]</span>
-            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">result</span><span class="p">,</span><span class="nb">dict</span><span class="p">):</span>
-                <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">result</span><span class="p">:</span>
-                    <span class="n">full_name</span> <span class="o">=</span> <span class="p">(</span><span class="n">name</span><span class="o">+</span><span class="s2">&quot;.&quot;</span> <span class="k">if</span> <span class="n">name</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">+</span><span class="n">k</span>
-                    <span class="n">item</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
-                    <span class="k">for</span> <span class="n">json_path</span><span class="p">,</span><span class="n">field_name</span><span class="p">,</span><span class="n">field_type</span>  <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">es_field_map</span><span class="p">:</span>
-                        <span class="k">if</span> <span class="n">full_name</span> <span class="o">==</span> <span class="n">json_path</span><span class="p">:</span>
-                            <span class="n">matches</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">field_name</span><span class="p">,</span><span class="n">field_type</span><span class="p">,</span><span class="n">item</span><span class="p">))</span>
-                    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">item</span><span class="p">,</span><span class="nb">dict</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">item</span><span class="p">,</span><span class="nb">list</span><span class="p">):</span>
-                        <span class="n">matches</span> <span class="o">+=</span> <span class="n">match_fields</span><span class="p">(</span><span class="n">full_name</span><span class="p">,</span><span class="n">item</span><span class="p">)</span>
-            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">result</span><span class="p">,</span><span class="nb">list</span><span class="p">):</span>
-                <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">result</span><span class="p">:</span>
-                    <span class="n">matches</span> <span class="o">+=</span> <span class="n">match_fields</span><span class="p">(</span><span class="n">name</span><span class="p">,</span><span class="n">k</span><span class="p">)</span>
-            <span class="k">return</span> <span class="n">matches</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sql_query</span><span class="p">)</span>
 
-        <span class="n">matches</span> <span class="o">=</span> <span class="n">match_fields</span><span class="p">(</span> <span class="s2">&quot;&quot;</span><span class="p">,</span><span class="n">result</span><span class="p">)</span>
-
-        <span class="n">new_columns</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="k">for</span> <span class="n">column_name</span><span class="p">,</span><span class="n">column_type</span><span class="p">,</span><span class="n">value</span> <span class="ow">in</span> <span class="n">matches</span><span class="p">:</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="n">column_name</span> <span class="ow">in</span> <span class="n">new_columns</span><span class="p">:</span>
-                <span class="n">new_columns</span><span class="p">[</span><span class="n">column_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">column_name</span><span class="p">)</span>
-            <span class="n">c</span> <span class="o">=</span> <span class="n">new_columns</span><span class="p">[</span><span class="n">column_name</span><span class="p">]</span>
-            <span class="k">if</span> <span class="n">column_type</span> <span class="o">==</span> <span class="s2">&quot;date&quot;</span><span class="p">:</span>
-                <span class="n">cc</span> <span class="o">=</span> <span class="n">Cell</span><span class="p">(</span><span class="n">date_type</span><span class="p">,</span><span class="n">datetime</span><span class="o">.</span><span class="n">fromtimestamp</span><span class="p">(</span><span class="n">value</span><span class="o">/</span><span class="mi">1000</span><span class="p">),</span><span class="n">format_date</span><span class="p">)</span>
-            <span class="k">elif</span> <span class="n">column_type</span> <span class="o">==</span> <span class="s2">&quot;int&quot;</span><span class="p">:</span>
-                <span class="n">cc</span> <span class="o">=</span> <span class="n">Cell</span><span class="p">(</span><span class="n">int_type</span><span class="p">,</span><span class="n">value</span><span class="p">,</span><span class="n">format_int</span><span class="p">)</span>
-            <span class="k">elif</span> <span class="n">column_type</span> <span class="o">==</span> <span class="s2">&quot;float&quot;</span><span class="p">:</span>
-                <span class="n">cc</span> <span class="o">=</span> <span class="n">Cell</span><span class="p">(</span><span class="n">float_type</span><span class="p">,</span><span class="n">value</span><span class="p">,</span><span class="n">format_float</span><span class="p">)</span>
-            <span class="k">elif</span> <span class="n">column_type</span> <span class="o">==</span> <span class="s2">&quot;str&quot;</span><span class="p">:</span>
-                <span class="n">cc</span> <span class="o">=</span> <span class="n">Cell</span><span class="p">(</span><span class="n">string_type</span><span class="p">,</span><span class="n">value</span><span class="p">,</span><span class="n">format_string</span><span class="p">)</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">cc</span> <span class="o">=</span> <span class="n">Cell</span><span class="p">(</span><span class="n">string_type</span><span class="p">,</span><span class="nb">str</span><span class="p">(</span><span class="n">value</span><span class="p">),</span><span class="n">format_string</span><span class="p">)</span>
-            <span class="n">c</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">size</span><span class="p">(),</span><span class="n">cc</span><span class="p">)</span>
-
-        <span class="k">for</span> <span class="n">column_name</span> <span class="ow">in</span> <span class="n">new_columns</span><span class="p">:</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">has_column</span><span class="p">(</span><span class="n">column_name</span><span class="p">):</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">replace_column</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">map_column</span><span class="p">(</span><span class="n">column_name</span><span class="p">),</span><span class="n">new_columns</span><span class="p">[</span><span class="n">column_name</span><span class="p">])</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">add_column</span><span class="p">(</span><span class="n">new_columns</span><span class="p">[</span><span class="n">column_name</span><span class="p">])</span>
+        <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">result</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">sql_column</span><span class="p">,</span><span class="n">data_column</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">sql_map</span><span class="p">:</span>
+                <span class="n">value</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">row</span><span class="p">,</span><span class="n">sql_column</span><span class="p">)</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">has_column</span><span class="p">(</span><span class="n">data_column</span><span class="p">):</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">add_column</span><span class="p">(</span><span class="n">Column</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">data_column</span><span class="p">))</span>
+                <span class="n">c</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_column</span><span class="p">(</span><span class="n">data_column</span><span class="p">)</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span><span class="n">datetime</span><span class="p">):</span>
+                    <span class="n">cc</span> <span class="o">=</span> <span class="n">Cell</span><span class="p">(</span><span class="n">date_type</span><span class="p">,</span><span class="n">value</span><span class="p">,</span><span class="n">format_date</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span><span class="nb">int</span><span class="p">):</span>
+                    <span class="n">cc</span> <span class="o">=</span> <span class="n">Cell</span><span class="p">(</span><span class="n">int_type</span><span class="p">,</span><span class="n">value</span><span class="p">,</span><span class="n">format_int</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span><span class="nb">float</span><span class="p">):</span>
+                    <span class="n">cc</span> <span class="o">=</span> <span class="n">Cell</span><span class="p">(</span><span class="n">float_type</span><span class="p">,</span><span class="n">value</span><span class="p">,</span><span class="n">format_float</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span><span class="nb">str</span><span class="p">):</span>
+                    <span class="n">cc</span> <span class="o">=</span> <span class="n">Cell</span><span class="p">(</span><span class="n">string_type</span><span class="p">,</span><span class="n">value</span><span class="p">,</span><span class="n">format_string</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">cc</span> <span class="o">=</span> <span class="n">Cell</span><span class="p">(</span><span class="n">string_type</span><span class="p">,</span><span class="nb">str</span><span class="p">(</span><span class="n">value</span><span class="p">),</span><span class="n">format_string</span><span class="p">)</span>
+                <span class="n">c</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">size</span><span class="p">(),</span><span class="n">cc</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">changed</span><span class="p">()</span>
-
         <span class="n">DataTable</span><span class="o">.</span><span class="n">refresh</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 </pre></div>
 
@@ -1207,7 +1178,7 @@ table {
   <section id="section-items">
     <h2 class="section-title" id="header-variables">Module variables</h2>
       <div class="item">
-      <p id="data_sources.elastic_data.blank_type" class="name">var <span class="ident">blank_type</span></p>
+      <p id="data_sources.odbc_data.blank_type" class="name">var <span class="ident">blank_type</span></p>
       
   
   <div class="source_cont">
@@ -1215,7 +1186,7 @@ table {
 
       </div>
       <div class="item">
-      <p id="data_sources.elastic_data.date_type" class="name">var <span class="ident">date_type</span></p>
+      <p id="data_sources.odbc_data.date_type" class="name">var <span class="ident">date_type</span></p>
       
   
   <div class="source_cont">
@@ -1223,7 +1194,7 @@ table {
 
       </div>
       <div class="item">
-      <p id="data_sources.elastic_data.float_type" class="name">var <span class="ident">float_type</span></p>
+      <p id="data_sources.odbc_data.float_type" class="name">var <span class="ident">float_type</span></p>
       
   
   <div class="source_cont">
@@ -1231,7 +1202,7 @@ table {
 
       </div>
       <div class="item">
-      <p id="data_sources.elastic_data.int_type" class="name">var <span class="ident">int_type</span></p>
+      <p id="data_sources.odbc_data.int_type" class="name">var <span class="ident">int_type</span></p>
       
   
   <div class="source_cont">
@@ -1239,7 +1210,7 @@ table {
 
       </div>
       <div class="item">
-      <p id="data_sources.elastic_data.string_type" class="name">var <span class="ident">string_type</span></p>
+      <p id="data_sources.odbc_data.string_type" class="name">var <span class="ident">string_type</span></p>
       
   
   <div class="source_cont">
@@ -1251,90 +1222,61 @@ table {
     <h2 class="section-title" id="header-classes">Classes</h2>
       
       <div class="item">
-      <p id="data_sources.elastic_data.ElasticsearchDataTable" class="name">class <span class="ident">ElasticsearchDataTable</span></p>
+      <p id="data_sources.odbc_data.ODBCDataTable" class="name">class <span class="ident">ODBCDataTable</span></p>
       
   
-    <div class="desc"><p>class that collects data from the response to a specific elasticsearch query and populates tables based on a field map</p></div>
+    <div class="desc"><p>class that collects data from the response to a specific sql query on an odbc connected database and populates tables based on a field map</p></div>
   <div class="source_cont">
-  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-data_sources.elastic_data.ElasticsearchDataTable', this);">Show source &equiv;</a></p>
-  <div id="source-data_sources.elastic_data.ElasticsearchDataTable" class="source">
-    <div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">ElasticsearchDataTable</span><span class="p">(</span> <span class="n">DataTable</span> <span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; class that collects data from the response to a specific elasticsearch query and populates tables based on a field map &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">refresh_minutes</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">es_index_pattern</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">es_query_body</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">es_field_map</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Initialize the ElasticsearchQueryTable pass in a refresh interval in minutes, the es_query_body dict representing the query json and the field map list of tuples [( json path, field name, field type )...]&quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">es_query_body</span> <span class="o">=</span> <span class="n">es_query_body</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">es_field_map</span> <span class="o">=</span> <span class="n">es_field_map</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">es_index_pattern</span> <span class="o">=</span> <span class="n">es_index_pattern</span>
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-data_sources.odbc_data.ODBCDataTable', this);">Show source &equiv;</a></p>
+  <div id="source-data_sources.odbc_data.ODBCDataTable" class="source">
+    <div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">ODBCDataTable</span><span class="p">(</span> <span class="n">DataTable</span> <span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; class that collects data from the response to a specific sql query on an odbc connected database and populates tables based on a field map &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">refresh_minutes</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">sql_spec</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">sql_query</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">sql_map</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Initalize the ODBCDataTable object pass in a sql_spec to connect to the database of the form odbc://user@server/driver/database:port, a sql_query to be executed, and a field map of the form [[sql_column_name, data_table_column_name],..] indicating the columns to collect from the result &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sql_spec</span> <span class="o">=</span> <span class="n">sql_spec</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sql_query</span> <span class="o">=</span> <span class="n">sql_query</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sql_map</span> <span class="o">=</span> <span class="n">sql_map</span>
         <span class="n">DataTable</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="kc">None</span><span class="p">,</span>
-            <span class="s2">&quot;Elasticsearch query:</span><span class="si">%s</span><span class="s2">,index:</span><span class="si">%s</span><span class="s2">,fieldmap:</span><span class="si">%s</span><span class="s2">,refreshed every </span><span class="si">%d</span><span class="s2"> minutes&quot;</span><span class="o">%</span><span class="p">(</span>
-                <span class="n">es_query_body</span><span class="p">,</span><span class="n">es_index_pattern</span><span class="p">,</span><span class="n">es_field_map</span><span class="p">,</span><span class="n">refresh_minutes</span><span class="p">),</span>
+            <span class="s2">&quot;ODBCDataTable query:</span><span class="si">%s</span><span class="s2">,database:</span><span class="si">%s</span><span class="s2">,fieldmap:</span><span class="si">%s</span><span class="s2">,refreshed every </span><span class="si">%d</span><span class="s2"> minutes&quot;</span><span class="o">%</span><span class="p">(</span>
+            <span class="n">sql_query</span><span class="p">,</span><span class="n">sql_spec</span><span class="p">,</span><span class="n">sql_map</span><span class="p">,</span><span class="n">refresh_minutes</span><span class="p">),</span>
             <span class="n">refresh_minutes</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">refresh</span><span class="p">()</span>
 
-    <span class="nd">@synchronized</span>
-    <span class="k">def</span> <span class="nf">get_es_parameters</span><span class="p">(</span> <span class="bp">self</span> <span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; fetch the elasticsearch parameters for this table as a tuple (es_query_body,es_field_map,es_index_pattern) &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">es_query_body</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">es_field_map</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">es_index_pattern</span><span class="p">)</span>
-
-    <span class="nd">@synchronized</span>
-    <span class="k">def</span> <span class="nf">set_es_parameters</span><span class="p">(</span> <span class="bp">self</span><span class="p">,</span> <span class="n">es_query_body</span><span class="p">,</span><span class="n">es_field_map</span><span class="p">,</span><span class="n">es_index_pattern</span> <span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; set the elasticsearch parameters for this table &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">es_query_body</span> <span class="o">=</span> <span class="n">es_query_body</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">es_field_map</span> <span class="o">=</span> <span class="n">es_field_map</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">es_index_pattern</span> <span class="o">=</span> <span class="n">es_index_pattern</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">refresh</span><span class="p">()</span>
 
     <span class="nd">@synchronized</span>
     <span class="k">def</span> <span class="nf">refresh</span><span class="p">(</span> <span class="bp">self</span> <span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; refresh or rebuild tables &quot;&quot;&quot;</span>
+        <span class="sd">&quot;&quot;&quot; refresh the table from the query &quot;&quot;&quot;</span>
+        <span class="n">username</span><span class="p">,</span><span class="n">server</span><span class="p">,</span><span class="n">driver</span><span class="p">,</span><span class="n">database</span><span class="p">,</span><span class="n">port</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;odbc://([a-z_][a-z0-9_-]*\${0,1})@([^/]*)/([^/]*)/([^:]*):{0,1}(\d*){0,1}&quot;</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">sql_spec</span><span class="p">)</span><span class="o">.</span><span class="n">groups</span><span class="p">()</span>
 
-        <span class="n">es</span> <span class="o">=</span> <span class="n">Elasticsearch</span><span class="p">()</span>
+        <span class="n">password</span> <span class="o">=</span> <span class="n">keyring</span><span class="o">.</span><span class="n">get_password</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sql_spec</span><span class="p">,</span> <span class="n">username</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">password</span><span class="p">:</span>
+            <span class="k">return</span>
 
-        <span class="n">result</span> <span class="o">=</span> <span class="n">es</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">es_index_pattern</span><span class="p">,</span><span class="n">body</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">es_query_body</span><span class="p">)</span>
+        <span class="n">conn</span> <span class="o">=</span> <span class="n">pyodbc</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;DRIVER={</span><span class="si">%s</span><span class="s2">};DATABASE=</span><span class="si">%s</span><span class="s2">;UID=</span><span class="si">%s</span><span class="s2">;PWD=</span><span class="si">%s</span><span class="s2">;SERVER=</span><span class="si">%s</span><span class="s2">;PORT=</span><span class="si">%s</span><span class="s2">;&quot;</span><span class="o">%</span><span class="p">(</span><span class="n">driver</span><span class="p">,</span><span class="n">database</span><span class="p">,</span><span class="n">username</span><span class="p">,</span><span class="n">password</span><span class="p">,</span><span class="n">server</span><span class="p">,</span><span class="n">port</span><span class="p">))</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">conn</span><span class="p">:</span>
+            <span class="k">return</span>
 
-        <span class="k">def</span> <span class="nf">match_fields</span><span class="p">(</span> <span class="n">name</span><span class="p">,</span> <span class="n">result</span> <span class="p">):</span>
-            <span class="n">matches</span> <span class="o">=</span> <span class="p">[]</span>
-            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">result</span><span class="p">,</span><span class="nb">dict</span><span class="p">):</span>
-                <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">result</span><span class="p">:</span>
-                    <span class="n">full_name</span> <span class="o">=</span> <span class="p">(</span><span class="n">name</span><span class="o">+</span><span class="s2">&quot;.&quot;</span> <span class="k">if</span> <span class="n">name</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">+</span><span class="n">k</span>
-                    <span class="n">item</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
-                    <span class="k">for</span> <span class="n">json_path</span><span class="p">,</span><span class="n">field_name</span><span class="p">,</span><span class="n">field_type</span>  <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">es_field_map</span><span class="p">:</span>
-                        <span class="k">if</span> <span class="n">full_name</span> <span class="o">==</span> <span class="n">json_path</span><span class="p">:</span>
-                            <span class="n">matches</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">field_name</span><span class="p">,</span><span class="n">field_type</span><span class="p">,</span><span class="n">item</span><span class="p">))</span>
-                    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">item</span><span class="p">,</span><span class="nb">dict</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">item</span><span class="p">,</span><span class="nb">list</span><span class="p">):</span>
-                        <span class="n">matches</span> <span class="o">+=</span> <span class="n">match_fields</span><span class="p">(</span><span class="n">full_name</span><span class="p">,</span><span class="n">item</span><span class="p">)</span>
-            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">result</span><span class="p">,</span><span class="nb">list</span><span class="p">):</span>
-                <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">result</span><span class="p">:</span>
-                    <span class="n">matches</span> <span class="o">+=</span> <span class="n">match_fields</span><span class="p">(</span><span class="n">name</span><span class="p">,</span><span class="n">k</span><span class="p">)</span>
-            <span class="k">return</span> <span class="n">matches</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sql_query</span><span class="p">)</span>
 
-        <span class="n">matches</span> <span class="o">=</span> <span class="n">match_fields</span><span class="p">(</span> <span class="s2">&quot;&quot;</span><span class="p">,</span><span class="n">result</span><span class="p">)</span>
-
-        <span class="n">new_columns</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="k">for</span> <span class="n">column_name</span><span class="p">,</span><span class="n">column_type</span><span class="p">,</span><span class="n">value</span> <span class="ow">in</span> <span class="n">matches</span><span class="p">:</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="n">column_name</span> <span class="ow">in</span> <span class="n">new_columns</span><span class="p">:</span>
-                <span class="n">new_columns</span><span class="p">[</span><span class="n">column_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">column_name</span><span class="p">)</span>
-            <span class="n">c</span> <span class="o">=</span> <span class="n">new_columns</span><span class="p">[</span><span class="n">column_name</span><span class="p">]</span>
-            <span class="k">if</span> <span class="n">column_type</span> <span class="o">==</span> <span class="s2">&quot;date&quot;</span><span class="p">:</span>
-                <span class="n">cc</span> <span class="o">=</span> <span class="n">Cell</span><span class="p">(</span><span class="n">date_type</span><span class="p">,</span><span class="n">datetime</span><span class="o">.</span><span class="n">fromtimestamp</span><span class="p">(</span><span class="n">value</span><span class="o">/</span><span class="mi">1000</span><span class="p">),</span><span class="n">format_date</span><span class="p">)</span>
-            <span class="k">elif</span> <span class="n">column_type</span> <span class="o">==</span> <span class="s2">&quot;int&quot;</span><span class="p">:</span>
-                <span class="n">cc</span> <span class="o">=</span> <span class="n">Cell</span><span class="p">(</span><span class="n">int_type</span><span class="p">,</span><span class="n">value</span><span class="p">,</span><span class="n">format_int</span><span class="p">)</span>
-            <span class="k">elif</span> <span class="n">column_type</span> <span class="o">==</span> <span class="s2">&quot;float&quot;</span><span class="p">:</span>
-                <span class="n">cc</span> <span class="o">=</span> <span class="n">Cell</span><span class="p">(</span><span class="n">float_type</span><span class="p">,</span><span class="n">value</span><span class="p">,</span><span class="n">format_float</span><span class="p">)</span>
-            <span class="k">elif</span> <span class="n">column_type</span> <span class="o">==</span> <span class="s2">&quot;str&quot;</span><span class="p">:</span>
-                <span class="n">cc</span> <span class="o">=</span> <span class="n">Cell</span><span class="p">(</span><span class="n">string_type</span><span class="p">,</span><span class="n">value</span><span class="p">,</span><span class="n">format_string</span><span class="p">)</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">cc</span> <span class="o">=</span> <span class="n">Cell</span><span class="p">(</span><span class="n">string_type</span><span class="p">,</span><span class="nb">str</span><span class="p">(</span><span class="n">value</span><span class="p">),</span><span class="n">format_string</span><span class="p">)</span>
-            <span class="n">c</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">size</span><span class="p">(),</span><span class="n">cc</span><span class="p">)</span>
-
-        <span class="k">for</span> <span class="n">column_name</span> <span class="ow">in</span> <span class="n">new_columns</span><span class="p">:</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">has_column</span><span class="p">(</span><span class="n">column_name</span><span class="p">):</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">replace_column</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">map_column</span><span class="p">(</span><span class="n">column_name</span><span class="p">),</span><span class="n">new_columns</span><span class="p">[</span><span class="n">column_name</span><span class="p">])</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">add_column</span><span class="p">(</span><span class="n">new_columns</span><span class="p">[</span><span class="n">column_name</span><span class="p">])</span>
+        <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">result</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">sql_column</span><span class="p">,</span><span class="n">data_column</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">sql_map</span><span class="p">:</span>
+                <span class="n">value</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">row</span><span class="p">,</span><span class="n">sql_column</span><span class="p">)</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">has_column</span><span class="p">(</span><span class="n">data_column</span><span class="p">):</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">add_column</span><span class="p">(</span><span class="n">Column</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">data_column</span><span class="p">))</span>
+                <span class="n">c</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_column</span><span class="p">(</span><span class="n">data_column</span><span class="p">)</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span><span class="n">datetime</span><span class="p">):</span>
+                    <span class="n">cc</span> <span class="o">=</span> <span class="n">Cell</span><span class="p">(</span><span class="n">date_type</span><span class="p">,</span><span class="n">value</span><span class="p">,</span><span class="n">format_date</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span><span class="nb">int</span><span class="p">):</span>
+                    <span class="n">cc</span> <span class="o">=</span> <span class="n">Cell</span><span class="p">(</span><span class="n">int_type</span><span class="p">,</span><span class="n">value</span><span class="p">,</span><span class="n">format_int</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span><span class="nb">float</span><span class="p">):</span>
+                    <span class="n">cc</span> <span class="o">=</span> <span class="n">Cell</span><span class="p">(</span><span class="n">float_type</span><span class="p">,</span><span class="n">value</span><span class="p">,</span><span class="n">format_float</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span><span class="nb">str</span><span class="p">):</span>
+                    <span class="n">cc</span> <span class="o">=</span> <span class="n">Cell</span><span class="p">(</span><span class="n">string_type</span><span class="p">,</span><span class="n">value</span><span class="p">,</span><span class="n">format_string</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">cc</span> <span class="o">=</span> <span class="n">Cell</span><span class="p">(</span><span class="n">string_type</span><span class="p">,</span><span class="nb">str</span><span class="p">(</span><span class="n">value</span><span class="p">),</span><span class="n">format_string</span><span class="p">)</span>
+                <span class="n">c</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">size</span><span class="p">(),</span><span class="n">cc</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">changed</span><span class="p">()</span>
-
         <span class="n">DataTable</span><span class="o">.</span><span class="n">refresh</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 </pre></div>
 
@@ -1345,32 +1287,32 @@ table {
       <div class="class">
           <h3>Ancestors (in MRO)</h3>
           <ul class="class_list">
-          <li><a href="#data_sources.elastic_data.ElasticsearchDataTable">ElasticsearchDataTable</a></li>
+          <li><a href="#data_sources.odbc_data.ODBCDataTable">ODBCDataTable</a></li>
           <li>data_sources.data_table.DataTable</li>
           <li>builtins.object</li>
           </ul>
           <h3>Static methods</h3>
             
   <div class="item">
-    <div class="name def" id="data_sources.elastic_data.ElasticsearchDataTable.__init__">
-    <p>def <span class="ident">__init__</span>(</p><p>self, refresh_minutes=1, es_index_pattern=None, es_query_body=None, es_field_map=None)</p>
+    <div class="name def" id="data_sources.odbc_data.ODBCDataTable.__init__">
+    <p>def <span class="ident">__init__</span>(</p><p>self, refresh_minutes=1, sql_spec=None, sql_query=None, sql_map=None)</p>
     </div>
     
 
     
   
-    <div class="desc"><p>Initialize the ElasticsearchQueryTable pass in a refresh interval in minutes, the es_query_body dict representing the query json and the field map list of tuples [( json path, field name, field type )...]</p></div>
+    <div class="desc"><p>Initalize the ODBCDataTable object pass in a sql_spec to connect to the database of the form odbc://user@server/driver/database:port, a sql_query to be executed, and a field map of the form [[sql_column_name, data_table_column_name],..] indicating the columns to collect from the result</p></div>
   <div class="source_cont">
-  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-data_sources.elastic_data.ElasticsearchDataTable.__init__', this);">Show source &equiv;</a></p>
-  <div id="source-data_sources.elastic_data.ElasticsearchDataTable.__init__" class="source">
-    <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">refresh_minutes</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">es_index_pattern</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">es_query_body</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">es_field_map</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Initialize the ElasticsearchQueryTable pass in a refresh interval in minutes, the es_query_body dict representing the query json and the field map list of tuples [( json path, field name, field type )...]&quot;&quot;&quot;</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">es_query_body</span> <span class="o">=</span> <span class="n">es_query_body</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">es_field_map</span> <span class="o">=</span> <span class="n">es_field_map</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">es_index_pattern</span> <span class="o">=</span> <span class="n">es_index_pattern</span>
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-data_sources.odbc_data.ODBCDataTable.__init__', this);">Show source &equiv;</a></p>
+  <div id="source-data_sources.odbc_data.ODBCDataTable.__init__" class="source">
+    <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">refresh_minutes</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">sql_spec</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">sql_query</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">sql_map</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Initalize the ODBCDataTable object pass in a sql_spec to connect to the database of the form odbc://user@server/driver/database:port, a sql_query to be executed, and a field map of the form [[sql_column_name, data_table_column_name],..] indicating the columns to collect from the result &quot;&quot;&quot;</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">sql_spec</span> <span class="o">=</span> <span class="n">sql_spec</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">sql_query</span> <span class="o">=</span> <span class="n">sql_query</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">sql_map</span> <span class="o">=</span> <span class="n">sql_map</span>
     <span class="n">DataTable</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="kc">None</span><span class="p">,</span>
-        <span class="s2">&quot;Elasticsearch query:</span><span class="si">%s</span><span class="s2">,index:</span><span class="si">%s</span><span class="s2">,fieldmap:</span><span class="si">%s</span><span class="s2">,refreshed every </span><span class="si">%d</span><span class="s2"> minutes&quot;</span><span class="o">%</span><span class="p">(</span>
-            <span class="n">es_query_body</span><span class="p">,</span><span class="n">es_index_pattern</span><span class="p">,</span><span class="n">es_field_map</span><span class="p">,</span><span class="n">refresh_minutes</span><span class="p">),</span>
+        <span class="s2">&quot;ODBCDataTable query:</span><span class="si">%s</span><span class="s2">,database:</span><span class="si">%s</span><span class="s2">,fieldmap:</span><span class="si">%s</span><span class="s2">,refreshed every </span><span class="si">%d</span><span class="s2"> minutes&quot;</span><span class="o">%</span><span class="p">(</span>
+        <span class="n">sql_query</span><span class="p">,</span><span class="n">sql_spec</span><span class="p">,</span><span class="n">sql_map</span><span class="p">,</span><span class="n">refresh_minutes</span><span class="p">),</span>
         <span class="n">refresh_minutes</span><span class="p">)</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">refresh</span><span class="p">()</span>
 </pre></div>
@@ -1382,7 +1324,7 @@ table {
   
             
   <div class="item">
-    <div class="name def" id="data_sources.elastic_data.ElasticsearchDataTable.acquire_refresh_lock">
+    <div class="name def" id="data_sources.odbc_data.ODBCDataTable.acquire_refresh_lock">
     <p>def <span class="ident">acquire_refresh_lock</span>(</p><p>self)</p>
     </div>
     
@@ -1391,8 +1333,8 @@ table {
   
     <div class="desc"><p>acquire the refresh lock before reading/writing the table state</p></div>
   <div class="source_cont">
-  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-data_sources.elastic_data.ElasticsearchDataTable.acquire_refresh_lock', this);">Show source &equiv;</a></p>
-  <div id="source-data_sources.elastic_data.ElasticsearchDataTable.acquire_refresh_lock" class="source">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-data_sources.odbc_data.ODBCDataTable.acquire_refresh_lock', this);">Show source &equiv;</a></p>
+  <div id="source-data_sources.odbc_data.ODBCDataTable.acquire_refresh_lock" class="source">
     <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">acquire_refresh_lock</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; acquire the refresh lock before reading/writing the table state &quot;&quot;&quot;</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">refresh_lock</span><span class="o">.</span><span class="n">acquire</span><span class="p">()</span>
@@ -1405,7 +1347,7 @@ table {
   
             
   <div class="item">
-    <div class="name def" id="data_sources.elastic_data.ElasticsearchDataTable.add_column">
+    <div class="name def" id="data_sources.odbc_data.ODBCDataTable.add_column">
     <p>def <span class="ident">add_column</span>(</p><p>self, *args, **kwargs)</p>
     </div>
     
@@ -1413,8 +1355,8 @@ table {
     
   
   <div class="source_cont">
-  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-data_sources.elastic_data.ElasticsearchDataTable.add_column', this);">Show source &equiv;</a></p>
-  <div id="source-data_sources.elastic_data.ElasticsearchDataTable.add_column" class="source">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-data_sources.odbc_data.ODBCDataTable.add_column', this);">Show source &equiv;</a></p>
+  <div id="source-data_sources.odbc_data.ODBCDataTable.add_column" class="source">
     <div class="codehilite"><pre><span></span><span class="nd">@synchronized</span>
 <span class="k">def</span> <span class="nf">add_column</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">column</span><span class="p">):</span>
     <span class="n">idx</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
@@ -1433,7 +1375,7 @@ table {
   
             
   <div class="item">
-    <div class="name def" id="data_sources.elastic_data.ElasticsearchDataTable.changed">
+    <div class="name def" id="data_sources.odbc_data.ODBCDataTable.changed">
     <p>def <span class="ident">changed</span>(</p><p>self)</p>
     </div>
     
@@ -1442,8 +1384,8 @@ table {
   
     <div class="desc"><p>notify listeners that this table has been changed</p></div>
   <div class="source_cont">
-  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-data_sources.elastic_data.ElasticsearchDataTable.changed', this);">Show source &equiv;</a></p>
-  <div id="source-data_sources.elastic_data.ElasticsearchDataTable.changed" class="source">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-data_sources.odbc_data.ODBCDataTable.changed', this);">Show source &equiv;</a></p>
+  <div id="source-data_sources.odbc_data.ODBCDataTable.changed" class="source">
     <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">changed</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; notify listeners that this table has been changed &quot;&quot;&quot;</span>
     <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">listeners</span><span class="p">:</span>
@@ -1457,7 +1399,7 @@ table {
   
             
   <div class="item">
-    <div class="name def" id="data_sources.elastic_data.ElasticsearchDataTable.get">
+    <div class="name def" id="data_sources.odbc_data.ODBCDataTable.get">
     <p>def <span class="ident">get</span>(</p><p>self, *args, **kwargs)</p>
     </div>
     
@@ -1465,8 +1407,8 @@ table {
     
   
   <div class="source_cont">
-  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-data_sources.elastic_data.ElasticsearchDataTable.get', this);">Show source &equiv;</a></p>
-  <div id="source-data_sources.elastic_data.ElasticsearchDataTable.get" class="source">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-data_sources.odbc_data.ODBCDataTable.get', this);">Show source &equiv;</a></p>
+  <div id="source-data_sources.odbc_data.ODBCDataTable.get" class="source">
     <div class="codehilite"><pre><span></span><span class="nd">@synchronized</span>
 <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">reference</span> <span class="p">):</span>
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">map_column</span><span class="p">(</span><span class="n">reference</span><span class="p">)]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
@@ -1479,7 +1421,7 @@ table {
   
             
   <div class="item">
-    <div class="name def" id="data_sources.elastic_data.ElasticsearchDataTable.get_bounds">
+    <div class="name def" id="data_sources.odbc_data.ODBCDataTable.get_bounds">
     <p>def <span class="ident">get_bounds</span>(</p><p>self, *args, **kwargs)</p>
     </div>
     
@@ -1488,8 +1430,8 @@ table {
   
     <div class="desc"><p>return a tuple (rows,cols) where rows is the maximum number of rows and cols is the maximum number of cols</p></div>
   <div class="source_cont">
-  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-data_sources.elastic_data.ElasticsearchDataTable.get_bounds', this);">Show source &equiv;</a></p>
-  <div id="source-data_sources.elastic_data.ElasticsearchDataTable.get_bounds" class="source">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-data_sources.odbc_data.ODBCDataTable.get_bounds', this);">Show source &equiv;</a></p>
+  <div id="source-data_sources.odbc_data.ODBCDataTable.get_bounds" class="source">
     <div class="codehilite"><pre><span></span><span class="nd">@synchronized</span>
 <span class="k">def</span> <span class="nf">get_bounds</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; return a tuple (rows,cols) where rows is the maximum number of rows and cols is the maximum number of cols &quot;&quot;&quot;</span>
@@ -1509,7 +1451,7 @@ table {
   
             
   <div class="item">
-    <div class="name def" id="data_sources.elastic_data.ElasticsearchDataTable.get_column">
+    <div class="name def" id="data_sources.odbc_data.ODBCDataTable.get_column">
     <p>def <span class="ident">get_column</span>(</p><p>self, *args, **kwargs)</p>
     </div>
     
@@ -1517,8 +1459,8 @@ table {
     
   
   <div class="source_cont">
-  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-data_sources.elastic_data.ElasticsearchDataTable.get_column', this);">Show source &equiv;</a></p>
-  <div id="source-data_sources.elastic_data.ElasticsearchDataTable.get_column" class="source">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-data_sources.odbc_data.ODBCDataTable.get_column', this);">Show source &equiv;</a></p>
+  <div id="source-data_sources.odbc_data.ODBCDataTable.get_column" class="source">
     <div class="codehilite"><pre><span></span><span class="nd">@synchronized</span>
 <span class="k">def</span> <span class="nf">get_column</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reference</span><span class="p">):</span>
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">map_column</span><span class="p">(</span><span class="n">reference</span><span class="p">)]</span>
@@ -1531,7 +1473,7 @@ table {
   
             
   <div class="item">
-    <div class="name def" id="data_sources.elastic_data.ElasticsearchDataTable.get_columns">
+    <div class="name def" id="data_sources.odbc_data.ODBCDataTable.get_columns">
     <p>def <span class="ident">get_columns</span>(</p><p>self, *args, **kwargs)</p>
     </div>
     
@@ -1540,8 +1482,8 @@ table {
   
     <div class="desc"><p>return the list of columns</p></div>
   <div class="source_cont">
-  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-data_sources.elastic_data.ElasticsearchDataTable.get_columns', this);">Show source &equiv;</a></p>
-  <div id="source-data_sources.elastic_data.ElasticsearchDataTable.get_columns" class="source">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-data_sources.odbc_data.ODBCDataTable.get_columns', this);">Show source &equiv;</a></p>
+  <div id="source-data_sources.odbc_data.ODBCDataTable.get_columns" class="source">
     <div class="codehilite"><pre><span></span><span class="nd">@synchronized</span>
 <span class="k">def</span> <span class="nf">get_columns</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; return the list of columns &quot;&quot;&quot;</span>
@@ -1555,31 +1497,7 @@ table {
   
             
   <div class="item">
-    <div class="name def" id="data_sources.elastic_data.ElasticsearchDataTable.get_es_parameters">
-    <p>def <span class="ident">get_es_parameters</span>(</p><p>self, *args, **kwargs)</p>
-    </div>
-    
-
-    
-  
-    <div class="desc"><p>fetch the elasticsearch parameters for this table as a tuple (es_query_body,es_field_map,es_index_pattern)</p></div>
-  <div class="source_cont">
-  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-data_sources.elastic_data.ElasticsearchDataTable.get_es_parameters', this);">Show source &equiv;</a></p>
-  <div id="source-data_sources.elastic_data.ElasticsearchDataTable.get_es_parameters" class="source">
-    <div class="codehilite"><pre><span></span><span class="nd">@synchronized</span>
-<span class="k">def</span> <span class="nf">get_es_parameters</span><span class="p">(</span> <span class="bp">self</span> <span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; fetch the elasticsearch parameters for this table as a tuple (es_query_body,es_field_map,es_index_pattern) &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">es_query_body</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">es_field_map</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">es_index_pattern</span><span class="p">)</span>
-</pre></div>
-
-  </div>
-</div>
-
-  </div>
-  
-            
-  <div class="item">
-    <div class="name def" id="data_sources.elastic_data.ElasticsearchDataTable.get_name">
+    <div class="name def" id="data_sources.odbc_data.ODBCDataTable.get_name">
     <p>def <span class="ident">get_name</span>(</p><p>self)</p>
     </div>
     
@@ -1588,8 +1506,8 @@ table {
   
     <div class="desc"><p>return the name of the table</p></div>
   <div class="source_cont">
-  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-data_sources.elastic_data.ElasticsearchDataTable.get_name', this);">Show source &equiv;</a></p>
-  <div id="source-data_sources.elastic_data.ElasticsearchDataTable.get_name" class="source">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-data_sources.odbc_data.ODBCDataTable.get_name', this);">Show source &equiv;</a></p>
+  <div id="source-data_sources.odbc_data.ODBCDataTable.get_name" class="source">
     <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">get_name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; return the name of the table &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
@@ -1602,7 +1520,7 @@ table {
   
             
   <div class="item">
-    <div class="name def" id="data_sources.elastic_data.ElasticsearchDataTable.get_names">
+    <div class="name def" id="data_sources.odbc_data.ODBCDataTable.get_names">
     <p>def <span class="ident">get_names</span>(</p><p>self, *args, **kwargs)</p>
     </div>
     
@@ -1611,8 +1529,8 @@ table {
   
     <div class="desc"><p>return a list of the names of the columns in order</p></div>
   <div class="source_cont">
-  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-data_sources.elastic_data.ElasticsearchDataTable.get_names', this);">Show source &equiv;</a></p>
-  <div id="source-data_sources.elastic_data.ElasticsearchDataTable.get_names" class="source">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-data_sources.odbc_data.ODBCDataTable.get_names', this);">Show source &equiv;</a></p>
+  <div id="source-data_sources.odbc_data.ODBCDataTable.get_names" class="source">
     <div class="codehilite"><pre><span></span><span class="nd">@synchronized</span>
 <span class="k">def</span> <span class="nf">get_names</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; return a list of the names of the columns in order&quot;&quot;&quot;</span>
@@ -1626,7 +1544,7 @@ table {
   
             
   <div class="item">
-    <div class="name def" id="data_sources.elastic_data.ElasticsearchDataTable.get_refresh_timestamp">
+    <div class="name def" id="data_sources.odbc_data.ODBCDataTable.get_refresh_timestamp">
     <p>def <span class="ident">get_refresh_timestamp</span>(</p><p>self)</p>
     </div>
     
@@ -1635,8 +1553,8 @@ table {
   
     <div class="desc"><p>get the time that the table was last refreshed</p></div>
   <div class="source_cont">
-  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-data_sources.elastic_data.ElasticsearchDataTable.get_refresh_timestamp', this);">Show source &equiv;</a></p>
-  <div id="source-data_sources.elastic_data.ElasticsearchDataTable.get_refresh_timestamp" class="source">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-data_sources.odbc_data.ODBCDataTable.get_refresh_timestamp', this);">Show source &equiv;</a></p>
+  <div id="source-data_sources.odbc_data.ODBCDataTable.get_refresh_timestamp" class="source">
     <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">get_refresh_timestamp</span><span class="p">(</span> <span class="bp">self</span> <span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; get the time that the table was last refreshed &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">refresh_timestamp</span>
@@ -1649,7 +1567,7 @@ table {
   
             
   <div class="item">
-    <div class="name def" id="data_sources.elastic_data.ElasticsearchDataTable.has_column">
+    <div class="name def" id="data_sources.odbc_data.ODBCDataTable.has_column">
     <p>def <span class="ident">has_column</span>(</p><p>self, *args, **kwargs)</p>
     </div>
     
@@ -1657,8 +1575,8 @@ table {
     
   
   <div class="source_cont">
-  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-data_sources.elastic_data.ElasticsearchDataTable.has_column', this);">Show source &equiv;</a></p>
-  <div id="source-data_sources.elastic_data.ElasticsearchDataTable.has_column" class="source">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-data_sources.odbc_data.ODBCDataTable.has_column', this);">Show source &equiv;</a></p>
+  <div id="source-data_sources.odbc_data.ODBCDataTable.has_column" class="source">
     <div class="codehilite"><pre><span></span><span class="nd">@synchronized</span>
 <span class="k">def</span> <span class="nf">has_column</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reference</span> <span class="p">):</span>
     <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">reference</span><span class="p">)</span> <span class="o">==</span> <span class="nb">str</span> <span class="ow">or</span> <span class="nb">type</span><span class="p">(</span><span class="n">reference</span><span class="p">)</span> <span class="o">==</span> <span class="nb">str</span><span class="p">:</span>
@@ -1676,7 +1594,7 @@ table {
   
             
   <div class="item">
-    <div class="name def" id="data_sources.elastic_data.ElasticsearchDataTable.insert_column">
+    <div class="name def" id="data_sources.odbc_data.ODBCDataTable.insert_column">
     <p>def <span class="ident">insert_column</span>(</p><p>self, *args, **kwargs)</p>
     </div>
     
@@ -1684,8 +1602,8 @@ table {
     
   
   <div class="source_cont">
-  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-data_sources.elastic_data.ElasticsearchDataTable.insert_column', this);">Show source &equiv;</a></p>
-  <div id="source-data_sources.elastic_data.ElasticsearchDataTable.insert_column" class="source">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-data_sources.odbc_data.ODBCDataTable.insert_column', this);">Show source &equiv;</a></p>
+  <div id="source-data_sources.odbc_data.ODBCDataTable.insert_column" class="source">
     <div class="codehilite"><pre><span></span><span class="nd">@synchronized</span>
 <span class="k">def</span> <span class="nf">insert_column</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">idx</span><span class="p">,</span><span class="n">column</span><span class="p">):</span>
     <span class="k">while</span> <span class="n">idx</span> <span class="o">&gt;</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">):</span>
@@ -1713,7 +1631,7 @@ table {
   
             
   <div class="item">
-    <div class="name def" id="data_sources.elastic_data.ElasticsearchDataTable.listen">
+    <div class="name def" id="data_sources.odbc_data.ODBCDataTable.listen">
     <p>def <span class="ident">listen</span>(</p><p>self, listen_func)</p>
     </div>
     
@@ -1722,8 +1640,8 @@ table {
   
     <div class="desc"><p>register for notifications when a change event is raised on this table</p></div>
   <div class="source_cont">
-  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-data_sources.elastic_data.ElasticsearchDataTable.listen', this);">Show source &equiv;</a></p>
-  <div id="source-data_sources.elastic_data.ElasticsearchDataTable.listen" class="source">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-data_sources.odbc_data.ODBCDataTable.listen', this);">Show source &equiv;</a></p>
+  <div id="source-data_sources.odbc_data.ODBCDataTable.listen" class="source">
     <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">listen</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">listen_func</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; register for notifications when a change event is raised on this table &quot;&quot;&quot;</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">listeners</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">listen_func</span><span class="p">)</span>
@@ -1736,7 +1654,7 @@ table {
   
             
   <div class="item">
-    <div class="name def" id="data_sources.elastic_data.ElasticsearchDataTable.map_column">
+    <div class="name def" id="data_sources.odbc_data.ODBCDataTable.map_column">
     <p>def <span class="ident">map_column</span>(</p><p>self, *args, **kwargs)</p>
     </div>
     
@@ -1744,8 +1662,8 @@ table {
     
   
   <div class="source_cont">
-  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-data_sources.elastic_data.ElasticsearchDataTable.map_column', this);">Show source &equiv;</a></p>
-  <div id="source-data_sources.elastic_data.ElasticsearchDataTable.map_column" class="source">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-data_sources.odbc_data.ODBCDataTable.map_column', this);">Show source &equiv;</a></p>
+  <div id="source-data_sources.odbc_data.ODBCDataTable.map_column" class="source">
     <div class="codehilite"><pre><span></span><span class="nd">@synchronized</span>
 <span class="k">def</span> <span class="nf">map_column</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reference</span> <span class="p">):</span>
     <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">reference</span><span class="p">)</span> <span class="o">==</span> <span class="nb">str</span> <span class="ow">or</span> <span class="nb">type</span><span class="p">(</span><span class="n">reference</span><span class="p">)</span> <span class="o">==</span> <span class="nb">str</span><span class="p">:</span>
@@ -1763,7 +1681,7 @@ table {
   
             
   <div class="item">
-    <div class="name def" id="data_sources.elastic_data.ElasticsearchDataTable.perform_refresh">
+    <div class="name def" id="data_sources.odbc_data.ODBCDataTable.perform_refresh">
     <p>def <span class="ident">perform_refresh</span>(</p><p>self)</p>
     </div>
     
@@ -1772,8 +1690,8 @@ table {
   
     <div class="desc"><p>Thread worker that sleeps and refreshes the data on a schedule</p></div>
   <div class="source_cont">
-  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-data_sources.elastic_data.ElasticsearchDataTable.perform_refresh', this);">Show source &equiv;</a></p>
-  <div id="source-data_sources.elastic_data.ElasticsearchDataTable.perform_refresh" class="source">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-data_sources.odbc_data.ODBCDataTable.perform_refresh', this);">Show source &equiv;</a></p>
+  <div id="source-data_sources.odbc_data.ODBCDataTable.perform_refresh" class="source">
     <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">perform_refresh</span><span class="p">(</span> <span class="bp">self</span> <span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Thread worker that sleeps and refreshes the data on a schedule &quot;&quot;&quot;</span>
     <span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
@@ -1791,7 +1709,7 @@ table {
   
             
   <div class="item">
-    <div class="name def" id="data_sources.elastic_data.ElasticsearchDataTable.put">
+    <div class="name def" id="data_sources.odbc_data.ODBCDataTable.put">
     <p>def <span class="ident">put</span>(</p><p>self, *args, **kwargs)</p>
     </div>
     
@@ -1799,8 +1717,8 @@ table {
     
   
   <div class="source_cont">
-  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-data_sources.elastic_data.ElasticsearchDataTable.put', this);">Show source &equiv;</a></p>
-  <div id="source-data_sources.elastic_data.ElasticsearchDataTable.put" class="source">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-data_sources.odbc_data.ODBCDataTable.put', this);">Show source &equiv;</a></p>
+  <div id="source-data_sources.odbc_data.ODBCDataTable.put" class="source">
     <div class="codehilite"><pre><span></span><span class="nd">@synchronized</span>
 <span class="k">def</span> <span class="nf">put</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">reference</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">map_column</span><span class="p">(</span><span class="n">reference</span><span class="p">)]</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">row</span><span class="p">,</span><span class="n">value</span><span class="p">)</span>
@@ -1813,59 +1731,45 @@ table {
   
             
   <div class="item">
-    <div class="name def" id="data_sources.elastic_data.ElasticsearchDataTable.refresh">
+    <div class="name def" id="data_sources.odbc_data.ODBCDataTable.refresh">
     <p>def <span class="ident">refresh</span>(</p><p>self, *args, **kwargs)</p>
     </div>
     
 
     
   
-    <div class="desc"><p>refresh or rebuild tables</p></div>
+    <div class="desc"><p>refresh the table from the query</p></div>
   <div class="source_cont">
-  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-data_sources.elastic_data.ElasticsearchDataTable.refresh', this);">Show source &equiv;</a></p>
-  <div id="source-data_sources.elastic_data.ElasticsearchDataTable.refresh" class="source">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-data_sources.odbc_data.ODBCDataTable.refresh', this);">Show source &equiv;</a></p>
+  <div id="source-data_sources.odbc_data.ODBCDataTable.refresh" class="source">
     <div class="codehilite"><pre><span></span><span class="nd">@synchronized</span>
 <span class="k">def</span> <span class="nf">refresh</span><span class="p">(</span> <span class="bp">self</span> <span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; refresh or rebuild tables &quot;&quot;&quot;</span>
-    <span class="n">es</span> <span class="o">=</span> <span class="n">Elasticsearch</span><span class="p">()</span>
-    <span class="n">result</span> <span class="o">=</span> <span class="n">es</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">es_index_pattern</span><span class="p">,</span><span class="n">body</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">es_query_body</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">match_fields</span><span class="p">(</span> <span class="n">name</span><span class="p">,</span> <span class="n">result</span> <span class="p">):</span>
-        <span class="n">matches</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">result</span><span class="p">,</span><span class="nb">dict</span><span class="p">):</span>
-            <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">result</span><span class="p">:</span>
-                <span class="n">full_name</span> <span class="o">=</span> <span class="p">(</span><span class="n">name</span><span class="o">+</span><span class="s2">&quot;.&quot;</span> <span class="k">if</span> <span class="n">name</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">+</span><span class="n">k</span>
-                <span class="n">item</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
-                <span class="k">for</span> <span class="n">json_path</span><span class="p">,</span><span class="n">field_name</span><span class="p">,</span><span class="n">field_type</span>  <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">es_field_map</span><span class="p">:</span>
-                    <span class="k">if</span> <span class="n">full_name</span> <span class="o">==</span> <span class="n">json_path</span><span class="p">:</span>
-                        <span class="n">matches</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">field_name</span><span class="p">,</span><span class="n">field_type</span><span class="p">,</span><span class="n">item</span><span class="p">))</span>
-                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">item</span><span class="p">,</span><span class="nb">dict</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">item</span><span class="p">,</span><span class="nb">list</span><span class="p">):</span>
-                    <span class="n">matches</span> <span class="o">+=</span> <span class="n">match_fields</span><span class="p">(</span><span class="n">full_name</span><span class="p">,</span><span class="n">item</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">result</span><span class="p">,</span><span class="nb">list</span><span class="p">):</span>
-            <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">result</span><span class="p">:</span>
-                <span class="n">matches</span> <span class="o">+=</span> <span class="n">match_fields</span><span class="p">(</span><span class="n">name</span><span class="p">,</span><span class="n">k</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">matches</span>
-    <span class="n">matches</span> <span class="o">=</span> <span class="n">match_fields</span><span class="p">(</span> <span class="s2">&quot;&quot;</span><span class="p">,</span><span class="n">result</span><span class="p">)</span>
-    <span class="n">new_columns</span> <span class="o">=</span> <span class="p">{}</span>
-    <span class="k">for</span> <span class="n">column_name</span><span class="p">,</span><span class="n">column_type</span><span class="p">,</span><span class="n">value</span> <span class="ow">in</span> <span class="n">matches</span><span class="p">:</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">column_name</span> <span class="ow">in</span> <span class="n">new_columns</span><span class="p">:</span>
-            <span class="n">new_columns</span><span class="p">[</span><span class="n">column_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">column_name</span><span class="p">)</span>
-        <span class="n">c</span> <span class="o">=</span> <span class="n">new_columns</span><span class="p">[</span><span class="n">column_name</span><span class="p">]</span>
-        <span class="k">if</span> <span class="n">column_type</span> <span class="o">==</span> <span class="s2">&quot;date&quot;</span><span class="p">:</span>
-            <span class="n">cc</span> <span class="o">=</span> <span class="n">Cell</span><span class="p">(</span><span class="n">date_type</span><span class="p">,</span><span class="n">datetime</span><span class="o">.</span><span class="n">fromtimestamp</span><span class="p">(</span><span class="n">value</span><span class="o">/</span><span class="mi">1000</span><span class="p">),</span><span class="n">format_date</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="n">column_type</span> <span class="o">==</span> <span class="s2">&quot;int&quot;</span><span class="p">:</span>
-            <span class="n">cc</span> <span class="o">=</span> <span class="n">Cell</span><span class="p">(</span><span class="n">int_type</span><span class="p">,</span><span class="n">value</span><span class="p">,</span><span class="n">format_int</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="n">column_type</span> <span class="o">==</span> <span class="s2">&quot;float&quot;</span><span class="p">:</span>
-            <span class="n">cc</span> <span class="o">=</span> <span class="n">Cell</span><span class="p">(</span><span class="n">float_type</span><span class="p">,</span><span class="n">value</span><span class="p">,</span><span class="n">format_float</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="n">column_type</span> <span class="o">==</span> <span class="s2">&quot;str&quot;</span><span class="p">:</span>
-            <span class="n">cc</span> <span class="o">=</span> <span class="n">Cell</span><span class="p">(</span><span class="n">string_type</span><span class="p">,</span><span class="n">value</span><span class="p">,</span><span class="n">format_string</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">cc</span> <span class="o">=</span> <span class="n">Cell</span><span class="p">(</span><span class="n">string_type</span><span class="p">,</span><span class="nb">str</span><span class="p">(</span><span class="n">value</span><span class="p">),</span><span class="n">format_string</span><span class="p">)</span>
-        <span class="n">c</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">size</span><span class="p">(),</span><span class="n">cc</span><span class="p">)</span>
-    <span class="k">for</span> <span class="n">column_name</span> <span class="ow">in</span> <span class="n">new_columns</span><span class="p">:</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">has_column</span><span class="p">(</span><span class="n">column_name</span><span class="p">):</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">replace_column</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">map_column</span><span class="p">(</span><span class="n">column_name</span><span class="p">),</span><span class="n">new_columns</span><span class="p">[</span><span class="n">column_name</span><span class="p">])</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">add_column</span><span class="p">(</span><span class="n">new_columns</span><span class="p">[</span><span class="n">column_name</span><span class="p">])</span>
+    <span class="sd">&quot;&quot;&quot; refresh the table from the query &quot;&quot;&quot;</span>
+    <span class="n">username</span><span class="p">,</span><span class="n">server</span><span class="p">,</span><span class="n">driver</span><span class="p">,</span><span class="n">database</span><span class="p">,</span><span class="n">port</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;odbc://([a-z_][a-z0-9_-]*\${0,1})@([^/]*)/([^/]*)/([^:]*):{0,1}(\d*){0,1}&quot;</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">sql_spec</span><span class="p">)</span><span class="o">.</span><span class="n">groups</span><span class="p">()</span>
+    <span class="n">password</span> <span class="o">=</span> <span class="n">keyring</span><span class="o">.</span><span class="n">get_password</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sql_spec</span><span class="p">,</span> <span class="n">username</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">password</span><span class="p">:</span>
+        <span class="k">return</span>
+    <span class="n">conn</span> <span class="o">=</span> <span class="n">pyodbc</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;DRIVER={</span><span class="si">%s</span><span class="s2">};DATABASE=</span><span class="si">%s</span><span class="s2">;UID=</span><span class="si">%s</span><span class="s2">;PWD=</span><span class="si">%s</span><span class="s2">;SERVER=</span><span class="si">%s</span><span class="s2">;PORT=</span><span class="si">%s</span><span class="s2">;&quot;</span><span class="o">%</span><span class="p">(</span><span class="n">driver</span><span class="p">,</span><span class="n">database</span><span class="p">,</span><span class="n">username</span><span class="p">,</span><span class="n">password</span><span class="p">,</span><span class="n">server</span><span class="p">,</span><span class="n">port</span><span class="p">))</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">conn</span><span class="p">:</span>
+        <span class="k">return</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sql_query</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">result</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">sql_column</span><span class="p">,</span><span class="n">data_column</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">sql_map</span><span class="p">:</span>
+            <span class="n">value</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">row</span><span class="p">,</span><span class="n">sql_column</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">has_column</span><span class="p">(</span><span class="n">data_column</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">add_column</span><span class="p">(</span><span class="n">Column</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">data_column</span><span class="p">))</span>
+            <span class="n">c</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_column</span><span class="p">(</span><span class="n">data_column</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span><span class="n">datetime</span><span class="p">):</span>
+                <span class="n">cc</span> <span class="o">=</span> <span class="n">Cell</span><span class="p">(</span><span class="n">date_type</span><span class="p">,</span><span class="n">value</span><span class="p">,</span><span class="n">format_date</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span><span class="nb">int</span><span class="p">):</span>
+                <span class="n">cc</span> <span class="o">=</span> <span class="n">Cell</span><span class="p">(</span><span class="n">int_type</span><span class="p">,</span><span class="n">value</span><span class="p">,</span><span class="n">format_int</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span><span class="nb">float</span><span class="p">):</span>
+                <span class="n">cc</span> <span class="o">=</span> <span class="n">Cell</span><span class="p">(</span><span class="n">float_type</span><span class="p">,</span><span class="n">value</span><span class="p">,</span><span class="n">format_float</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span><span class="nb">str</span><span class="p">):</span>
+                <span class="n">cc</span> <span class="o">=</span> <span class="n">Cell</span><span class="p">(</span><span class="n">string_type</span><span class="p">,</span><span class="n">value</span><span class="p">,</span><span class="n">format_string</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">cc</span> <span class="o">=</span> <span class="n">Cell</span><span class="p">(</span><span class="n">string_type</span><span class="p">,</span><span class="nb">str</span><span class="p">(</span><span class="n">value</span><span class="p">),</span><span class="n">format_string</span><span class="p">)</span>
+            <span class="n">c</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">size</span><span class="p">(),</span><span class="n">cc</span><span class="p">)</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">changed</span><span class="p">()</span>
     <span class="n">DataTable</span><span class="o">.</span><span class="n">refresh</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 </pre></div>
@@ -1877,7 +1781,7 @@ table {
   
             
   <div class="item">
-    <div class="name def" id="data_sources.elastic_data.ElasticsearchDataTable.release_refresh_lock">
+    <div class="name def" id="data_sources.odbc_data.ODBCDataTable.release_refresh_lock">
     <p>def <span class="ident">release_refresh_lock</span>(</p><p>self)</p>
     </div>
     
@@ -1886,8 +1790,8 @@ table {
   
     <div class="desc"><p>release the refresh lock after reading/writing the table state</p></div>
   <div class="source_cont">
-  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-data_sources.elastic_data.ElasticsearchDataTable.release_refresh_lock', this);">Show source &equiv;</a></p>
-  <div id="source-data_sources.elastic_data.ElasticsearchDataTable.release_refresh_lock" class="source">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-data_sources.odbc_data.ODBCDataTable.release_refresh_lock', this);">Show source &equiv;</a></p>
+  <div id="source-data_sources.odbc_data.ODBCDataTable.release_refresh_lock" class="source">
     <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">release_refresh_lock</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; release the refresh lock after reading/writing the table state &quot;&quot;&quot;</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">refresh_lock</span><span class="o">.</span><span class="n">release</span><span class="p">()</span>
@@ -1900,7 +1804,7 @@ table {
   
             
   <div class="item">
-    <div class="name def" id="data_sources.elastic_data.ElasticsearchDataTable.replace_column">
+    <div class="name def" id="data_sources.odbc_data.ODBCDataTable.replace_column">
     <p>def <span class="ident">replace_column</span>(</p><p>self, *args, **kwargs)</p>
     </div>
     
@@ -1908,8 +1812,8 @@ table {
     
   
   <div class="source_cont">
-  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-data_sources.elastic_data.ElasticsearchDataTable.replace_column', this);">Show source &equiv;</a></p>
-  <div id="source-data_sources.elastic_data.ElasticsearchDataTable.replace_column" class="source">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-data_sources.odbc_data.ODBCDataTable.replace_column', this);">Show source &equiv;</a></p>
+  <div id="source-data_sources.odbc_data.ODBCDataTable.replace_column" class="source">
     <div class="codehilite"><pre><span></span><span class="nd">@synchronized</span>
 <span class="k">def</span> <span class="nf">replace_column</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">idx</span><span class="p">,</span><span class="n">column</span><span class="p">):</span>
     <span class="n">column</span><span class="o">.</span><span class="n">set_idx</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span>
@@ -1930,34 +1834,7 @@ table {
   
             
   <div class="item">
-    <div class="name def" id="data_sources.elastic_data.ElasticsearchDataTable.set_es_parameters">
-    <p>def <span class="ident">set_es_parameters</span>(</p><p>self, *args, **kwargs)</p>
-    </div>
-    
-
-    
-  
-    <div class="desc"><p>set the elasticsearch parameters for this table</p></div>
-  <div class="source_cont">
-  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-data_sources.elastic_data.ElasticsearchDataTable.set_es_parameters', this);">Show source &equiv;</a></p>
-  <div id="source-data_sources.elastic_data.ElasticsearchDataTable.set_es_parameters" class="source">
-    <div class="codehilite"><pre><span></span><span class="nd">@synchronized</span>
-<span class="k">def</span> <span class="nf">set_es_parameters</span><span class="p">(</span> <span class="bp">self</span><span class="p">,</span> <span class="n">es_query_body</span><span class="p">,</span><span class="n">es_field_map</span><span class="p">,</span><span class="n">es_index_pattern</span> <span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; set the elasticsearch parameters for this table &quot;&quot;&quot;</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">es_query_body</span> <span class="o">=</span> <span class="n">es_query_body</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">es_field_map</span> <span class="o">=</span> <span class="n">es_field_map</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">es_index_pattern</span> <span class="o">=</span> <span class="n">es_index_pattern</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">refresh</span><span class="p">()</span>
-</pre></div>
-
-  </div>
-</div>
-
-  </div>
-  
-            
-  <div class="item">
-    <div class="name def" id="data_sources.elastic_data.ElasticsearchDataTable.start_refresh">
+    <div class="name def" id="data_sources.odbc_data.ODBCDataTable.start_refresh">
     <p>def <span class="ident">start_refresh</span>(</p><p>self)</p>
     </div>
     
@@ -1966,8 +1843,8 @@ table {
   
     <div class="desc"><p>Start the background refresh thread</p></div>
   <div class="source_cont">
-  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-data_sources.elastic_data.ElasticsearchDataTable.start_refresh', this);">Show source &equiv;</a></p>
-  <div id="source-data_sources.elastic_data.ElasticsearchDataTable.start_refresh" class="source">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-data_sources.odbc_data.ODBCDataTable.start_refresh', this);">Show source &equiv;</a></p>
+  <div id="source-data_sources.odbc_data.ODBCDataTable.start_refresh" class="source">
     <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">start_refresh</span><span class="p">(</span> <span class="bp">self</span> <span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Start the background refresh thread &quot;&quot;&quot;</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">stop_refresh</span><span class="p">()</span>
@@ -1982,7 +1859,7 @@ table {
   
             
   <div class="item">
-    <div class="name def" id="data_sources.elastic_data.ElasticsearchDataTable.stop_refresh">
+    <div class="name def" id="data_sources.odbc_data.ODBCDataTable.stop_refresh">
     <p>def <span class="ident">stop_refresh</span>(</p><p>self)</p>
     </div>
     
@@ -1991,8 +1868,8 @@ table {
   
     <div class="desc"><p>Stop the background refresh thread</p></div>
   <div class="source_cont">
-  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-data_sources.elastic_data.ElasticsearchDataTable.stop_refresh', this);">Show source &equiv;</a></p>
-  <div id="source-data_sources.elastic_data.ElasticsearchDataTable.stop_refresh" class="source">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-data_sources.odbc_data.ODBCDataTable.stop_refresh', this);">Show source &equiv;</a></p>
+  <div id="source-data_sources.odbc_data.ODBCDataTable.stop_refresh" class="source">
     <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">stop_refresh</span><span class="p">(</span> <span class="bp">self</span> <span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Stop the background refresh thread &quot;&quot;&quot;</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">refresh_thread_stop</span> <span class="o">=</span> <span class="kc">True</span>
@@ -2009,7 +1886,7 @@ table {
   
             
   <div class="item">
-    <div class="name def" id="data_sources.elastic_data.ElasticsearchDataTable.unlisten">
+    <div class="name def" id="data_sources.odbc_data.ODBCDataTable.unlisten">
     <p>def <span class="ident">unlisten</span>(</p><p>self, listen_func)</p>
     </div>
     
@@ -2018,8 +1895,8 @@ table {
   
     <div class="desc"><p>unregister for notifications when a change event is raised on this table</p></div>
   <div class="source_cont">
-  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-data_sources.elastic_data.ElasticsearchDataTable.unlisten', this);">Show source &equiv;</a></p>
-  <div id="source-data_sources.elastic_data.ElasticsearchDataTable.unlisten" class="source">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-data_sources.odbc_data.ODBCDataTable.unlisten', this);">Show source &equiv;</a></p>
+  <div id="source-data_sources.odbc_data.ODBCDataTable.unlisten" class="source">
     <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">unlisten</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">listen_func</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; unregister for notifications when a change event is raised on this table &quot;&quot;&quot;</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">listeners</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">listen_func</span><span class="p">)</span>
@@ -2032,7 +1909,7 @@ table {
   
           <h3>Instance variables</h3>
             <div class="item">
-            <p id="data_sources.elastic_data.ElasticsearchDataTable.es_field_map" class="name">var <span class="ident">es_field_map</span></p>
+            <p id="data_sources.odbc_data.ODBCDataTable.sql_map" class="name">var <span class="ident">sql_map</span></p>
             
 
             
@@ -2042,7 +1919,7 @@ table {
 
             </div>
             <div class="item">
-            <p id="data_sources.elastic_data.ElasticsearchDataTable.es_index_pattern" class="name">var <span class="ident">es_index_pattern</span></p>
+            <p id="data_sources.odbc_data.ODBCDataTable.sql_query" class="name">var <span class="ident">sql_query</span></p>
             
 
             
@@ -2052,7 +1929,7 @@ table {
 
             </div>
             <div class="item">
-            <p id="data_sources.elastic_data.ElasticsearchDataTable.es_query_body" class="name">var <span class="ident">es_query_body</span></p>
+            <p id="data_sources.odbc_data.ODBCDataTable.sql_spec" class="name">var <span class="ident">sql_spec</span></p>
             
 
             

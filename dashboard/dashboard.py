@@ -394,7 +394,7 @@ class Dashboard:
         """ main input and redraw loop for the dashboard """
         self.window.nodelay(1)
         self.window.notimeout(0)
-        self.window.timeout(0)
+        self.window.timeout(1000)
         self.window.keypad(1)
         curses.curs_set(0)
         curses.raw()
