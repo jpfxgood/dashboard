@@ -10,8 +10,6 @@ import math
 import time
 from datetime import datetime
 from char_draw import canvas
-from char_draw import graph
-from data_sources import data_table,syslog_data
 
 class Panel:
     def __init__(self, y=-1,x=-1,height=-1,width=-1,graphs=None,parent=None):
@@ -508,32 +506,3 @@ class Dashboard:
             self.window.addstr(0,0," "*len(status),curses.color_pair(1)|curses.A_REVERSE)
             status = "Page %d of %d Last Update %s%s"%(self.current_page+1,len(self.pages),datetime.fromtimestamp(latest_refresh).strftime("%A, %d. %B %Y %I:%M%p")," ZOOMED (Press Esc to Exit)" if zoomed else "")
             self.window.addstr(0,0,status,curses.color_pair(1)|curses.A_REVERSE)
-
-
-
-def main(stdscr):
-    """ test driver for the dashboard """
-
-    sd = syslog_data.SyslogDataTable(refresh_minutes=1)
-    sd.start_refresh()
-    d = Dashboard(stdscr,auto_tour_delay = 5)
-    p = Page(stdscr)
-    height, width = p.get_size()
-    pp = Panel(0,0,height,width)
-    pp.add_graph(graph.LineGraph(sd,"Time Stamps",["Errors by Time"],None,None))
-    pp.add_graph(graph.LineGraph(sd,"Time Stamps",["Messages by Time"],None,None))
-    p.add_panel(pp)
-    d.add_page(p)
-    p = Page(stdscr)
-    pp = Panel(0,0,height,width)
-    pp.add_graph(graph.LineGraph(sd,"Time Stamps",["Warnings by Time"],None,None))
-    pp.add_graph(graph.BarGraph(sd,"Services",["Messages by Service"],None,None,5))
-    p.add_panel(pp)
-    d.add_page(p)
-    d.main()
-    sd.stop_refresh()
-
-    return 0
-
-if __name__ == '__main__':
-    curses.wrapper(main)
