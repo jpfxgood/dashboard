@@ -5,7 +5,7 @@ import re
 import os
 import sys
 import subprocess
-from io import StringIO
+from io import StringIO,BytesIO
 
 def screen_size( rows, columns ):
     cmd = "resize -s %d %d >/dev/null 2>/dev/null"%(rows,columns)
@@ -81,24 +81,22 @@ def compare_snapshot( win, snapshot ):
 
     return (max_y,max_x,difference,has_differences)
 
-def view_snapshot( win, snapshot, difference,y_offset = 0,x_offset = 0 ):
-    max_y,max_x,screen = snapshot
+def view_differences( win, difference,y_offset = 0,x_offset = 0 ):
     d_max_y,d_max_x,d_screen,has_differences = difference
 
-    for iy in range(max_y):
-        for ix in range(max_x):
-            sc = screen[iy][ix]
-            s_cc = chr(sc & curses.A_CHARTEXT)
-            s_attr = (sc & (curses.A_ATTRIBUTES|curses.A_COLOR))&0xFFBFFFFF
-
+    for iy in range(d_max_y):
+        for ix in range(d_max_x):
+            s_attr = curses.A_NORMAL
             if d_screen[iy][ix] & 1:
                 s_attr = s_attr | curses.A_REVERSE
             if d_screen[iy][ix] & 2:
                 s_attr = s_attr | curses.A_STANDOUT
             try:
-                win.addch(iy+y_offset,ix+x_offset,s_cc,s_attr)
+                if s_attr != curses.A_NORMAL:
+                    win.chgat(iy+y_offset,ix+x_offset,1,s_attr)
             except:
                 pass
+    win.refresh()
 
 def format_differences( max_y,max_x,difference,has_difference ):
     s = StringIO()
@@ -143,8 +141,11 @@ def dashboard_test_case( win, name, path ):
         max_y,max_x,difference,has_differences = compare_snapshot( win, snapshot )
         if has_differences:
             if create:
-                overlay = curses.newwin(max_y,max_x,0,0)
-                view_snapshot(overlay, snapshot,(max_y,max_x,difference,has_differences))
+                backup_win = BytesIO()
+                win.putwin(backup_win)
+                backup_win.seek(0,0)
+                overlay = curses.getwin(backup_win)
+                view_differences(overlay,(max_y,max_x,difference,has_differences))
                 if prompt(overlay,"Accept these differences?"):
                     del overlay
                     win.touchwin()

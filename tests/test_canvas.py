@@ -13,7 +13,7 @@ def test_Canvas(request,capsys):
             c = canvas.Canvas(stdscr)
             max_x,max_y = c.get_maxxy()
             iy = 0
-            for ix in range(5,max_x):
+            for ix in range(8,max_x):
                 c.put_pixel(ix,iy,c.red)
                 iy = (iy + 1)%max_y
             dashboard_test_case(stdscr,"put_pixel",python_path)
