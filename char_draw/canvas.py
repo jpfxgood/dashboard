@@ -8,6 +8,9 @@ import sys
 import os
 import math
 
+def angle_point(x0,y0,a,radius):
+    return (x0+(1.5*math.cos(math.radians(a))*radius), y0+math.sin(math.radians(a))*radius)
+
 class Canvas:
     """ primitive drawing surface attached to a curses window """
 
@@ -154,6 +157,9 @@ class Canvas:
         if x < 0 or x >= self.max_x or y < 0 or y >= self.max_y:
             return
         row,col = self.to_rowcol(x,y)
+        if row >= self.max_y//2 or col >= self.max_x//2:
+            return
+
         mask = self.to_mask[(int(x)%2)+((int(y)%2)*2)]
 
         if not self.char_map[col][row]:
@@ -172,23 +178,20 @@ class Canvas:
 
     def line(self, x0, y0, x1, y1, color, put_pixel=None ):
         """ draw a line between x0,y0 and x1,y1 in color """
-        x0 = int(x0)
-        x1 = int(x1)
-        y0 = int(y0)
-        y1 = int(y1)
-
+        def set_pixel(x,y,color):
+            if put_pixel:
+                put_pixel(x,y,color)
+            else:
+                self.put_pixel(x,y,color)
         dx = abs(x1 - x0)
         dy = abs(y1 - y0)
-        x, y = x0, y0
+        x, y = int(x0), int(y0)
         sx = -1 if x0 > x1 else 1
         sy = -1 if y0 > y1 else 1
         if dx > dy:
             err = dx / 2.0
             while x != x1:
-                if put_pixel:
-                    put_pixel(x,y,color)
-                else:
-                    self.put_pixel(x, y, color)
+                set_pixel(x, y,color)
                 err -= dy
                 if err < 0:
                     y += sy
@@ -197,19 +200,13 @@ class Canvas:
         else:
             err = dy / 2.0
             while y != y1:
-                if put_pixel:
-                    put_pixel(x,y,color)
-                else:
-                    self.put_pixel(x, y, color)
+                set_pixel(x, y,color)
                 err -= dx
                 if err < 0:
                     x += sx
                     err += dy
                 y += sy
-        if put_pixel:
-            put_pixel(x, y, color)
-        else:
-            self.put_pixel(x,y,color)
+        set_pixel(x, y, color)
 
     def intersect( self, seg1, seg2, clip_to_seg = False ):
         """ find the intersection of two segments as tuples (x0,y0,x1,y1) returns tuple (x,y) if no intersection returns None """
@@ -360,24 +357,70 @@ class Canvas:
                     p1 = p2
 
 
-
     def circle(self, x0, y0, radius, color, fill = False, put_pixel=None ):
         """ draw a circle centered at x0,y0 of radius radius in color """
-        self.arc(x0,y0,radius,0,360,color,fill,put_pixel)
+        points = []
+
+        def circle_point( points, xc,yc,x,y ):
+            points.extend([(xc+x, yc+y),(xc-x, yc+y),(xc+x, yc-y),(xc-x, yc-y),(xc+y, yc+x),(xc-y, yc+x),(xc+y, yc-x),(xc-y, yc-x)])
+
+        x = 0
+        y = radius
+        d = 3 - 2 * radius
+        circle_point(points,x0,y0,x,y)
+        while y >= x:
+            x += 1
+            if d > 0:
+                y -= 1
+                d = d + 4 * (x - y) + 10
+            else:
+                d = d + 4 * x + 6
+            circle_point(points,x0,y0,x,y)
+
+        for idx in range(len(points)):
+            x,y = points[idx]
+            x = ((x-x0)*1.5)+x0
+            points[idx] = (x,y)
+
+        if not fill:
+            self.polyline(points,color,put_pixel)
+        else:
+            self.polygon(points,color,fill,put_pixel)
 
     def arc(self,x0,y0,radius,a0,a1,color,fill=False,put_pixel=None,just_points=False):
         """ draw an arc between a0 degrees to a1 degrees centered at x0,y0 with radius and color """
-        def circle_point(x0,y0,a,radius):
-            return (x0+(1.5*math.cos(math.radians(a))*radius), y0+math.sin(math.radians(a))*radius)
-
         points = []
-        points.append((x0,y0))
-        a = a0
-        while a <= a1:
-            xp,yp = circle_point(x0,y0,a,radius)
-            a = a + 1.0
-            points.append((xp,yp))
-                                
+
+        def circle_point( points, xc,yc,x,y ):
+            points.extend([(xc+x, yc+y),(xc-x, yc+y),(xc+x, yc-y),(xc-x, yc-y),(xc+y, yc+x),(xc-y, yc+x),(xc+y, yc-x),(xc-y, yc-x)])
+
+        x = 0
+        y = radius
+        d = 3 - 2 * radius
+        circle_point(points,x0,y0,x,y)
+        while y >= x:
+            x += 1
+            if d > 0:
+                y -= 1
+                d = d + 4 * (x - y) + 10
+            else:
+                d = d + 4 * x + 6
+            circle_point(points,x0,y0,x,y)
+
+        xs,ys = angle_point(x0,y0,a0,radius)
+        xe,ye = angle_point(x0,y0,a1,radius)
+        xm,ym = angle_point(x0,y0,a0+(a1-a0)/2,radius)
+        x_min = min(xs,xe,xm)
+        y_min = min(ys,ye,ym)
+        x_max = max(xs,xe,xm)
+        y_max = max(ys,ye,ym)
+
+        filtered_points = []
+        for x,y in points:
+            x = ((x-x0)*1.5)+x0
+            if x >= x_min and x <= x_max and y >= y_min and y <= y_max:
+                filtered_points.append((x,y))
+        points = filtered_points
 
         if just_points:
             for x,y in points:

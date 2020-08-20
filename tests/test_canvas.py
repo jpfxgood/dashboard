@@ -17,5 +17,17 @@ def test_Canvas(request,capsys):
                 c.put_pixel(ix,iy,c.red)
                 iy = (iy + 1)%max_y
             dashboard_test_case(stdscr,"put_pixel",python_path)
+            stdscr.clear()
+            ix = 0
+            iy = 0
+            for ic in range(0,min(max_x,max_y)//10):
+                c.line(max_x//2,0,ix,iy,c.cyan)
+                ix = (ix+15)%max_x
+                iy = (iy+10)%max_y
+            dashboard_test_case(stdscr,"line",python_path)
+            stdscr.clear()
+            c.circle(max_x//2,max_y//2,min(max_x,max_y)//3,c.white,False)
+            dashboard_test_case(stdscr,"circle_not_filled",python_path)
+
 
         curses.wrapper(main)
