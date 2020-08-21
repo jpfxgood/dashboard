@@ -83,6 +83,7 @@ class Graph(display_list.DisplayList):
         if self.canvas:
             self.init()
             self.get_bbox()
+            self.canvas.clear()
             display_list.DisplayList.render(self)
 
     def get_top_indexes(self):
@@ -548,7 +549,7 @@ class GraphLines(GraphElement):
             idx = 0
             points = []
             for c in data_table.ColumnIterator(column):
-                y_value = c.get_float_value()                
+                y_value = c.get_float_value()
                 if idx < len(x_values):
                     x_value = x_values[idx][0]
                     scaled_x = (x_value-x_min)*x_scale
@@ -557,7 +558,7 @@ class GraphLines(GraphElement):
                     idx += 1
                 else:
                     break
-                    
+
             if self.area:
                 p1 = (points[-1][0],y)
                 if p1 not in points:

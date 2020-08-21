@@ -144,6 +144,10 @@ class Canvas:
             self.max_y,self.max_x = (0,0)
             self.char_map = None
 
+    def clear( self ):
+        """ clear the entire canvas """
+        self.char_map = [[None] * self.max_y for i in range(self.max_x)]
+
     def refresh( self ):
         """ refresh the display after drawing """
         self.win.refresh()
@@ -435,11 +439,19 @@ class Canvas:
         x_max = max(x0,xs,xe,xm)
         y_max = max(y0,ys,ye,ym)
 
+        # for drawing the previous one was for bounding
+        xs,ys = angle_point(x0,y0,a0,radius)
+        xe,ye = angle_point(x0,y0,a1,radius)
+
         filtered_points = []
         for x,y in points:
-            x = ((x-x0)*1.5)+x0
-            if x >= x_min and x <= x_max and y >= y_min and y <= y_max:
-                filtered_points.append((x,y))
+            px = ((x-x0)*1.5)+x0
+            if px >= x_min and px <= x_max and y >= y_min and y <= y_max:
+                angle = math.degrees(math.atan2(y-y0,x-x0))
+                if angle < 0:
+                    angle += 360
+                if angle >= a0 and angle <= a1:
+                    filtered_points.append((px,y))
         points = filtered_points
 
         if just_points:
