@@ -151,6 +151,7 @@ def dashboard_test_case( win, name, path ):
                     win.touchwin()
                     win.refresh()
                     save_snapshot(win,open(snap_shot_file,"wb"))
+                    win.clear()
                     return
             assert False, "Screen differences found:\n%s"%format_differences(max_y,max_x,difference,has_differences)
     else:
@@ -159,5 +160,8 @@ def dashboard_test_case( win, name, path ):
                 save_snapshot(win,open(snap_shot_file,"wb"))
                 win.touchwin()
                 win.refresh()
+                win.clear()
                 return
         assert False, "No snapshot found for case %s"%name
+    win.clear()
+

@@ -190,7 +190,7 @@ class Canvas:
         sy = -1 if y0 > y1 else 1
         if dx > dy:
             err = dx / 2.0
-            while x != x1:
+            while x != int(x1):
                 set_pixel(x, y,color)
                 err -= dy
                 if err < 0:
@@ -199,7 +199,7 @@ class Canvas:
                 x += sx
         else:
             err = dy / 2.0
-            while y != y1:
+            while y != int(y1):
                 set_pixel(x, y,color)
                 err -= dx
                 if err < 0:
@@ -337,25 +337,41 @@ class Canvas:
     def rasterize( self, points, color, put_pixel=None):
         """ sort points representing the boundary of a filled shape and rasterize by filling lines with color """
         ps = sorted(points,key=lambda x: (x[1],x[0]))
-        sp = iter(ps)
-        p2 = p1 = next(sp,None)
-        si = 0
-        last = None
-        while p2:
-            last = p2
-            p2 = next(sp,None)
-            if not p2:
-                if put_pixel:
-                    put_pixel(p1[0],p1[1],color)
-                else:
-                    self.put_pixel(p1[0],p1[1],color)
+        n_points = len(ps)
+        if n_points == 0:
+            return
+        elif n_points == 1:
+            x,y = ps[0]
+            if put_pixel:
+                put_pixel(x,y,color)
             else:
-                if p2[1] == p1[1]:
-                    continue
+                self.put_pixel(x,y,color)
+        else:
+            idx = 1
+            x0,y0 = ps[0]
+            x1,y1 = x0,y0
+            while idx < len(ps):
+                xn,yn = ps[idx]
+                if yn == y0:
+                    x1,y1 = xn,yn
                 else:
-                    self.line(p1[0],p1[1],last[0],last[1],color,put_pixel)
-                    p1 = p2
-
+                    if x0 == x1:
+                        if put_pixel:
+                            put_pixel(x0,y0,color)
+                        else:
+                            self.put_pixel(x0,y0,color)
+                    else:
+                        self.line(x0,y0,x1,y1,color,put_pixel)
+                    x0,y0 = xn,yn
+                    x1,y1 = x0,y0
+                idx += 1
+            if x0 == x1:
+                if put_pixel:
+                    put_pixel(x0,y0,color)
+                else:
+                    self.put_pixel(x0,y0,color)
+            else:
+                self.line(x0,y0,x1,y1,color,put_pixel)
 
     def circle(self, x0, y0, radius, color, fill = False, put_pixel=None ):
         """ draw a circle centered at x0,y0 of radius radius in color """
@@ -383,9 +399,13 @@ class Canvas:
             points[idx] = (x,y)
 
         if not fill:
-            self.polyline(points,color,put_pixel)
+            for x,y in points:
+                if put_pixel:
+                    put_pixel(x,y,color)
+                else:
+                    self.put_pixel(x,y,color)
         else:
-            self.polygon(points,color,fill,put_pixel)
+            self.rasterize(points,color,put_pixel)
 
     def arc(self,x0,y0,radius,a0,a1,color,fill=False,put_pixel=None,just_points=False):
         """ draw an arc between a0 degrees to a1 degrees centered at x0,y0 with radius and color """
@@ -407,13 +427,13 @@ class Canvas:
                 d = d + 4 * x + 6
             circle_point(points,x0,y0,x,y)
 
-        xs,ys = angle_point(x0,y0,a0,radius)
-        xe,ye = angle_point(x0,y0,a1,radius)
-        xm,ym = angle_point(x0,y0,a0+(a1-a0)/2,radius)
-        x_min = min(xs,xe,xm)
-        y_min = min(ys,ye,ym)
-        x_max = max(xs,xe,xm)
-        y_max = max(ys,ye,ym)
+        xs,ys = angle_point(x0,y0,a0,radius+0.5)
+        xe,ye = angle_point(x0,y0,a1,radius+0.5)
+        xm,ym = angle_point(x0,y0,(a0+a1)/2,radius+0.5)
+        x_min = min(x0,xs,xe,xm)
+        y_min = min(y0,ys,ye,ym)
+        x_max = max(x0,xs,xe,xm)
+        y_max = max(y0,ys,ye,ym)
 
         filtered_points = []
         for x,y in points:
@@ -426,7 +446,20 @@ class Canvas:
             for x,y in points:
                 put_pixel(x,y,color)
         else:
-            self.polygon(points,color,fill,put_pixel)
+            if not fill:
+                self.line(x0,y0,xs,ys,color,put_pixel)
+                self.line(x0,y0,xe,ye,color,put_pixel)
+                for x,y in points:
+                    if put_pixel:
+                        put_pixel(x,y,color)
+                    else:
+                        self.put_pixel(x,y,color)
+            else:
+                def add_pixel( x,y,color ):
+                    points.append((x,y))
+                self.line(x0,y0,xs,ys,color,add_pixel)
+                self.line(x0,y0,xe,ye,color,add_pixel)
+                self.rasterize(points,color,put_pixel)
 
     def rect(self,x0,y0,x1,y1,color,fill=False,put_pixel=None):
         """ draw a rectangle bounding x0,y0, x1,y1, in color == color optionally filling """
@@ -472,18 +505,20 @@ class Canvas:
 
     def polyline(self,points,color,put_pixel=None):
         """ draw a polyline defined by the sequence points which represent a list of (x,y) tuples in the order they should be connected in color """
-        i = iter(points)
-        p1 = next(i,None)
-        while p1:
-            p2 = next(i,None)
-            if p2:
-                self.line(p1[0],p1[1],p2[0],p2[1],color,put_pixel)
+        n_points = len(points)
+        if n_points == 0:
+            return
+        elif n_points == 1:
+            x,y = points[0]
+            if put_pixel:
+                put_pixel(x,y,color)
             else:
-                if put_pixel:
-                    put_pixel(p1[0],p1[1],color)
-                else:
-                    self.put_pixel(p1[0],p1[1],color)
-            p1 = p2
+                self.put_pixel(x,y,color)
+        else:
+            for idx in range(n_points-1):
+                x0,y0 = points[idx]
+                x1,y1 = points[idx+1]
+                self.line(x0,y0,x1,y1,color,put_pixel)
 
     def poly_fill(self,points,color,put_pixel = None):
         """ fill a concave polygon by recursively subdividing until we get a convex polygon """
