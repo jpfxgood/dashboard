@@ -45,7 +45,7 @@ def save_snapshot( win, to_file ):
     for iy in range(max_y):
         for ix in range(max_x):
             rc = win.inch(iy,ix)
-            to_file.write((rc).to_bytes(2,byteorder='big'))
+            to_file.write((rc).to_bytes(4,byteorder='big'))
 
 def load_snapshot( from_file ):
     max_y = int.from_bytes(from_file.read(2),byteorder='big')
@@ -55,7 +55,7 @@ def load_snapshot( from_file ):
 
     for iy in range(max_y):
         for ix in range(max_x):
-            snapshot[iy][ix] = int.from_bytes(from_file.read(2),byteorder='big')
+            snapshot[iy][ix] = int.from_bytes(from_file.read(4),byteorder='big')
 
     return (max_y,max_x,snapshot)
 
@@ -164,4 +164,3 @@ def dashboard_test_case( win, name, path ):
                 return
         assert False, "No snapshot found for case %s"%name
     win.clear()
-

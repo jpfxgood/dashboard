@@ -9,6 +9,7 @@ def test_Canvas(request,capsys):
     with capsys.disabled():
         def main(stdscr):
             screen_size(40,100)
+            stdscr.clear()
             python_path = os.path.dirname(os.path.dirname(request.fspath))
             c = canvas.Canvas(stdscr)
             max_x,max_y = c.get_maxxy()
