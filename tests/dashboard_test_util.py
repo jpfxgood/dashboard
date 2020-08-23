@@ -146,21 +146,21 @@ def dashboard_test_case( win, name, path ):
                 backup_win.seek(0,0)
                 overlay = curses.getwin(backup_win)
                 view_differences(overlay,(max_y,max_x,difference,has_differences))
-                if prompt(overlay,"Accept these differences?"):
+                if prompt(overlay,"%s:Accept these differences?"%name):
                     del overlay
                     win.touchwin()
                     win.refresh()
                     save_snapshot(win,open(snap_shot_file,"wb"))
                     win.clear()
                     return
-            assert False, "Screen differences found:\n%s"%format_differences(max_y,max_x,difference,has_differences)
+            assert False, "%s:Screen differences found:\n%s"%(name,format_differences(max_y,max_x,difference,has_differences))
     else:
         if create:
-            if prompt(win,"Is this screen correct?"):
+            if prompt(win,"%s:Is this screen correct?"%name):
                 save_snapshot(win,open(snap_shot_file,"wb"))
                 win.touchwin()
                 win.refresh()
                 win.clear()
                 return
-        assert False, "No snapshot found for case %s"%name
+        assert False, "%s:No snapshot found"%name
     win.clear()

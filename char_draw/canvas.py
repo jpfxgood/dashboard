@@ -9,7 +9,7 @@ import os
 import math
 
 def angle_point(x0,y0,a,radius):
-    return (x0+(1.5*math.cos(math.radians(a))*radius), y0+math.sin(math.radians(a))*radius)
+    return (int(x0+(1.5*math.cos(math.radians(a))*radius)), int(y0+math.sin(math.radians(a))*radius))
 
 class Canvas:
     """ primitive drawing surface attached to a curses window """
@@ -384,6 +384,9 @@ class Canvas:
         def circle_point( points, xc,yc,x,y ):
             points.extend([(xc+x, yc+y),(xc-x, yc+y),(xc+x, yc-y),(xc-x, yc-y),(xc+y, yc+x),(xc-y, yc+x),(xc+y, yc-x),(xc-y, yc-x)])
 
+        x0 = int(x0)
+        y0 = int(y0)
+        radius = int(radius)
         x = 0
         y = radius
         d = 3 - 2 * radius
@@ -399,7 +402,7 @@ class Canvas:
 
         for idx in range(len(points)):
             x,y = points[idx]
-            x = ((x-x0)*1.5)+x0
+            x = int(((x-x0)*1.5)+x0)
             points[idx] = (x,y)
 
         if not fill:
@@ -418,6 +421,9 @@ class Canvas:
         def circle_point( points, xc,yc,x,y ):
             points.extend([(xc+x, yc+y),(xc-x, yc+y),(xc+x, yc-y),(xc-x, yc-y),(xc+y, yc+x),(xc-y, yc+x),(xc+y, yc-x),(xc-y, yc-x)])
 
+        x0 = int(x0)
+        y0 = int(y0)
+        radius = int(radius)
         x = 0
         y = radius
         d = 3 - 2 * radius
@@ -445,7 +451,7 @@ class Canvas:
 
         filtered_points = []
         for x,y in points:
-            px = ((x-x0)*1.5)+x0
+            px = int(((x-x0)*1.5)+x0)
             if px >= x_min and px <= x_max and y >= y_min and y <= y_max:
                 angle = math.degrees(math.atan2(y-y0,x-x0))
                 if angle < 0:

@@ -43,7 +43,14 @@ def test_Canvas(request,capsys):
                     break
             dashboard_test_case(stdscr,"arc_not_filled",python_path)
             c.clear()
-            c.arc(max_x//2,max_y//2,min(max_x,max_y)//3,120,220,curses.color_pair(20),True)
+            a = 0
+            a1 = 23
+            for ac in range(20):
+                c.arc(max_x//2,max_y//2,min(max_x,max_y)//3,a,a1,c.white,True)
+                a = a1
+                a1 = a1 + ac*5
+                if a1 > 360:
+                    break
             dashboard_test_case(stdscr,"arc_filled",python_path)
             c.clear()
             ix = 0

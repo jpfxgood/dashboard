@@ -498,7 +498,8 @@ class GraphBars(GraphElement):
             y = y+height
             n_series = len(self.parent.get_series())
             i_series = self.parent.get_series().index(self.series)
-            series_x_offset = (n_series - (i_series+1)) * (x_dx / n_series)
+            bar_width = max(1.0,(x_dx / n_series))
+            series_x_offset = (n_series - (i_series+1)) * bar_width
             x += series_x_offset
 
             if self.parent.is_top():
@@ -515,7 +516,7 @@ class GraphBars(GraphElement):
                         x_value = x_values[idx][0]
                     scaled_x = (x_value-x_min)*x_scale
                     scaled_y = (y_value-y_min)*y_scale
-                    new_children.append(display_list.Rect(x+scaled_x-(x_dx/4),y,min(x+scaled_x+(x_dx/4),x+width),y-scaled_y,self.series.color))
+                    new_children.append(display_list.Rect(x+scaled_x-(bar_width/2),y,min(x+scaled_x+(bar_width/2),x+width),y-scaled_y,self.series.color,True))
                 idx += 1
             self.set_children(new_children)
 
