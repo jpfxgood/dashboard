@@ -44,5 +44,13 @@ def test_Graph(request,capsys):
             g.render()
             dashboard_test_case(stdscr,"gr_basic_piegraph",python_path)
             c.clear()
+            g = graph.PieGraph(d,"Pie Labels",["Metric 3","Metric 2","Metric 5","Metric 1","Metric 4"],None,c,"Five Pie Graph")
+            g.render()
+            dashboard_test_case(stdscr,"gr_five_piegraph",python_path)
+            c.clear()
+            g = graph.TableGraph(d,"Pie Labels",["Metric 1","Metric 2","Metric 3","Metric 4","Metric 5","Metric 6"],None,c,"Basic Table")
+            g.render()
+            dashboard_test_case(stdscr,"gr_basic_tablegraph",python_path)
+            c.clear()
 
         curses.wrapper(main)

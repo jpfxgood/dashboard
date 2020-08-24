@@ -14,7 +14,7 @@ def test_Graph(request,capsys):
             screen_size(40,100)
             stdscr.clear()
             stdscr.refresh()
-            
+
             python_path = os.path.dirname(os.path.dirname(request.fspath))
 
             c_names = ["X-Series","Pie Labels","Metric 1","Metric 2","Metric 3","Metric 4","Metric 5","Metric 6"]
@@ -51,14 +51,18 @@ def test_Graph(request,capsys):
             pp = dashboard.Panel()
             g = graph.PieGraph(d,"Pie Labels",["Metric 3"],None,c,"Basic Pie Graph")
             pp.add_graph(g)
+            g = graph.TableGraph(d,"Pie Labels",["Metric 1","Metric 2","Metric 3","Metric 4","Metric 5","Metric 6"],None,c,"Basic Table")
+            pp.add_graph(g)
             p.add_panel(pp)
             db.add_page(p)
 
-            d.refresh()
+            # force the timestamp to be the same so the screen diffs will match
+            d.refresh_timestamp = datetime(2020,8,24,9,49,0,0).timestamp()
             d.changed()
 
             db.main([])
             dashboard_test_case(stdscr,"db_basic_dashboard",python_path)
-
+            db.main([curses.KEY_NPAGE])
+            dashboard_test_case(stdscr,"db_basic_dashboard_1",python_path)
 
         curses.wrapper(main)
