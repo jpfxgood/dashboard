@@ -245,12 +245,15 @@ class Page:
         w_ymax,w_xmax = self.window.getmaxyx()
         w_ymax -= 1
         if w_ymax >= self.height and w_xmax >= self.width:
-            self.pad.refresh(0,0,1,0,self.height,self.width)
+            try:
+                self.pad.overwrite(self.window,0,0,1,0,self.height-1,self.width-1)
+            except:
+                pass
         else:
             p_y,p_x = self.position
             h = min(w_ymax,self.height - p_y)
             w = min(w_xmax,self.width - p_x)
-            self.pad.refresh(p_y,p_x,1,0,h-1,w-1)
+            self.pad.overwrite(self.window,p_y,p_x,1,0,h-1,w-1)
             if w < w_xmax:
                 for y in range(0,h):
                     try:
@@ -263,6 +266,7 @@ class Page:
                 except:
                     pass
                 h += 1
+        self.window.refresh()
 
 class Dashboard:
     def __init__(self,window,pages = None, auto_tour_delay = 0):
@@ -388,7 +392,7 @@ class Dashboard:
         return graph
 
 
-    def main( self ):
+    def main( self, keys = None ):
         """ main input and redraw loop for the dashboard """
         self.window.nodelay(1)
         self.window.notimeout(0)
@@ -406,7 +410,13 @@ class Dashboard:
         zoomed_restore_canvas = None
         status = ""
         while True:
-            ch = self.window.getch()
+            if keys != None:
+                if len(keys) >  0:
+                    ch = keys.pop(0)
+                else:
+                    ch = -1
+            else:
+                ch = self.window.getch()
 
             if not zoomed:
                 cur_graph = self.get_current_graph()
@@ -506,3 +516,6 @@ class Dashboard:
             self.window.addstr(0,0," "*len(status),curses.color_pair(1)|curses.A_REVERSE)
             status = "Page %d of %d Last Update %s%s"%(self.current_page+1,len(self.pages),datetime.fromtimestamp(latest_refresh).strftime("%A, %d. %B %Y %I:%M%p")," ZOOMED (Press Esc to Exit)" if zoomed else "")
             self.window.addstr(0,0,status,curses.color_pair(1)|curses.A_REVERSE)
+
+            if keys != None and len(keys) == 0:
+                return
