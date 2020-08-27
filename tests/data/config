@@ -1,8 +1,8 @@
 {
 "tables": [
-    {"name": "testcsv", "type":"CSVDataTable","csv_spec":"/home/james/dashboard-git/test_csv.csv"},
-    {"name": "spreadsheet", "type":"CSVDataTable","csv_spec":"/home/james/dashboard-git/spreadsheet.csv", "csv_map": [["Time Stamp","Time Stamp","_date"],["Metric 1","First Metric","_int"],["Metric 4","Second Metric","_int"]]},
-    {"name": "testjson", "type":"JSONDataTable","json_spec":"/home/james/dashboard-git/test_json.json"},
+    {"name": "testcsv", "type":"CSVDataTable","csv_spec":"./tests/data/test_csv.csv"},
+    {"name": "spreadsheet", "type":"CSVDataTable","csv_spec":"./tests/data/spreadsheet.csv", "csv_map": [["Time Stamp","Time Stamp","_date"],["Metric 1","First Metric","_int"],["Metric 4","Second Metric","_int"]]},
+    {"name": "testjson", "type":"JSONDataTable","json_spec":"./tests/data/test_json.json"},
     {"name": "authlog", "type":"LogDataTable",
         "log_glob":"/var/log/auth*",
         "log_map":[
@@ -346,7 +346,7 @@
                 ]
             }
             ]
-        },        
+        },
         {
         "panels": [
             {

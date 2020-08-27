@@ -19,7 +19,7 @@ class CSVDataTable( DataTable ):
         self.csv_spec = csv_spec
         self.csv_map = csv_map
         self.csv_name = csv_name
-        DataTable.__init__(self,None,(csv_name if csv_name else "CSVDataTable"),refresh_minutes)
+        DataTable.__init__(self,None,(csv_name if csv_name else None),refresh_minutes)
         self.refresh()
 
     @synchronized

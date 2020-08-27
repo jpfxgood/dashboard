@@ -12,11 +12,12 @@ from data_sources.data_table import DataTable,Column,Cell,blank_type,string_type
 
 class SyslogDataTable( DataTable ):
     """ class that collects a time based aggregation of data from the syslog into a data_table """
-    def __init__(self,syslog_glob="/var/log/syslog*",num_hours=24,bucket_hours=1,refresh_minutes=10):
+    def __init__(self,syslog_glob="/var/log/syslog*",num_hours=24,bucket_hours=1,refresh_minutes=10,start_time=None):
         """ Initialize the SyslogDataTable with a file glob pattern to collect the syslogs on this machine, a timespan to aggregate for, aggregation bucket in hours, a refresh interval for updating in minutes """
         self.syslog_glob = syslog_glob
         self.num_hours = num_hours
         self.bucket_hours = bucket_hours
+        self.start_time = start_time
         DataTable.__init__(self,None,
             "Syslog Data: %s for the last %d hours in %d hour buckets, refreshed every %d minutes"%(
             self.syslog_glob,
@@ -28,7 +29,11 @@ class SyslogDataTable( DataTable ):
     @synchronized
     def refresh( self ):
         """ refresh or rebuild tables """
-        current_time = datetime.now()
+        if self.start_time:
+            year,month,day,hour,minute,second = self.start_time
+            current_time = datetime(year,month,day,hour,minute,second)
+        else:
+            current_time = datetime.now()
         start_time = current_time - timedelta( hours = self.num_hours )
         syslog_files = glob.glob(self.syslog_glob)
 
@@ -86,7 +91,7 @@ class SyslogDataTable( DataTable ):
                 line = line.strip()
                 m = re.match(r"(\w\w\w\s+\d+\s\d\d:\d\d:\d\d)\s[a-z0-9\-]*\s([a-zA-Z0-9\-\_\.]*)[\[\]0-9]*:\s*(.*)",line)
                 if m:
-                    log_date = re.sub("\s+"," ","%d "%current_time.year + m.group(1))
+                    log_date = re.sub(r"\s+"," ","%d "%current_time.year + m.group(1))
                     log_process = m.group(2)
                     log_message = m.group(3)
                     log_datetime = datetime.strptime(log_date,"%Y %b %d %H:%M:%S")
@@ -98,8 +103,8 @@ class SyslogDataTable( DataTable ):
                             services_column.put(s_idx,Cell(string_type,log_process,format_string))
                         put_or_sum(messages_column,b_idx,1)
                         put_or_sum(messages_service_column,s_idx,1)
-                        is_error = re.search("[Ee]rror|ERROR",log_message)
-                        is_warning = re.search("[Ww]arning|WARNING",log_message)
+                        is_error = re.search(r"[Ee]rror|ERROR",log_message)
+                        is_warning = re.search(r"[Ww]arning|WARNING",log_message)
                         error_count = 0
                         warning_count = 0
                         if is_error and not is_warning:

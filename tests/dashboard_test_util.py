@@ -6,6 +6,11 @@ import os
 import sys
 import subprocess
 from io import StringIO,BytesIO
+import pytest
+import os
+import shutil
+import random
+from datetime import datetime,timedelta
 
 def screen_size( rows, columns ):
     cmd = "resize -s %d %d >/dev/null 2>/dev/null"%(rows,columns)
@@ -164,3 +169,37 @@ def dashboard_test_case( win, name, path ):
                 return
         assert False, "%s:No snapshot found"%name
     win.clear()
+
+
+@pytest.fixture(scope="function")
+def dt_testdir(request,testdir):
+    python_path = os.path.dirname(os.path.dirname(request.fspath))
+    data_path = os.path.join(python_path,"tests/data")
+    spreadsheet_path = os.path.join(data_path,"spreadsheet.csv")
+    csv_path = os.path.join(data_path,"test_csv.csv")
+    json_path = os.path.join(data_path,"test_json.json")
+    syslog_path = os.path.join(str(testdir.tmpdir),"syslog")
+    syslog_template_path = os.path.join(data_path,"syslog.template")
+
+    random.seed(82520)
+    timestamp = datetime.now().replace(minute=0,second=0,microsecond=0)
+    lines = []
+    for line in open(syslog_template_path,"r"):
+        lines.append(line%(timestamp.strftime("%b"),timestamp.day,timestamp.hour,timestamp.minute,timestamp.second))
+        timestamp = timestamp - timedelta(minutes=random.randint(0,60),seconds=random.randint(0,60))
+    lines.sort()
+    syslog_out = open(syslog_path,"w")
+    for line in lines:
+        print(line,file=syslog_out)
+    syslog_out.flush()
+    syslog_out.close()
+
+    return {"python_path" : python_path,
+            "data_path" : data_path,
+            "spreadsheet_path": spreadsheet_path,
+            "csv_path": csv_path,
+            "json_path": json_path,
+            "syslog_path": syslog_path,
+            "local_path": str(testdir.tmpdir),
+            "start_time": timestamp,
+            "testdir" : testdir }

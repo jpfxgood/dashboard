@@ -431,6 +431,7 @@ class DataTable(object):
         if idx == len(self.columns):
             self.columns.append(column)
         else:
+            del self.cnames[self.columns[idx].get_name()]
             self.columns[idx] = column
         self.cnames[column.get_name()] = column
         column.set_table(self)
