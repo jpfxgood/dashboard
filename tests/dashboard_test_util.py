@@ -182,11 +182,13 @@ def dt_testdir(request,testdir):
     syslog_template_path = os.path.join(data_path,"syslog.template")
 
     random.seed(82520)
-    timestamp = datetime.now().replace(minute=0,second=0,microsecond=0)
+    start_time  = datetime.now().replace(minute=0,second=0,microsecond=0)
+    timestamp = start_time
     lines = []
     for line in open(syslog_template_path,"r"):
+        line = line[:20] + line[20:].replace("%","%%")
         lines.append(line%(timestamp.strftime("%b"),timestamp.day,timestamp.hour,timestamp.minute,timestamp.second))
-        timestamp = timestamp - timedelta(minutes=random.randint(0,60),seconds=random.randint(0,60))
+        timestamp = timestamp - timedelta(seconds=random.randint(0,300))
     lines.sort()
     syslog_out = open(syslog_path,"w")
     for line in lines:
@@ -201,5 +203,5 @@ def dt_testdir(request,testdir):
             "json_path": json_path,
             "syslog_path": syslog_path,
             "local_path": str(testdir.tmpdir),
-            "start_time": timestamp,
+            "start_time": start_time,
             "testdir" : testdir }

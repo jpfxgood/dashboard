@@ -183,6 +183,16 @@ def test_CSVDataTable(dt_testdir):
 def test_SyslogDataTable(dt_testdir):
     st = dt_testdir["start_time"]
     sdt = SyslogDataTable( dt_testdir["syslog_path"],start_time=[st.year,st.month,st.day,st.hour,st.minute,st.second])
+    column_names = ["Time Stamps","Errors by Time","Warnings by Time","Messages by Time","Services","Errors by Service","Warnings by Service","Messages by Service" ]
+    for cn in column_names:
+        assert sdt.has_column(cn)
+    assert sdt.get(13,"Errors by Time").get_value() == 4
+    assert sdt.get(14,"Warnings by Time").get_value() == 1
+    assert sdt.get(15,"Messages by Time").get_value() == 23
+    assert sdt.get(0,"Services").get_value() == "systemd"
+    assert sdt.get(1,"Errors by Service").get_value() == 30
+    assert sdt.get(15,"Warnings by Service").get_value() == 3
+    assert sdt.get(0,"Messages by Service").get_value() == 60
 
 
 def test_LogDataTable(dt_testdir):

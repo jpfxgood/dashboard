@@ -1,157 +1,267 @@
+%s %d %02d:%02d:%02d test-server CRON[23658]: (root) CMD (command -v debian-sa1 > /dev/null && debian-sa1 1 1)
+%s %d %02d:%02d:%02d test-server systemd[1]: Started Firmware update daemon.
+%s %d %02d:%02d:%02d test-server anacron[18290]: Anacron 2.3 started on 2020-08-25
+%s %d %02d:%02d:%02d test-server systemd-resolved[1594]: message repeated 6 times: [ Server returned error NXDOMAIN, mitigating potential DNS violation DVE-2018-0001, retrying transaction with reduced feature level UDP.]
+%s %d %02d:%02d:%02d test-server sSMTP[15036]: SSL connection using ECDHE_RSA_AES_128_GCM_SHA256
+%s %d %02d:%02d:%02d test-server fwupd[15333]: 10:13:31:0721 FuPluginUefi         kernel efivars support missing: /sys/firmware/efi/efivars
+%s %d %02d:%02d:%02d test-server systemd-resolved[1594]: message repeated 6 times: [ Server returned error NXDOMAIN, mitigating potential DNS violation DVE-2018-0001, retrying transaction with reduced feature level UDP.]
+%s %d %02d:%02d:%02d test-server xscreensaver: pam_ecryptfs: seteuid error
+%s %d %02d:%02d:%02d test-server CRON[14907]: (root) CMD (command -v debian-sa1 > /dev/null && debian-sa1 1 1)
+%s %d %02d:%02d:%02d test-server systemd[1]: Started Firmware update daemon.
+%s %d %02d:%02d:%02d test-server CRON[2611]: (root) CMD (   cd / && run-parts --report /etc/cron.hourly)
+%s %d %02d:%02d:%02d test-server kernel: [    0.833677] RAS: Correctable Errors collector initialized.
+%s %d %02d:%02d:%02d test-server CRON[23309]: (root) CMD (   cd / && run-parts --report /etc/cron.hourly)
+%s %d %02d:%02d:%02d test-server NetworkManager[1544]: <warn>  [1597946417.2786] error requesting auth for org.freedesktop.NetworkManager.network-control: Authorization check failed: Failed to open file “/proc/4064/status”: No such file or directory
+%s %d %02d:%02d:%02d test-server CRON[5520]: (root) CMD (command -v debian-sa1 > /dev/null && debian-sa1 1 1)
+%s %d %02d:%02d:%02d test-server systemd[27843]: Startup finished in 63ms.
+%s %d %02d:%02d:%02d test-server systemd[27843]: Stopped Checks for new firmware every day.
+%s %d %02d:%02d:%02d test-server CRON[23247]: (root) CMD (command -v debian-sa1 > /dev/null && debian-sa1 1 1)
+%s %d %02d:%02d:%02d test-server systemd[1]: Starting Message of the Day...
+%s %d %02d:%02d:%02d test-server kibana[1643]: {"type":"log","@timestamp":"2020-08-20T18:01:04Z","tags":["error","elasticsearch","data"],"pid":1643,"message":"Request error, retrying\nGET http://localhost:9200/_xpack => connect ECONNREFUSED 127.0.0.1:9200"}
+%s %d %02d:%02d:%02d test-server anacron[21224]: Normal exit (0 jobs run)
+%s %d %02d:%02d:%02d test-server CRON[19862]: (root) CMD (command -v debian-sa1 > /dev/null && debian-sa1 1 1)
+%s %d %02d:%02d:%02d test-server CRON[15967]: (root) CMD (test -x /usr/sbin/anacron || ( cd / && run-parts --report /etc/cron.daily ))
+%s %d %02d:%02d:%02d test-server systemd[1]: Starting User Manager for UID 1001...
+%s %d %02d:%02d:%02d test-server systemd[1]: Starting Daily apt upgrade and clean activities...
+%s %d %02d:%02d:%02d test-server CRON[16538]: (root) CMD (command -v debian-sa1 > /dev/null && debian-sa1 1 1)
+%s %d %02d:%02d:%02d test-server CRON[20551]: (root) CMD (command -v debian-sa1 > /dev/null && debian-sa1 1 1)
+%s %d %02d:%02d:%02d test-server CRON[26310]: (root) CMD (command -v debian-sa1 > /dev/null && debian-sa1 1 1)
+%s %d %02d:%02d:%02d test-server kernel: [    5.569661] EXT4-fs (sdb1): mounted filesystem with ordered data mode. Opts: errors=remount-ro
+%s %d %02d:%02d:%02d test-server systemd[27843]: Listening on GnuPG cryptographic agent and passphrase cache (access for web browsers).
+%s %d %02d:%02d:%02d test-server cgmanager[1925]: cgmanager: Error mounting unified: Invalid argument
+%s %d %02d:%02d:%02d test-server systemd[27843]: Closed GnuPG cryptographic agent and passphrase cache.
+%s %d %02d:%02d:%02d test-server systemd-resolved[1407]: Server returned error NXDOMAIN, mitigating potential DNS violation DVE-2018-0001, retrying transaction with reduced feature level UDP.
+%s %d %02d:%02d:%02d test-server indicator-sound[4140]: accounts-service-access.vala:218: unable to sync volume 0.586957 to AccountsService: GDBus.Error:org.freedesktop.DBus.Error.InvalidArgs: No such interface 'com.ubuntu.AccountsService.Sound'
+%s %d %02d:%02d:%02d test-server scp-dbus-servic[28392]: system-config-printer: Fatal IO error 11 (Resource temporarily unavailable) on X server :0.
+%s %d %02d:%02d:%02d test-server kernel: [    5.534597] EXT4-fs (sda1): mounted filesystem with ordered data mode. Opts: errors=remount-ro
+%s %d %02d:%02d:%02d test-server systemd[27843]: Reached target Shutdown.
+%s %d %02d:%02d:%02d test-server systemd[1]: Started Run anacron jobs.
+%s %d %02d:%02d:%02d test-server kernel: [382055.390060] audit: type=1400 audit(1598328504.381:82): apparmor="DENIED" operation="open" profile="/usr/sbin/cups-browsed" name="/usr/share/cups/locale/" pid=15625 comm="cups-browsed" requested_mask="r" denied_mask="r" fsuid=0 ouid=0
+%s %d %02d:%02d:%02d test-server CRON[15501]: (root) CMD (   cd / && run-parts --report /etc/cron.hourly)
+%s %d %02d:%02d:%02d test-server systemd-resolved[1594]: message repeated 6 times: [ Server returned error NXDOMAIN, mitigating potential DNS violation DVE-2018-0001, retrying transaction with reduced feature level UDP.]
+%s %d %02d:%02d:%02d test-server CRON[15434]: (root) CMD (command -v debian-sa1 > /dev/null && debian-sa1 1 1)
+%s %d %02d:%02d:%02d test-server systemd-resolved[1594]: Server returned error NXDOMAIN, mitigating potential DNS violation DVE-2018-0001, retrying transaction with reduced feature level UDP.
+%s %d %02d:%02d:%02d test-server indicator-sound[4140]: accounts-service-access.vala:218: unable to sync volume 0.594203 to AccountsService: GDBus.Error:org.freedesktop.DBus.Error.InvalidArgs: No such interface 'com.ubuntu.AccountsService.Sound'
+%s %d %02d:%02d:%02d test-server systemd[27843]: Listening on GnuPG cryptographic agent and passphrase cache (restricted).
+%s %d %02d:%02d:%02d test-server CRON[16406]: (root) CMD (command -v debian-sa1 > /dev/null && debian-sa1 1 1)
+%s %d %02d:%02d:%02d test-server CRON[27602]: (root) CMD (command -v debian-sa1 > /dev/null && debian-sa1 1 1)
+%s %d %02d:%02d:%02d test-server anacron[21224]: Anacron 2.3 started on 2020-08-25
+%s %d %02d:%02d:%02d test-server pulseaudio[4196]: [pulseaudio] bluez5-util.c: GetManagedObjects() failed: org.freedesktop.DBus.Error.TimedOut: Failed to activate service 'org.bluez': timed out (service_start_timeout=25000ms)
+%s %d %02d:%02d:%02d test-server CRON[31854]: (root) CMD (command -v debian-sa1 > /dev/null && debian-sa1 1 1)
+%s %d %02d:%02d:%02d test-server systemd[1]: Started Daily apt upgrade and clean activities.
+%s %d %02d:%02d:%02d test-server NetworkManager[1544]: <warn>  [1597946417.2814] error requesting auth for org.freedesktop.NetworkManager.enable-disable-connectivity-check: Authorization check failed: Failed to open file “/proc/4064/status”: No such file or directory
+%s %d %02d:%02d:%02d test-server systemd[27843]: Reached target Paths.
+%s %d %02d:%02d:%02d test-server systemd[27843]: Closed GnuPG cryptographic agent (ssh-agent emulation).
+%s %d %02d:%02d:%02d test-server cgmanager[1897]: cgmanager: Error mounting unified: Invalid argument
+%s %d %02d:%02d:%02d test-server anacron[18290]: Normal exit (0 jobs run)
+%s %d %02d:%02d:%02d test-server systemd-resolved[1594]: Server returned error NXDOMAIN, mitigating potential DNS violation DVE-2018-0001, retrying transaction with reduced feature level UDP.
+%s %d %02d:%02d:%02d test-server systemd[1]: Started Session 965 of user test_user.
+%s %d %02d:%02d:%02d test-server systemd[1]: Started Run anacron jobs.
+%s %d %02d:%02d:%02d test-server CRON[16168]: (root) CMD (   cd / && run-parts --report /etc/cron.hourly)
+%s %d %02d:%02d:%02d test-server indicator-sound[4140]: accounts-service-access.vala:218: unable to sync volume 0.601440 to AccountsService: GDBus.Error:org.freedesktop.DBus.Error.InvalidArgs: No such interface 'com.ubuntu.AccountsService.Sound'
+%s %d %02d:%02d:%02d test-server systemd[1]: Started Session 962 of user test_user.
+%s %d %02d:%02d:%02d test-server CRON[7864]: (root) CMD (command -v debian-sa1 > /dev/null && debian-sa1 1 1)
+%s %d %02d:%02d:%02d test-server xscreensaver: pam_ecryptfs: seteuid error
+%s %d %02d:%02d:%02d test-server CRON[6555]: (root) CMD (command -v debian-sa1 > /dev/null && debian-sa1 1 1)
+%s %d %02d:%02d:%02d test-server kibana[1643]: {"type":"log","@timestamp":"2020-08-20T18:01:04Z","tags":["error","elasticsearch","monitoring"],"pid":1643,"message":"Request error, retrying\nGET http://localhost:9200/_xpack => connect ECONNREFUSED 127.0.0.1:9200"}
+%s %d %02d:%02d:%02d test-server NetworkManager[1544]: <warn>  [1597946417.2812] error requesting auth for org.freedesktop.NetworkManager.enable-disable-statistics: Authorization check failed: Failed to open file “/proc/4064/status”: No such file or directory
+%s %d %02d:%02d:%02d test-server systemd[27843]: Listening on GnuPG cryptographic agent (ssh-agent emulation).
+%s %d %02d:%02d:%02d test-server CRON[21211]: (root) CMD ([ -x /etc/init.d/anacron ] && if [ ! -d /run/systemd/system ]; then /usr/sbin/invoke-rc.d anacron start >/dev/null; fi)
+%s %d %02d:%02d:%02d test-server kernel: [    1.361087] ACPI BIOS Error (bug): Could not resolve symbol [\_SB.PCI0.SAT0.SPT4._GTF.DSSP], AE_NOT_FOUND (20190703/psargs-330)
+%s %d %02d:%02d:%02d test-server systemd-resolved[1594]: Server returned error NXDOMAIN, mitigating potential DNS violation DVE-2018-0001, retrying transaction with reduced feature level UDP.
+%s %d %02d:%02d:%02d test-server systemd[1]: Started User Manager for UID 1001.
+%s %d %02d:%02d:%02d test-server NetworkManager[1544]: <warn>  [1597946417.2768] error requesting auth for org.freedesktop.NetworkManager.enable-disable-network: Authorization check failed: Failed to open file “/proc/4064/status”: No such file or directory
+%s %d %02d:%02d:%02d test-server systemd[1]: Starting Firmware update daemon...
+%s %d %02d:%02d:%02d test-server CRON[24477]: (root) CMD (command -v debian-sa1 > /dev/null && debian-sa1 1 1)
+%s %d %02d:%02d:%02d test-server NetworkManager[1544]: <warn>  [1597946417.2772] error requesting auth for org.freedesktop.NetworkManager.sleep-wake: Authorization check failed: Failed to open file “/proc/4064/status”: No such file or directory
+%s %d %02d:%02d:%02d test-server CRON[8069]: (test_user) CMD (/home/test_user/.local/bin/bkp >/tmp/bkp.log 2>&1)
+%s %d %02d:%02d:%02d test-server systemd[1]: Started Run anacron jobs.
+%s %d %02d:%02d:%02d test-server systemd[27843]: Listening on GnuPG cryptographic agent and passphrase cache.
+%s %d %02d:%02d:%02d test-server rsyslogd:  [origin software="rsyslogd" swVersion="8.32.0" x-pid="1753" x-info="http://www.rsyslog.com"] rsyslogd was HUPed
+%s %d %02d:%02d:%02d test-server CRON[25851]: (root) CMD (command -v debian-sa1 > /dev/null && debian-sa1 1 1)
+%s %d %02d:%02d:%02d test-server containerd[1880]: time="2020-08-20T14:00:52.360104352-04:00" level=warning msg="could not use snapshotter btrfs in metadata plugin" error="path /var/lib/containerd/io.containerd.snapshotter.v1.btrfs must be a btrfs filesystem to be used with the btrfs snapshotter"
+%s %d %02d:%02d:%02d test-server NetworkManager[1544]: <warn>  [1597946417.2789] error requesting auth for org.freedesktop.NetworkManager.wifi.share.protected: Authorization check failed: Failed to open file “/proc/4064/status”: No such file or directory
+%s %d %02d:%02d:%02d test-server containerd[1880]: time="2020-08-20T14:00:52.360119494-04:00" level=warning msg="could not use snapshotter zfs in metadata plugin" error="path /var/lib/containerd/io.containerd.snapshotter.v1.zfs must be a zfs filesystem to be used with the zfs snapshotter: skip plugin"
+%s %d %02d:%02d:%02d test-server CRON[1114]: (root) CMD (command -v debian-sa1 > /dev/null && debian-sa1 1 1)
+%s %d %02d:%02d:%02d test-server CRON[16947]: (root) CMD (command -v debian-sa1 > /dev/null && debian-sa1 1 1)
+%s %d %02d:%02d:%02d test-server CRON[2062]: (root) CMD (command -v debian-sa1 > /dev/null && debian-sa1 1 1)
+%s %d %02d:%02d:%02d test-server anacron[14743]: Normal exit (0 jobs run)
+%s %d %02d:%02d:%02d test-server systemd-resolved[1594]: Server returned error NXDOMAIN, mitigating potential DNS violation DVE-2018-0001, retrying transaction with reduced feature level UDP.
+%s %d %02d:%02d:%02d test-server ntfs-3g[1181]: Cmdline options: rw,noatime,errors=remount-ro
+%s %d %02d:%02d:%02d test-server CRON[6096]: (root) CMD (command -v debian-sa1 > /dev/null && debian-sa1 1 1)
+%s %d %02d:%02d:%02d test-server kibana[1643]: {"type":"log","@timestamp":"2020-08-20T18:01:05Z","tags":["error","elasticsearch","admin"],"pid":1643,"message":"Request error, retrying\nGET http://localhost:9200/_nodes?filter_path=nodes.*.version%2Cnodes.*.http.publish_address%2Cnodes.*.ip => connect ECONNREFUSED 127.0.0.1:9200"}
+%s %d %02d:%02d:%02d test-server systemd[1]: Started Session 936 of user test_user1.
+%s %d %02d:%02d:%02d test-server systemd-resolved[1594]: Server returned error NXDOMAIN, mitigating potential DNS violation DVE-2018-0001, retrying transaction with reduced feature level UDP.
+%s %d %02d:%02d:%02d test-server systemd[1]: Created slice User Slice of test_user1.
+%s %d %02d:%02d:%02d test-server CRON[19976]: (root) CMD (   cd / && run-parts --report /etc/cron.hourly)
+%s %d %02d:%02d:%02d test-server systemd[1]: Started Run anacron jobs.
+%s %d %02d:%02d:%02d test-server xscreensaver: pam_ecryptfs: seteuid error
+%s %d %02d:%02d:%02d test-server NetworkManager[1544]: <warn>  [1597946417.2809] error requesting auth for org.freedesktop.NetworkManager.checkpoint-rollback: Authorization check failed: Failed to open file “/proc/4064/status”: No such file or directory
+%s %d %02d:%02d:%02d test-server systemd[27843]: Closed REST API socket for snapd user session agent.
+%s %d %02d:%02d:%02d test-server systemd-resolved[1594]: message repeated 6 times: [ Server returned error NXDOMAIN, mitigating potential DNS violation DVE-2018-0001, retrying transaction with reduced feature level UDP.]
+%s %d %02d:%02d:%02d test-server systemd[1]: Started Run anacron jobs.
+%s %d %02d:%02d:%02d test-server snapd[1777]: storehelpers.go:438: cannot refresh: snap has no updates available: "bubble-pop", "core", "notepadqq"
+%s %d %02d:%02d:%02d test-server systemd[27843]: Stopped target Default.
+%s %d %02d:%02d:%02d test-server kernel: [    1.361095] ACPI Error: Aborting method \_SB.PCI0.SAT0.SPT4._GTF due to previous error (AE_NOT_FOUND) (20190703/psparse-531)
+%s %d %02d:%02d:%02d test-server systemd-resolved[1594]: message repeated 6 times: [ Server returned error NXDOMAIN, mitigating potential DNS violation DVE-2018-0001, retrying transaction with reduced feature level UDP.]
+%s %d %02d:%02d:%02d test-server sSMTP[15036]: Sent mail for backup@testdomain.com (221 See you later. Yours truly, Mailgun) uid=1000 username=test_user outbytes=1340
+%s %d %02d:%02d:%02d test-server CRON[7435]: (root) CMD (command -v debian-sa1 > /dev/null && debian-sa1 1 1)
+%s %d %02d:%02d:%02d test-server systemd[27843]: Reached target Default.
+%s %d %02d:%02d:%02d test-server xfce4-notifyd[3816]: xfce4-notifyd: Fatal IO error 11 (Resource temporarily unavailable) on X server :0.
+%s %d %02d:%02d:%02d test-server anacron[25187]: Anacron 2.3 started on 2020-08-25
+%s %d %02d:%02d:%02d test-server kibana[1643]: {"type":"log","@timestamp":"2020-08-20T18:01:05Z","tags":["warning","plugins","licensing"],"pid":1643,"message":"License information could not be obtained from Elasticsearch due to Error: No Living connections error"}
+%s %d %02d:%02d:%02d test-server systemd[27843]: Reached target Timers.
+%s %d %02d:%02d:%02d test-server xscreensaver: pam_ecryptfs: seteuid error
+%s %d %02d:%02d:%02d test-server indicator-sound[4140]: accounts-service-access.vala:218: unable to sync volume 0.347824 to AccountsService: GDBus.Error:org.freedesktop.DBus.Error.InvalidArgs: No such interface 'com.ubuntu.AccountsService.Sound'
+%s %d %02d:%02d:%02d test-server snapd[1777]: autorefresh.go:397: auto-refresh: all snaps are up-to-date
+%s %d %02d:%02d:%02d test-server kibana[1643]: {"type":"log","@timestamp":"2020-08-20T18:01:05Z","tags":["warning","plugins","licensing"],"pid":1643,"message":"License information could not be obtained from Elasticsearch due to Error: No Living connections error"}
+%s %d %02d:%02d:%02d test-server indicator-sound[4140]: accounts-service-access.vala:218: unable to sync volume 0.427536 to AccountsService: GDBus.Error:org.freedesktop.DBus.Error.InvalidArgs: No such interface 'com.ubuntu.AccountsService.Sound'
+%s %d %02d:%02d:%02d test-server kernel: [    4.170192] EXT4-fs (sdc2): re-mounted. Opts: errors=remount-ro
+%s %d %02d:%02d:%02d test-server xscreensaver: pam_ecryptfs: seteuid error
+%s %d %02d:%02d:%02d test-server cgmanager[1746]: cgmanager: Error mounting unified: Invalid argument
+%s %d %02d:%02d:%02d test-server systemd-resolved[1594]: Server returned error NXDOMAIN, mitigating potential DNS violation DVE-2018-0001, retrying transaction with reduced feature level UDP.
+%s %d %02d:%02d:%02d test-server kernel: [    1.355809] ACPI BIOS Error (bug): Could not resolve symbol [\_SB.PCI0.SAT0.SPT4._GTF.DSSP], AE_NOT_FOUND (20190703/psargs-330)
+%s %d %02d:%02d:%02d test-server CRON[25400]: (root) CMD (command -v debian-sa1 > /dev/null && debian-sa1 1 1)
+%s %d %02d:%02d:%02d test-server CRON[3740]: (root) CMD (command -v debian-sa1 > /dev/null && debian-sa1 1 1)
+%s %d %02d:%02d:%02d test-server anacron[1882]: Normal exit (0 jobs run)
+%s %d %02d:%02d:%02d test-server systemd[27843]: Closed D-Bus User Message Bus Socket.
+%s %d %02d:%02d:%02d test-server xscreensaver: pam_ecryptfs: seteuid error
+%s %d %02d:%02d:%02d test-server CRON[32282]: (root) CMD (command -v debian-sa1 > /dev/null && debian-sa1 1 1)
+%s %d %02d:%02d:%02d test-server systemd-resolved[1594]: Server returned error NXDOMAIN, mitigating potential DNS violation DVE-2018-0001, retrying transaction with reduced feature level UDP.
+%s %d %02d:%02d:%02d test-server CRON[32354]: (root) CMD (   cd / && run-parts --report /etc/cron.hourly)
+%s %d %02d:%02d:%02d test-server systemd[27843]: Stopped target Sockets.
+%s %d %02d:%02d:%02d test-server kernel: [382055.390068] audit: type=1400 audit(1598328504.381:83): apparmor="DENIED" operation="open" profile="/usr/sbin/cups-browsed" name="/usr/share/locale/" pid=15625 comm="cups-browsed" requested_mask="r" denied_mask="r" fsuid=0 ouid=0
+%s %d %02d:%02d:%02d test-server CRON[27194]: (root) CMD (command -v debian-sa1 > /dev/null && debian-sa1 1 1)
+%s %d %02d:%02d:%02d test-server systemd[27843]: Received SIGRTMIN+24 from PID 31641 (kill).
+%s %d %02d:%02d:%02d test-server system76-power[1748]: [WARN] Failed to set initial profile: Errors found when setting profile:
+%s %d %02d:%02d:%02d test-server systemd-resolved[1594]: Server returned error NXDOMAIN, mitigating potential DNS violation DVE-2018-0001, retrying transaction with reduced feature level UDP.
+%s %d %02d:%02d:%02d test-server systemd-resolved[1407]: Server returned error NXDOMAIN, mitigating potential DNS violation DVE-2018-0001, retrying transaction with reduced feature level UDP.
+%s %d %02d:%02d:%02d test-server NetworkManager[1544]: <warn>  [1597946417.2775] error requesting auth for org.freedesktop.NetworkManager.enable-disable-wifi: Authorization check failed: Failed to open file “/proc/4064/status”: No such file or directory
+%s %d %02d:%02d:%02d test-server xscreensaver: pam_ecryptfs: seteuid error
+%s %d %02d:%02d:%02d test-server anacron[14914]: Job `cron.daily' terminated
+%s %d %02d:%02d:%02d test-server systemd[1]: Started Run anacron jobs.
+%s %d %02d:%02d:%02d test-server systemd[27843]: Reached target Sockets.
+%s %d %02d:%02d:%02d test-server NetworkManager[1544]: <warn>  [1597946417.2794] error requesting auth for org.freedesktop.NetworkManager.settings.modify.system: Authorization check failed: Failed to open file “/proc/4064/status”: No such file or directory
+%s %d %02d:%02d:%02d test-server indicator-sound[4140]: accounts-service-access.vala:218: unable to sync volume 0.304348 to AccountsService: GDBus.Error:org.freedesktop.DBus.Error.InvalidArgs: No such interface 'com.ubuntu.AccountsService.Sound'
+%s %d %02d:%02d:%02d test-server CRON[15966]: (root) CMD (command -v debian-sa1 > /dev/null && debian-sa1 1 1)
+%s %d %02d:%02d:%02d test-server anacron[31826]: Anacron 2.3 started on 2020-08-25
 %s %d %02d:%02d:%02d test-server colord[1841]: message repeated 2 times: [ failed to get session [pid 15623]: No data available]
 %s %d %02d:%02d:%02d test-server rsyslogd:  message repeated 960 times: [cannot connect to localhost:1514: Connection refused [v8.32.0 try http://www.rsyslog.com/e/2027 ]]
-%s %d %02d:%02d:%02d test-server rsyslogd:  [origin software="rsyslogd" swVersion="8.32.0" x-pid="1753" x-info="http://www.rsyslog.com"] rsyslogd was HUPed
-%s %d %02d:%02d:%02d test-server kernel: [382055.390060] audit: type=1400 audit(1598328504.381:82): apparmor="DENIED" operation="open" profile="/usr/sbin/cups-browsed" name="/usr/share/cups/locale/" pid=15625 comm="cups-browsed" requested_mask="r" denied_mask="r" fsuid=0 ouid=0
-%s %d %02d:%02d:%02d test-server kernel: [382055.390068] audit: type=1400 audit(1598328504.381:83): apparmor="DENIED" operation="open" profile="/usr/sbin/cups-browsed" name="/usr/share/locale/" pid=15625 comm="cups-browsed" requested_mask="r" denied_mask="r" fsuid=0 ouid=0
-%s %d %02d:%02d:%02d test-server colord[1841]: failed to get session [pid 15623]: No data available
-%s %d %02d:%02d:%02d test-server colord[1841]: failed to get session [pid 15623]: No data available
-%s %d %02d:%02d:%02d test-server rsyslogd: cannot connect to localhost:1514: Connection refused [v8.32.0 try http://www.rsyslog.com/e/2027 ]
-%s %d %02d:%02d:%02d test-server anacron[14914]: Job `cron.daily' terminated
-%s %d %02d:%02d:%02d test-server anacron[14914]: Normal exit (1 job run)
-%s %d %02d:%02d:%02d test-server CRON[16099]: (root) CMD (command -v debian-sa1 > /dev/null && debian-sa1 1 1)
-%s %d %02d:%02d:%02d test-server CRON[16168]: (root) CMD (   cd / && run-parts --report /etc/cron.hourly)
-%s %d %02d:%02d:%02d test-server CRON[16538]: (root) CMD (command -v debian-sa1 > /dev/null && debian-sa1 1 1)
-%s %d %02d:%02d:%02d test-server CRON[16947]: (root) CMD (command -v debian-sa1 > /dev/null && debian-sa1 1 1)
-%s %d %02d:%02d:%02d test-server CRON[17354]: (root) CMD (command -v debian-sa1 > /dev/null && debian-sa1 1 1)
-%s %d %02d:%02d:%02d test-server snapd[1777]: storehelpers.go:438: cannot refresh: snap has no updates available: "bubble-pop", "core", "notepadqq"
-%s %d %02d:%02d:%02d test-server snapd[1777]: autorefresh.go:397: auto-refresh: all snaps are up-to-date
-%s %d %02d:%02d:%02d test-server CRON[17750]: (root) CMD (command -v debian-sa1 > /dev/null && debian-sa1 1 1)
-%s %d %02d:%02d:%02d test-server CRON[17964]: (test_user) CMD (/home/test_user/.local/bin/bkp --compact >/tmp/compact.log 2>&1)
-%s %d %02d:%02d:%02d test-server systemd[1]: Started Session 921 of user test_user.
-%s %d %02d:%02d:%02d test-server systemd[1]: Started Run anacron jobs.
-%s %d %02d:%02d:%02d test-server anacron[21224]: Anacron 2.3 started on 2020-08-25
-%s %d %02d:%02d:%02d test-server anacron[21224]: Normal exit (0 jobs run)
-%s %d %02d:%02d:%02d test-server CRON[22829]: (root) CMD (command -v debian-sa1 > /dev/null && debian-sa1 1 1)
-%s %d %02d:%02d:%02d test-server CRON[23247]: (root) CMD (command -v debian-sa1 > /dev/null && debian-sa1 1 1)
-%s %d %02d:%02d:%02d test-server CRON[23309]: (root) CMD (   cd / && run-parts --report /etc/cron.hourly)
-%s %d %02d:%02d:%02d test-server CRON[23658]: (root) CMD (command -v debian-sa1 > /dev/null && debian-sa1 1 1)
-%s %d %02d:%02d:%02d test-server CRON[24082]: (root) CMD (command -v debian-sa1 > /dev/null && debian-sa1 1 1)
-%s %d %02d:%02d:%02d test-server CRON[24477]: (root) CMD (command -v debian-sa1 > /dev/null && debian-sa1 1 1)
-%s %d %02d:%02d:%02d test-server CRON[24919]: (root) CMD (command -v debian-sa1 > /dev/null && debian-sa1 1 1)
-%s %d %02d:%02d:%02d test-server systemd[1]: Started Run anacron jobs.
-%s %d %02d:%02d:%02d test-server anacron[25187]: Anacron 2.3 started on 2020-08-25
-%s %d %02d:%02d:%02d test-server anacron[25187]: Normal exit (0 jobs run)
-%s %d %02d:%02d:%02d test-server CRON[25400]: (root) CMD (command -v debian-sa1 > /dev/null && debian-sa1 1 1)
-%s %d %02d:%02d:%02d test-server CRON[25851]: (root) CMD (command -v debian-sa1 > /dev/null && debian-sa1 1 1)
-%s %d %02d:%02d:%02d test-server CRON[25924]: (root) CMD (   cd / && run-parts --report /etc/cron.hourly)
-%s %d %02d:%02d:%02d test-server CRON[26310]: (root) CMD (command -v debian-sa1 > /dev/null && debian-sa1 1 1)
-%s %d %02d:%02d:%02d test-server CRON[26738]: (root) CMD (command -v debian-sa1 > /dev/null && debian-sa1 1 1)
-%s %d %02d:%02d:%02d test-server CRON[27194]: (root) CMD (command -v debian-sa1 > /dev/null && debian-sa1 1 1)
-%s %d %02d:%02d:%02d test-server CRON[27602]: (root) CMD (command -v debian-sa1 > /dev/null && debian-sa1 1 1)
-%s %d %02d:%02d:%02d test-server systemd[1]: Created slice User Slice of test_user1.
-%s %d %02d:%02d:%02d test-server systemd[1]: Starting User Manager for UID 1001...
-%s %d %02d:%02d:%02d test-server systemd[1]: Started Session 936 of user test_user1.
-%s %d %02d:%02d:%02d test-server systemd[27843]: Starting D-Bus User Message Bus Socket.
-%s %d %02d:%02d:%02d test-server systemd[27843]: Listening on GnuPG cryptographic agent and passphrase cache.
-%s %d %02d:%02d:%02d test-server systemd[27843]: Listening on GnuPG cryptographic agent (ssh-agent emulation).
-%s %d %02d:%02d:%02d test-server systemd[27843]: Started Checks for new firmware every day.
-%s %d %02d:%02d:%02d test-server systemd[27843]: Listening on GnuPG cryptographic agent and passphrase cache (restricted).
-%s %d %02d:%02d:%02d test-server systemd[27843]: Listening on GnuPG cryptographic agent and passphrase cache (access for web browsers).
-%s %d %02d:%02d:%02d test-server systemd[27843]: Reached target Timers.
-%s %d %02d:%02d:%02d test-server systemd[27843]: Listening on REST API socket for snapd user session agent.
-%s %d %02d:%02d:%02d test-server systemd[27843]: Reached target Paths.
-%s %d %02d:%02d:%02d test-server systemd[27843]: Listening on GnuPG network certificate management daemon.
-%s %d %02d:%02d:%02d test-server systemd[27843]: Listening on D-Bus User Message Bus Socket.
-%s %d %02d:%02d:%02d test-server systemd[27843]: Reached target Sockets.
-%s %d %02d:%02d:%02d test-server systemd[27843]: Reached target Basic System.
-%s %d %02d:%02d:%02d test-server systemd[27843]: Reached target Default.
-%s %d %02d:%02d:%02d test-server systemd[1]: Started User Manager for UID 1001.
-%s %d %02d:%02d:%02d test-server systemd[27843]: Started Check for firmware updates, and display a notification if found.
-%s %d %02d:%02d:%02d test-server systemd[27843]: Startup finished in 63ms.
-%s %d %02d:%02d:%02d test-server dbus-daemon[1667]: [system] Activating via systemd: service name='org.freedesktop.fwupd' unit='fwupd.service' requested by ':1.1405' (uid=1001 pid=27855 comm="/usr/bin/com.system76.FirmwareManager.Notify " label="unconfined")
-%s %d %02d:%02d:%02d test-server systemd[1]: Starting Firmware update daemon...
-%s %d %02d:%02d:%02d test-server fwupd[27871]: 07:00:02:0320 FuPluginUefi         kernel efivars support missing: /sys/firmware/efi/efivars
-%s %d %02d:%02d:%02d test-server dbus-daemon[1667]: [system] Successfully activated service 'org.freedesktop.fwupd'
-%s %d %02d:%02d:%02d test-server systemd[1]: Started Firmware update daemon.
-%s %d %02d:%02d:%02d test-server systemd[1]: Started Session 938 of user test_user1.
-%s %d %02d:%02d:%02d test-server systemd[1]: Started Session 939 of user test_user1.
-%s %d %02d:%02d:%02d test-server systemd[1]: Stopping User Manager for UID 1001...
-%s %d %02d:%02d:%02d test-server systemd[27843]: Stopped target Default.
-%s %d %02d:%02d:%02d test-server systemd[27843]: Stopped target Basic System.
-%s %d %02d:%02d:%02d test-server systemd[27843]: Stopped target Paths.
-%s %d %02d:%02d:%02d test-server systemd[27843]: Stopped target Sockets.
-%s %d %02d:%02d:%02d test-server systemd[27843]: Closed GnuPG network certificate management daemon.
-%s %d %02d:%02d:%02d test-server systemd[27843]: Closed D-Bus User Message Bus Socket.
+%s %d %02d:%02d:%02d test-server indicator-sound[4140]: accounts-service-access.vala:218: unable to sync volume 0.601449 to AccountsService: GDBus.Error:org.freedesktop.DBus.Error.InvalidArgs: No such interface 'com.ubuntu.AccountsService.Sound'
+%s %d %02d:%02d:%02d test-server xscreensaver: pam_ecryptfs: seteuid error
 %s %d %02d:%02d:%02d test-server systemd[27843]: Closed GnuPG cryptographic agent and passphrase cache (restricted).
-%s %d %02d:%02d:%02d test-server systemd[27843]: Closed REST API socket for snapd user session agent.
-%s %d %02d:%02d:%02d test-server systemd[27843]: Closed GnuPG cryptographic agent and passphrase cache.
-%s %d %02d:%02d:%02d test-server systemd[27843]: Closed GnuPG cryptographic agent and passphrase cache (access for web browsers).
-%s %d %02d:%02d:%02d test-server systemd[27843]: Stopped target Timers.
-%s %d %02d:%02d:%02d test-server systemd[27843]: Stopped Checks for new firmware every day.
-%s %d %02d:%02d:%02d test-server systemd[27843]: Closed GnuPG cryptographic agent (ssh-agent emulation).
-%s %d %02d:%02d:%02d test-server systemd[27843]: Reached target Shutdown.
-%s %d %02d:%02d:%02d test-server systemd[27843]: Starting Exit the Session...
-%s %d %02d:%02d:%02d test-server systemd[27843]: Received SIGRTMIN+24 from PID 31641 (kill).
-%s %d %02d:%02d:%02d test-server systemd[1]: Stopped User Manager for UID 1001.
-%s %d %02d:%02d:%02d test-server systemd[1]: Removed slice User Slice of test_user1.
-%s %d %02d:%02d:%02d test-server systemd[1]: Started Run anacron jobs.
-%s %d %02d:%02d:%02d test-server anacron[31826]: Anacron 2.3 started on 2020-08-25
-%s %d %02d:%02d:%02d test-server anacron[31826]: Normal exit (0 jobs run)
-%s %d %02d:%02d:%02d test-server CRON[31854]: (root) CMD (command -v debian-sa1 > /dev/null && debian-sa1 1 1)
-%s %d %02d:%02d:%02d test-server CRON[32282]: (root) CMD (command -v debian-sa1 > /dev/null && debian-sa1 1 1)
-%s %d %02d:%02d:%02d test-server CRON[32354]: (root) CMD (   cd / && run-parts --report /etc/cron.hourly)
-%s %d %02d:%02d:%02d test-server CRON[32712]: (root) CMD (command -v debian-sa1 > /dev/null && debian-sa1 1 1)
-%s %d %02d:%02d:%02d test-server CRON[703]: (root) CMD (command -v debian-sa1 > /dev/null && debian-sa1 1 1)
-%s %d %02d:%02d:%02d test-server CRON[1114]: (root) CMD (command -v debian-sa1 > /dev/null && debian-sa1 1 1)
-%s %d %02d:%02d:%02d test-server CRON[1520]: (root) CMD (command -v debian-sa1 > /dev/null && debian-sa1 1 1)
-%s %d %02d:%02d:%02d test-server systemd[1]: Started Run anacron jobs.
-%s %d %02d:%02d:%02d test-server anacron[1882]: Anacron 2.3 started on 2020-08-25
-%s %d %02d:%02d:%02d test-server anacron[1882]: Normal exit (0 jobs run)
-%s %d %02d:%02d:%02d test-server CRON[2062]: (root) CMD (command -v debian-sa1 > /dev/null && debian-sa1 1 1)
+%s %d %02d:%02d:%02d test-server systemd[1]: Stopping User Manager for UID 1001...
+%s %d %02d:%02d:%02d test-server systemd[1]: Started Session 921 of user test_user.
 %s %d %02d:%02d:%02d test-server CRON[2520]: (root) CMD (command -v debian-sa1 > /dev/null && debian-sa1 1 1)
-%s %d %02d:%02d:%02d test-server CRON[2611]: (root) CMD (   cd / && run-parts --report /etc/cron.hourly)
-%s %d %02d:%02d:%02d test-server CRON[3119]: (root) CMD (command -v debian-sa1 > /dev/null && debian-sa1 1 1)
-%s %d %02d:%02d:%02d test-server CRON[3740]: (root) CMD (command -v debian-sa1 > /dev/null && debian-sa1 1 1)
-%s %d %02d:%02d:%02d test-server CRON[4329]: (root) CMD (command -v debian-sa1 > /dev/null && debian-sa1 1 1)
-%s %d %02d:%02d:%02d test-server CRON[4894]: (root) CMD (command -v debian-sa1 > /dev/null && debian-sa1 1 1)
-%s %d %02d:%02d:%02d test-server systemd[1]: Started Run anacron jobs.
-%s %d %02d:%02d:%02d test-server anacron[5346]: Anacron 2.3 started on 2020-08-25
-%s %d %02d:%02d:%02d test-server anacron[5346]: Normal exit (0 jobs run)
-%s %d %02d:%02d:%02d test-server CRON[5520]: (root) CMD (command -v debian-sa1 > /dev/null && debian-sa1 1 1)
-%s %d %02d:%02d:%02d test-server CRON[6096]: (root) CMD (command -v debian-sa1 > /dev/null && debian-sa1 1 1)
-%s %d %02d:%02d:%02d test-server CRON[6212]: (root) CMD (   cd / && run-parts --report /etc/cron.hourly)
-%s %d %02d:%02d:%02d test-server CRON[6555]: (root) CMD (command -v debian-sa1 > /dev/null && debian-sa1 1 1)
-%s %d %02d:%02d:%02d test-server CRON[6976]: (root) CMD (command -v debian-sa1 > /dev/null && debian-sa1 1 1)
-%s %d %02d:%02d:%02d test-server CRON[7435]: (root) CMD (command -v debian-sa1 > /dev/null && debian-sa1 1 1)
-%s %d %02d:%02d:%02d test-server CRON[7864]: (root) CMD (command -v debian-sa1 > /dev/null && debian-sa1 1 1)
-%s %d %02d:%02d:%02d test-server CRON[8069]: (test_user) CMD (/home/test_user/.local/bin/bkp >/tmp/bkp.log 2>&1)
-%s %d %02d:%02d:%02d test-server systemd[1]: Started Session 962 of user test_user.
-%s %d %02d:%02d:%02d test-server systemd[1]: Started Session 963 of user test_user.
-%s %d %02d:%02d:%02d test-server systemd[1]: Started Run anacron jobs.
-%s %d %02d:%02d:%02d test-server anacron[14743]: Anacron 2.3 started on 2020-08-25
-%s %d %02d:%02d:%02d test-server anacron[14743]: Normal exit (0 jobs run)
-%s %d %02d:%02d:%02d test-server CRON[14907]: (root) CMD (command -v debian-sa1 > /dev/null && debian-sa1 1 1)
-%s %d %02d:%02d:%02d test-server systemd[1]: Started Session 965 of user test_user.
-%s %d %02d:%02d:%02d test-server sSMTP[15036]: Creating SSL connection to host
-%s %d %02d:%02d:%02d test-server sSMTP[15036]: SSL connection using ECDHE_RSA_AES_128_GCM_SHA256
-%s %d %02d:%02d:%02d test-server sSMTP[15036]: Sent mail for backup@testdomain.com (221 See you later. Yours truly, Mailgun) uid=1000 username=test_user outbytes=1340
-%s %d %02d:%02d:%02d test-server dbus-daemon[1667]: [system] Activating via systemd: service name='org.freedesktop.fwupd' unit='fwupd.service' requested by ':1.143' (uid=1000 pid=18173 comm="gnome-software " label="unconfined")
-%s %d %02d:%02d:%02d test-server systemd[1]: Starting Firmware update daemon...
-%s %d %02d:%02d:%02d test-server fwupd[15333]: 10:13:31:0721 FuPluginUefi         kernel efivars support missing: /sys/firmware/efi/efivars
-%s %d %02d:%02d:%02d test-server dbus-daemon[1667]: [system] Successfully activated service 'org.freedesktop.fwupd'
-%s %d %02d:%02d:%02d test-server systemd[1]: Started Firmware update daemon.
-%s %d %02d:%02d:%02d test-server PackageKit: get-updates transaction /2179_ddbadabc from uid 1000 finished with success after 702ms
-%s %d %02d:%02d:%02d test-server CRON[15434]: (root) CMD (command -v debian-sa1 > /dev/null && debian-sa1 1 1)
-%s %d %02d:%02d:%02d test-server CRON[15501]: (root) CMD (   cd / && run-parts --report /etc/cron.hourly)
-%s %d %02d:%02d:%02d test-server systemd[1]: Starting Daily apt upgrade and clean activities...
-%s %d %02d:%02d:%02d test-server systemd[1]: Started Daily apt upgrade and clean activities.
-%s %d %02d:%02d:%02d test-server CRON[15966]: (root) CMD (command -v debian-sa1 > /dev/null && debian-sa1 1 1)
-%s %d %02d:%02d:%02d test-server CRON[15967]: (root) CMD (test -x /usr/sbin/anacron || ( cd / && run-parts --report /etc/cron.daily ))
-%s %d %02d:%02d:%02d test-server CRON[16406]: (root) CMD (command -v debian-sa1 > /dev/null && debian-sa1 1 1)
-%s %d %02d:%02d:%02d test-server CRON[16814]: (root) CMD (command -v debian-sa1 > /dev/null && debian-sa1 1 1)
-%s %d %02d:%02d:%02d test-server systemd[1]: Starting Message of the Day...
-%s %d %02d:%02d:%02d test-server 50-motd-news[17043]:  * Are you ready for Kubernetes 1.19? It's nearly here! Try RC3 with
-%s %d %02d:%02d:%02d test-server 50-motd-news[17043]:    sudo snap install microk8s --channel=1.19/candidate --classic
-%s %d %02d:%02d:%02d test-server 50-motd-news[17043]:    https://microk8s.io/ has docs and details.
-%s %d %02d:%02d:%02d test-server systemd[1]: Started Message of the Day.
 %s %d %02d:%02d:%02d test-server CRON[17547]: (root) CMD (command -v debian-sa1 > /dev/null && debian-sa1 1 1)
+%s %d %02d:%02d:%02d test-server CRON[24919]: (root) CMD (command -v debian-sa1 > /dev/null && debian-sa1 1 1)
+%s %d %02d:%02d:%02d test-server CRON[16814]: (root) CMD (command -v debian-sa1 > /dev/null && debian-sa1 1 1)
+%s %d %02d:%02d:%02d test-server NetworkManager[1544]: <warn>  [1597946417.2798] error requesting auth for org.freedesktop.NetworkManager.settings.modify.hostname: Authorization check failed: Failed to open file “/proc/4064/status”: No such file or directory
+%s %d %02d:%02d:%02d test-server systemd-resolved[1407]: Server returned error NXDOMAIN, mitigating potential DNS violation DVE-2018-0001, retrying transaction with reduced feature level UDP.
+%s %d %02d:%02d:%02d test-server CRON[22829]: (root) CMD (command -v debian-sa1 > /dev/null && debian-sa1 1 1)
+%s %d %02d:%02d:%02d test-server colord[1841]: failed to get session [pid 15623]: No data available
+%s %d %02d:%02d:%02d test-server systemd-resolved[1594]: Server returned error NXDOMAIN, mitigating potential DNS violation DVE-2018-0001, retrying transaction with reduced feature level UDP.
+%s %d %02d:%02d:%02d test-server NetworkManager[1544]: <warn>  [1597946417.2747] error requesting auth for org.freedesktop.NetworkManager.wifi.share.open: Authorization check failed: Failed to open file “/proc/4064/status”: No such file or directory
+%s %d %02d:%02d:%02d test-server org.kde.kwalletd5[3488]: The X11 connection broke (error 1). Did the X11 server die?
+%s %d %02d:%02d:%02d test-server dbus-daemon[1667]: [system] Successfully activated service 'org.freedesktop.fwupd'
+%s %d %02d:%02d:%02d test-server 50-motd-news[17043]:  * Are you ready for Kubernetes 1.19? It's nearly here! Try RC3 with
+%s %d %02d:%02d:%02d test-server systemd[1]: Started Message of the Day.
+%s %d %02d:%02d:%02d test-server systemd[27843]: Closed GnuPG network certificate management daemon.
+%s %d %02d:%02d:%02d test-server systemd-resolved[1594]: Server returned error NXDOMAIN, mitigating potential DNS violation DVE-2018-0001, retrying transaction with reduced feature level UDP.
+%s %d %02d:%02d:%02d test-server anacron[14914]: Normal exit (1 job run)
+%s %d %02d:%02d:%02d test-server systemd-resolved[1594]: Server returned error NXDOMAIN, mitigating potential DNS violation DVE-2018-0001, retrying transaction with reduced feature level UDP.
+%s %d %02d:%02d:%02d test-server systemd-resolved[1594]: Server returned error NXDOMAIN, mitigating potential DNS violation DVE-2018-0001, retrying transaction with reduced feature level UDP.
+%s %d %02d:%02d:%02d test-server systemd[1]: Started Session 938 of user test_user1.
+%s %d %02d:%02d:%02d test-server xscreensaver: pam_ecryptfs: seteuid error
+%s %d %02d:%02d:%02d test-server xscreensaver: pam_ecryptfs: seteuid error
+%s %d %02d:%02d:%02d test-server systemd[1]: Removed slice User Slice of test_user1.
+%s %d %02d:%02d:%02d test-server indicator-sound[4140]: accounts-service-access.vala:218: unable to sync volume 0.594193 to AccountsService: GDBus.Error:org.freedesktop.DBus.Error.InvalidArgs: No such interface 'com.ubuntu.AccountsService.Sound'
+%s %d %02d:%02d:%02d test-server CRON[16099]: (root) CMD (command -v debian-sa1 > /dev/null && debian-sa1 1 1)
+%s %d %02d:%02d:%02d test-server sSMTP[15036]: Creating SSL connection to host
+%s %d %02d:%02d:%02d test-server systemd[27843]: Starting Exit the Session...
+%s %d %02d:%02d:%02d test-server CRON[17964]: (test_user) CMD (/home/test_user/.local/bin/bkp --compact >/tmp/compact.log 2>&1)
 %s %d %02d:%02d:%02d test-server CRON[18246]: (root) CMD (command -v debian-sa1 > /dev/null && debian-sa1 1 1)
-%s %d %02d:%02d:%02d test-server systemd[1]: Started Run anacron jobs.
-%s %d %02d:%02d:%02d test-server anacron[18290]: Anacron 2.3 started on 2020-08-25
-%s %d %02d:%02d:%02d test-server anacron[18290]: Normal exit (0 jobs run)
-%s %d %02d:%02d:%02d test-server dbus-daemon[1667]: [system] Activating via systemd: service name='org.bluez' unit='dbus-org.bluez.service' requested by ':1.1446' (uid=1000 pid=18673 comm="/opt/google/chrome/chrome --origin-trial-disabled-" label="unconfined")
+%s %d %02d:%02d:%02d test-server CRON[6976]: (root) CMD (command -v debian-sa1 > /dev/null && debian-sa1 1 1)
+%s %d %02d:%02d:%02d test-server NetworkManager[1544]: <warn>  [1597946417.2791] error requesting auth for org.freedesktop.NetworkManager.wifi.share.open: Authorization check failed: Failed to open file “/proc/4064/status”: No such file or directory
+%s %d %02d:%02d:%02d test-server CRON[25924]: (root) CMD (   cd / && run-parts --report /etc/cron.hourly)
+%s %d %02d:%02d:%02d test-server indicator-sound[4140]: volume-control-pulse.vala:735: unable to get pulse unix socket: GDBus.Error:org.freedesktop.DBus.Error.ServiceUnknown: The name org.PulseAudio1 was not provided by any .service files
+%s %d %02d:%02d:%02d test-server CRON[703]: (root) CMD (command -v debian-sa1 > /dev/null && debian-sa1 1 1)
+%s %d %02d:%02d:%02d test-server NetworkManager[1544]: <warn>  [1597946417.2778] error requesting auth for org.freedesktop.NetworkManager.enable-disable-wwan: Authorization check failed: Failed to open file “/proc/4064/status”: No such file or directory
+%s %d %02d:%02d:%02d test-server xscreensaver: pam_ecryptfs: seteuid error
+%s %d %02d:%02d:%02d test-server anacron[1882]: Anacron 2.3 started on 2020-08-25
+%s %d %02d:%02d:%02d test-server CRON[4329]: (root) CMD (command -v debian-sa1 > /dev/null && debian-sa1 1 1)
+%s %d %02d:%02d:%02d test-server kibana[1643]: {"type":"log","@timestamp":"2020-08-20T18:01:07Z","tags":["warning","savedobjects-service"],"pid":1643,"message":"Unable to connect to Elasticsearch. Error: [search_phase_execution_exception] all shards failed"}
+%s %d %02d:%02d:%02d test-server dbus-daemon[1667]: [system] Activating via systemd: service name='org.freedesktop.fwupd' unit='fwupd.service' requested by ':1.143' (uid=1000 pid=18173 comm="gnome-software " label="unconfined")
+%s %d %02d:%02d:%02d test-server NetworkManager[1544]: <warn>  [1597946417.2801] error requesting auth for org.freedesktop.NetworkManager.settings.modify.global-dns: Authorization check failed: Failed to open file “/proc/4064/status”: No such file or directory
+%s %d %02d:%02d:%02d test-server CRON[32712]: (root) CMD (command -v debian-sa1 > /dev/null && debian-sa1 1 1)
+%s %d %02d:%02d:%02d test-server ntfs-3g[1189]: Mount options: rw,errors=remount-ro,allow_other,nonempty,noatime,fsname=/dev/sdd2,blkdev,blksize=4096
+%s %d %02d:%02d:%02d test-server CRON[1520]: (root) CMD (command -v debian-sa1 > /dev/null && debian-sa1 1 1)
+%s %d %02d:%02d:%02d test-server 50-motd-news[17043]:    sudo snap install microk8s --channel=1.19/candidate --classic
+%s %d %02d:%02d:%02d test-server systemd-resolved[1407]: Server returned error NXDOMAIN, mitigating potential DNS violation DVE-2018-0001, retrying transaction with reduced feature level UDP.
+%s %d %02d:%02d:%02d test-server hp-systray: hp-systray[4113]: error: option -s not recognized
+%s %d %02d:%02d:%02d test-server anacron[14743]: Anacron 2.3 started on 2020-08-25
+%s %d %02d:%02d:%02d test-server systemd[27843]: Listening on GnuPG network certificate management daemon.
+%s %d %02d:%02d:%02d test-server anacron[5346]: Anacron 2.3 started on 2020-08-25
+%s %d %02d:%02d:%02d test-server ntfs-3g[1189]: Cmdline options: rw,noatime,errors=remount-ro
+%s %d %02d:%02d:%02d test-server systemd-resolved[1407]: Server returned error NXDOMAIN, mitigating potential DNS violation DVE-2018-0001, retrying transaction with reduced feature level UDP.
+%s %d %02d:%02d:%02d test-server 50-motd-news[17043]:    https://microk8s.io/ has docs and details.
+%s %d %02d:%02d:%02d test-server anacron[5346]: Normal exit (0 jobs run)
+%s %d %02d:%02d:%02d test-server NetworkManager[1544]: <warn>  [1597946417.2804] error requesting auth for org.freedesktop.NetworkManager.reload: Authorization check failed: Failed to open file “/proc/4064/status”: No such file or directory
+%s %d %02d:%02d:%02d test-server systemd[27843]: Listening on REST API socket for snapd user session agent.
+%s %d %02d:%02d:%02d test-server kernel: [    1.355818] ACPI Error: Aborting method \_SB.PCI0.SAT0.SPT4._GTF due to previous error (AE_NOT_FOUND) (20190703/psparse-531)
+%s %d %02d:%02d:%02d test-server CRON[3119]: (root) CMD (command -v debian-sa1 > /dev/null && debian-sa1 1 1)
+%s %d %02d:%02d:%02d test-server system76-power[1748]:     - failed to set scsi host profiles: failed to set link time power management policy med_power_with_dipm on host9: No such file or directory (os error 2)
+%s %d %02d:%02d:%02d test-server systemd[1]: Starting Firmware update daemon...
+%s %d %02d:%02d:%02d test-server systemd[27843]: Started Check for firmware updates, and display a notification if found.
+%s %d %02d:%02d:%02d test-server systemd-resolved[1594]: message repeated 6 times: [ Server returned error NXDOMAIN, mitigating potential DNS violation DVE-2018-0001, retrying transaction with reduced feature level UDP.]
+%s %d %02d:%02d:%02d test-server fwupd[27871]: 07:00:02:0320 FuPluginUefi         kernel efivars support missing: /sys/firmware/efi/efivars
+%s %d %02d:%02d:%02d test-server CRON[6212]: (root) CMD (   cd / && run-parts --report /etc/cron.hourly)
+%s %d %02d:%02d:%02d test-server xscreensaver: pam_ecryptfs: seteuid error
 %s %d %02d:%02d:%02d test-server indicator-sound[4140]: media_player_list_mpris_insert: assertion 'desktop_id != NULL' failed
-%s %d %02d:%02d:%02d test-server CRON[19862]: (root) CMD (command -v debian-sa1 > /dev/null && debian-sa1 1 1)
-%s %d %02d:%02d:%02d test-server CRON[19976]: (root) CMD (   cd / && run-parts --report /etc/cron.hourly)
-%s %d %02d:%02d:%02d test-server CRON[20551]: (root) CMD (command -v debian-sa1 > /dev/null && debian-sa1 1 1)
-%s %d %02d:%02d:%02d test-server CRON[21211]: (root) CMD ([ -x /etc/init.d/anacron ] && if [ ! -d /run/systemd/system ]; then /usr/sbin/invoke-rc.d anacron start >/dev/null; fi)
+%s %d %02d:%02d:%02d test-server systemd-resolved[1407]: Server returned error NXDOMAIN, mitigating potential DNS violation DVE-2018-0001, retrying transaction with reduced feature level UDP.
+%s %d %02d:%02d:%02d test-server NetworkManager[1544]: <warn>  [1597946417.2796] error requesting auth for org.freedesktop.NetworkManager.settings.modify.own: Authorization check failed: Failed to open file “/proc/4064/status”: No such file or directory
+%s %d %02d:%02d:%02d test-server systemd-resolved[1594]: Server returned error NXDOMAIN, mitigating potential DNS violation DVE-2018-0001, retrying transaction with reduced feature level UDP.
+%s %d %02d:%02d:%02d test-server CRON[17354]: (root) CMD (command -v debian-sa1 > /dev/null && debian-sa1 1 1)
+%s %d %02d:%02d:%02d test-server systemd-resolved[1594]: Server returned error NXDOMAIN, mitigating potential DNS violation DVE-2018-0001, retrying transaction with reduced feature level UDP.
+%s %d %02d:%02d:%02d test-server indicator-sound[4140]: accounts-service-access.vala:218: unable to sync volume 0.413040 to AccountsService: GDBus.Error:org.freedesktop.DBus.Error.InvalidArgs: No such interface 'com.ubuntu.AccountsService.Sound'
+%s %d %02d:%02d:%02d test-server kibana[1643]: {"type":"log","@timestamp":"2020-08-20T18:01:04Z","tags":["error","elasticsearch","monitoring"],"pid":1643,"message":"Request error, retrying\nGET http://localhost:9200/_xpack => connect ECONNREFUSED 127.0.0.1:9200"}
+%s %d %02d:%02d:%02d test-server dbus-daemon[1667]: [system] Successfully activated service 'org.freedesktop.fwupd'
+%s %d %02d:%02d:%02d test-server anacron[25187]: Normal exit (0 jobs run)
+%s %d %02d:%02d:%02d test-server systemd[1]: Started Run anacron jobs.
+%s %d %02d:%02d:%02d test-server systemd[27843]: Started Checks for new firmware every day.
+%s %d %02d:%02d:%02d test-server kernel: [    4.749748] vc032x: probe of 3-10.1:1.0 failed with error -32
+%s %d %02d:%02d:%02d test-server cgmanager[1840]: cgmanager: Error mounting unified: Invalid argument
+%s %d %02d:%02d:%02d test-server containerd[1880]: time="2020-08-20T14:00:52.348194008-04:00" level=warning msg="failed to load plugin io.containerd.snapshotter.v1.btrfs" error="path /var/lib/containerd/io.containerd.snapshotter.v1.btrfs must be a btrfs filesystem to be used with the btrfs snapshotter"
+%s %d %02d:%02d:%02d test-server CRON[17750]: (root) CMD (command -v debian-sa1 > /dev/null && debian-sa1 1 1)
+%s %d %02d:%02d:%02d test-server systemd-resolved[1407]: message repeated 6 times: [ Server returned error NXDOMAIN, mitigating potential DNS violation DVE-2018-0001, retrying transaction with reduced feature level UDP.]
+%s %d %02d:%02d:%02d test-server kernel: [323349.002420] resize[31416]: segfault at 7fffc42fa000 ip 000056444259fbb2 sp 00007fffc42f53c0 error 6 in resize[56444259e000+4000]
+%s %d %02d:%02d:%02d test-server systemd[27843]: Starting D-Bus User Message Bus Socket.
+%s %d %02d:%02d:%02d test-server systemd[27843]: Listening on D-Bus User Message Bus Socket.
+%s %d %02d:%02d:%02d test-server systemd[1]: Stopped User Manager for UID 1001.
+%s %d %02d:%02d:%02d test-server dbus-daemon[1667]: [system] Activating via systemd: service name='org.bluez' unit='dbus-org.bluez.service' requested by ':1.1446' (uid=1000 pid=18673 comm="/opt/google/chrome/chrome --origin-trial-disabled-" label="unconfined")
+%s %d %02d:%02d:%02d test-server systemd[27843]: Closed GnuPG cryptographic agent and passphrase cache (access for web browsers).
+%s %d %02d:%02d:%02d test-server CRON[24082]: (root) CMD (command -v debian-sa1 > /dev/null && debian-sa1 1 1)
+%s %d %02d:%02d:%02d test-server xscreensaver: pam_ecryptfs: seteuid error
+%s %d %02d:%02d:%02d test-server dbus-daemon[1667]: [system] Activating via systemd: service name='org.freedesktop.fwupd' unit='fwupd.service' requested by ':1.1405' (uid=1001 pid=27855 comm="/usr/bin/com.system76.FirmwareManager.Notify " label="unconfined")
+%s %d %02d:%02d:%02d test-server systemd[1]: Started Session 939 of user test_user1.
+%s %d %02d:%02d:%02d test-server systemd[27843]: Stopped target Paths.
+%s %d %02d:%02d:%02d test-server anacron[31826]: Normal exit (0 jobs run)
+%s %d %02d:%02d:%02d test-server CRON[26738]: (root) CMD (command -v debian-sa1 > /dev/null && debian-sa1 1 1)
+%s %d %02d:%02d:%02d test-server at-spi-bus-launcher[3660]: XIO:  fatal IO error 11 (Resource temporarily unavailable) on X server ":0"
+%s %d %02d:%02d:%02d test-server ntfs-3g[1181]: Mount options: rw,errors=remount-ro,allow_other,nonempty,noatime,fsname=/dev/sdi2,blkdev,blksize=4096
+%s %d %02d:%02d:%02d test-server kibana[1643]: {"type":"log","@timestamp":"2020-08-20T18:01:04Z","tags":["warning","plugins","licensing"],"pid":1643,"message":"License information could not be obtained from Elasticsearch due to Error: No Living connections error"}
+%s %d %02d:%02d:%02d test-server PackageKit: get-updates transaction /2179_ddbadabc from uid 1000 finished with success after 702ms
+%s %d %02d:%02d:%02d test-server xscreensaver: pam_ecryptfs: seteuid error
+%s %d %02d:%02d:%02d test-server systemd[27843]: Stopped target Basic System.
+%s %d %02d:%02d:%02d test-server rsyslogd: cannot connect to localhost:1514: Connection refused [v8.32.0 try http://www.rsyslog.com/e/2027 ]
+%s %d %02d:%02d:%02d test-server kibana[1643]: {"type":"log","@timestamp":"2020-08-20T18:01:05Z","tags":["error","savedobjects-service"],"pid":1643,"message":"Unable to retrieve version information from Elasticsearch nodes."}
+%s %d %02d:%02d:%02d test-server systemd-resolved[1407]: Server returned error NXDOMAIN, mitigating potential DNS violation DVE-2018-0001, retrying transaction with reduced feature level UDP.
+%s %d %02d:%02d:%02d test-server CRON[4894]: (root) CMD (command -v debian-sa1 > /dev/null && debian-sa1 1 1)
+%s %d %02d:%02d:%02d test-server systemd[1]: Started Session 963 of user test_user.
+%s %d %02d:%02d:%02d test-server systemd-resolved[1594]: Server returned error NXDOMAIN, mitigating potential DNS violation DVE-2018-0001, retrying transaction with reduced feature level UDP.
+%s %d %02d:%02d:%02d test-server cgmanager[1999]: cgmanager: Error mounting unified: Invalid argument
+%s %d %02d:%02d:%02d test-server colord[1841]: failed to get session [pid 15623]: No data available
+%s %d %02d:%02d:%02d test-server NetworkManager[1544]: <warn>  [1597946417.2782] error requesting auth for org.freedesktop.NetworkManager.enable-disable-wimax: Authorization check failed: Failed to open file “/proc/4064/status”: No such file or directory
+%s %d %02d:%02d:%02d test-server systemd-resolved[1407]: Server returned error NXDOMAIN, mitigating potential DNS violation DVE-2018-0001, retrying transaction with reduced feature level UDP.
+%s %d %02d:%02d:%02d test-server systemd[27843]: Stopped target Timers.
+%s %d %02d:%02d:%02d test-server systemd[27843]: Reached target Basic System.
