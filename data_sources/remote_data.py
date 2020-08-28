@@ -146,6 +146,12 @@ class ConnectionManager():
 
         ssh_client = SSHClient()
         ssh_client.load_system_host_keys()
+        local_keys = os.path.expanduser('~/.ssh/known_hosts')
+        if os.path.exists(local_keys):
+            try:
+                ssh_client.load_host_keys(local_keys)
+            except:
+                pass
         ssh_client.connect( hostname=server, port=int(port if port else 22), username=username, password=password)
 
         if self.setup( ssh_client ):

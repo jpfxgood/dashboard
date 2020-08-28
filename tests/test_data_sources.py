@@ -215,7 +215,7 @@ def test_ElasticsearchDataTable(dt_testdir):
     odt = ElasticsearchDataTable(1,dt_testdir["table_idx_name"],{},[["hits.hits._source.service","Service","string"],["hits.hits._source.metric1","First Metric","int"],["hits.hits._source.metric2","Second Metric","int"]])
     time.sleep(1)
     odt.refresh()
-    
+
     column_names = ["Service","First Metric","Second Metric"]
     for cn in column_names:
         assert odt.has_column(cn)
@@ -226,3 +226,25 @@ def test_ElasticsearchDataTable(dt_testdir):
         service = odt.get(idx,"Service").get_value()
         v = services.index(service)
         assert odt.get(idx,"First Metric").get_value() == v and odt.get(idx,"Second Metric").get_value() == v+5
+
+def test_RemoteDataTable(dt_testdir):
+    rdt = RemoteDataTable(dt_testdir["ssh_path"],{"name": "syslog", "type": "SyslogDataTable", "refresh_minutes": 1},"Remote Table",0.0833)
+    
+    try:
+        column_names = ["Time Stamps","Errors by Time","Warnings by Time","Messages by Time","Services","Errors by Service","Warnings by Service","Messages by Service" ]
+        for cn in column_names:
+            assert rdt.has_column(cn)
+    
+        rows,cols = rdt.get_bounds()
+        non_blank = False
+        for row in range(rows):
+            for col in range(cols):
+                if rdt.get(row,col) != blank_cell:
+                    non_blank = True
+                    break
+            if non_blank:
+                break
+    
+        assert non_blank
+    finally:
+        shutdown_connection_manager()

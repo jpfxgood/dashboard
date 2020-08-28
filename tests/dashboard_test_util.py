@@ -14,6 +14,7 @@ import random
 from datetime import datetime,timedelta
 import keyring
 from elasticsearch import Elasticsearch
+import shutil
 
 def screen_size( rows, columns ):
     cmd = "resize -s %d %d >/dev/null 2>/dev/null"%(rows,columns)
@@ -199,6 +200,11 @@ def dt_testdir(request,testdir):
     syslog_out.flush()
     syslog_out.close()
 
+    ssh_path = os.environ.get("SSH_PATH",None)
+    ssh_config = os.environ.get("SSH_CONFIG",None)
+    if ssh_config:
+        shutil.copytree(ssh_config,".ssh")
+
     db_path = os.environ.get("ODBC_PATH",None)
     username,server,driver,database,port = re.match(r"odbc://([a-z_][a-z0-9_-]*\${0,1})@([^/]*)/([^/]*)/([^:]*):{0,1}(\d*){0,1}",db_path).groups()
 
@@ -240,6 +246,7 @@ def dt_testdir(request,testdir):
         conn.close()
         if es.indices.exists(table_idx_name):
             es.indices.delete(table_idx_name)
+        shutil.rmtree(".ssh")
 
     request.addfinalizer(cleanup_dt_testdir)
 
@@ -253,4 +260,5 @@ def dt_testdir(request,testdir):
             "start_time": start_time,
             "table_idx_name": table_idx_name,
             "odbc_path": db_path,
+            "ssh_path": ssh_path,
             "testdir" : testdir }
