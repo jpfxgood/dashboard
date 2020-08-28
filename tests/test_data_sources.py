@@ -196,7 +196,26 @@ def test_SyslogDataTable(dt_testdir):
 
 
 def test_LogDataTable(dt_testdir):
-    pass
+    ldt = LogDataTable(dt_testdir["syslog_path"],[{
+            "line_regex": "(\\w\\w\\w\\s+\\d+\\s\\d\\d:\\d\\d:\\d\\d)\\s[a-z0-9\\-]*\\s([a-zA-Z0-9\\-\\_\\.]*)[\\[\\]0-9]*:\\s*(.*)",
+            "num_buckets" : 24,
+            "bucket_size" : 60,
+            "bucket_type" : "_date",
+            "column_map" : [ [ 1,"Time Stamps","_date","key" ], [3,"Starts by Time","_int","count(.*[Ss]tart.*)"], [3,"Stops by Time","_int","count(.*[Ss]top.*)"]]
+            }],
+            [1,0,0],
+            1)
+    column_names = ["Time Stamps","Starts by Time","Stops by Time"]
+    for cn in column_names:
+        assert ldt.has_column(cn)
+
+    rows,cols = ldt.get_bounds()
+    total_starts = 0
+    total_stops = 0
+    for idx in range(rows):
+        total_starts += ldt.get(idx,"Starts by Time").get_float_value()
+        total_stops += ldt.get(idx,"Stops by Time").get_float_value()
+    assert total_starts == 38 and total_stops == 8
 
 def test_ODBCDataTable(dt_testdir):
     odt = ODBCDataTable(1,dt_testdir["odbc_path"],"select * from %s"%dt_testdir["table_idx_name"],[["service","Service"],["metric1","First Metric"],["metric2","Second Metric"]])
@@ -229,12 +248,12 @@ def test_ElasticsearchDataTable(dt_testdir):
 
 def test_RemoteDataTable(dt_testdir):
     rdt = RemoteDataTable(dt_testdir["ssh_path"],{"name": "syslog", "type": "SyslogDataTable", "refresh_minutes": 1},"Remote Table",0.0833)
-    
+
     try:
         column_names = ["Time Stamps","Errors by Time","Warnings by Time","Messages by Time","Services","Errors by Service","Warnings by Service","Messages by Service" ]
         for cn in column_names:
             assert rdt.has_column(cn)
-    
+
         rows,cols = rdt.get_bounds()
         non_blank = False
         for row in range(rows):
@@ -244,7 +263,7 @@ def test_RemoteDataTable(dt_testdir):
                     break
             if non_blank:
                 break
-    
+
         assert non_blank
     finally:
         shutdown_connection_manager()
