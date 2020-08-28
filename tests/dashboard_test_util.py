@@ -7,10 +7,13 @@ import sys
 import subprocess
 from io import StringIO,BytesIO
 import pytest
+import pyodbc
 import os
 import shutil
 import random
 from datetime import datetime,timedelta
+import keyring
+from elasticsearch import Elasticsearch
 
 def screen_size( rows, columns ):
     cmd = "resize -s %d %d >/dev/null 2>/dev/null"%(rows,columns)
@@ -196,6 +199,50 @@ def dt_testdir(request,testdir):
     syslog_out.flush()
     syslog_out.close()
 
+    db_path = os.environ.get("ODBC_PATH",None)
+    username,server,driver,database,port = re.match(r"odbc://([a-z_][a-z0-9_-]*\${0,1})@([^/]*)/([^/]*)/([^:]*):{0,1}(\d*){0,1}",db_path).groups()
+
+    password = keyring.get_password(db_path, username)
+    if not password:
+        return
+
+    conn = pyodbc.connect("DRIVER={%s};DATABASE=%s;UID=%s;PWD=%s;SERVER=%s;PORT=%s;"%(driver,database,username,password,server,port))
+    assert conn != None
+
+    random.seed()
+    table_idx_name = ''
+    for idx in range(8):
+        table_idx_name += random.choice("abcdefghijklmnopqrstuvwxyz")
+
+    cursor = conn.cursor()
+    cursor.execute("DROP TABLE IF EXISTS %s"%table_idx_name)
+    cursor.execute("CREATE TABLE %s ( service varchar (18), metric1 int, metric2 int )"%table_idx_name)
+    services = ["service_a","service_b","service_c","service_d"]
+    idx = 0
+    for s in services:
+        cursor.execute("INSERT INTO %s VALUES ( ?,?,? )"%table_idx_name,s,idx,idx+5)
+        idx = idx + 1
+    conn.commit()
+
+    es = Elasticsearch()
+    if es.indices.exists(table_idx_name):
+        es.indices.delete(table_idx_name)
+    es.indices.create(table_idx_name,{ "mappings": { "properties": { "service": { "type":"keyword" },"metric1": {"type":"long"},"metric2": {"type":"long"} }}})
+    idx = 0
+    for s in services:
+        es.index(table_idx_name,{ "service":s,"metric1":idx,"metric2":idx+5 })
+        idx = idx + 1
+    es.indices.flush(table_idx_name,wait_if_ongoing=True)
+
+    def cleanup_dt_testdir():
+        conn.execute("DROP TABLE IF EXISTS %s"%table_idx_name)
+        conn.commit()
+        conn.close()
+        if es.indices.exists(table_idx_name):
+            es.indices.delete(table_idx_name)
+
+    request.addfinalizer(cleanup_dt_testdir)
+
     return {"python_path" : python_path,
             "data_path" : data_path,
             "spreadsheet_path": spreadsheet_path,
@@ -204,4 +251,6 @@ def dt_testdir(request,testdir):
             "syslog_path": syslog_path,
             "local_path": str(testdir.tmpdir),
             "start_time": start_time,
+            "table_idx_name": table_idx_name,
+            "odbc_path": db_path,
             "testdir" : testdir }

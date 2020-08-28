@@ -197,3 +197,32 @@ def test_SyslogDataTable(dt_testdir):
 
 def test_LogDataTable(dt_testdir):
     pass
+
+def test_ODBCDataTable(dt_testdir):
+    odt = ODBCDataTable(1,dt_testdir["odbc_path"],"select * from %s"%dt_testdir["table_idx_name"],[["service","Service"],["metric1","First Metric"],["metric2","Second Metric"]])
+    column_names = ["Service","First Metric","Second Metric"]
+    for cn in column_names:
+        assert odt.has_column(cn)
+
+    services = ["service_a","service_b","service_c","service_d"]
+    assert odt.get_column("Service").size() == 4
+    for idx in range(4):
+        service = odt.get(idx,"Service").get_value()
+        v = services.index(service)
+        assert odt.get(idx,"First Metric").get_value() == v and odt.get(idx,"Second Metric").get_value() == v+5
+
+def test_ElasticsearchDataTable(dt_testdir):
+    odt = ElasticsearchDataTable(1,dt_testdir["table_idx_name"],{},[["hits.hits._source.service","Service","string"],["hits.hits._source.metric1","First Metric","int"],["hits.hits._source.metric2","Second Metric","int"]])
+    time.sleep(1)
+    odt.refresh()
+    
+    column_names = ["Service","First Metric","Second Metric"]
+    for cn in column_names:
+        assert odt.has_column(cn)
+
+    services = ["service_a","service_b","service_c","service_d"]
+    assert odt.get_column("Service").size() == 4
+    for idx in range(4):
+        service = odt.get(idx,"Service").get_value()
+        v = services.index(service)
+        assert odt.get(idx,"First Metric").get_value() == v and odt.get(idx,"Second Metric").get_value() == v+5
