@@ -22,11 +22,11 @@ zip_python () {
         then zip -q dashboard_$2.zip $1;
     fi
 }
-for f in {char_draw,dashboard,data_sources,scripts}/*;
+for f in {char_draw,dashboard,dashboard_cli,data_sources,scripts}/*;
 do zip_python $f $file_version;
 done
 zip -q dashboard_$file_version.zip docs/*
-for f in docs/{char_draw,dashboard,data_sources,scripts}/*;
+for f in docs/{char_draw,dashboard,dashboard_cli,data_sources,scripts}/*;
 do zip -q dashboard_$file_version.zip $f;
 done
 zip -q dashboard_$file_version.zip requirements.txt

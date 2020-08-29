@@ -41,6 +41,7 @@ setup(
     packages=[
         'char_draw',
         'dashboard',
+        'dashboard_cli',
         'data_sources',
     ],
     python_requires='>=3.6',
