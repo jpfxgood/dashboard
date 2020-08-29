@@ -1,0 +1,8 @@
+#!/bin/bash
+OLDPYTHONPATH=$PYTHONPATH
+export PYTHONPATH="."
+coverage run --source=. --omit=bin/*,lib/*,tests/* -m pytest -s tests "$@"
+set status=$?
+coverage report
+export PYTHONPATH=$OLDPYTHONPATH
+exit $status

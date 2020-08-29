@@ -3,7 +3,7 @@
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
 
-    <title>dashboard.version API documentation</title>
+    <title>dashboard_cli.server API documentation</title>
     <meta name="description" content="" />
 
   <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,300' rel='stylesheet' type='text/css'>
@@ -1041,6 +1041,13 @@ table {
     <h1>Index</h1>
     <ul id="index">
 
+    <li class="set"><h3><a href="#header-functions">Functions</a></h3>
+      
+  <ul>
+    <li class="mono"><a href="#dashboard_cli.server.server">server</a></li>
+  </ul>
+
+    </li>
 
 
     </ul>
@@ -1054,12 +1061,50 @@ table {
 
 
   <header id="section-intro">
-  <h1 class="title"><span class="name">dashboard.version</span> module</h1>
+  <h1 class="title"><span class="name">dashboard_cli.server</span> module</h1>
   
   
-  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-dashboard.version', this);">Show source &equiv;</a></p>
-  <div id="source-dashboard.version" class="source">
-    <div class="codehilite"><pre><span></span><span class="n">__version__</span> <span class="o">=</span> <span class="s1">&#39;0.0.6&#39;</span>
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-dashboard_cli.server', this);">Show source &equiv;</a></p>
+  <div id="source-dashboard_cli.server" class="source">
+    <div class="codehilite"><pre><span></span><span class="kn">import</span> <span class="nn">locale</span>
+<span class="n">locale</span><span class="o">.</span><span class="n">setlocale</span><span class="p">(</span><span class="n">locale</span><span class="o">.</span><span class="n">LC_ALL</span><span class="p">,</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">from</span> <span class="nn">io</span> <span class="kn">import</span> <span class="n">StringIO</span>
+<span class="kn">from</span> <span class="nn">data_sources.data_table</span> <span class="kn">import</span> <span class="n">to_json</span><span class="p">,</span><span class="n">from_json</span>
+<span class="kn">from</span> <span class="nn">dashboard_cli.config</span> <span class="kn">import</span> <span class="n">load_table</span>
+
+<span class="k">def</span> <span class="nf">server</span><span class="p">(</span> <span class="n">options</span><span class="p">,</span> <span class="n">args</span> <span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; run as a data table server and respond to commands read from stdin &quot;&quot;&quot;</span>
+    <span class="n">tables</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="n">line</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">stdin</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">line</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;table&quot;</span><span class="p">):</span>
+                <span class="n">command</span><span class="p">,</span><span class="n">json_blob</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;:&quot;</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+                <span class="n">td</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">json_blob</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
+                <span class="n">tables</span><span class="p">[</span><span class="n">td</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]]</span> <span class="o">=</span> <span class="n">load_table</span><span class="p">(</span><span class="n">td</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;loaded:</span><span class="si">%s</span><span class="s2">&quot;</span><span class="o">%</span><span class="p">(</span><span class="n">td</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]))</span>
+            <span class="k">elif</span> <span class="n">line</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;refresh&quot;</span><span class="p">):</span>
+                <span class="n">command</span><span class="p">,</span><span class="n">name</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;:&quot;</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+                <span class="n">tables</span><span class="p">[</span><span class="n">name</span><span class="p">]</span><span class="o">.</span><span class="n">refresh</span><span class="p">()</span>
+                <span class="n">table_json</span> <span class="o">=</span> <span class="n">StringIO</span><span class="p">()</span>
+                <span class="n">to_json</span><span class="p">(</span><span class="n">tables</span><span class="p">[</span><span class="n">name</span><span class="p">],</span><span class="n">table_json</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">:</span><span class="si">%s</span><span class="s2">&quot;</span><span class="o">%</span><span class="p">(</span><span class="n">name</span><span class="p">,</span><span class="n">table_json</span><span class="o">.</span><span class="n">getvalue</span><span class="p">()))</span>
+            <span class="k">elif</span> <span class="n">line</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;get&quot;</span><span class="p">):</span>
+                <span class="n">command</span><span class="p">,</span><span class="n">name</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;:&quot;</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+                <span class="n">table_json</span> <span class="o">=</span> <span class="n">StringIO</span><span class="p">()</span>
+                <span class="n">to_json</span><span class="p">(</span><span class="n">tables</span><span class="p">[</span><span class="n">name</span><span class="p">],</span><span class="n">table_json</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">:</span><span class="si">%s</span><span class="s2">&quot;</span><span class="o">%</span><span class="p">(</span><span class="n">name</span><span class="p">,</span><span class="n">table_json</span><span class="o">.</span><span class="n">getvalue</span><span class="p">()))</span>
+            <span class="k">elif</span> <span class="n">line</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;exit&quot;</span><span class="p">):</span>
+                <span class="k">break</span>
+            <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">finally</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">tables</span><span class="p">:</span>
+            <span class="n">tables</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">.</span><span class="n">stop_refresh</span><span class="p">()</span>
+    <span class="k">return</span> <span class="mi">0</span>
 </pre></div>
 
   </div>
@@ -1068,6 +1113,56 @@ table {
 
   <section id="section-items">
 
+    <h2 class="section-title" id="header-functions">Functions</h2>
+      
+  <div class="item">
+    <div class="name def" id="dashboard_cli.server.server">
+    <p>def <span class="ident">server</span>(</p><p>options, args)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>run as a data table server and respond to commands read from stdin</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-dashboard_cli.server.server', this);">Show source &equiv;</a></p>
+  <div id="source-dashboard_cli.server.server" class="source">
+    <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">server</span><span class="p">(</span> <span class="n">options</span><span class="p">,</span> <span class="n">args</span> <span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; run as a data table server and respond to commands read from stdin &quot;&quot;&quot;</span>
+    <span class="n">tables</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="n">line</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">stdin</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">line</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;table&quot;</span><span class="p">):</span>
+                <span class="n">command</span><span class="p">,</span><span class="n">json_blob</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;:&quot;</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+                <span class="n">td</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">json_blob</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
+                <span class="n">tables</span><span class="p">[</span><span class="n">td</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]]</span> <span class="o">=</span> <span class="n">load_table</span><span class="p">(</span><span class="n">td</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;loaded:</span><span class="si">%s</span><span class="s2">&quot;</span><span class="o">%</span><span class="p">(</span><span class="n">td</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]))</span>
+            <span class="k">elif</span> <span class="n">line</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;refresh&quot;</span><span class="p">):</span>
+                <span class="n">command</span><span class="p">,</span><span class="n">name</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;:&quot;</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+                <span class="n">tables</span><span class="p">[</span><span class="n">name</span><span class="p">]</span><span class="o">.</span><span class="n">refresh</span><span class="p">()</span>
+                <span class="n">table_json</span> <span class="o">=</span> <span class="n">StringIO</span><span class="p">()</span>
+                <span class="n">to_json</span><span class="p">(</span><span class="n">tables</span><span class="p">[</span><span class="n">name</span><span class="p">],</span><span class="n">table_json</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">:</span><span class="si">%s</span><span class="s2">&quot;</span><span class="o">%</span><span class="p">(</span><span class="n">name</span><span class="p">,</span><span class="n">table_json</span><span class="o">.</span><span class="n">getvalue</span><span class="p">()))</span>
+            <span class="k">elif</span> <span class="n">line</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;get&quot;</span><span class="p">):</span>
+                <span class="n">command</span><span class="p">,</span><span class="n">name</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;:&quot;</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+                <span class="n">table_json</span> <span class="o">=</span> <span class="n">StringIO</span><span class="p">()</span>
+                <span class="n">to_json</span><span class="p">(</span><span class="n">tables</span><span class="p">[</span><span class="n">name</span><span class="p">],</span><span class="n">table_json</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">:</span><span class="si">%s</span><span class="s2">&quot;</span><span class="o">%</span><span class="p">(</span><span class="n">name</span><span class="p">,</span><span class="n">table_json</span><span class="o">.</span><span class="n">getvalue</span><span class="p">()))</span>
+            <span class="k">elif</span> <span class="n">line</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;exit&quot;</span><span class="p">):</span>
+                <span class="k">break</span>
+            <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">finally</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">tables</span><span class="p">:</span>
+            <span class="n">tables</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">.</span><span class="n">stop_refresh</span><span class="p">()</span>
+    <span class="k">return</span> <span class="mi">0</span>
+</pre></div>
+
+  </div>
+</div>
+
+  </div>
+  
 
 
   </section>

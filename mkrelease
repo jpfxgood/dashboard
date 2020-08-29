@@ -1,10 +1,10 @@
 #!/bin/bash -x
-#./runtests
-#if [ $? -ne 0 ]
-#then
-#    echo "Tests failed! Stopping release!"
-#    exit $?
-#fi
+./runtests
+if [ $? -ne 0 ]
+then
+    echo "Tests failed! Stopping release!"
+    exit $?
+fi
 version=$1
 echo $version >VERSION
 echo "__version__ = '$version'" >dashboard/version.py

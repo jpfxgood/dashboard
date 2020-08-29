@@ -1041,13 +1041,6 @@ table {
     <h1>Index</h1>
     <ul id="index">
 
-    <li class="set"><h3><a href="#header-functions">Functions</a></h3>
-      
-  <ul>
-    <li class="mono"><a href="#dashboard.dashboard.main">main</a></li>
-  </ul>
-
-    </li>
 
     <li class="set"><h3><a href="#header-classes">Classes</a></h3>
       <ul>
@@ -1143,8 +1136,6 @@ table {
 <span class="kn">import</span> <span class="nn">time</span>
 <span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
 <span class="kn">from</span> <span class="nn">char_draw</span> <span class="kn">import</span> <span class="n">canvas</span>
-<span class="kn">from</span> <span class="nn">char_draw</span> <span class="kn">import</span> <span class="n">graph</span>
-<span class="kn">from</span> <span class="nn">data_sources</span> <span class="kn">import</span> <span class="n">data_table</span><span class="p">,</span><span class="n">syslog_data</span>
 
 <span class="k">class</span> <span class="nc">Panel</span><span class="p">:</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">y</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span><span class="n">x</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span><span class="n">height</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span><span class="n">width</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span><span class="n">graphs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">parent</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -1380,12 +1371,15 @@ table {
         <span class="n">w_ymax</span><span class="p">,</span><span class="n">w_xmax</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">window</span><span class="o">.</span><span class="n">getmaxyx</span><span class="p">()</span>
         <span class="n">w_ymax</span> <span class="o">-=</span> <span class="mi">1</span>
         <span class="k">if</span> <span class="n">w_ymax</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">height</span> <span class="ow">and</span> <span class="n">w_xmax</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">width</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">pad</span><span class="o">.</span><span class="n">refresh</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">height</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">width</span><span class="p">)</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">pad</span><span class="o">.</span><span class="n">overwrite</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">window</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">height</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">width</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+            <span class="k">except</span><span class="p">:</span>
+                <span class="k">pass</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">p_y</span><span class="p">,</span><span class="n">p_x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">position</span>
             <span class="n">h</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">w_ymax</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">height</span> <span class="o">-</span> <span class="n">p_y</span><span class="p">)</span>
             <span class="n">w</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">w_xmax</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">width</span> <span class="o">-</span> <span class="n">p_x</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">pad</span><span class="o">.</span><span class="n">refresh</span><span class="p">(</span><span class="n">p_y</span><span class="p">,</span><span class="n">p_x</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="n">h</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="n">w</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">pad</span><span class="o">.</span><span class="n">overwrite</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">window</span><span class="p">,</span><span class="n">p_y</span><span class="p">,</span><span class="n">p_x</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="n">h</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="n">w</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">w</span> <span class="o">&lt;</span> <span class="n">w_xmax</span><span class="p">:</span>
                 <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">h</span><span class="p">):</span>
                     <span class="k">try</span><span class="p">:</span>
@@ -1398,6 +1392,7 @@ table {
                 <span class="k">except</span><span class="p">:</span>
                     <span class="k">pass</span>
                 <span class="n">h</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">window</span><span class="o">.</span><span class="n">refresh</span><span class="p">()</span>
 
 <span class="k">class</span> <span class="nc">Dashboard</span><span class="p">:</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">window</span><span class="p">,</span><span class="n">pages</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">auto_tour_delay</span> <span class="o">=</span> <span class="mi">0</span><span class="p">):</span>
@@ -1523,7 +1518,7 @@ table {
         <span class="k">return</span> <span class="n">graph</span>
 
 
-    <span class="k">def</span> <span class="nf">main</span><span class="p">(</span> <span class="bp">self</span> <span class="p">):</span>
+    <span class="k">def</span> <span class="nf">main</span><span class="p">(</span> <span class="bp">self</span><span class="p">,</span> <span class="n">keys</span> <span class="o">=</span> <span class="kc">None</span> <span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; main input and redraw loop for the dashboard &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">window</span><span class="o">.</span><span class="n">nodelay</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">window</span><span class="o">.</span><span class="n">notimeout</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
@@ -1541,7 +1536,13 @@ table {
         <span class="n">zoomed_restore_canvas</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="n">status</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
         <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
-            <span class="n">ch</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">window</span><span class="o">.</span><span class="n">getch</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">keys</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">keys</span><span class="p">)</span> <span class="o">&gt;</span>  <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">ch</span> <span class="o">=</span> <span class="n">keys</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">ch</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">ch</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">window</span><span class="o">.</span><span class="n">getch</span><span class="p">()</span>
 
             <span class="k">if</span> <span class="ow">not</span> <span class="n">zoomed</span><span class="p">:</span>
                 <span class="n">cur_graph</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_current_graph</span><span class="p">()</span>
@@ -1642,34 +1643,8 @@ table {
             <span class="n">status</span> <span class="o">=</span> <span class="s2">&quot;Page </span><span class="si">%d</span><span class="s2"> of </span><span class="si">%d</span><span class="s2"> Last Update </span><span class="si">%s%s</span><span class="s2">&quot;</span><span class="o">%</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">current_page</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pages</span><span class="p">),</span><span class="n">datetime</span><span class="o">.</span><span class="n">fromtimestamp</span><span class="p">(</span><span class="n">latest_refresh</span><span class="p">)</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%A, </span><span class="si">%d</span><span class="s2">. %B %Y %I:%M%p&quot;</span><span class="p">),</span><span class="s2">&quot; ZOOMED (Press Esc to Exit)&quot;</span> <span class="k">if</span> <span class="n">zoomed</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">window</span><span class="o">.</span><span class="n">addstr</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="n">status</span><span class="p">,</span><span class="n">curses</span><span class="o">.</span><span class="n">color_pair</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">|</span><span class="n">curses</span><span class="o">.</span><span class="n">A_REVERSE</span><span class="p">)</span>
 
-
-
-<span class="k">def</span> <span class="nf">main</span><span class="p">(</span><span class="n">stdscr</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; test driver for the dashboard &quot;&quot;&quot;</span>
-
-    <span class="n">sd</span> <span class="o">=</span> <span class="n">syslog_data</span><span class="o">.</span><span class="n">SyslogDataTable</span><span class="p">(</span><span class="n">refresh_minutes</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-    <span class="n">sd</span><span class="o">.</span><span class="n">start_refresh</span><span class="p">()</span>
-    <span class="n">d</span> <span class="o">=</span> <span class="n">Dashboard</span><span class="p">(</span><span class="n">stdscr</span><span class="p">,</span><span class="n">auto_tour_delay</span> <span class="o">=</span> <span class="mi">5</span><span class="p">)</span>
-    <span class="n">p</span> <span class="o">=</span> <span class="n">Page</span><span class="p">(</span><span class="n">stdscr</span><span class="p">)</span>
-    <span class="n">height</span><span class="p">,</span> <span class="n">width</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">get_size</span><span class="p">()</span>
-    <span class="n">pp</span> <span class="o">=</span> <span class="n">Panel</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="n">height</span><span class="p">,</span><span class="n">width</span><span class="p">)</span>
-    <span class="n">pp</span><span class="o">.</span><span class="n">add_graph</span><span class="p">(</span><span class="n">graph</span><span class="o">.</span><span class="n">LineGraph</span><span class="p">(</span><span class="n">sd</span><span class="p">,</span><span class="s2">&quot;Time Stamps&quot;</span><span class="p">,[</span><span class="s2">&quot;Errors by Time&quot;</span><span class="p">],</span><span class="kc">None</span><span class="p">,</span><span class="kc">None</span><span class="p">))</span>
-    <span class="n">pp</span><span class="o">.</span><span class="n">add_graph</span><span class="p">(</span><span class="n">graph</span><span class="o">.</span><span class="n">LineGraph</span><span class="p">(</span><span class="n">sd</span><span class="p">,</span><span class="s2">&quot;Time Stamps&quot;</span><span class="p">,[</span><span class="s2">&quot;Messages by Time&quot;</span><span class="p">],</span><span class="kc">None</span><span class="p">,</span><span class="kc">None</span><span class="p">))</span>
-    <span class="n">p</span><span class="o">.</span><span class="n">add_panel</span><span class="p">(</span><span class="n">pp</span><span class="p">)</span>
-    <span class="n">d</span><span class="o">.</span><span class="n">add_page</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
-    <span class="n">p</span> <span class="o">=</span> <span class="n">Page</span><span class="p">(</span><span class="n">stdscr</span><span class="p">)</span>
-    <span class="n">pp</span> <span class="o">=</span> <span class="n">Panel</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="n">height</span><span class="p">,</span><span class="n">width</span><span class="p">)</span>
-    <span class="n">pp</span><span class="o">.</span><span class="n">add_graph</span><span class="p">(</span><span class="n">graph</span><span class="o">.</span><span class="n">LineGraph</span><span class="p">(</span><span class="n">sd</span><span class="p">,</span><span class="s2">&quot;Time Stamps&quot;</span><span class="p">,[</span><span class="s2">&quot;Warnings by Time&quot;</span><span class="p">],</span><span class="kc">None</span><span class="p">,</span><span class="kc">None</span><span class="p">))</span>
-    <span class="n">pp</span><span class="o">.</span><span class="n">add_graph</span><span class="p">(</span><span class="n">graph</span><span class="o">.</span><span class="n">BarGraph</span><span class="p">(</span><span class="n">sd</span><span class="p">,</span><span class="s2">&quot;Services&quot;</span><span class="p">,[</span><span class="s2">&quot;Messages by Service&quot;</span><span class="p">],</span><span class="kc">None</span><span class="p">,</span><span class="kc">None</span><span class="p">,</span><span class="mi">5</span><span class="p">))</span>
-    <span class="n">p</span><span class="o">.</span><span class="n">add_panel</span><span class="p">(</span><span class="n">pp</span><span class="p">)</span>
-    <span class="n">d</span><span class="o">.</span><span class="n">add_page</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
-    <span class="n">d</span><span class="o">.</span><span class="n">main</span><span class="p">()</span>
-    <span class="n">sd</span><span class="o">.</span><span class="n">stop_refresh</span><span class="p">()</span>
-
-    <span class="k">return</span> <span class="mi">0</span>
-
-<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
-    <span class="n">curses</span><span class="o">.</span><span class="n">wrapper</span><span class="p">(</span><span class="n">main</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">keys</span> <span class="o">!=</span> <span class="kc">None</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">keys</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">return</span>
 </pre></div>
 
   </div>
@@ -1678,50 +1653,6 @@ table {
 
   <section id="section-items">
 
-    <h2 class="section-title" id="header-functions">Functions</h2>
-      
-  <div class="item">
-    <div class="name def" id="dashboard.dashboard.main">
-    <p>def <span class="ident">main</span>(</p><p>stdscr)</p>
-    </div>
-    
-
-    
-  
-    <div class="desc"><p>test driver for the dashboard</p></div>
-  <div class="source_cont">
-  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-dashboard.dashboard.main', this);">Show source &equiv;</a></p>
-  <div id="source-dashboard.dashboard.main" class="source">
-    <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">main</span><span class="p">(</span><span class="n">stdscr</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; test driver for the dashboard &quot;&quot;&quot;</span>
-
-    <span class="n">sd</span> <span class="o">=</span> <span class="n">syslog_data</span><span class="o">.</span><span class="n">SyslogDataTable</span><span class="p">(</span><span class="n">refresh_minutes</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-    <span class="n">sd</span><span class="o">.</span><span class="n">start_refresh</span><span class="p">()</span>
-    <span class="n">d</span> <span class="o">=</span> <span class="n">Dashboard</span><span class="p">(</span><span class="n">stdscr</span><span class="p">,</span><span class="n">auto_tour_delay</span> <span class="o">=</span> <span class="mi">5</span><span class="p">)</span>
-    <span class="n">p</span> <span class="o">=</span> <span class="n">Page</span><span class="p">(</span><span class="n">stdscr</span><span class="p">)</span>
-    <span class="n">height</span><span class="p">,</span> <span class="n">width</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">get_size</span><span class="p">()</span>
-    <span class="n">pp</span> <span class="o">=</span> <span class="n">Panel</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="n">height</span><span class="p">,</span><span class="n">width</span><span class="p">)</span>
-    <span class="n">pp</span><span class="o">.</span><span class="n">add_graph</span><span class="p">(</span><span class="n">graph</span><span class="o">.</span><span class="n">LineGraph</span><span class="p">(</span><span class="n">sd</span><span class="p">,</span><span class="s2">&quot;Time Stamps&quot;</span><span class="p">,[</span><span class="s2">&quot;Errors by Time&quot;</span><span class="p">],</span><span class="kc">None</span><span class="p">,</span><span class="kc">None</span><span class="p">))</span>
-    <span class="n">pp</span><span class="o">.</span><span class="n">add_graph</span><span class="p">(</span><span class="n">graph</span><span class="o">.</span><span class="n">LineGraph</span><span class="p">(</span><span class="n">sd</span><span class="p">,</span><span class="s2">&quot;Time Stamps&quot;</span><span class="p">,[</span><span class="s2">&quot;Messages by Time&quot;</span><span class="p">],</span><span class="kc">None</span><span class="p">,</span><span class="kc">None</span><span class="p">))</span>
-    <span class="n">p</span><span class="o">.</span><span class="n">add_panel</span><span class="p">(</span><span class="n">pp</span><span class="p">)</span>
-    <span class="n">d</span><span class="o">.</span><span class="n">add_page</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
-    <span class="n">p</span> <span class="o">=</span> <span class="n">Page</span><span class="p">(</span><span class="n">stdscr</span><span class="p">)</span>
-    <span class="n">pp</span> <span class="o">=</span> <span class="n">Panel</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="n">height</span><span class="p">,</span><span class="n">width</span><span class="p">)</span>
-    <span class="n">pp</span><span class="o">.</span><span class="n">add_graph</span><span class="p">(</span><span class="n">graph</span><span class="o">.</span><span class="n">LineGraph</span><span class="p">(</span><span class="n">sd</span><span class="p">,</span><span class="s2">&quot;Time Stamps&quot;</span><span class="p">,[</span><span class="s2">&quot;Warnings by Time&quot;</span><span class="p">],</span><span class="kc">None</span><span class="p">,</span><span class="kc">None</span><span class="p">))</span>
-    <span class="n">pp</span><span class="o">.</span><span class="n">add_graph</span><span class="p">(</span><span class="n">graph</span><span class="o">.</span><span class="n">BarGraph</span><span class="p">(</span><span class="n">sd</span><span class="p">,</span><span class="s2">&quot;Services&quot;</span><span class="p">,[</span><span class="s2">&quot;Messages by Service&quot;</span><span class="p">],</span><span class="kc">None</span><span class="p">,</span><span class="kc">None</span><span class="p">,</span><span class="mi">5</span><span class="p">))</span>
-    <span class="n">p</span><span class="o">.</span><span class="n">add_panel</span><span class="p">(</span><span class="n">pp</span><span class="p">)</span>
-    <span class="n">d</span><span class="o">.</span><span class="n">add_page</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
-    <span class="n">d</span><span class="o">.</span><span class="n">main</span><span class="p">()</span>
-    <span class="n">sd</span><span class="o">.</span><span class="n">stop_refresh</span><span class="p">()</span>
-
-    <span class="k">return</span> <span class="mi">0</span>
-</pre></div>
-
-  </div>
-</div>
-
-  </div>
-  
 
     <h2 class="section-title" id="header-classes">Classes</h2>
       
@@ -1856,7 +1787,7 @@ table {
         <span class="k">return</span> <span class="n">graph</span>
 
 
-    <span class="k">def</span> <span class="nf">main</span><span class="p">(</span> <span class="bp">self</span> <span class="p">):</span>
+    <span class="k">def</span> <span class="nf">main</span><span class="p">(</span> <span class="bp">self</span><span class="p">,</span> <span class="n">keys</span> <span class="o">=</span> <span class="kc">None</span> <span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; main input and redraw loop for the dashboard &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">window</span><span class="o">.</span><span class="n">nodelay</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">window</span><span class="o">.</span><span class="n">notimeout</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
@@ -1874,7 +1805,13 @@ table {
         <span class="n">zoomed_restore_canvas</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="n">status</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
         <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
-            <span class="n">ch</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">window</span><span class="o">.</span><span class="n">getch</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">keys</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">keys</span><span class="p">)</span> <span class="o">&gt;</span>  <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">ch</span> <span class="o">=</span> <span class="n">keys</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">ch</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">ch</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">window</span><span class="o">.</span><span class="n">getch</span><span class="p">()</span>
 
             <span class="k">if</span> <span class="ow">not</span> <span class="n">zoomed</span><span class="p">:</span>
                 <span class="n">cur_graph</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_current_graph</span><span class="p">()</span>
@@ -1974,6 +1911,9 @@ table {
             <span class="bp">self</span><span class="o">.</span><span class="n">window</span><span class="o">.</span><span class="n">addstr</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="s2">&quot; &quot;</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">status</span><span class="p">),</span><span class="n">curses</span><span class="o">.</span><span class="n">color_pair</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">|</span><span class="n">curses</span><span class="o">.</span><span class="n">A_REVERSE</span><span class="p">)</span>
             <span class="n">status</span> <span class="o">=</span> <span class="s2">&quot;Page </span><span class="si">%d</span><span class="s2"> of </span><span class="si">%d</span><span class="s2"> Last Update </span><span class="si">%s%s</span><span class="s2">&quot;</span><span class="o">%</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">current_page</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pages</span><span class="p">),</span><span class="n">datetime</span><span class="o">.</span><span class="n">fromtimestamp</span><span class="p">(</span><span class="n">latest_refresh</span><span class="p">)</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%A, </span><span class="si">%d</span><span class="s2">. %B %Y %I:%M%p&quot;</span><span class="p">),</span><span class="s2">&quot; ZOOMED (Press Esc to Exit)&quot;</span> <span class="k">if</span> <span class="n">zoomed</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">window</span><span class="o">.</span><span class="n">addstr</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="n">status</span><span class="p">,</span><span class="n">curses</span><span class="o">.</span><span class="n">color_pair</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">|</span><span class="n">curses</span><span class="o">.</span><span class="n">A_REVERSE</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">keys</span> <span class="o">!=</span> <span class="kc">None</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">keys</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">return</span>
 </pre></div>
 
   </div>
@@ -2205,7 +2145,7 @@ table {
             
   <div class="item">
     <div class="name def" id="dashboard.dashboard.Dashboard.main">
-    <p>def <span class="ident">main</span>(</p><p>self)</p>
+    <p>def <span class="ident">main</span>(</p><p>self, keys=None)</p>
     </div>
     
 
@@ -2215,7 +2155,7 @@ table {
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-dashboard.dashboard.Dashboard.main', this);">Show source &equiv;</a></p>
   <div id="source-dashboard.dashboard.Dashboard.main" class="source">
-    <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">main</span><span class="p">(</span> <span class="bp">self</span> <span class="p">):</span>
+    <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">main</span><span class="p">(</span> <span class="bp">self</span><span class="p">,</span> <span class="n">keys</span> <span class="o">=</span> <span class="kc">None</span> <span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; main input and redraw loop for the dashboard &quot;&quot;&quot;</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">window</span><span class="o">.</span><span class="n">nodelay</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">window</span><span class="o">.</span><span class="n">notimeout</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
@@ -2232,7 +2172,13 @@ table {
     <span class="n">zoomed_restore_canvas</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">status</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
     <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
-        <span class="n">ch</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">window</span><span class="o">.</span><span class="n">getch</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">keys</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">keys</span><span class="p">)</span> <span class="o">&gt;</span>  <span class="mi">0</span><span class="p">:</span>
+                <span class="n">ch</span> <span class="o">=</span> <span class="n">keys</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">ch</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">ch</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">window</span><span class="o">.</span><span class="n">getch</span><span class="p">()</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">zoomed</span><span class="p">:</span>
             <span class="n">cur_graph</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_current_graph</span><span class="p">()</span>
             <span class="n">cur_graph</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_focus</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
@@ -2322,6 +2268,8 @@ table {
         <span class="bp">self</span><span class="o">.</span><span class="n">window</span><span class="o">.</span><span class="n">addstr</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="s2">&quot; &quot;</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">status</span><span class="p">),</span><span class="n">curses</span><span class="o">.</span><span class="n">color_pair</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">|</span><span class="n">curses</span><span class="o">.</span><span class="n">A_REVERSE</span><span class="p">)</span>
         <span class="n">status</span> <span class="o">=</span> <span class="s2">&quot;Page </span><span class="si">%d</span><span class="s2"> of </span><span class="si">%d</span><span class="s2"> Last Update </span><span class="si">%s%s</span><span class="s2">&quot;</span><span class="o">%</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">current_page</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pages</span><span class="p">),</span><span class="n">datetime</span><span class="o">.</span><span class="n">fromtimestamp</span><span class="p">(</span><span class="n">latest_refresh</span><span class="p">)</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%A, </span><span class="si">%d</span><span class="s2">. %B %Y %I:%M%p&quot;</span><span class="p">),</span><span class="s2">&quot; ZOOMED (Press Esc to Exit)&quot;</span> <span class="k">if</span> <span class="n">zoomed</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">window</span><span class="o">.</span><span class="n">addstr</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="n">status</span><span class="p">,</span><span class="n">curses</span><span class="o">.</span><span class="n">color_pair</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">|</span><span class="n">curses</span><span class="o">.</span><span class="n">A_REVERSE</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">keys</span> <span class="o">!=</span> <span class="kc">None</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">keys</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span>
 </pre></div>
 
   </div>
@@ -2684,12 +2632,15 @@ table {
         <span class="n">w_ymax</span><span class="p">,</span><span class="n">w_xmax</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">window</span><span class="o">.</span><span class="n">getmaxyx</span><span class="p">()</span>
         <span class="n">w_ymax</span> <span class="o">-=</span> <span class="mi">1</span>
         <span class="k">if</span> <span class="n">w_ymax</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">height</span> <span class="ow">and</span> <span class="n">w_xmax</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">width</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">pad</span><span class="o">.</span><span class="n">refresh</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">height</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">width</span><span class="p">)</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">pad</span><span class="o">.</span><span class="n">overwrite</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">window</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">height</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">width</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+            <span class="k">except</span><span class="p">:</span>
+                <span class="k">pass</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">p_y</span><span class="p">,</span><span class="n">p_x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">position</span>
             <span class="n">h</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">w_ymax</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">height</span> <span class="o">-</span> <span class="n">p_y</span><span class="p">)</span>
             <span class="n">w</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">w_xmax</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">width</span> <span class="o">-</span> <span class="n">p_x</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">pad</span><span class="o">.</span><span class="n">refresh</span><span class="p">(</span><span class="n">p_y</span><span class="p">,</span><span class="n">p_x</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="n">h</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="n">w</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">pad</span><span class="o">.</span><span class="n">overwrite</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">window</span><span class="p">,</span><span class="n">p_y</span><span class="p">,</span><span class="n">p_x</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="n">h</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="n">w</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">w</span> <span class="o">&lt;</span> <span class="n">w_xmax</span><span class="p">:</span>
                 <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">h</span><span class="p">):</span>
                     <span class="k">try</span><span class="p">:</span>
@@ -2702,6 +2653,7 @@ table {
                 <span class="k">except</span><span class="p">:</span>
                     <span class="k">pass</span>
                 <span class="n">h</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">window</span><span class="o">.</span><span class="n">refresh</span><span class="p">()</span>
 </pre></div>
 
   </div>
@@ -3126,12 +3078,15 @@ table {
     <span class="n">w_ymax</span><span class="p">,</span><span class="n">w_xmax</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">window</span><span class="o">.</span><span class="n">getmaxyx</span><span class="p">()</span>
     <span class="n">w_ymax</span> <span class="o">-=</span> <span class="mi">1</span>
     <span class="k">if</span> <span class="n">w_ymax</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">height</span> <span class="ow">and</span> <span class="n">w_xmax</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">width</span><span class="p">:</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">pad</span><span class="o">.</span><span class="n">refresh</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">height</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">width</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">pad</span><span class="o">.</span><span class="n">overwrite</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">window</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">height</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">width</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="k">pass</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">p_y</span><span class="p">,</span><span class="n">p_x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">position</span>
         <span class="n">h</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">w_ymax</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">height</span> <span class="o">-</span> <span class="n">p_y</span><span class="p">)</span>
         <span class="n">w</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">w_xmax</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">width</span> <span class="o">-</span> <span class="n">p_x</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">pad</span><span class="o">.</span><span class="n">refresh</span><span class="p">(</span><span class="n">p_y</span><span class="p">,</span><span class="n">p_x</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="n">h</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="n">w</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pad</span><span class="o">.</span><span class="n">overwrite</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">window</span><span class="p">,</span><span class="n">p_y</span><span class="p">,</span><span class="n">p_x</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="n">h</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="n">w</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">w</span> <span class="o">&lt;</span> <span class="n">w_xmax</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">h</span><span class="p">):</span>
                 <span class="k">try</span><span class="p">:</span>
@@ -3144,6 +3099,7 @@ table {
             <span class="k">except</span><span class="p">:</span>
                 <span class="k">pass</span>
             <span class="n">h</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">window</span><span class="o">.</span><span class="n">refresh</span><span class="p">()</span>
 </pre></div>
 
   </div>

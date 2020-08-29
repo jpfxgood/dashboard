@@ -1284,6 +1284,12 @@ table {
 
         <span class="n">ssh_client</span> <span class="o">=</span> <span class="n">SSHClient</span><span class="p">()</span>
         <span class="n">ssh_client</span><span class="o">.</span><span class="n">load_system_host_keys</span><span class="p">()</span>
+        <span class="n">local_keys</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="s1">&#39;~/.ssh/known_hosts&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">local_keys</span><span class="p">):</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">ssh_client</span><span class="o">.</span><span class="n">load_host_keys</span><span class="p">(</span><span class="n">local_keys</span><span class="p">)</span>
+            <span class="k">except</span><span class="p">:</span>
+                <span class="k">pass</span>
         <span class="n">ssh_client</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span> <span class="n">hostname</span><span class="o">=</span><span class="n">server</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">port</span> <span class="k">if</span> <span class="n">port</span> <span class="k">else</span> <span class="mi">22</span><span class="p">),</span> <span class="n">username</span><span class="o">=</span><span class="n">username</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="n">password</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">setup</span><span class="p">(</span> <span class="n">ssh_client</span> <span class="p">):</span>
@@ -2047,6 +2053,12 @@ table {
 
         <span class="n">ssh_client</span> <span class="o">=</span> <span class="n">SSHClient</span><span class="p">()</span>
         <span class="n">ssh_client</span><span class="o">.</span><span class="n">load_system_host_keys</span><span class="p">()</span>
+        <span class="n">local_keys</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="s1">&#39;~/.ssh/known_hosts&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">local_keys</span><span class="p">):</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">ssh_client</span><span class="o">.</span><span class="n">load_host_keys</span><span class="p">(</span><span class="n">local_keys</span><span class="p">)</span>
+            <span class="k">except</span><span class="p">:</span>
+                <span class="k">pass</span>
         <span class="n">ssh_client</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span> <span class="n">hostname</span><span class="o">=</span><span class="n">server</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">port</span> <span class="k">if</span> <span class="n">port</span> <span class="k">else</span> <span class="mi">22</span><span class="p">),</span> <span class="n">username</span><span class="o">=</span><span class="n">username</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="n">password</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">setup</span><span class="p">(</span> <span class="n">ssh_client</span> <span class="p">):</span>
@@ -2161,6 +2173,12 @@ table {
         <span class="k">return</span> <span class="kc">None</span>
     <span class="n">ssh_client</span> <span class="o">=</span> <span class="n">SSHClient</span><span class="p">()</span>
     <span class="n">ssh_client</span><span class="o">.</span><span class="n">load_system_host_keys</span><span class="p">()</span>
+    <span class="n">local_keys</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="s1">&#39;~/.ssh/known_hosts&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">local_keys</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">ssh_client</span><span class="o">.</span><span class="n">load_host_keys</span><span class="p">(</span><span class="n">local_keys</span><span class="p">)</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="k">pass</span>
     <span class="n">ssh_client</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span> <span class="n">hostname</span><span class="o">=</span><span class="n">server</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">port</span> <span class="k">if</span> <span class="n">port</span> <span class="k">else</span> <span class="mi">22</span><span class="p">),</span> <span class="n">username</span><span class="o">=</span><span class="n">username</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="n">password</span><span class="p">)</span>
     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">setup</span><span class="p">(</span> <span class="n">ssh_client</span> <span class="p">):</span>
         <span class="n">session</span><span class="p">,</span><span class="n">stdin</span><span class="p">,</span><span class="n">stdout</span><span class="p">,</span><span class="n">stderror</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">start_command</span><span class="p">(</span><span class="n">ssh_client</span><span class="p">,</span><span class="s2">&quot;~/.local/bin/dashboard --server&quot;</span><span class="p">)</span>
@@ -2893,6 +2911,7 @@ table {
     <span class="k">if</span> <span class="n">idx</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">column</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
+        <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">cnames</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="o">.</span><span class="n">get_name</span><span class="p">()]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">column</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">cnames</span><span class="p">[</span><span class="n">column</span><span class="o">.</span><span class="n">get_name</span><span class="p">()]</span> <span class="o">=</span> <span class="n">column</span>
     <span class="n">column</span><span class="o">.</span><span class="n">set_table</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>

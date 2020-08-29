@@ -1724,6 +1724,7 @@ table {
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">canvas</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">init</span><span class="p">()</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">get_bbox</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">canvas</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
             <span class="n">display_list</span><span class="o">.</span><span class="n">DisplayList</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">get_top_indexes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -2138,7 +2139,8 @@ table {
             <span class="n">y</span> <span class="o">=</span> <span class="n">y</span><span class="o">+</span><span class="n">height</span>
             <span class="n">n_series</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">get_series</span><span class="p">())</span>
             <span class="n">i_series</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">get_series</span><span class="p">()</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">series</span><span class="p">)</span>
-            <span class="n">series_x_offset</span> <span class="o">=</span> <span class="p">(</span><span class="n">n_series</span> <span class="o">-</span> <span class="p">(</span><span class="n">i_series</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span> <span class="o">*</span> <span class="p">(</span><span class="n">x_dx</span> <span class="o">/</span> <span class="n">n_series</span><span class="p">)</span>
+            <span class="n">bar_width</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,(</span><span class="n">x_dx</span> <span class="o">/</span> <span class="n">n_series</span><span class="p">))</span>
+            <span class="n">series_x_offset</span> <span class="o">=</span> <span class="p">(</span><span class="n">n_series</span> <span class="o">-</span> <span class="p">(</span><span class="n">i_series</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span> <span class="o">*</span> <span class="n">bar_width</span>
             <span class="n">x</span> <span class="o">+=</span> <span class="n">series_x_offset</span>
 
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">is_top</span><span class="p">():</span>
@@ -2155,7 +2157,7 @@ table {
                         <span class="n">x_value</span> <span class="o">=</span> <span class="n">x_values</span><span class="p">[</span><span class="n">idx</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
                     <span class="n">scaled_x</span> <span class="o">=</span> <span class="p">(</span><span class="n">x_value</span><span class="o">-</span><span class="n">x_min</span><span class="p">)</span><span class="o">*</span><span class="n">x_scale</span>
                     <span class="n">scaled_y</span> <span class="o">=</span> <span class="p">(</span><span class="n">y_value</span><span class="o">-</span><span class="n">y_min</span><span class="p">)</span><span class="o">*</span><span class="n">y_scale</span>
-                    <span class="n">new_children</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">display_list</span><span class="o">.</span><span class="n">Rect</span><span class="p">(</span><span class="n">x</span><span class="o">+</span><span class="n">scaled_x</span><span class="o">-</span><span class="p">(</span><span class="n">x_dx</span><span class="o">/</span><span class="mi">4</span><span class="p">),</span><span class="n">y</span><span class="p">,</span><span class="nb">min</span><span class="p">(</span><span class="n">x</span><span class="o">+</span><span class="n">scaled_x</span><span class="o">+</span><span class="p">(</span><span class="n">x_dx</span><span class="o">/</span><span class="mi">4</span><span class="p">),</span><span class="n">x</span><span class="o">+</span><span class="n">width</span><span class="p">),</span><span class="n">y</span><span class="o">-</span><span class="n">scaled_y</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">series</span><span class="o">.</span><span class="n">color</span><span class="p">))</span>
+                    <span class="n">new_children</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">display_list</span><span class="o">.</span><span class="n">Rect</span><span class="p">(</span><span class="n">x</span><span class="o">+</span><span class="n">scaled_x</span><span class="o">-</span><span class="p">(</span><span class="n">bar_width</span><span class="o">/</span><span class="mi">2</span><span class="p">),</span><span class="n">y</span><span class="p">,</span><span class="nb">min</span><span class="p">(</span><span class="n">x</span><span class="o">+</span><span class="n">scaled_x</span><span class="o">+</span><span class="p">(</span><span class="n">bar_width</span><span class="o">/</span><span class="mi">2</span><span class="p">),</span><span class="n">x</span><span class="o">+</span><span class="n">width</span><span class="p">),</span><span class="n">y</span><span class="o">-</span><span class="n">scaled_y</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">series</span><span class="o">.</span><span class="n">color</span><span class="p">,</span><span class="kc">True</span><span class="p">))</span>
                 <span class="n">idx</span> <span class="o">+=</span> <span class="mi">1</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">set_children</span><span class="p">(</span><span class="n">new_children</span><span class="p">)</span>
 
@@ -2189,7 +2191,7 @@ table {
             <span class="n">idx</span> <span class="o">=</span> <span class="mi">0</span>
             <span class="n">points</span> <span class="o">=</span> <span class="p">[]</span>
             <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">data_table</span><span class="o">.</span><span class="n">ColumnIterator</span><span class="p">(</span><span class="n">column</span><span class="p">):</span>
-                <span class="n">y_value</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">get_float_value</span><span class="p">()</span>                
+                <span class="n">y_value</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">get_float_value</span><span class="p">()</span>
                 <span class="k">if</span> <span class="n">idx</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">x_values</span><span class="p">):</span>
                     <span class="n">x_value</span> <span class="o">=</span> <span class="n">x_values</span><span class="p">[</span><span class="n">idx</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
                     <span class="n">scaled_x</span> <span class="o">=</span> <span class="p">(</span><span class="n">x_value</span><span class="o">-</span><span class="n">x_min</span><span class="p">)</span><span class="o">*</span><span class="n">x_scale</span>
@@ -2198,7 +2200,7 @@ table {
                     <span class="n">idx</span> <span class="o">+=</span> <span class="mi">1</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="k">break</span>
-                    
+
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">area</span><span class="p">:</span>
                 <span class="n">p1</span> <span class="o">=</span> <span class="p">(</span><span class="n">points</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span><span class="n">y</span><span class="p">)</span>
                 <span class="k">if</span> <span class="n">p1</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">points</span><span class="p">:</span>
@@ -3451,6 +3453,7 @@ canvas is a reference to a canvas to render on</p></div>
     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">canvas</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">init</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">get_bbox</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">canvas</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
         <span class="n">display_list</span><span class="o">.</span><span class="n">DisplayList</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 </pre></div>
 
@@ -3736,6 +3739,7 @@ canvas is a reference to a canvas to render on</p></div>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">canvas</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">init</span><span class="p">()</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">get_bbox</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">canvas</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
             <span class="n">display_list</span><span class="o">.</span><span class="n">DisplayList</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">get_top_indexes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -4387,6 +4391,7 @@ canvas is a reference to a canvas to render on</p></div>
     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">canvas</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">init</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">get_bbox</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">canvas</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
         <span class="n">display_list</span><span class="o">.</span><span class="n">DisplayList</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 </pre></div>
 
@@ -5269,7 +5274,8 @@ canvas is a reference to a canvas to render on</p></div>
             <span class="n">y</span> <span class="o">=</span> <span class="n">y</span><span class="o">+</span><span class="n">height</span>
             <span class="n">n_series</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">get_series</span><span class="p">())</span>
             <span class="n">i_series</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">get_series</span><span class="p">()</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">series</span><span class="p">)</span>
-            <span class="n">series_x_offset</span> <span class="o">=</span> <span class="p">(</span><span class="n">n_series</span> <span class="o">-</span> <span class="p">(</span><span class="n">i_series</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span> <span class="o">*</span> <span class="p">(</span><span class="n">x_dx</span> <span class="o">/</span> <span class="n">n_series</span><span class="p">)</span>
+            <span class="n">bar_width</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,(</span><span class="n">x_dx</span> <span class="o">/</span> <span class="n">n_series</span><span class="p">))</span>
+            <span class="n">series_x_offset</span> <span class="o">=</span> <span class="p">(</span><span class="n">n_series</span> <span class="o">-</span> <span class="p">(</span><span class="n">i_series</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span> <span class="o">*</span> <span class="n">bar_width</span>
             <span class="n">x</span> <span class="o">+=</span> <span class="n">series_x_offset</span>
 
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">is_top</span><span class="p">():</span>
@@ -5286,7 +5292,7 @@ canvas is a reference to a canvas to render on</p></div>
                         <span class="n">x_value</span> <span class="o">=</span> <span class="n">x_values</span><span class="p">[</span><span class="n">idx</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
                     <span class="n">scaled_x</span> <span class="o">=</span> <span class="p">(</span><span class="n">x_value</span><span class="o">-</span><span class="n">x_min</span><span class="p">)</span><span class="o">*</span><span class="n">x_scale</span>
                     <span class="n">scaled_y</span> <span class="o">=</span> <span class="p">(</span><span class="n">y_value</span><span class="o">-</span><span class="n">y_min</span><span class="p">)</span><span class="o">*</span><span class="n">y_scale</span>
-                    <span class="n">new_children</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">display_list</span><span class="o">.</span><span class="n">Rect</span><span class="p">(</span><span class="n">x</span><span class="o">+</span><span class="n">scaled_x</span><span class="o">-</span><span class="p">(</span><span class="n">x_dx</span><span class="o">/</span><span class="mi">4</span><span class="p">),</span><span class="n">y</span><span class="p">,</span><span class="nb">min</span><span class="p">(</span><span class="n">x</span><span class="o">+</span><span class="n">scaled_x</span><span class="o">+</span><span class="p">(</span><span class="n">x_dx</span><span class="o">/</span><span class="mi">4</span><span class="p">),</span><span class="n">x</span><span class="o">+</span><span class="n">width</span><span class="p">),</span><span class="n">y</span><span class="o">-</span><span class="n">scaled_y</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">series</span><span class="o">.</span><span class="n">color</span><span class="p">))</span>
+                    <span class="n">new_children</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">display_list</span><span class="o">.</span><span class="n">Rect</span><span class="p">(</span><span class="n">x</span><span class="o">+</span><span class="n">scaled_x</span><span class="o">-</span><span class="p">(</span><span class="n">bar_width</span><span class="o">/</span><span class="mi">2</span><span class="p">),</span><span class="n">y</span><span class="p">,</span><span class="nb">min</span><span class="p">(</span><span class="n">x</span><span class="o">+</span><span class="n">scaled_x</span><span class="o">+</span><span class="p">(</span><span class="n">bar_width</span><span class="o">/</span><span class="mi">2</span><span class="p">),</span><span class="n">x</span><span class="o">+</span><span class="n">width</span><span class="p">),</span><span class="n">y</span><span class="o">-</span><span class="n">scaled_y</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">series</span><span class="o">.</span><span class="n">color</span><span class="p">,</span><span class="kc">True</span><span class="p">))</span>
                 <span class="n">idx</span> <span class="o">+=</span> <span class="mi">1</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">set_children</span><span class="p">(</span><span class="n">new_children</span><span class="p">)</span>
 
@@ -5410,7 +5416,8 @@ canvas is a reference to a canvas to render on</p></div>
         <span class="n">y</span> <span class="o">=</span> <span class="n">y</span><span class="o">+</span><span class="n">height</span>
         <span class="n">n_series</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">get_series</span><span class="p">())</span>
         <span class="n">i_series</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">get_series</span><span class="p">()</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">series</span><span class="p">)</span>
-        <span class="n">series_x_offset</span> <span class="o">=</span> <span class="p">(</span><span class="n">n_series</span> <span class="o">-</span> <span class="p">(</span><span class="n">i_series</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span> <span class="o">*</span> <span class="p">(</span><span class="n">x_dx</span> <span class="o">/</span> <span class="n">n_series</span><span class="p">)</span>
+        <span class="n">bar_width</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,(</span><span class="n">x_dx</span> <span class="o">/</span> <span class="n">n_series</span><span class="p">))</span>
+        <span class="n">series_x_offset</span> <span class="o">=</span> <span class="p">(</span><span class="n">n_series</span> <span class="o">-</span> <span class="p">(</span><span class="n">i_series</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span> <span class="o">*</span> <span class="n">bar_width</span>
         <span class="n">x</span> <span class="o">+=</span> <span class="n">series_x_offset</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">is_top</span><span class="p">():</span>
             <span class="n">top_indexes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">get_top_indexes</span><span class="p">()</span>
@@ -5425,7 +5432,7 @@ canvas is a reference to a canvas to render on</p></div>
                     <span class="n">x_value</span> <span class="o">=</span> <span class="n">x_values</span><span class="p">[</span><span class="n">idx</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
                 <span class="n">scaled_x</span> <span class="o">=</span> <span class="p">(</span><span class="n">x_value</span><span class="o">-</span><span class="n">x_min</span><span class="p">)</span><span class="o">*</span><span class="n">x_scale</span>
                 <span class="n">scaled_y</span> <span class="o">=</span> <span class="p">(</span><span class="n">y_value</span><span class="o">-</span><span class="n">y_min</span><span class="p">)</span><span class="o">*</span><span class="n">y_scale</span>
-                <span class="n">new_children</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">display_list</span><span class="o">.</span><span class="n">Rect</span><span class="p">(</span><span class="n">x</span><span class="o">+</span><span class="n">scaled_x</span><span class="o">-</span><span class="p">(</span><span class="n">x_dx</span><span class="o">/</span><span class="mi">4</span><span class="p">),</span><span class="n">y</span><span class="p">,</span><span class="nb">min</span><span class="p">(</span><span class="n">x</span><span class="o">+</span><span class="n">scaled_x</span><span class="o">+</span><span class="p">(</span><span class="n">x_dx</span><span class="o">/</span><span class="mi">4</span><span class="p">),</span><span class="n">x</span><span class="o">+</span><span class="n">width</span><span class="p">),</span><span class="n">y</span><span class="o">-</span><span class="n">scaled_y</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">series</span><span class="o">.</span><span class="n">color</span><span class="p">))</span>
+                <span class="n">new_children</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">display_list</span><span class="o">.</span><span class="n">Rect</span><span class="p">(</span><span class="n">x</span><span class="o">+</span><span class="n">scaled_x</span><span class="o">-</span><span class="p">(</span><span class="n">bar_width</span><span class="o">/</span><span class="mi">2</span><span class="p">),</span><span class="n">y</span><span class="p">,</span><span class="nb">min</span><span class="p">(</span><span class="n">x</span><span class="o">+</span><span class="n">scaled_x</span><span class="o">+</span><span class="p">(</span><span class="n">bar_width</span><span class="o">/</span><span class="mi">2</span><span class="p">),</span><span class="n">x</span><span class="o">+</span><span class="n">width</span><span class="p">),</span><span class="n">y</span><span class="o">-</span><span class="n">scaled_y</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">series</span><span class="o">.</span><span class="n">color</span><span class="p">,</span><span class="kc">True</span><span class="p">))</span>
             <span class="n">idx</span> <span class="o">+=</span> <span class="mi">1</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">set_children</span><span class="p">(</span><span class="n">new_children</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">GraphElement</span><span class="o">.</span><span class="n">get_bbox</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
@@ -7309,7 +7316,7 @@ canvas is a reference to a canvas to render on</p></div>
             <span class="n">idx</span> <span class="o">=</span> <span class="mi">0</span>
             <span class="n">points</span> <span class="o">=</span> <span class="p">[]</span>
             <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">data_table</span><span class="o">.</span><span class="n">ColumnIterator</span><span class="p">(</span><span class="n">column</span><span class="p">):</span>
-                <span class="n">y_value</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">get_float_value</span><span class="p">()</span>                
+                <span class="n">y_value</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">get_float_value</span><span class="p">()</span>
                 <span class="k">if</span> <span class="n">idx</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">x_values</span><span class="p">):</span>
                     <span class="n">x_value</span> <span class="o">=</span> <span class="n">x_values</span><span class="p">[</span><span class="n">idx</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
                     <span class="n">scaled_x</span> <span class="o">=</span> <span class="p">(</span><span class="n">x_value</span><span class="o">-</span><span class="n">x_min</span><span class="p">)</span><span class="o">*</span><span class="n">x_scale</span>
@@ -7318,7 +7325,7 @@ canvas is a reference to a canvas to render on</p></div>
                     <span class="n">idx</span> <span class="o">+=</span> <span class="mi">1</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="k">break</span>
-                    
+
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">area</span><span class="p">:</span>
                 <span class="n">p1</span> <span class="o">=</span> <span class="p">(</span><span class="n">points</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span><span class="n">y</span><span class="p">)</span>
                 <span class="k">if</span> <span class="n">p1</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">points</span><span class="p">:</span>
@@ -7454,7 +7461,7 @@ canvas is a reference to a canvas to render on</p></div>
         <span class="n">idx</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="n">points</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">data_table</span><span class="o">.</span><span class="n">ColumnIterator</span><span class="p">(</span><span class="n">column</span><span class="p">):</span>
-            <span class="n">y_value</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">get_float_value</span><span class="p">()</span>                
+            <span class="n">y_value</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">get_float_value</span><span class="p">()</span>
             <span class="k">if</span> <span class="n">idx</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">x_values</span><span class="p">):</span>
                 <span class="n">x_value</span> <span class="o">=</span> <span class="n">x_values</span><span class="p">[</span><span class="n">idx</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
                 <span class="n">scaled_x</span> <span class="o">=</span> <span class="p">(</span><span class="n">x_value</span><span class="o">-</span><span class="n">x_min</span><span class="p">)</span><span class="o">*</span><span class="n">x_scale</span>
@@ -7463,7 +7470,6 @@ canvas is a reference to a canvas to render on</p></div>
                 <span class="n">idx</span> <span class="o">+=</span> <span class="mi">1</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">break</span>
-                
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">area</span><span class="p">:</span>
             <span class="n">p1</span> <span class="o">=</span> <span class="p">(</span><span class="n">points</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span><span class="n">y</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">p1</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">points</span><span class="p">:</span>
@@ -13945,6 +13951,7 @@ canvas is a reference to a canvas to render on</p></div>
     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">canvas</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">init</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">get_bbox</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">canvas</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
         <span class="n">display_list</span><span class="o">.</span><span class="n">DisplayList</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 </pre></div>
 
@@ -14910,6 +14917,7 @@ canvas is a reference to a canvas to render on</p></div>
     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">canvas</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">init</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">get_bbox</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">canvas</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
         <span class="n">display_list</span><span class="o">.</span><span class="n">DisplayList</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 </pre></div>
 
@@ -15769,6 +15777,7 @@ canvas is a reference to a canvas to render on</p></div>
     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">canvas</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">init</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">get_bbox</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">canvas</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
         <span class="n">display_list</span><span class="o">.</span><span class="n">DisplayList</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 </pre></div>
 

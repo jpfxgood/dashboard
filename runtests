@@ -1,0 +1,7 @@
+#!/bin/bash
+OLDPYTHONPATH=$PYTHONPATH
+export PYTHONPATH="."
+python3 -m pytest -s tests "$@"
+set status=$?
+export PYTHONPATH=$OLDPYTHONPATH
+exit $status
