@@ -171,9 +171,9 @@ def load_plugin( p ):
 
     return plugin_mod
 
-def load_config( stdscr, options ):
+def load_config( stdscr, config_stream ):
     """ load the dashboard configuration from the options.config path and factory all the objects, returns a context with the initialized objects  """
-    cf = json.load(open(options.config,"r"))
+    cf = json.load(config_stream)
 
     context = {}
     if "plugins" in cf:

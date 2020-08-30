@@ -17,7 +17,7 @@ def main(stdscr, options, args):
     """ The main driver for the dashboard utility """
     c = None
     try:
-        c = load_config(stdscr,options)
+        c = load_config(stdscr,open(options.config,"r"))
         ret = c["dashboard"].main()
     finally:
         if c and "tables" in c:

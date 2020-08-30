@@ -8,7 +8,7 @@ import time
 from datetime import datetime,timedelta
 from dashboard_test_util import screen_size,dashboard_test_case
 
-def test_Graph(request,capsys):
+def test_Dashboard(request,capsys):
     with capsys.disabled():
         def main(stdscr):
             screen_size(40,100)

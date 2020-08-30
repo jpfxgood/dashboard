@@ -68,13 +68,21 @@ def load_snapshot( from_file ):
 
     return (max_y,max_x,snapshot)
 
-def compare_snapshot( win, snapshot ):
+def compare_snapshot( win, snapshot, ignore=None ):
     max_y,max_x,screen = snapshot
     difference = [[0 for f in range(max_x)] for g in range(max_y)]
 
     has_differences = False
     for iy in range(max_y):
         for ix in range(max_x):
+            if ignore:                  
+                skip = False
+                for x,y,x1,y1 in ignore:
+                    if ix >= x and ix <= x1 and iy >= y and iy <= y1:
+                        skip = True
+                        break
+                if skip:
+                    continue
             rc = win.inch(iy,ix)
             r_cc = chr(rc & curses.A_CHARTEXT)
             r_attr = (rc & (curses.A_ATTRIBUTES|curses.A_COLOR))&0xFFBFFFFF
@@ -141,13 +149,13 @@ def prompt( win, message ):
         win.touchwin()
         win.refresh()
 
-def dashboard_test_case( win, name, path ):
+def dashboard_test_case( win, name, path, ignore = None ):
     create = ( os.environ.get("TEST_CREATE_SNAPSHOT","False") == "True" )
     snap_shot_file = os.path.join(os.path.join(path,"tests/snapshots"),"%s.dmp"%(name))
     win.refresh()
     if os.path.exists(snap_shot_file):
         snapshot = load_snapshot( open(snap_shot_file,"rb") )
-        max_y,max_x,difference,has_differences = compare_snapshot( win, snapshot )
+        max_y,max_x,difference,has_differences = compare_snapshot( win, snapshot, ignore )
         if has_differences:
             if create:
                 backup_win = BytesIO()
@@ -179,6 +187,7 @@ def dashboard_test_case( win, name, path ):
 def dt_testdir(request,testdir):
     python_path = os.path.dirname(os.path.dirname(request.fspath))
     data_path = os.path.join(python_path,"tests/data")
+    snapshot_path = python_path
     spreadsheet_path = os.path.join(data_path,"spreadsheet.csv")
     csv_path = os.path.join(data_path,"test_csv.csv")
     json_path = os.path.join(data_path,"test_json.json")
@@ -261,4 +270,5 @@ def dt_testdir(request,testdir):
             "table_idx_name": table_idx_name,
             "odbc_path": db_path,
             "ssh_path": ssh_path,
+            "snapshot_path": snapshot_path,
             "testdir" : testdir }

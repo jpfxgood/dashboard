@@ -1,0 +1,89 @@
+{
+"tables": [
+    {"name": "testcsv", "type":"CSVDataTable","csv_spec":"%(data_path)s/test_csv.csv"},
+    {"name": "spreadsheet", "type":"CSVDataTable","csv_spec":"%(data_path)s/spreadsheet.csv", "csv_map": [["Time Stamp","Time Stamp","_date"],["Metric 1","First Metric","_int"],["Metric 4","Second Metric","_int"]]},
+    {"name": "testjson", "type":"JSONDataTable","json_spec":"%(data_path)s/test_json.json"},
+    {"name": "genlog", "type":"LogDataTable",
+        "log_glob":"%(syslog_path)s",
+        "log_map":[{
+            "line_regex": "(\\w\\w\\w\\s+\\d+\\s\\d\\d:\\d\\d:\\d\\d)\\s[a-z0-9\\-]*\\s([a-zA-Z0-9\\-\\_\\.]*)[\\[\\]0-9]*:\\s*(.*)",
+            "num_buckets" : 24,
+            "bucket_size" : 60,
+            "bucket_type" : "_date",
+            "column_map" : [ [ 1,"Time Stamps","_date","key" ], [3,"Starts by Time","_int","count(.*[Ss]tart.*)"], [3,"Stops by Time","_int","count(.*[Ss]top.*)"]]
+            }],
+        "log_lookback" : [ 1, 0, 0 ]
+        },
+    {"name": "testdata", "type":"ODBCDataTable", "refresh_minutes":1,
+        "sql_spec":"%(odbc_path)s",
+        "sql_query":"select * from %(table_idx_name)s",
+        "sql_map": [["service","Service"],["metric1","First Metric"],["metric2","Second Metric"]]
+        },
+    {"name": "syslog", "syslog_glob": "%(syslog_path)s", "type": "SyslogDataTable", "refresh_minutes": 1},
+    {
+        "name": "elasticsearch",
+        "type": "ElasticsearchDataTable",
+        "refresh_minutes": 1,
+        "es_index_pattern": "%(table_idx_name)s",
+        "es_query_body": {},
+        "es_field_map": [["hits.hits._source.service","Service","string"],["hits.hits._source.metric1","First Metric","int"],["hits.hits._source.metric2","Second Metric","int"]]
+    }
+    ],
+"dashboard": {
+    "auto_tour_delay": 0,
+    "pages": [
+        {
+        "panels": [
+            {
+            "graphs": [
+                { "title" :"Syslog Errors", "type": "LineGraph", "table": "syslog", "xseries": "Time Stamps", "yseries": ["Errors by Time"], "yunit":"Message Count" },
+                { "title" :"Syslog Messages", "type": "LineGraph", "table": "syslog", "xseries": "Time Stamps", "yseries": ["Messages by Time"], "yunit":"Message Count" }
+                ]
+            }
+            ]
+        },
+        {
+        "panels": [
+            {
+            "graphs": [
+                { "title" :"Syslog Warnings", "type": "LineGraph", "table": "syslog", "xseries": "Time Stamps", "yseries": ["Warnings by Time"], "yunit":"Message Count" },
+                { "title" :"Top 5 Syslog Message Sources", "type": "BarGraph", "table": "syslog", "xseries": "Services", "yseries": ["Messages by Service"], "top": 5, "yunit":"Message Count"},
+                { "title" :"Starts and Stops", "type": "BarGraph", "table": "genlog", "xseries": "Time Stamps", "yseries": ["Starts by Time","Stops by Time"], "yunit":"Count"}
+                ]
+            }
+            ]
+        },
+        {
+        "panels": [
+            {
+            "graphs": [
+                { "title" :"Syslog Message Summary", "type": "PieGraph", "table": "syslog", "xseries": "Services", "yseries": ["Messages by Service","Errors by Service","Warnings by Service"]},
+                { "title" :"Syslog Message Detail", "type": "TableGraph", "table": "syslog", "xseries": "Services", "yseries": ["Messages by Service","Errors by Service","Warnings by Service"]}
+                ]
+            }
+            ]
+        },
+        {
+        "panels": [
+            {
+            "graphs": [
+                { "title" :"Elasticsearch Metrics", "type": "LineGraph", "table": "elasticsearch", "xseries": "Service", "yseries": ["First Metric","Second Metric"], "yunit":"Metric Unit"},
+                { "title" :"Database Metrics", "type": "LineGraph", "table": "testdata", "xseries": "Service", "yseries": ["First Metric","Second Metric"], "yunit":"Metric Unit"}
+                ]
+            }
+            ]
+        },
+        {
+        "panels": [
+            {
+            "graphs": [
+                { "title" :"Test CSV", "type": "LineGraph", "table": "testcsv", "xseries": "Time Stamps", "yseries": ["Errors by Time","Warnings by Time","Messages by Time"], "yunit":"Number of Messages"},
+                { "title" :"Spreadsheet", "type": "LineGraph", "table": "spreadsheet", "xseries": "Time Stamp", "yseries": ["First Metric","Second Metric"], "yunit":"Metrics"},
+                { "title" :"Test JSON", "type": "LineGraph", "table": "testjson", "xseries": "Time Stamps", "yseries": ["Errors by Time","Warnings by Time","Messages by Time"], "yunit":"Number of Messages"}
+                ]
+            }
+            ]
+        }
+        ]
+    }
+}
