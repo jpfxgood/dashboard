@@ -5,7 +5,7 @@ Overview
 
 This project is a work in progress for a system dashboard tool that displays graphical dashboards in a terminal window with configurable data sources.
 
-At the moment it supports data from parsing the syslog (SyslogDataTable), system process statistics from psutil (ProcDataTable), and data from the results of an Elasticsearch query (ElasticsearchDataTable) which can provide acesss to data collected by Elastic Beats like metricbeat for example.
+At the moment it supports data from parsing the syslog (SyslogDataTable), system process statistics from psutil (ProcDataTable), from the results of an Elasticsearch query (ElasticsearchDataTable) which can provide acesss to data collected by Elastic Beats like metricbeat for example, from SQL databases via ODBCDataTable, from CSV files ( general and an internal format) CSVDataTable, from JSON files ( internal format ) JSONDataTable, and from generic log files via regular expression extractions and a column schema LogDataTable.
 
 There is a special type of data table which pulls data remotely from another system RemoteDataTable, you configure it with the ssh path to the server and the specification for the data table you want to generate and pull from there.
 
@@ -46,16 +46,32 @@ A config file is of the form:
           [
               {
               "name" : name to refer to this table below,
-              "type" : one of "SyslogDataTable","ProcDataTable","ElasticsearchDataTable", "RemoteDataTable" ( more to come),
+              "type" : one of "SyslogDataTable","ProcDataTable","ElasticsearchDataTable","RemoteDataTable","ODBCDataTable","CSVDataTable","JSONDataTable","LogDataTable" ( more to come),
               "refresh_minutes" : number of minutes to automatically refresh optional, 0 if only manual, default is 5 minutes
               "num_hours" : number of hours of history to look at
               "bucket_hours" : number of hours per bucket, table will have num_hours/bucket_hours entries
               "syslog_glob" : full unix glob pattern to match syslogs for the SyslogDataTable
               "es_index_pattern" : only for ElasticsearchDataTable, Elasticsearch index pattern wildcard to query
               "es_query_body" : { body of the query to execute as well formed JSON Elasticsearch DSL },
-              "es_field_map" : [ array of tuples [ json_path ex "aggregations.3.buckets.key" matching the value you want, column name to append it to in the table, value type one of int,float,str,or date where date is a timestamp numerical value ]...],
-               "ssh_spec" : for the RemoteDataTable a string of the form ssh://username@hostname:port to connect to the remote system,
-               "table_def" : for the RemoteDataTable one of these table definitions, defines the remote table to populate, assumes local keyring has credentials for user at hostname
+              "es_field_map" : [ array of tuples [ json_path ex "aggregations.3.buckets.key" matching the value you want, column name to append it to in the table, value type one of int,float,str,or date where date is a timestamp numerical value ]...]
+              "ssh_spec" : for the RemoteDataTable a string of the form ssh://username@hostname:port to connect to the remote system
+              "table_def" : for the RemoteDataTable one of these table definitions, defines the remote table to populate, assumes local keyring has credentials for user at hostname
+              "sql_spec" : for the ODBCDataTable, a string of the following form to specify a connection to an odbc database odbc://username@server/driver/database:port, assumes local keyring has credentials at this spec so something like 'keyring set odbc://james@localhost/myodbc8w/james:5432 james',
+              "sql_query" : for the ODBCDataTable, a sql query to execute on that database,
+              "sql_map" : for the ODBCDataTable, a list of tuples of the form [[sql_column_name,data_table_column_name],...] only these columns will be mapped into the table
+              "csv_spec" : for the CSVDataTable, path to CSV file to read,
+              "csv_map" : for the CSVDataTable, column specification of the form [["csv_column_name","data_table_column_name","type one of _int,_float,_string,_date"],...] only imports matching columns,
+              "json_spec" : for the JSONDataTable path to a JSON file to read, assumed to be in the format written by the data_sources.data_table.to_json function,
+              "log_glob" : for the LogDataTable, glob of log files to read, can include compressed logs in .gz format,
+              "log_map" : for the LogDataTable, list of line specifications of the form:
+                       [ { "line_regex" : "escaped python regex with a group per field to extract",
+                           "num_buckets" : number of buckets to aggregate in,
+                           "bucket_size" : for integer and float buckets it is just the literal size, for strings it is ignored and the last num_buckets strings will form the buckets, for dates it is the number of minutes,
+                           "bucket_type" : one of "_string","_date","_int","_float",
+                           "column_map: [ [ regex group number 1..n, "Data Table Column Name", "type as above","action, one of key,min,max,avg,sum,median,mode, count(regex), key is special and indicates the bucket key, count matches the regex and the value of the column is the number of matches in the bucket
+                          },...repeated matches with different keys can collect other aggregations and also handle different types of lines
+                       ],
+              "log_lookback" : a tuple of the number of days, hours, minutes to look back at logs [ days, hours, minutes ] all must be specified
               },
           ],
       "dashboard": definition of the dashboard to present
@@ -127,13 +143,34 @@ Dashboard
       -V, --version         Print the version of the script and exit
 
 
+Developers
+==========
+
+To run the tests you can either do:
+    ./runtests or ./runcoverage in the top level directory, works best in a non-full-screen terminal window because it wants to resize the window
+    Packages required are: pytest and coverage
+
+To make a release you can do:
+    ./mkrelease #.#.#
+
+To make the documentation you can do:
+    ./mkdocs
+    Packages required are: pdoc
+
+Feel free to submit pull requests if you've implemented a change and it passes the tests or you've fixed/added tests
+
+
 Notes
 =====
 
 Coming soon:
 
-  *     Tables from CSV, JSON files ( partly done... )
-  *     A plugin system for extending data sources and graph types
-  *     Interactions with graphs, drilldowns, mouse actions etc..
-  *     pytest tests
-  *     Better API documentation and developer documentation
+  *     A plugin system for extending data sources and graph types, partly done, needs testing/examples
+  *     Interactions with graphs, drilldowns, mouse actions etc...
+  *     Better API documentation and developer documentation, partly done, needs cleaning and updating
+  *     Improved graph layout for highly compressed graphs
+  *     Checkpointing some of the data sources so they don't have start from scratch on restart
+  *     JSON format log parsing
+  *     Historical static views of dashboards collected at some interval
+  *     Reading a CSV table from stdin and making it available for a dashboard
+  *     Keystroke to save a snapshot of the dashboard on demand

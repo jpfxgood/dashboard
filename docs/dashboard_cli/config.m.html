@@ -1250,9 +1250,9 @@ table {
 
     <span class="k">return</span> <span class="n">plugin_mod</span>
 
-<span class="k">def</span> <span class="nf">load_config</span><span class="p">(</span> <span class="n">stdscr</span><span class="p">,</span> <span class="n">options</span> <span class="p">):</span>
+<span class="k">def</span> <span class="nf">load_config</span><span class="p">(</span> <span class="n">stdscr</span><span class="p">,</span> <span class="n">config_stream</span> <span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; load the dashboard configuration from the options.config path and factory all the objects, returns a context with the initialized objects  &quot;&quot;&quot;</span>
-    <span class="n">cf</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="n">options</span><span class="o">.</span><span class="n">config</span><span class="p">,</span><span class="s2">&quot;r&quot;</span><span class="p">))</span>
+    <span class="n">cf</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">config_stream</span><span class="p">)</span>
 
     <span class="n">context</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="k">if</span> <span class="s2">&quot;plugins&quot;</span> <span class="ow">in</span> <span class="n">cf</span><span class="p">:</span>
@@ -1318,7 +1318,7 @@ table {
       
   <div class="item">
     <div class="name def" id="dashboard_cli.config.load_config">
-    <p>def <span class="ident">load_config</span>(</p><p>stdscr, options)</p>
+    <p>def <span class="ident">load_config</span>(</p><p>stdscr, config_stream)</p>
     </div>
     
 
@@ -1328,9 +1328,9 @@ table {
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-dashboard_cli.config.load_config', this);">Show source &equiv;</a></p>
   <div id="source-dashboard_cli.config.load_config" class="source">
-    <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">load_config</span><span class="p">(</span> <span class="n">stdscr</span><span class="p">,</span> <span class="n">options</span> <span class="p">):</span>
+    <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">load_config</span><span class="p">(</span> <span class="n">stdscr</span><span class="p">,</span> <span class="n">config_stream</span> <span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; load the dashboard configuration from the options.config path and factory all the objects, returns a context with the initialized objects  &quot;&quot;&quot;</span>
-    <span class="n">cf</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="n">options</span><span class="o">.</span><span class="n">config</span><span class="p">,</span><span class="s2">&quot;r&quot;</span><span class="p">))</span>
+    <span class="n">cf</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">config_stream</span><span class="p">)</span>
 
     <span class="n">context</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="k">if</span> <span class="s2">&quot;plugins&quot;</span> <span class="ow">in</span> <span class="n">cf</span><span class="p">:</span>

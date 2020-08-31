@@ -1404,6 +1404,10 @@ table {
         <span class="bp">self</span><span class="o">.</span><span class="n">current_graph</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">current_graph_pos</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">auto_tour_delay</span> <span class="o">=</span> <span class="n">auto_tour_delay</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">zoomed</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">zoomed_canvas</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">zoomed_graph</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">zoomed_restore_canvas</span> <span class="o">=</span> <span class="kc">None</span>
 
     <span class="k">def</span> <span class="nf">add_page</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">page</span> <span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; add a page to this dashboard &quot;&quot;&quot;</span>
@@ -1530,10 +1534,6 @@ table {
 
         <span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
         <span class="n">positions</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="n">zoomed</span> <span class="o">=</span> <span class="kc">False</span>
-        <span class="n">zoomed_canvas</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="n">zoomed_graph</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="n">zoomed_restore_canvas</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="n">status</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
         <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">keys</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
@@ -1544,7 +1544,7 @@ table {
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">ch</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">window</span><span class="o">.</span><span class="n">getch</span><span class="p">()</span>
 
-            <span class="k">if</span> <span class="ow">not</span> <span class="n">zoomed</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">zoomed</span><span class="p">:</span>
                 <span class="n">cur_graph</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_current_graph</span><span class="p">()</span>
                 <span class="n">cur_graph</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_focus</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
 
@@ -1578,11 +1578,11 @@ table {
                                 <span class="k">for</span> <span class="n">gg</span> <span class="ow">in</span> <span class="n">pp</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">get_graph_layout</span><span class="p">():</span>
                                     <span class="n">gg</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">refresh_data</span><span class="p">()</span>
                     <span class="k">elif</span> <span class="n">ch</span> <span class="o">==</span> <span class="n">curses</span><span class="o">.</span><span class="n">KEY_ENTER</span> <span class="ow">or</span> <span class="n">ch</span> <span class="o">==</span> <span class="mi">10</span><span class="p">:</span> <span class="c1"># ENTER KEY</span>
-                        <span class="n">zoomed</span> <span class="o">=</span> <span class="kc">True</span>
-                        <span class="n">zoomed_graph</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_current_graph</span><span class="p">()</span>
-                        <span class="n">zoomed_canvas</span> <span class="o">=</span> <span class="n">canvas</span><span class="o">.</span><span class="n">Canvas</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">window</span><span class="p">)</span>
-                        <span class="n">zoomed_restore_canvas</span> <span class="o">=</span> <span class="n">zoomed_graph</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">get_canvas</span><span class="p">()</span>
-                        <span class="n">zoomed_graph</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_canvas</span><span class="p">(</span><span class="n">zoomed_canvas</span><span class="p">)</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">zoomed</span> <span class="o">=</span> <span class="kc">True</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">zoomed_graph</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_current_graph</span><span class="p">()</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">zoomed_canvas</span> <span class="o">=</span> <span class="n">canvas</span><span class="o">.</span><span class="n">Canvas</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">window</span><span class="p">)</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">zoomed_restore_canvas</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">zoomed_graph</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">get_canvas</span><span class="p">()</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">zoomed_graph</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_canvas</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">zoomed_canvas</span><span class="p">)</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">window</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
                         <span class="k">continue</span>
                     <span class="k">elif</span> <span class="n">ch</span> <span class="o">==</span> <span class="n">curses</span><span class="o">.</span><span class="n">KEY_MOUSE</span><span class="p">:</span>
@@ -1620,17 +1620,17 @@ table {
                     <span class="n">page</span><span class="o">.</span><span class="n">redraw</span><span class="p">()</span>
                     <span class="n">page</span><span class="o">.</span><span class="n">refresh</span><span class="p">()</span>
 
-            <span class="k">if</span> <span class="n">zoomed</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">zoomed</span><span class="p">:</span>
                 <span class="k">if</span> <span class="n">ch</span> <span class="o">&gt;</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
                     <span class="k">if</span> <span class="n">ch</span> <span class="o">==</span> <span class="mi">27</span><span class="p">:</span> <span class="c1"># esc key</span>
-                        <span class="n">zoomed_graph</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_canvas</span><span class="p">(</span><span class="n">zoomed_restore_canvas</span><span class="p">)</span>
-                        <span class="n">zoomed</span> <span class="o">=</span> <span class="kc">False</span>
-                        <span class="n">zoomed_graph</span> <span class="o">=</span> <span class="kc">None</span>
-                        <span class="n">zoomed_canvas</span> <span class="o">=</span> <span class="kc">None</span>
-                        <span class="n">zoomed_restore_canvas</span> <span class="o">=</span> <span class="kc">None</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">zoomed_graph</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_canvas</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">zoomed_restore_canvas</span><span class="p">)</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">zoomed</span> <span class="o">=</span> <span class="kc">False</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">zoomed_graph</span> <span class="o">=</span> <span class="kc">None</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">zoomed_canvas</span> <span class="o">=</span> <span class="kc">None</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">zoomed_restore_canvas</span> <span class="o">=</span> <span class="kc">None</span>
 
-                <span class="k">if</span> <span class="n">zoomed_graph</span> <span class="ow">and</span> <span class="n">zoomed_graph</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">is_modified</span><span class="p">():</span>
-                    <span class="n">zoomed_graph</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">render</span><span class="p">()</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">zoomed_graph</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">zoomed_graph</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">is_modified</span><span class="p">():</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">zoomed_graph</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">render</span><span class="p">()</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">window</span><span class="o">.</span><span class="n">refresh</span><span class="p">()</span>
 
             <span class="n">latest_refresh</span> <span class="o">=</span> <span class="mi">0</span>
@@ -1640,7 +1640,7 @@ table {
                         <span class="n">latest_refresh</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">latest_refresh</span><span class="p">,</span><span class="n">gg</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">get_data</span><span class="p">()</span><span class="o">.</span><span class="n">get_refresh_timestamp</span><span class="p">())</span>
 
             <span class="bp">self</span><span class="o">.</span><span class="n">window</span><span class="o">.</span><span class="n">addstr</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="s2">&quot; &quot;</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">status</span><span class="p">),</span><span class="n">curses</span><span class="o">.</span><span class="n">color_pair</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">|</span><span class="n">curses</span><span class="o">.</span><span class="n">A_REVERSE</span><span class="p">)</span>
-            <span class="n">status</span> <span class="o">=</span> <span class="s2">&quot;Page </span><span class="si">%d</span><span class="s2"> of </span><span class="si">%d</span><span class="s2"> Last Update </span><span class="si">%s%s</span><span class="s2">&quot;</span><span class="o">%</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">current_page</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pages</span><span class="p">),</span><span class="n">datetime</span><span class="o">.</span><span class="n">fromtimestamp</span><span class="p">(</span><span class="n">latest_refresh</span><span class="p">)</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%A, </span><span class="si">%d</span><span class="s2">. %B %Y %I:%M%p&quot;</span><span class="p">),</span><span class="s2">&quot; ZOOMED (Press Esc to Exit)&quot;</span> <span class="k">if</span> <span class="n">zoomed</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+            <span class="n">status</span> <span class="o">=</span> <span class="s2">&quot;Page </span><span class="si">%d</span><span class="s2"> of </span><span class="si">%d</span><span class="s2"> Last Update </span><span class="si">%s%s</span><span class="s2">&quot;</span><span class="o">%</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">current_page</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pages</span><span class="p">),</span><span class="n">datetime</span><span class="o">.</span><span class="n">fromtimestamp</span><span class="p">(</span><span class="n">latest_refresh</span><span class="p">)</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%A, </span><span class="si">%d</span><span class="s2">. %B %Y %I:%M%p&quot;</span><span class="p">),</span><span class="s2">&quot; ZOOMED (Press Esc to Exit)&quot;</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">zoomed</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">window</span><span class="o">.</span><span class="n">addstr</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="n">status</span><span class="p">,</span><span class="n">curses</span><span class="o">.</span><span class="n">color_pair</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">|</span><span class="n">curses</span><span class="o">.</span><span class="n">A_REVERSE</span><span class="p">)</span>
 
             <span class="k">if</span> <span class="n">keys</span> <span class="o">!=</span> <span class="kc">None</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">keys</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
@@ -1673,6 +1673,10 @@ table {
         <span class="bp">self</span><span class="o">.</span><span class="n">current_graph</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">current_graph_pos</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">auto_tour_delay</span> <span class="o">=</span> <span class="n">auto_tour_delay</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">zoomed</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">zoomed_canvas</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">zoomed_graph</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">zoomed_restore_canvas</span> <span class="o">=</span> <span class="kc">None</span>
 
     <span class="k">def</span> <span class="nf">add_page</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">page</span> <span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; add a page to this dashboard &quot;&quot;&quot;</span>
@@ -1799,10 +1803,6 @@ table {
 
         <span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
         <span class="n">positions</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="n">zoomed</span> <span class="o">=</span> <span class="kc">False</span>
-        <span class="n">zoomed_canvas</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="n">zoomed_graph</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="n">zoomed_restore_canvas</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="n">status</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
         <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">keys</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
@@ -1813,7 +1813,7 @@ table {
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">ch</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">window</span><span class="o">.</span><span class="n">getch</span><span class="p">()</span>
 
-            <span class="k">if</span> <span class="ow">not</span> <span class="n">zoomed</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">zoomed</span><span class="p">:</span>
                 <span class="n">cur_graph</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_current_graph</span><span class="p">()</span>
                 <span class="n">cur_graph</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_focus</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
 
@@ -1847,11 +1847,11 @@ table {
                                 <span class="k">for</span> <span class="n">gg</span> <span class="ow">in</span> <span class="n">pp</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">get_graph_layout</span><span class="p">():</span>
                                     <span class="n">gg</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">refresh_data</span><span class="p">()</span>
                     <span class="k">elif</span> <span class="n">ch</span> <span class="o">==</span> <span class="n">curses</span><span class="o">.</span><span class="n">KEY_ENTER</span> <span class="ow">or</span> <span class="n">ch</span> <span class="o">==</span> <span class="mi">10</span><span class="p">:</span> <span class="c1"># ENTER KEY</span>
-                        <span class="n">zoomed</span> <span class="o">=</span> <span class="kc">True</span>
-                        <span class="n">zoomed_graph</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_current_graph</span><span class="p">()</span>
-                        <span class="n">zoomed_canvas</span> <span class="o">=</span> <span class="n">canvas</span><span class="o">.</span><span class="n">Canvas</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">window</span><span class="p">)</span>
-                        <span class="n">zoomed_restore_canvas</span> <span class="o">=</span> <span class="n">zoomed_graph</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">get_canvas</span><span class="p">()</span>
-                        <span class="n">zoomed_graph</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_canvas</span><span class="p">(</span><span class="n">zoomed_canvas</span><span class="p">)</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">zoomed</span> <span class="o">=</span> <span class="kc">True</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">zoomed_graph</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_current_graph</span><span class="p">()</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">zoomed_canvas</span> <span class="o">=</span> <span class="n">canvas</span><span class="o">.</span><span class="n">Canvas</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">window</span><span class="p">)</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">zoomed_restore_canvas</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">zoomed_graph</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">get_canvas</span><span class="p">()</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">zoomed_graph</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_canvas</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">zoomed_canvas</span><span class="p">)</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">window</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
                         <span class="k">continue</span>
                     <span class="k">elif</span> <span class="n">ch</span> <span class="o">==</span> <span class="n">curses</span><span class="o">.</span><span class="n">KEY_MOUSE</span><span class="p">:</span>
@@ -1889,17 +1889,17 @@ table {
                     <span class="n">page</span><span class="o">.</span><span class="n">redraw</span><span class="p">()</span>
                     <span class="n">page</span><span class="o">.</span><span class="n">refresh</span><span class="p">()</span>
 
-            <span class="k">if</span> <span class="n">zoomed</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">zoomed</span><span class="p">:</span>
                 <span class="k">if</span> <span class="n">ch</span> <span class="o">&gt;</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
                     <span class="k">if</span> <span class="n">ch</span> <span class="o">==</span> <span class="mi">27</span><span class="p">:</span> <span class="c1"># esc key</span>
-                        <span class="n">zoomed_graph</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_canvas</span><span class="p">(</span><span class="n">zoomed_restore_canvas</span><span class="p">)</span>
-                        <span class="n">zoomed</span> <span class="o">=</span> <span class="kc">False</span>
-                        <span class="n">zoomed_graph</span> <span class="o">=</span> <span class="kc">None</span>
-                        <span class="n">zoomed_canvas</span> <span class="o">=</span> <span class="kc">None</span>
-                        <span class="n">zoomed_restore_canvas</span> <span class="o">=</span> <span class="kc">None</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">zoomed_graph</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_canvas</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">zoomed_restore_canvas</span><span class="p">)</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">zoomed</span> <span class="o">=</span> <span class="kc">False</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">zoomed_graph</span> <span class="o">=</span> <span class="kc">None</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">zoomed_canvas</span> <span class="o">=</span> <span class="kc">None</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">zoomed_restore_canvas</span> <span class="o">=</span> <span class="kc">None</span>
 
-                <span class="k">if</span> <span class="n">zoomed_graph</span> <span class="ow">and</span> <span class="n">zoomed_graph</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">is_modified</span><span class="p">():</span>
-                    <span class="n">zoomed_graph</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">render</span><span class="p">()</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">zoomed_graph</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">zoomed_graph</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">is_modified</span><span class="p">():</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">zoomed_graph</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">render</span><span class="p">()</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">window</span><span class="o">.</span><span class="n">refresh</span><span class="p">()</span>
 
             <span class="n">latest_refresh</span> <span class="o">=</span> <span class="mi">0</span>
@@ -1909,7 +1909,7 @@ table {
                         <span class="n">latest_refresh</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">latest_refresh</span><span class="p">,</span><span class="n">gg</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">get_data</span><span class="p">()</span><span class="o">.</span><span class="n">get_refresh_timestamp</span><span class="p">())</span>
 
             <span class="bp">self</span><span class="o">.</span><span class="n">window</span><span class="o">.</span><span class="n">addstr</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="s2">&quot; &quot;</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">status</span><span class="p">),</span><span class="n">curses</span><span class="o">.</span><span class="n">color_pair</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">|</span><span class="n">curses</span><span class="o">.</span><span class="n">A_REVERSE</span><span class="p">)</span>
-            <span class="n">status</span> <span class="o">=</span> <span class="s2">&quot;Page </span><span class="si">%d</span><span class="s2"> of </span><span class="si">%d</span><span class="s2"> Last Update </span><span class="si">%s%s</span><span class="s2">&quot;</span><span class="o">%</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">current_page</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pages</span><span class="p">),</span><span class="n">datetime</span><span class="o">.</span><span class="n">fromtimestamp</span><span class="p">(</span><span class="n">latest_refresh</span><span class="p">)</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%A, </span><span class="si">%d</span><span class="s2">. %B %Y %I:%M%p&quot;</span><span class="p">),</span><span class="s2">&quot; ZOOMED (Press Esc to Exit)&quot;</span> <span class="k">if</span> <span class="n">zoomed</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+            <span class="n">status</span> <span class="o">=</span> <span class="s2">&quot;Page </span><span class="si">%d</span><span class="s2"> of </span><span class="si">%d</span><span class="s2"> Last Update </span><span class="si">%s%s</span><span class="s2">&quot;</span><span class="o">%</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">current_page</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pages</span><span class="p">),</span><span class="n">datetime</span><span class="o">.</span><span class="n">fromtimestamp</span><span class="p">(</span><span class="n">latest_refresh</span><span class="p">)</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%A, </span><span class="si">%d</span><span class="s2">. %B %Y %I:%M%p&quot;</span><span class="p">),</span><span class="s2">&quot; ZOOMED (Press Esc to Exit)&quot;</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">zoomed</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">window</span><span class="o">.</span><span class="n">addstr</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="n">status</span><span class="p">,</span><span class="n">curses</span><span class="o">.</span><span class="n">color_pair</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">|</span><span class="n">curses</span><span class="o">.</span><span class="n">A_REVERSE</span><span class="p">)</span>
 
             <span class="k">if</span> <span class="n">keys</span> <span class="o">!=</span> <span class="kc">None</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">keys</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
@@ -1949,6 +1949,10 @@ table {
     <span class="bp">self</span><span class="o">.</span><span class="n">current_graph</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">current_graph_pos</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">auto_tour_delay</span> <span class="o">=</span> <span class="n">auto_tour_delay</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">zoomed</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">zoomed_canvas</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">zoomed_graph</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">zoomed_restore_canvas</span> <span class="o">=</span> <span class="kc">None</span>
 </pre></div>
 
   </div>
@@ -2166,10 +2170,6 @@ table {
     <span class="n">curses</span><span class="o">.</span><span class="n">mousemask</span><span class="p">(</span> <span class="n">curses</span><span class="o">.</span><span class="n">ALL_MOUSE_EVENTS</span> <span class="o">|</span> <span class="n">curses</span><span class="o">.</span><span class="n">REPORT_MOUSE_POSITION</span> <span class="p">)</span>
     <span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
     <span class="n">positions</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="n">zoomed</span> <span class="o">=</span> <span class="kc">False</span>
-    <span class="n">zoomed_canvas</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="n">zoomed_graph</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="n">zoomed_restore_canvas</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">status</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
     <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">keys</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
@@ -2179,7 +2179,7 @@ table {
                 <span class="n">ch</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">ch</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">window</span><span class="o">.</span><span class="n">getch</span><span class="p">()</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">zoomed</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">zoomed</span><span class="p">:</span>
             <span class="n">cur_graph</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_current_graph</span><span class="p">()</span>
             <span class="n">cur_graph</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_focus</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">ch</span> <span class="o">&gt;</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
@@ -2211,11 +2211,11 @@ table {
                             <span class="k">for</span> <span class="n">gg</span> <span class="ow">in</span> <span class="n">pp</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">get_graph_layout</span><span class="p">():</span>
                                 <span class="n">gg</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">refresh_data</span><span class="p">()</span>
                 <span class="k">elif</span> <span class="n">ch</span> <span class="o">==</span> <span class="n">curses</span><span class="o">.</span><span class="n">KEY_ENTER</span> <span class="ow">or</span> <span class="n">ch</span> <span class="o">==</span> <span class="mi">10</span><span class="p">:</span> <span class="c1"># ENTER KEY</span>
-                    <span class="n">zoomed</span> <span class="o">=</span> <span class="kc">True</span>
-                    <span class="n">zoomed_graph</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_current_graph</span><span class="p">()</span>
-                    <span class="n">zoomed_canvas</span> <span class="o">=</span> <span class="n">canvas</span><span class="o">.</span><span class="n">Canvas</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">window</span><span class="p">)</span>
-                    <span class="n">zoomed_restore_canvas</span> <span class="o">=</span> <span class="n">zoomed_graph</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">get_canvas</span><span class="p">()</span>
-                    <span class="n">zoomed_graph</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_canvas</span><span class="p">(</span><span class="n">zoomed_canvas</span><span class="p">)</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">zoomed</span> <span class="o">=</span> <span class="kc">True</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">zoomed_graph</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_current_graph</span><span class="p">()</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">zoomed_canvas</span> <span class="o">=</span> <span class="n">canvas</span><span class="o">.</span><span class="n">Canvas</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">window</span><span class="p">)</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">zoomed_restore_canvas</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">zoomed_graph</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">get_canvas</span><span class="p">()</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">zoomed_graph</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_canvas</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">zoomed_canvas</span><span class="p">)</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">window</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
                     <span class="k">continue</span>
                 <span class="k">elif</span> <span class="n">ch</span> <span class="o">==</span> <span class="n">curses</span><span class="o">.</span><span class="n">KEY_MOUSE</span><span class="p">:</span>
@@ -2249,16 +2249,16 @@ table {
             <span class="k">if</span> <span class="n">page</span><span class="p">:</span>
                 <span class="n">page</span><span class="o">.</span><span class="n">redraw</span><span class="p">()</span>
                 <span class="n">page</span><span class="o">.</span><span class="n">refresh</span><span class="p">()</span>
-        <span class="k">if</span> <span class="n">zoomed</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">zoomed</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">ch</span> <span class="o">&gt;</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
                 <span class="k">if</span> <span class="n">ch</span> <span class="o">==</span> <span class="mi">27</span><span class="p">:</span> <span class="c1"># esc key</span>
-                    <span class="n">zoomed_graph</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_canvas</span><span class="p">(</span><span class="n">zoomed_restore_canvas</span><span class="p">)</span>
-                    <span class="n">zoomed</span> <span class="o">=</span> <span class="kc">False</span>
-                    <span class="n">zoomed_graph</span> <span class="o">=</span> <span class="kc">None</span>
-                    <span class="n">zoomed_canvas</span> <span class="o">=</span> <span class="kc">None</span>
-                    <span class="n">zoomed_restore_canvas</span> <span class="o">=</span> <span class="kc">None</span>
-            <span class="k">if</span> <span class="n">zoomed_graph</span> <span class="ow">and</span> <span class="n">zoomed_graph</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">is_modified</span><span class="p">():</span>
-                <span class="n">zoomed_graph</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">render</span><span class="p">()</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">zoomed_graph</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_canvas</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">zoomed_restore_canvas</span><span class="p">)</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">zoomed</span> <span class="o">=</span> <span class="kc">False</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">zoomed_graph</span> <span class="o">=</span> <span class="kc">None</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">zoomed_canvas</span> <span class="o">=</span> <span class="kc">None</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">zoomed_restore_canvas</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">zoomed_graph</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">zoomed_graph</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">is_modified</span><span class="p">():</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">zoomed_graph</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">render</span><span class="p">()</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">window</span><span class="o">.</span><span class="n">refresh</span><span class="p">()</span>
         <span class="n">latest_refresh</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">pages</span><span class="p">:</span>
@@ -2266,7 +2266,7 @@ table {
                 <span class="k">for</span> <span class="n">gg</span> <span class="ow">in</span> <span class="n">pp</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">get_graph_layout</span><span class="p">():</span>
                     <span class="n">latest_refresh</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">latest_refresh</span><span class="p">,</span><span class="n">gg</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">get_data</span><span class="p">()</span><span class="o">.</span><span class="n">get_refresh_timestamp</span><span class="p">())</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">window</span><span class="o">.</span><span class="n">addstr</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="s2">&quot; &quot;</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">status</span><span class="p">),</span><span class="n">curses</span><span class="o">.</span><span class="n">color_pair</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">|</span><span class="n">curses</span><span class="o">.</span><span class="n">A_REVERSE</span><span class="p">)</span>
-        <span class="n">status</span> <span class="o">=</span> <span class="s2">&quot;Page </span><span class="si">%d</span><span class="s2"> of </span><span class="si">%d</span><span class="s2"> Last Update </span><span class="si">%s%s</span><span class="s2">&quot;</span><span class="o">%</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">current_page</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pages</span><span class="p">),</span><span class="n">datetime</span><span class="o">.</span><span class="n">fromtimestamp</span><span class="p">(</span><span class="n">latest_refresh</span><span class="p">)</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%A, </span><span class="si">%d</span><span class="s2">. %B %Y %I:%M%p&quot;</span><span class="p">),</span><span class="s2">&quot; ZOOMED (Press Esc to Exit)&quot;</span> <span class="k">if</span> <span class="n">zoomed</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="n">status</span> <span class="o">=</span> <span class="s2">&quot;Page </span><span class="si">%d</span><span class="s2"> of </span><span class="si">%d</span><span class="s2"> Last Update </span><span class="si">%s%s</span><span class="s2">&quot;</span><span class="o">%</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">current_page</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pages</span><span class="p">),</span><span class="n">datetime</span><span class="o">.</span><span class="n">fromtimestamp</span><span class="p">(</span><span class="n">latest_refresh</span><span class="p">)</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%A, </span><span class="si">%d</span><span class="s2">. %B %Y %I:%M%p&quot;</span><span class="p">),</span><span class="s2">&quot; ZOOMED (Press Esc to Exit)&quot;</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">zoomed</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">window</span><span class="o">.</span><span class="n">addstr</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="n">status</span><span class="p">,</span><span class="n">curses</span><span class="o">.</span><span class="n">color_pair</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">|</span><span class="n">curses</span><span class="o">.</span><span class="n">A_REVERSE</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">keys</span> <span class="o">!=</span> <span class="kc">None</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">keys</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
             <span class="k">return</span>
@@ -2473,6 +2473,46 @@ table {
             </div>
             <div class="item">
             <p id="dashboard.dashboard.Dashboard.window" class="name">var <span class="ident">window</span></p>
+            
+
+            
+  
+  <div class="source_cont">
+</div>
+
+            </div>
+            <div class="item">
+            <p id="dashboard.dashboard.Dashboard.zoomed" class="name">var <span class="ident">zoomed</span></p>
+            
+
+            
+  
+  <div class="source_cont">
+</div>
+
+            </div>
+            <div class="item">
+            <p id="dashboard.dashboard.Dashboard.zoomed_canvas" class="name">var <span class="ident">zoomed_canvas</span></p>
+            
+
+            
+  
+  <div class="source_cont">
+</div>
+
+            </div>
+            <div class="item">
+            <p id="dashboard.dashboard.Dashboard.zoomed_graph" class="name">var <span class="ident">zoomed_graph</span></p>
+            
+
+            
+  
+  <div class="source_cont">
+</div>
+
+            </div>
+            <div class="item">
+            <p id="dashboard.dashboard.Dashboard.zoomed_restore_canvas" class="name">var <span class="ident">zoomed_restore_canvas</span></p>
             
 
             
