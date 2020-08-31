@@ -64,5 +64,13 @@ def test_Dashboard(request,capsys):
             dashboard_test_case(stdscr,"db_basic_dashboard",python_path)
             db.main([curses.KEY_NPAGE])
             dashboard_test_case(stdscr,"db_basic_dashboard_1",python_path)
+            db.main([9]) # tab
+            dashboard_test_case(stdscr,"db_basic_dashboard_2",python_path)
+            db.main([curses.KEY_HOME])
+            dashboard_test_case(stdscr,"db_basic_dashboard_3",python_path)
+            db.main([curses.KEY_ENTER])
+            dashboard_test_case(stdscr,"db_basic_dashboard_4",python_path)
+            db.main([27,-1]) # esc to exit zoom and redraw
+            dashboard_test_case(stdscr,"db_basic_dashboard_5",python_path)
 
         curses.wrapper(main)

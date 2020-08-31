@@ -267,3 +267,19 @@ def test_RemoteDataTable(dt_testdir):
         assert non_blank
     finally:
         shutdown_connection_manager()
+
+def test_ProcDataTable():
+    pdt = ProcDataTable(1,1/60,1/60)
+    column_names = [ "Time Stamps", "CPU Percent", "Load Avg",
+        "Total Virtual Memory", "Available Virtual Memory",
+        "Filesystem Percent Full", "Filesystem Read Bytes", "Filesystem Write Bytes",
+        "Network Sent Bytes","Network Received Bytes","Network Connections" ]
+
+    for cn in column_names:
+        assert pdt.has_column(cn)
+        
+    time.sleep(1)
+    pdt.refresh()
+
+    for cn in column_names:
+        assert pdt.get(0,cn) != blank_cell

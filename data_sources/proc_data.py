@@ -91,7 +91,7 @@ class ProcDataTable( DataTable ):
                 add_average(cn,bidx,psutil.disk_io_counters().write_bytes)
             elif cn == "Network Sent Bytes":
                 add_average(cn,bidx,psutil.net_io_counters().bytes_sent)
-            elif cn == "Network Recieved Bytes":
+            elif cn == "Network Received Bytes":
                 add_average(cn,bidx,psutil.net_io_counters().bytes_recv)
             elif cn == "Network Connections":
                 add_average(cn,bidx,float(len(psutil.net_connections())))

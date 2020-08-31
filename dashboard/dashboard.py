@@ -278,6 +278,10 @@ class Dashboard:
         self.current_graph = 0
         self.current_graph_pos = None
         self.auto_tour_delay = auto_tour_delay
+        self.zoomed = False
+        self.zoomed_canvas = None
+        self.zoomed_graph = None
+        self.zoomed_restore_canvas = None
 
     def add_page(self, page ):
         """ add a page to this dashboard """
@@ -404,10 +408,6 @@ class Dashboard:
 
         start_time = time.time()
         positions = []
-        zoomed = False
-        zoomed_canvas = None
-        zoomed_graph = None
-        zoomed_restore_canvas = None
         status = ""
         while True:
             if keys != None:
@@ -418,7 +418,7 @@ class Dashboard:
             else:
                 ch = self.window.getch()
 
-            if not zoomed:
+            if not self.zoomed:
                 cur_graph = self.get_current_graph()
                 cur_graph[0].set_focus(True)
 
@@ -452,11 +452,11 @@ class Dashboard:
                                 for gg in pp[0].get_graph_layout():
                                     gg[0].refresh_data()
                     elif ch == curses.KEY_ENTER or ch == 10: # ENTER KEY
-                        zoomed = True
-                        zoomed_graph = self.get_current_graph()
-                        zoomed_canvas = canvas.Canvas(self.window)
-                        zoomed_restore_canvas = zoomed_graph[0].get_canvas()
-                        zoomed_graph[0].set_canvas(zoomed_canvas)
+                        self.zoomed = True
+                        self.zoomed_graph = self.get_current_graph()
+                        self.zoomed_canvas = canvas.Canvas(self.window)
+                        self.zoomed_restore_canvas = self.zoomed_graph[0].get_canvas()
+                        self.zoomed_graph[0].set_canvas(self.zoomed_canvas)
                         self.window.clear()
                         continue
                     elif ch == curses.KEY_MOUSE:
@@ -494,17 +494,17 @@ class Dashboard:
                     page.redraw()
                     page.refresh()
 
-            if zoomed:
+            if self.zoomed:
                 if ch > -1:
                     if ch == 27: # esc key
-                        zoomed_graph[0].set_canvas(zoomed_restore_canvas)
-                        zoomed = False
-                        zoomed_graph = None
-                        zoomed_canvas = None
-                        zoomed_restore_canvas = None
+                        self.zoomed_graph[0].set_canvas(self.zoomed_restore_canvas)
+                        self.zoomed = False
+                        self.zoomed_graph = None
+                        self.zoomed_canvas = None
+                        self.zoomed_restore_canvas = None
 
-                if zoomed_graph and zoomed_graph[0].is_modified():
-                    zoomed_graph[0].render()
+                if self.zoomed_graph and self.zoomed_graph[0].is_modified():
+                    self.zoomed_graph[0].render()
                     self.window.refresh()
 
             latest_refresh = 0
@@ -514,7 +514,7 @@ class Dashboard:
                         latest_refresh = max(latest_refresh,gg[0].get_data().get_refresh_timestamp())
 
             self.window.addstr(0,0," "*len(status),curses.color_pair(1)|curses.A_REVERSE)
-            status = "Page %d of %d Last Update %s%s"%(self.current_page+1,len(self.pages),datetime.fromtimestamp(latest_refresh).strftime("%A, %d. %B %Y %I:%M%p")," ZOOMED (Press Esc to Exit)" if zoomed else "")
+            status = "Page %d of %d Last Update %s%s"%(self.current_page+1,len(self.pages),datetime.fromtimestamp(latest_refresh).strftime("%A, %d. %B %Y %I:%M%p")," ZOOMED (Press Esc to Exit)" if self.zoomed else "")
             self.window.addstr(0,0,status,curses.color_pair(1)|curses.A_REVERSE)
 
             if keys != None and len(keys) == 0:
